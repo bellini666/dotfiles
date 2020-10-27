@@ -1,14 +1,19 @@
 source /usr/share/zsh-antigen/antigen.zsh
 
+if [ -f "$HOME/.sharedrc" ]; then
+  source "$HOME/.sharedrc"
+fi
+
+# oh-my-zsh config
 CASE_SENSITIVE="true"
-DISABLE_AUTO_UPDATE="true"
 COMPLETION_WAITING_DOTS="true"
+DISABLE_AUTO_UPDATE="true"
 DISABLE_UNTRACKED_FILES_DIRTY="true"
 HIST_STAMPS="yyyy-mm-dd"
 
-export DISABLE_VENV_CD=1
-export SPACESHIP_TIME_SHOW=true
-export SPACESHIP_DOCKER_SHOW=false
+DISABLE_VENV_CD=1
+SPACESHIP_TIME_SHOW=true
+SPACESHIP_DOCKER_SHOW=false
 
 antigen use oh-my-zsh
 

@@ -70,20 +70,10 @@ if [ -f /usr/lib/git-core/git-sh-prompt ]; then
 fi
 
 # Marker for projects
-if [ -n "$UNDER_JHBUILD" ]; then
-    # jhbuild
-    if [ "$color_prompt" = yes ]; then
-        PS1='[jh$(__git_ps1 ":\e[1;35m%s\e[m")] '$PS1
-    else
-        PS1='[jh$(__git_ps1 ":%s")] '$PS1
-    fi
+if [ "$color_prompt" = yes ]; then
+    PS1='$(__git_ps1 "[\e[1;35m%s\e[m] ")'$PS1
 else
-    # general case
-    if [ "$color_prompt" = yes ]; then
-        PS1='$(__git_ps1 "[\e[1;35m%s\e[m] ")'$PS1
-    else
-        PS1='$(__git_ps1 "[%s] ")'$PS1
-    fi
+    PS1='$(__git_ps1 "[%s] ")'$PS1
 fi
 
 # If this is an xterm set the title to user@host:dir
@@ -134,28 +124,9 @@ if ! shopt -oq posix; then
     fi
 fi
 
-if [ -d "$HOME/.local/bin" ]; then
-    PATH="$HOME/.local/bin:$PATH"
+if [ -f "$HOME/.sharedrc" ]; then
+  . "$HOME/.sharedrc"
 fi
-
-if [ -d "$HOME/bin" ]; then
-    PATH="$HOME/bin:$PATH"
-fi
-
-if [ -d "$HOME/.poetry/bin" ]; then
-    PATH="$HOME/.poetry/bin:$PATH"
-fi
-
-if [ -d "$HOME/.dotfiles/bin" ]; then
-    PATH="$HOME/.dotfiles/bin:$PATH"
-fi
-
-export EDITOR=vim
-export GIT_SSH=ssh
-
-export PIP_REQUIRE_VIRTUALENV=true
-export WORKON_HOME=$HOME/.virtualenvs
-export PROJECT_HOME=$HOME/dev
 
 # Some options not synchronized
 if [ -f ~/.envrc.local ]; then
@@ -166,11 +137,6 @@ fi
 if [ -n "`which zsh`" -a "$0" = "-bash" ]; then
     exec -l zsh
 else
-    # Avoid sourcing this twice
-    if [ -f /usr/share/virtualenvwrapper/virtualenvwrapper.sh ]; then
-        . /usr/share/virtualenvwrapper/virtualenvwrapper.sh
-    fi
-
     export NVM_DIR="$HOME/.nvm"
     [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
     [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion

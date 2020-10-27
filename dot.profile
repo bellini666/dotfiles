@@ -8,6 +8,10 @@
 # for ssh logins, install and configure the libpam-umask package.
 #umask 022
 
+if [ -f "$HOME/.sharedrc" ]; then
+  . "$HOME/.sharedrc"
+fi
+
 # if running bash
 if [ -n "$BASH_VERSION" ]; then
     # include .bashrc if it exists
@@ -15,13 +19,3 @@ if [ -n "$BASH_VERSION" ]; then
         . "$HOME/.bashrc"
     fi
 fi
-
-# set PATH so it includes user's private bin if it exists
-if [ -d "$HOME/bin" ] ; then
-    PATH="$HOME/bin:$PATH"
-fi
-if [ -d "$HOME/.dotfiles/bin" ] ; then
-    PATH="$HOME/.dotfiles/bin:$PATH"
-fi
-
-export PATH="$HOME/.poetry/bin:$PATH"
