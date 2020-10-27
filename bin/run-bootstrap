@@ -8,7 +8,7 @@ sudo apt install --purge \
   fzf \
   jq \
   pre-commit \
-  python3-nvim \
+  python3-neovim \
   ripgrep \
   vim-gtk3 \
   zsh \
@@ -42,19 +42,22 @@ for FILE in $LINKS; do
     fi
 done
 
-mkdir -p ~/.vim
-mkdir -p ~/.vim/autoload
-if [ ! -d "~/.vim/autoload/plug.vim" ]; then
+if [ ! -f "${HOME}/.vim/autoload/plug.vim" ]; then
+  mkdir -p ~/.vim
   mkdir -p ~/.vim/autoload
-  curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
-    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    mkdir -p ~/.vim/autoload
+    curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
+      https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 fi
-mkdir -p ~/.vim/spell
-cd ~/.vim/spell &&
-wget -N -nv ftp://ftp.vim.org/pub/vim/runtime/spell/en.* --timeout=5 && \
-wget -N -nv ftp://ftp.vim.org/pub/vim/runtime/spell/pt.* --timeout=5 && \
-cd - 2>/dev/null
 
-if [ ! -f "/home/bellini/.poetry/bin/poetry" ]; then
+if [ ! -d "${HOME}/.vim/spell" ]; then
+  mkdir -p ~/.vim/spell
+  cd ~/.vim/spell &&
+  wget -N -nv ftp://ftp.vim.org/pub/vim/runtime/spell/en.* --timeout=5 && \
+  wget -N -nv ftp://ftp.vim.org/pub/vim/runtime/spell/pt.* --timeout=5 && \
+  cd - 2>/dev/null
+fi
+
+if [ ! -f "${HOME}/.poetry/bin/poetry" ]; then
   curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python3 -
 fi

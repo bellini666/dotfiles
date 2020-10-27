@@ -2,6 +2,7 @@
 
 set -e
 
+run-bootstrap
 update-system
 
 if [ -d "~/dev/sync" ]; then
