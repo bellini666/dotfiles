@@ -2,6 +2,8 @@
 
 set -e
 
+echo "* Updating the system"
+sudo apt update --list-cleanup
 sudo apt install --purge \
   bat \
   fonts-inconsolata \
@@ -13,23 +15,27 @@ sudo apt install --purge \
   vim-gtk3 \
   zsh \
   zsh-antigen
+sudo apt dist-upgrade --purge
+sudo flatpak update
+sudo flatpak uninstall --unused
+sudo apt autoremove --purge
+sudo apt clean
 
-SOURCE_DIR=".dotfiles"
+echo "* Updating symlinks"
+SOURCE_DIR="${HOME}/.dotfiles"
 LINKS="
-  .bash_logout \
-  .bashrc \
-  .gitattributes \
-  .gitconfig \
-  .gitignore \
-  .profile \
-  .vimrc \
-  .xprofile \
-  .zshrc"
-
-cd ~
+.bash_logout \
+.bashrc \
+.gitattributes \
+.gitconfig \
+.gitignore \
+.profile \
+.vimrc \
+.xprofile \
+.zshrc"
 for FILE in $LINKS; do
-    SOURCE_FILE=~/$SOURCE_DIR/`echo $FILE | sed -e 's/^\./dot\./g'`
-    DEST_FILE=~/$FILE
+    SOURCE_FILE=$SOURCE_DIR/`echo $FILE | sed -e 's/^\./dot\./g'`
+    DEST_FILE=${HOME}/$FILE
 
     if [ ! -f "$SOURCE_FILE" -a ! -d "$SOURCE_FILE" ]; then
         echo "$SOURCE_FILE is missing!"
@@ -42,14 +48,15 @@ for FILE in $LINKS; do
     fi
 done
 
+echo "* Installing vim-plug"
 if [ ! -f "${HOME}/.vim/autoload/plug.vim" ]; then
   mkdir -p ~/.vim
   mkdir -p ~/.vim/autoload
-    mkdir -p ~/.vim/autoload
-    curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
-      https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
+    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 fi
 
+echo "* Installing vim spell files"
 if [ ! -d "${HOME}/.vim/spell" ]; then
   mkdir -p ~/.vim/spell
   cd ~/.vim/spell &&
@@ -58,6 +65,50 @@ if [ ! -d "${HOME}/.vim/spell" ]; then
   cd - 2>/dev/null
 fi
 
+echo "* Installing poetry"
 if [ ! -f "${HOME}/.poetry/bin/poetry" ]; then
   curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python3 -
 fi
+
+echo "* Updating zsh"
+zsh -i -c "antigen cleanup"
+zsh -i -c "antigen update"
+
+echo "* Updating poetry"
+poetry self update
+
+echo "* Updating node"
+NODE_INSTALLED=`npm list -g --depth=0 --parseable | sort | grep node_modules | grep -v npm | rev | cut -d'/' -f1 | rev`
+NODE_PACKAGES="
+create-react-native-app \
+expo-cli \
+gulp-cli \
+localtunnel \
+npm \
+opencollective \
+prettier \
+react-native-cli \
+rimraf \
+yarn"
+
+for P in $NODE_PACKAGES; do
+  if [ "${P}" = "npm" ]; then
+    continue
+  fi
+  if [[ "$NODE_INSTALLED" != *"$P"* ]]; then
+    echo "${P} is missing. Installing it."
+    npm -g i $P
+  fi
+done
+for I in $NODE_INSTALLED; do
+  if [[ "$NODE_PACKAGES" != *"$I"* ]]; then
+    echo "${P} should not be installed. Uninstalling it."
+    npm -g uninstall $I
+  fi
+done
+npm update -g
+
+echo "* Updating vim plugins"
+vim +PlugUpgrade +qall
+vim +PlugClean! +qall
+vim +PlugUpdate! +qall
