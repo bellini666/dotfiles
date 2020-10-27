@@ -13,8 +13,8 @@ if [ -d "~/dev/sync" ]; then
 fi
 
 echo "* Updating zsh"
-antigen cleanup
-antigen update
+zsh -i -c "antigen cleanup"
+zsh -i -c "antigen update"
 
 echo "* Updating poetry"
 poetry self update
