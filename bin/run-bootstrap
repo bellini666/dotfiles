@@ -1,0 +1,60 @@
+#!/bin/bash
+
+set -e
+
+sudo apt install --purge \
+  bat \
+  fonts-inconsolata \
+  fzf \
+  jq \
+  pre-commit \
+  python3-nvim \
+  ripgrep \
+  vim-gtk3 \
+  zsh \
+  zsh-antigen
+
+SOURCE_DIR=".dotfiles"
+LINKS="
+  .bash_logout \
+  .bashrc \
+  .gitattributes \
+  .gitconfig \
+  .gitignore \
+  .profile \
+  .vimrc \
+  .xprofile \
+  .zshrc"
+
+cd ~
+for FILE in $LINKS; do
+    SOURCE_FILE=~/$SOURCE_DIR/`echo $FILE | sed -e 's/^\./dot\./g'`
+    DEST_FILE=~/$FILE
+
+    if [ ! -f "$SOURCE_FILE" -a ! -d "$SOURCE_FILE" ]; then
+        echo "$SOURCE_FILE is missing!"
+        exit 1
+    fi
+
+    if [ ! "`readlink -f $DEST_FILE`" = "$SOURCE_FILE" ]; then
+        echo "* Updating symlink for $DEST_FILE"
+        ln -f -s $SOURCE_FILE $DEST_FILE
+    fi
+done
+
+mkdir -p ~/.vim
+mkdir -p ~/.vim/autoload
+if [ ! -d "~/.vim/autoload/plug.vim" ]; then
+  mkdir -p ~/.vim/autoload
+  curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
+    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+fi
+mkdir -p ~/.vim/spell
+cd ~/.vim/spell &&
+wget -N -nv ftp://ftp.vim.org/pub/vim/runtime/spell/en.* --timeout=5 && \
+wget -N -nv ftp://ftp.vim.org/pub/vim/runtime/spell/pt.* --timeout=5 && \
+cd - 2>/dev/null
+
+if [ ! -f "/home/bellini/.poetry/bin/poetry" ]; then
+  curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python3 -
+fi

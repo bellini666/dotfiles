@@ -1,0 +1,6 @@
+*.py diff=python
+*.js diff=javascript
+*.html diff=html
+*.java diff=java
+*.c diff=cpp
+*.cpp diff=cpp
