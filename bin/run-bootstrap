@@ -2,6 +2,10 @@
 
 set -e
 
+echo "* Updating self"
+cd ${HOME}/.dotfiles
+git pull origin master
+
 echo "* Updating the system"
 sudo apt update --list-cleanup
 sudo apt install --purge \
