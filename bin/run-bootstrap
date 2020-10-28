@@ -84,6 +84,9 @@ poetry self update
 poetry config virtualenvs.create true
 poetry config virtualenvs.in-project true
 
+echo "* Updating nvm"
+nvm update
+
 echo "* Updating node"
 NODE_INSTALLED=`npm list -g --depth=0 --parseable | sort | grep node_modules | grep -v npm | rev | cut -d'/' -f1 | rev`
 NODE_PACKAGES="

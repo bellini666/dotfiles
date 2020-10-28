@@ -136,8 +136,4 @@ fi
 # Enter zsh if available and it's a login shell
 if [ -n "`which zsh`" -a "$0" = "-bash" ]; then
     exec -l zsh
-else
-    export NVM_DIR="$HOME/.nvm"
-    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-    [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 fi

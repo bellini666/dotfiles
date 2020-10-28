@@ -27,7 +27,6 @@ antigen bundle extract
 antigen bundle fzf
 antigen bundle gitfast
 antigen bundle npm
-antigen bundle nvm
 antigen bundle pip
 antigen bundle python
 antigen bundle screen
@@ -39,6 +38,7 @@ antigen bundle zsh-users/zsh-syntax-highlighting
 antigen bundle zsh-users/zsh-completions
 antigen bundle jocelynmallon/zshmarks
 antigen bundle wbingli/zsh-wakatime
+antigen bundle lukechilds/zsh-nvm
 
 antigen theme denysdovhan/spaceship-prompt
 
