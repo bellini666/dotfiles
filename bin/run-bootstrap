@@ -3,8 +3,8 @@
 set -e
 
 echo "* Updating self"
-cd ${HOME}/.dotfiles
-git pull origin master
+cd ${HOME}/.dotfiles && git pull origin master
+cd - 2>/dev/null
 
 echo "* Updating the system"
 sudo apt update --list-cleanup
