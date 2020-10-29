@@ -33,6 +33,7 @@ LINKS="
 .gitattributes \
 .gitconfig \
 .gitignore \
+.p10k.zsh \
 .profile \
 .sharedrc \
 .vimrc \

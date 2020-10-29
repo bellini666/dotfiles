@@ -10,13 +10,11 @@ COMPLETION_WAITING_DOTS="true"
 DISABLE_AUTO_UPDATE="true"
 DISABLE_UNTRACKED_FILES_DIRTY="true"
 HIST_STAMPS="yyyy-mm-dd"
-
 DISABLE_VENV_CD=1
-SPACESHIP_TIME_SHOW=true
-SPACESHIP_DOCKER_SHOW=false
 
 antigen use oh-my-zsh
 
+# oh-my-zsh
 antigen bundle colored-man-pages
 antigen bundle colorize
 antigen bundle common-aliases
@@ -34,13 +32,15 @@ antigen bundle supervisor
 antigen bundle systemd
 antigen bundle virtualenvwrapper
 
+# github
 antigen bundle zsh-users/zsh-syntax-highlighting
 antigen bundle zsh-users/zsh-completions
 antigen bundle jocelynmallon/zshmarks
 antigen bundle wbingli/zsh-wakatime
 antigen bundle lukechilds/zsh-nvm
 
-antigen theme denysdovhan/spaceship-prompt
+# theme
+antigen theme romkatv/powerlevel10k
 
 antigen apply
 
@@ -50,3 +50,5 @@ alias d="deletemark"
 alias p="showmarks"
 
 autoload -U compinit && compinit
+
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh

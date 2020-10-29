@@ -127,6 +127,7 @@ Plug 'itchyny/vim-gitbranch'
 Plug 'jlanzarotta/bufexplorer'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
+Plug 'mg979/vim-visual-multi', {'branch': 'master'}
 Plug 'nanotech/jellybeans.vim'
 Plug 'preservim/nerdtree', { 'on':  'NERDTreeToggle' }
 Plug 'roxma/nvim-yarp'
@@ -134,7 +135,6 @@ Plug 'roxma/vim-hug-neovim-rpc'
 Plug 'scrooloose/nerdcommenter'
 Plug 'sheerun/vim-polyglot'
 Plug 'shougo/deoplete.nvim'
-Plug 'terryma/vim-multiple-cursors'
 Plug 'tmhedberg/matchit'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
