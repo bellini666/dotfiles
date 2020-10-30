@@ -149,7 +149,7 @@ call plug#end()
 set background=dark
 if has("gui_running")
   colorscheme jellybeans
-  set gfn=Inconsolata\ Nerd\ Font\ Regular\ 12,Inconsolata\ Medium\ 12,Monospace\ 11
+  set gfn=Inconsolata\ Medium\ 12,Monospace\ 11
   set mouse=a
   set lines=26 columns=92
   set guioptions-=T
