@@ -11,6 +11,8 @@ sudo apt update --list-cleanup
 sudo apt install --purge \
   bat \
   fonts-inconsolata \
+  fonts-open-sans \
+  fonts-wine \
   fzf \
   jq \
   pre-commit \
