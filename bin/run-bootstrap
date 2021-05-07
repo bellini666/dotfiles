@@ -102,6 +102,7 @@ opencollective \
 prettier \
 react-native-cli \
 rimraf \
+patch-package \
 yarn"
 
 for P in $NODE_PACKAGES; do
