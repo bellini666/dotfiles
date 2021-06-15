@@ -22,6 +22,7 @@ set wildignore+=*.swp
 set wildignore+=*.zip
 set wildignore+=*/*-egg-info/*
 set wildignore+=*/.git/*
+set wildignore+=*/.pytest_cache/*
 set wildignore+=*/.expo/*
 set wildignore+=*/.hg/*
 set wildignore+=*/.next/*
@@ -274,6 +275,7 @@ let g:Grep_Skip_Dirs='
       \ .repo
       \ .svn
       \ .venv
+      \ .pytest_cache
       \ __pycache__
       \ build
       \ dist
