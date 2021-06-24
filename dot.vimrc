@@ -29,6 +29,7 @@ set wildignore+=*/.next/*
 set wildignore+=*/.repo/*
 set wildignore+=*/.svn/*
 set wildignore+=*/.venv/*
+set wildignore+=*/.yarn/*
 set wildignore+=*/__pycache__/*
 set wildignore+=*/build/*
 set wildignore+=*/dist/*
@@ -275,6 +276,7 @@ let g:Grep_Skip_Dirs='
       \ .repo
       \ .svn
       \ .venv
+      \ .yarn
       \ .pytest_cache
       \ __pycache__
       \ build
