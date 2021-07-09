@@ -99,7 +99,6 @@ expo-cli \
 gulp-cli \
 localtunnel \
 npm \
-npx \
 opencollective \
 patch-package \
 prettier \
