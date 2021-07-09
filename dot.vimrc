@@ -96,6 +96,7 @@ set switchbuf=usetab
 set backspace=indent,eol,start
 set complete=".,w,b,t"
 set completeopt=longest,menu,preview
+set shortmess+=c
 if has("patch-8.1.1564")
   set signcolumn=number
 else
@@ -121,7 +122,6 @@ filetype off
 call plug#begin('~/.vim/plugged')
 
 Plug 'dense-analysis/ale'
-Plug 'deoplete-plugins/deoplete-jedi'
 Plug 'dsummersl/gundo.vim'
 Plug 'inkarkat/vcscommand.vim'
 Plug 'itchyny/lightline.vim'
@@ -131,12 +131,12 @@ Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'mg979/vim-visual-multi', {'branch': 'master'}
 Plug 'nanotech/jellybeans.vim'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'preservim/nerdtree', { 'on':  'NERDTreeToggle' }
 Plug 'roxma/nvim-yarp'
 Plug 'roxma/vim-hug-neovim-rpc'
 Plug 'scrooloose/nerdcommenter'
 Plug 'sheerun/vim-polyglot'
-Plug 'shougo/deoplete.nvim'
 Plug 'tmhedberg/matchit'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
@@ -209,7 +209,6 @@ nnoremap <Leader>ts :set spell!<CR>:set spell?<CR>
 "    Grep plugin
 nnoremap <silent> <Leader>gg :Gitgrep<CR>
 nnoremap <silent> <Leader>gr :Rgrep<CR>
-"nnoremap <silent> <Leader>gr :call MyRunGrep()<CR>
 
 "    Gundo plugin
 nnoremap <F2> :MundoToggle<CR>
@@ -223,10 +222,36 @@ nmap <C-P> :FZF<CR>
 "    ale
 nmap <silent> [g <Plug>(ale_previous_wrap)
 nmap <silent> ]g <Plug>(ale_next_wrap)
-nmap <silent> gd <Plug>(ale_go_to_definition)
-nmap <silent> gy <Plug>(ale_go_to_type_definition)
-nmap <silent> gr <Plug>(ale_find_references)
 
+"    CoC
+" Map function and class text objects
+" NOTE: Requires 'textDocument.documentSymbol' support from the language server.
+xmap if <Plug>(coc-funcobj-i)
+omap if <Plug>(coc-funcobj-i)
+xmap af <Plug>(coc-funcobj-a)
+omap af <Plug>(coc-funcobj-a)
+xmap ic <Plug>(coc-classobj-i)
+omap ic <Plug>(coc-classobj-i)
+xmap ac <Plug>(coc-classobj-a)
+omap ac <Plug>(coc-classobj-a)
+" Make <CR> auto-select the first completion item and notify coc.nvim to
+" format on enter, <cr> could be remapped by other vim plugin
+inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
+                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+" GoTo code navigation.
+nmap <leader>rn <Plug>(coc-rename)
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+" Use K to show documentation in preview window.
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+" Use <c-space> to trigger completion.
+if has('nvim')
+  inoremap <silent><expr> <c-space> coc#refresh()
+else
+  inoremap <silent><expr> <c-@> coc#refresh()
+endif
 
 "  General
 
@@ -316,11 +341,29 @@ let g:ale_fixers = {
 \   'python': ['black'],
 \}
 let g:ale_fix_on_save = 1
-let g:deoplete#enable_at_startup = 1
-let g:ale_completion_enabled = 0
-call deoplete#custom#option('sources', {
-\ '_': ['ale', 'jedi'],
-\})
+let g:ale_disable_lsp = 1
+
+"    CoC
+let g:coc_config_home = '~/.dotfiles/vim'
+let g:coc_global_extensions = [
+\   'coc-json',
+\   'coc-css',
+\   'coc-styled-components',
+\   'coc-flutter',
+\   'coc-html',
+\   'coc-htmldjango',
+\   'coc-markdownlint',
+\   'coc-sh',
+\   'coc-sh',
+\   'coc-sql',
+\   'coc-toml',
+\   'coc-tsserver',
+\   'coc-xml',
+\   'coc-vimlsp',
+\   'coc-yaml',
+\   'coc-pyright',
+\]
+
 
 "  Syntax
 
@@ -340,6 +383,7 @@ augroup vimrc_autocmds
 
   "  Python
   autocmd FileType python setlocal shiftwidth=4 softtabstop=4 expandtab
+  autocmd FileType python let b:coc_root_patterns = ["pyproject.toml"]
 
   "  Vim
   autocmd FileType vim setlocal shiftwidth=2 softtabstop=2 expandtab
@@ -349,6 +393,7 @@ augroup vimrc_autocmds
 
   "  CSS
   autocmd FileType css,scss setlocal shiftwidth=2 softtabstop=2 expandtab
+  autocmd FileType scss setl iskeyword+=@-@
 
   "  HTML/XML
   autocmd FileType html,xml setlocal shiftwidth=2 softtabstop=2 expandtab
@@ -386,6 +431,16 @@ augroup END
 
 "  Functions
 
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  elseif (coc#rpc#ready())
+    call CocActionAsync('doHover')
+  else
+    execute '!' . &keywordprg . " " . expand('<cword>')
+  endif
+endfunction
+
 "    Return '[\s]' if trailing white space is detected
 function! StatuslineTrailingSpaceWarning()
   if !exists("b:statusline_trailing_space_warning")
@@ -414,24 +469,6 @@ function! StatuslineTabWarning()
     endif
   endif
   return b:statusline_tab_warning
-endfunction
-
-function! MyRunGrep()
-    let pattern = trim(input('Search for pattern: ', expand('<cword>')))
-    if pattern == ''
-      return
-    endif
-    let pattern = shellescape(pattern)
-    echo "\r"
-
-    let files = trim(input('Limit for files pattern: ', '**'))
-    if files == ''
-      return
-    endif
-    echo "\r"
-
-    :echo "Rg " . pattern . "-g '" . files "'"
-    :execute "Rg " . pattern . " -g '" . files "'"
 endfunction
 
 

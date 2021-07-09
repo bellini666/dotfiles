@@ -19,6 +19,7 @@ sudo apt install --purge \
   python3-neovim \
   ripgrep \
   vim-gtk3 \
+  watchman \
   zsh \
   zsh-antigen
 sudo apt dist-upgrade --purge
@@ -98,11 +99,12 @@ expo-cli \
 gulp-cli \
 localtunnel \
 npm \
+npx \
 opencollective \
+patch-package \
 prettier \
 react-native-cli \
 rimraf \
-patch-package \
 yarn"
 
 for P in $NODE_PACKAGES; do
