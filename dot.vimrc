@@ -338,7 +338,7 @@ let g:ale_fixers = {
 \   'typescript': ['prettier', 'eslint'],
 \   'typescript.tsx': ['prettier', 'eslint'],
 \   'typescriptreact': ['prettier', 'eslint'],
-\   'python': ['black'],
+\   'python': ['isort', 'black'],
 \}
 let g:ale_fix_on_save = 1
 let g:ale_disable_lsp = 1
