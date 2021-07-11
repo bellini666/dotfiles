@@ -102,6 +102,7 @@ npm \
 opencollective \
 patch-package \
 prettier \
+pyright \
 react-native-cli \
 rimraf \
 yarn"
