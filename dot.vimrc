@@ -329,9 +329,10 @@ let g:lightline = {
       \ }
 
 "    Ale
-let g:ale_linters = {
-\   'python': ['flake8'],
-\}
+let b:ale_linters = []
+"let g:ale_linters = {
+"\   'python': ['flake8'],
+"\}
 let g:ale_fixers = {
 \   'javascript': ['prettier', 'eslint'],
 \   'javascript.jsx': ['prettier', 'eslint'],
@@ -342,6 +343,12 @@ let g:ale_fixers = {
 \}
 let g:ale_fix_on_save = 1
 let g:ale_disable_lsp = 1
+let g:ale_sign_error = "✗"
+let g:ale_sign_warning = "⚠"
+let g:ale_sign_style_error = "⚠"
+let g:ale_sign_style_warning = "⚠"
+highlight clear ALEErrorSign
+highlight clear ALEWarningSign
 
 "    CoC
 let g:coc_config_home = '~/.dotfiles/vim'
