@@ -325,6 +325,7 @@ let g:lightline = {
       \ }
 
 "    Ale
+" coc is linting for us
 let b:ale_linters = []
 "let g:ale_linters = {
 "\   'python': ['flake8'],
@@ -339,12 +340,14 @@ let g:ale_fixers = {
 \}
 let g:ale_fix_on_save = 1
 let g:ale_disable_lsp = 1
-let g:ale_sign_error = "✗"
-let g:ale_sign_warning = "⚠"
-let g:ale_sign_style_error = "⚠"
-let g:ale_sign_style_warning = "⚠"
-highlight clear ALEErrorSign
-highlight clear ALEWarningSign
+highlight link ALEWarning CocFadeOut
+highlight link ALEWarningSign CocWarningSign
+highlight link ALEStyleWarning CocFadeOut
+highlight link ALEStyleWarningSign CocWarningSign
+"highlight link ALEError CocUnderline
+highlight link ALEErrorSign CocErrorSign
+"highlight link ALEStyleError CocUnderline
+highlight link ALEStyleErrorSign CocErrorSign
 
 "    CoC
 let g:coc_config_home = '~/.dotfiles/vim'
