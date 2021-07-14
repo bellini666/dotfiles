@@ -53,7 +53,7 @@ set softtabstop=4
 set expandtab
 
 "    Programming options
-set textwidth=79
+set textwidth=99
 set linebreak
 set autoindent
 set nosmartindent
