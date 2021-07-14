@@ -421,8 +421,8 @@ augroup vimrc_autocmds
   autocmd FileType text,bzr,git,gitcommit setlocal spell
   autocmd FileType taglist setlocal statusline=%<%f
 
-  "  Help keep text on 79 columns
-  autocmd BufEnter * set cc=80,100
+  "  Help keep text on 100 columns
+  autocmd BufEnter * set cc=100
 
   "  Jump to the last position when the file was last opened..
   autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
