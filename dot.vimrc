@@ -115,6 +115,9 @@ set statusline+=%#error#%{&paste?'[paste]':''}%*
 set statusline+=%=
 set statusline+=\ (%l,%c/%L)\ %P
 
+" This needs to be set before plugins are loaded
+let g:ale_disable_lsp = 1
+
 
 "  Plugins
 
