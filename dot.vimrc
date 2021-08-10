@@ -97,7 +97,8 @@ set backspace=indent,eol,start
 set complete=".,w,b,t"
 set completeopt=longest,menu,preview
 set shortmess+=c
-if has("patch-8.1.1564")
+set signcolumn=number
+if has("nvim-0.5.0") || has("patch-8.1.1564")
   set signcolumn=number
 else
   set signcolumn=yes
