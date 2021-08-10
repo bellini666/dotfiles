@@ -15,6 +15,7 @@ sudo apt install --purge \
   fonts-wine \
   fzf \
   jq \
+  neovim-qt \
   pre-commit \
   python3-neovim \
   ripgrep \

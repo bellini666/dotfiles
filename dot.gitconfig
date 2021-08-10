@@ -2,13 +2,12 @@
     name = Thiago Bellini Ribeiro
     email = thiago@bellini.dev
 [core]
-    editor = vim
+    editor = nvim
     excludesfile = ~/.gitignore
     attributesfile = ~/.gitattributes
 [color]
     ui = always
 [diff]
-    tool = vimdiff
     noprefix = true
 [alias]
     co = checkout
