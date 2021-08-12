@@ -2,6 +2,9 @@ scriptencoding utf-8
 
 "  General
 
+"    No compatible always
+set nocp
+
 "    Set Unicode and Unix LF by default
 set enc=utf-8
 set ff=unix
@@ -10,33 +13,42 @@ set ffs=unix,dos
 "    Wildmenu options
 set wildmenu
 set wildmode=list:longest,full
+set wildignore+=*.DS_Store
 set wildignore+=*.bak
 set wildignore+=*.class
+set wildignore+=*.gif
+set wildignore+=*.jpeg
+set wildignore+=*.jpg
 set wildignore+=*.min.js
-set wildignore+=*.next
 set wildignore+=*.o
 set wildignore+=*.obj
+set wildignore+=*.out
+set wildignore+=*.png
 set wildignore+=*.pyc
 set wildignore+=*.so
 set wildignore+=*.swp
 set wildignore+=*.zip
 set wildignore+=*/*-egg-info/*
-set wildignore+=*/.git/*
-set wildignore+=*/.pytest_cache/*
+set wildignore+=*/.egg-info/*
 set wildignore+=*/.expo/*
+set wildignore+=*/.git/*
 set wildignore+=*/.hg/*
+set wildignore+=*/.mypy_cache/*
 set wildignore+=*/.next/*
+set wildignore+=*/.pytest_cache/*
+set wildignore+=*/.pytest_cache/*
 set wildignore+=*/.repo/*
+set wildignore+=*/.sass-cache/*
 set wildignore+=*/.svn/*
 set wildignore+=*/.venv/*
 set wildignore+=*/.yarn/*
 set wildignore+=*/__pycache__/*
+set wildignore+=*/bower_modules/*
 set wildignore+=*/build/*
 set wildignore+=*/dist/*
 set wildignore+=*/node_modules/*
 set wildignore+=*/target/*
 set wildignore+=*/venv/*
-set wildignore+=*/wine-prefix/*
 set wildignore+=*~
 
 "    Search options
@@ -53,16 +65,23 @@ set softtabstop=4
 set expandtab
 
 "    Programming options
+set mouse=nv
 set textwidth=99
-set linebreak
 set autoindent
 set nosmartindent
 set showmatch
 set foldmethod=indent
 set nofoldenable
+set synmaxcol=2500
+set formatoptions+=1
+set formatoptions-=t
+set formatoptions-=o
+if has('patch-7.3.541')
+  set formatoptions+=j
+endif
 
 "    Dictionary and Spell Options
-set spelllang=en,pt
+set spelllang=en_us,pt_br
 if filereadable("/usr/share/dict/words")
   set dictionary+=/usr/share/dict/words
 endif
@@ -82,43 +101,37 @@ set ruler
 set number
 set showcmd
 set cursorline
+set linebreak
+set breakat=\ \	;:,!?
+set cc=100
 
 "    Vim Misc
+set clipboard& clipboard^=unnamed,unnamedplus
 set updatetime=300
-set nocp
 set hidden
 set autoread
 set noswapfile
 set nomodeline
 set history=4000
 set laststatus=2
-set switchbuf=usetab
+set whichwrap+=h,l,<,>,[,],~
 set backspace=indent,eol,start
-set complete=".,w,b,t"
+set complete=".,w,b,k"
 set completeopt=longest,menu,preview
 set shortmess+=c
-set signcolumn=number
 if has("nvim-0.5.0") || has("patch-8.1.1564")
   set signcolumn=number
 else
   set signcolumn=yes
 endif
 
-"    Status line options
-set noshowmode
-set statusline=%<%f
-set statusline+=%#warningmsg#%{&ff!='unix'?'[ff='.&ff.']':''}%*
-set statusline+=%#warningmsg#%{(&fenc!='utf-8'&&&fenc!='')?'[fenc='.&fenc.']':''}%*
-set statusline+=%h%y%r%m
-set statusline+=%#error#%{StatuslineTabWarning()}%*
-set statusline+=%#error#%{StatuslineTrailingSpaceWarning()}%*
-set statusline+=%#error#%{&paste?'[paste]':''}%*
-set statusline+=%=
-set statusline+=\ (%l,%c/%L)\ %P
+"    Show trailing spaces and tabs
+set list
+set listchars=tab:»⋅,trail:⋅,nbsp:⋅,extends:→,precedes:←
+set showbreak=↪\ 
 
 " This needs to be set before plugins are loaded
 let g:ale_disable_lsp = 1
-
 
 "  Plugins
 
@@ -134,18 +147,17 @@ Plug 'jlanzarotta/bufexplorer'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'mg979/vim-visual-multi', {'branch': 'master'}
+Plug 'mg979/vim-xtabline'
 Plug 'nanotech/jellybeans.vim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'preservim/nerdtree', { 'on':  'NERDTreeToggle' }
-Plug 'roxma/nvim-yarp'
-Plug 'roxma/vim-hug-neovim-rpc'
+Plug 'ryanoasis/vim-devicons'
 Plug 'scrooloose/nerdcommenter'
 Plug 'sheerun/vim-polyglot'
-Plug 'tmhedberg/matchit'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
 Plug 'wakatime/vim-wakatime'
-Plug 'yegappan/grep'
+Plug 'wincent/ferret'
 
 call plug#end()
 
@@ -156,8 +168,6 @@ set background=dark
 if has("gui_running")
   colorscheme jellybeans
   set gfn=Inconsolata\ Medium\ 12,Monospace\ 11
-  set mouse=a
-  set lines=26 columns=92
   set guioptions-=T
   set guioptions-=m
   set mousehide
@@ -174,12 +184,6 @@ endif
 if has('gui_gtk3')
   set guioptions+=d
 endif
-
-"    Show trailing spaces and tabs
-set list
-set listchars=tab:»⋅,trail:⋅,nbsp:⋅,extends:→,precedes:←
-set showbreak=↪\ 
-
 
 "  Maps
 
@@ -218,7 +222,7 @@ nnoremap <silent> <Leader>gr :Rgrep<CR>
 nnoremap <F2> :MundoToggle<CR>
 
 "    NerdTree
-nmap <silent> <F7> :NERDTreeToggle<CR>
+nmap <silent> <F4> :NERDTreeToggle<CR>
 
 "    FZF
 nmap <C-P> :FZF<CR>
@@ -261,6 +265,11 @@ let g:python3_host_prog = '/usr/bin/python3'
 
 "  Plugins options
 
+"    XTabline
+let g:xtabline_settings = {
+      \ 'theme': 'slate',
+      \ }
+
 "    VCSCommand
 let g:VCSCommandMapPrefix='<Leader>v'
 let g:VCSCommandDeleteOnHide=1
@@ -269,52 +278,8 @@ let g:VCSCommandDeleteOnHide=1
 let g:bufExplorerShowRelativePath=1
 let g:bufExplorerFindActive=0
 
-"    Grep
-let g:Grep_Skip_Files='
-      \ *.bak
-      \ *.class
-      \ *.jpeg
-      \ *.jpg
-      \ *.min.js
-      \ *.o
-      \ *.obj
-      \ *.pdf
-      \ *.png
-      \ *.pyc
-      \ *.pyc
-      \ *.so
-      \ *.svg
-      \ *.swp
-      \ *.uitest
-      \ *.zip
-      \ *~
-      \ .noseids
-      \ nosetests.xml
-      \ package-lock.json'
-let g:Grep_Skip_Dirs='
-      \ *.egg-info
-      \ .bzr
-      \ .git
-      \ .expo
-      \ .hg
-      \ .next
-      \ .repo
-      \ .svn
-      \ .venv
-      \ .yarn
-      \ .pytest_cache
-      \ __pycache__
-      \ build
-      \ dist
-      \ node_modules
-      \ target
-      \ venv
-      \ wine-prefix'
-
-
 "    FZF
 let g:fzf_layout = { 'up': '40%' }
-
 
 "    Lightline
 let g:lightline = {
@@ -331,9 +296,6 @@ let g:lightline = {
 "    Ale
 " coc is linting for us
 let b:ale_linters = []
-"let g:ale_linters = {
-"\   'python': ['flake8'],
-"\}
 let g:ale_fixers = {
 \   'javascript': ['prettier', 'eslint'],
 \   'javascript.jsx': ['prettier', 'eslint'],
@@ -425,17 +387,8 @@ augroup vimrc_autocmds
   autocmd FileType text,bzr,git,gitcommit setlocal spell
   autocmd FileType taglist setlocal statusline=%<%f
 
-  "  Help keep text on 100 columns
-  autocmd BufEnter * set cc=100
-
   "  Jump to the last position when the file was last opened..
   autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
-
-  "  Autocmds for functions bellow
-  autocmd cursorhold,bufwritepost * unlet! b:statusline_trailing_space_warning
-  autocmd cursorhold,bufwritepost * unlet! b:statusline_tab_warning
-
-  autocmd CompleteDone * silent! pclose!
 augroup END
 
 
@@ -450,39 +403,3 @@ function! s:show_documentation()
     execute '!' . &keywordprg . " " . expand('<cword>')
   endif
 endfunction
-
-"    Return '[\s]' if trailing white space is detected
-function! StatuslineTrailingSpaceWarning()
-  if !exists("b:statusline_trailing_space_warning")
-    if search('\s\+$', 'nw') != 0
-      let b:statusline_trailing_space_warning = '[\s]'
-    else
-      let b:statusline_trailing_space_warning = ''
-    endif
-  endif
-  return b:statusline_trailing_space_warning
-endfunction
-
-"    Return '[&et]' if &et is set wrong
-"    Return '[mixed-indenting]' if spaces and tabs are used to indent
-function! StatuslineTabWarning()
-  if !exists("b:statusline_tab_warning")
-    let tabs = search('^\t', 'nw') != 0
-    let spaces = search('^ [^*]', 'nw') != 0
-
-    if tabs && spaces
-      let b:statusline_tab_warning =  '[mixed-indenting]'
-    elseif (spaces && !&et) || (tabs && &et)
-      let b:statusline_tab_warning = '[et]'
-    else
-      let b:statusline_tab_warning = ''
-    endif
-  endif
-  return b:statusline_tab_warning
-endfunction
-
-
-"  Source ~/.vimrc_local, if any
-if filereadable(expand("~/.vimrc_local"))
-  source ~/.vimrc_local
-endif
