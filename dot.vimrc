@@ -227,6 +227,8 @@ nmap <C-P> :FZF<CR>
 nmap <silent> [g <Plug>(ale_previous_wrap)
 nmap <silent> ]g <Plug>(ale_next_wrap)
 
+nnoremap <silent> <Leader>gr :call <SID>my_run_grep()<CR>
+
 "    CoC
 " Map function and class text objects
 " NOTE: Requires 'textDocument.documentSymbol' support from the language server.
@@ -398,4 +400,22 @@ function! s:show_documentation()
   else
     execute '!' . &keywordprg . " " . expand('<cword>')
   endif
+endfunction
+
+function! s:my_run_grep()
+    let l:pattern = trim(input('Search for pattern: ', expand('<cword>')))
+    if l:pattern == ''
+      return
+    endif
+    let l:pattern = substitute(l:pattern, " ", '\\ ', "g")
+    echo "\r"
+
+    let l:files = trim(input('Limit for files pattern: ', '**/*'))
+    if l:files == '**/*'
+      let l:files = ''
+    endif
+    echo "\r"
+
+    :echo "Ack " . l:pattern . " " . l:files
+    :execute "Ack " . l:pattern . " " . l:files
 endfunction
