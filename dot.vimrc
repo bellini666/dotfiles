@@ -214,10 +214,6 @@ nnoremap <Leader>tn :set number!<CR>:set number?<CR>
 nnoremap <Leader>tp :set paste!<CR>:set paste?<CR>
 nnoremap <Leader>ts :set spell!<CR>:set spell?<CR>
 
-"    Grep plugin
-nnoremap <silent> <Leader>gg :Gitgrep<CR>
-nnoremap <silent> <Leader>gr :Rgrep<CR>
-
 "    Gundo plugin
 nnoremap <F2> :MundoToggle<CR>
 
