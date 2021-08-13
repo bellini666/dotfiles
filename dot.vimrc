@@ -265,6 +265,7 @@ let g:python3_host_prog = '/usr/bin/python3'
 
 "    XTabline
 let g:xtabline_settings = {
+      \ 'tab_number_in_left_corner': 0,
       \ 'theme': 'slate',
       \ }
 
