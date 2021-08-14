@@ -61,11 +61,23 @@ done
 
 echo "* Installing local"
 mkdir -p ~/.local/bin
-curl -L -o ~/.local/bin/nvim https://github.com/neovim/neovim/releases/latest/download/nvim.appimage
-chmod +x ~/.local/bin/nvim
+NVIM_F=~/.local/bin/nvim
+NVIM_TMP=$(mktemp)
+curl -L -o ${NVIM_TMP} https://github.com/neovim/neovim/releases/latest/download/nvim.appimage
+chmod +x ${NVIM_TMP}
+if [ -f ${NVIM_F} ]; then
+  OLD_MD5=$(md5sum "${NVIM_F}" | cut -d ' ' -f 1)
+  NEW_MD5=$(md5sum "${NVIM_TMP}" | cut -d ' ' -f 1)
+  if [ ${OLD_MD5} != ${NEW_MD5} ]; then
+    NVIM_TMP2=$(mktemp)
+    mv ${NVIM_F} ${NVIM_TMP2}
+  fi
+else
+  mv ${NVIM_TMP} ${NVIM_F}
+fi
 LOCAL_BUILD_DIR=~/.local_build
 mkdir -p ${LOCAL_BUILD_DIR}
-if [ ! -f "${LOCAL_BUILD_DIR}/neovim-gtk" ]; then
+if [ ! -d "${LOCAL_BUILD_DIR}/neovim-gtk" ]; then
   git clone https://github.com/daa84/neovim-gtk ${LOCAL_BUILD_DIR}/neovim-gtk
 fi
 cd ${LOCAL_BUILD_DIR}/neovim-gtk
