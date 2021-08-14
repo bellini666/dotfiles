@@ -50,7 +50,7 @@ alias d="deletemark"
 alias p="showmarks"
 alias vi="nvim"
 alias vim="nvim"
-alias gvim="nvim-qt"
+alias gvim="nvim-gtk"
 
 autoload -U compinit && compinit
 
