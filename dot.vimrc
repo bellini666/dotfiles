@@ -148,8 +148,10 @@ Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'mg979/vim-visual-multi', {'branch': 'master'}
 Plug 'mg979/vim-xtabline'
+Plug 'mhinz/vim-grepper'
 Plug 'nanotech/jellybeans.vim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'preservim/nerdtree', { 'on':  'NERDTreeToggle' }
 Plug 'ryanoasis/vim-devicons'
 Plug 'scrooloose/nerdcommenter'
@@ -157,7 +159,10 @@ Plug 'sheerun/vim-polyglot'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
 Plug 'wakatime/vim-wakatime'
-Plug 'mhinz/vim-grepper'
+if has('nvim-0.5')
+  Plug 'rktjmp/lush.nvim'
+  Plug 'metalelf0/jellybeans-nvim'
+endif
 
 call plug#end()
 
@@ -165,24 +170,23 @@ call plug#end()
 
 "    Default background/colorscheme
 set background=dark
-if has("gui_running")
+if has('nvim-0.5')
+  set termguicolors
+  colorscheme jellybeans-nvim
+else
   colorscheme jellybeans
+endif
+if has("gui_running")
   set gfn=Inconsolata\ Medium\ 12,Monospace\ 11
   set guioptions-=T
   set guioptions-=m
+  set guioptions+=d
   set mousehide
   set anti
 else
   if $TERM == 'xterm-256color'
     set t_Co=256
-    colorscheme jellybeans
-  else
-    colorscheme desert
   endif
-endif
-
-if has('gui_gtk3')
-  set guioptions+=d
 endif
 
 "  Maps

@@ -1,4 +1,3 @@
-colorscheme jellybeans
 set mouse=a
 
 let g:GuiInternalClipboard = 1

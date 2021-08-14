@@ -153,6 +153,16 @@ done
 npm update -g
 
 echo "* Updating vim plugins"
-vim +PlugUpgrade +qall
-vim +PlugClean! +qall
-vim +PlugUpdate! +qall
+${NVIM_F} +PlugUpgrade +qall
+${NVIM_F} +PlugClean! +qall
+${NVIM_F} +PlugUpdate! +qall
+${NVIM_F} +"TSInstall! bash" +qall
+${NVIM_F} +"TSInstall! c" +qall
+${NVIM_F} +"TSInstall! graphql" +qall
+${NVIM_F} +"TSInstall! javascript" +qall
+${NVIM_F} +"TSInstall! python" +qall
+${NVIM_F} +"TSInstall! scss" +qall
+${NVIM_F} +"TSInstall! toml" +qall
+${NVIM_F} +"TSInstall! typescript" +qall
+${NVIM_F} +"TSInstall! yaml" +qall
+${NVIM_F} +"TSUpdate! all" +qall
