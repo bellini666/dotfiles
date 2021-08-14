@@ -264,6 +264,17 @@ let g:python3_host_prog = '/usr/bin/python3'
 
 "  Plugins options
 
+if has('nvim-0.5')
+lua << EOF
+require'nvim-treesitter.configs'.setup {
+  ensure_installed = "maintained",
+  highlight = {
+    enable = true,
+  },
+}
+EOF
+endif
+
 "    XTabline
 let g:xtabline_settings = {
       \ 'tab_number_in_left_corner': 0,

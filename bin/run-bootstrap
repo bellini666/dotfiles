@@ -156,13 +156,4 @@ echo "* Updating vim plugins"
 ${NVIM_F} +PlugUpgrade +qall
 ${NVIM_F} +PlugClean! +qall
 ${NVIM_F} +PlugUpdate! +qall
-${NVIM_F} +"TSInstallSync! bash" +qall
-${NVIM_F} +"TSInstallSync! c" +qall
-${NVIM_F} +"TSInstallSync! graphql" +qall
-${NVIM_F} +"TSInstallSync! javascript" +qall
-${NVIM_F} +"TSInstallSync! python" +qall
-${NVIM_F} +"TSInstallSync! scss" +qall
-${NVIM_F} +"TSInstallSync! toml" +qall
-${NVIM_F} +"TSInstallSync! typescript" +qall
-${NVIM_F} +"TSInstallSync! yaml" +qall
-${NVIM_F} +"TSUpdate! all" +qall
+${NVIM_F} +"TSUpdateSync all" +qall
