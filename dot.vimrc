@@ -157,7 +157,7 @@ Plug 'sheerun/vim-polyglot'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
 Plug 'wakatime/vim-wakatime'
-Plug 'wincent/ferret'
+Plug 'mhinz/vim-grepper'
 
 call plug#end()
 
@@ -230,8 +230,6 @@ nmap <silent> ]g <Plug>(ale_next_wrap)
 nnoremap <silent> <Leader>gr :call <SID>my_run_grep()<CR>
 
 "    CoC
-" Map function and class text objects
-" NOTE: Requires 'textDocument.documentSymbol' support from the language server.
 xmap if <Plug>(coc-funcobj-i)
 omap if <Plug>(coc-funcobj-i)
 xmap af <Plug>(coc-funcobj-a)
@@ -246,7 +244,6 @@ nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
-" Use K to show documentation in preview window.
 nnoremap <silent> K :call <SID>show_documentation()<CR>
 " Use <c-space> to trigger completion.
 if has('nvim')
@@ -279,6 +276,10 @@ let g:bufExplorerFindActive=0
 
 "    FZF
 let g:fzf_layout = { 'up': '40%' }
+
+"    Nerd Commenter
+let g:NERDDefaultAlign = 'left'
+let g:NERDCommentEmptyLines = 1
 
 "    Lightline
 let g:lightline = {
@@ -408,15 +409,23 @@ function! s:my_run_grep()
     if l:pattern == ''
       return
     endif
-    let l:pattern = substitute(l:pattern, " ", '\\ ', "g")
+    let l:pattern = '"' . substitute(l:pattern, '"', '\"', "g") . '"'
     echo "\r"
 
-    let l:files = trim(input('Limit for files pattern: ', '**/*'))
-    if l:files == '**/*'
-      let l:files = ''
+    let l:dirs = trim(input('Limit for directory: ', ''))
+    if l:dirs != ''
+      let l:dirs = '"' . l:dirs . '"'
     endif
     echo "\r"
 
-    :echo "Ack " . l:pattern . " " . l:files
-    :execute "Ack " . l:pattern . " " . l:files
+    let l:files = trim(input('Limit for files pattern: ', '*'))
+    if l:files == '*'
+      let l:files = ''
+    else
+      let l:files = '-g "' . l:files . '"'
+    endif
+    echo "\r"
+
+    :echo "GrepperRg " . l:pattern . " " . l:dirs . " " . l:files
+    :execute "GrepperRg " . l:pattern . " " . l:dirs . " " . l:files
 endfunction
