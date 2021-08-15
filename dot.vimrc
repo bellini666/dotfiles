@@ -126,7 +126,7 @@ endif
 
 "    Show trailing spaces and tabs
 set list
-set listchars=tab:»⋅,trail:⋅,nbsp:⋅,extends:→,precedes:←
+set listchars=tab:»·,trail:·,nbsp:·,extends:→,precedes:←
 set showbreak=↪\ 
 
 " This needs to be set before plugins are loaded
