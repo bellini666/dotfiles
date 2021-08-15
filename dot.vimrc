@@ -106,7 +106,6 @@ set breakat=\ \	;:,!?
 set cc=100
 
 "    Vim Misc
-set clipboard& clipboard^=unnamed,unnamedplus
 set updatetime=300
 set hidden
 set autoread
