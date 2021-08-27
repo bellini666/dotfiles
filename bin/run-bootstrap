@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -e
+set -ex
 
 echo "* Updating self"
 cd ${HOME}/.dotfiles && git pull origin master
@@ -22,7 +22,7 @@ sudo apt install --purge \
   watchman \
   zsh \
   zsh-antigen
-sudo apt dist-upgrade --purge
+sudo apt dist-upgrade --purge "$@"
 sudo flatpak update
 sudo flatpak uninstall --unused
 sudo apt autoremove --purge
