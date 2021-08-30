@@ -426,7 +426,7 @@ function! s:my_run_grep()
     let l:pattern = '"' . substitute(l:pattern, '"', '\"', "g") . '"'
     echo "\r"
 
-    let l:dirs = trim(input('Limit for directory: ', ''))
+    let l:dirs = trim(input('Limit for directory: ', './', 'dir'))
     if l:dirs != ''
       let l:dirs = '"' . l:dirs . '"'
     endif
