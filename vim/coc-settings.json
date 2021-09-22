@@ -2,6 +2,7 @@
   "coc.preferences.extensionUpdateCheck": "daily",
   "diagnostic.displayByAle": true,
   "pyright.organizeimports.provider": "isort",
+  "pyright.server": "/home/bellini/.nvm/versions/node/v16.8.0/bin/pyright",
   "python.formatting.provider": "black",
   "python.linting.enabled": true,
   "python.linting.flake8Enabled": true,
