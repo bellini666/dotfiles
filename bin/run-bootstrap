@@ -78,10 +78,10 @@ fi
 LOCAL_BUILD_DIR=~/.local_build
 mkdir -p ${LOCAL_BUILD_DIR}
 if [ ! -d "${LOCAL_BUILD_DIR}/neovim-gtk" ]; then
-  git clone https://github.com/daa84/neovim-gtk ${LOCAL_BUILD_DIR}/neovim-gtk
+  git clone https://github.com/Lyude/neovim-gtk.git ${LOCAL_BUILD_DIR}/neovim-gtk
 fi
 cd ${LOCAL_BUILD_DIR}/neovim-gtk
-git pull origin master
+git pull origin main
 make PREFIX=~/.local install
 cd -
 
