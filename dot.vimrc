@@ -388,12 +388,12 @@ require'telescope'.setup {
 require'telescope'.load_extension('fzf')
 
 -- spellsitter
-require'spellsitter'.setup {
-  hl = 'SpellBad',
-  -- captures = {'comment'},
-  captures = {},
-  spellchecker = 'vimfn',
-}
+-- require'spellsitter'.setup {
+--   hl = 'SpellBad',
+--   -- captures = {'comment'},
+--   captures = {},
+--   spellchecker = 'vimfn',
+-- }
 
 -- nvim-gps
 require'nvim-gps'.setup()
