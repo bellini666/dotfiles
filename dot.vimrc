@@ -313,16 +313,6 @@ augroup END
 
 "  Functions
 
-function! s:show_documentation()
-  if (index(['vim','help'], &filetype) >= 0)
-    execute 'h '.expand('<cword>')
-  elseif (coc#rpc#ready())
-    call CocActionAsync('doHover')
-  else
-    execute '!' . &keywordprg . " " . expand('<cword>')
-  endif
-endfunction
-
 function! s:my_run_grep()
     let l:pattern = trim(input('Search for pattern: ', expand('<cword>')))
     if l:pattern == ''
