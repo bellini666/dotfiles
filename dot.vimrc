@@ -263,13 +263,12 @@ let g:nvim_tree_quit_on_open = 1
 
 "  Syntax
 
-" We are using treesitter
-"if has('syntax') && !(exists('syntax_on') && syntax_on)
-"  syntax on
-"endif
-"filetype on
-"filetype plugin on
-"filetype indent on
+if has('syntax') && !(exists('syntax_on') && syntax_on)
+  syntax on
+endif
+filetype on
+filetype plugin on
+filetype indent on
 
 
 "  Autocmds for filetypes
