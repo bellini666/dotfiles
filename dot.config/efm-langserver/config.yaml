@@ -2,8 +2,6 @@ version: 2
 root-markers:
   - .git/
 lint-debounce: 1s
-log-file: /tmp/efm.log
-log-level: 1
 
 tools:
   eruby-erb: &eruby-erb
