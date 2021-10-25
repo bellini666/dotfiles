@@ -8,6 +8,10 @@ export PIP_REQUIRE_VIRTUALENV=true
 export PROJECT_HOME=$HOME/dev
 export WORKON_HOME=$HOME/.virtualenvs
 
+export GOBIN=$HOME/.local/bin
+export GOPATH=$HOME/.go
+export GOMODCACHE=$HOME/.go/pkg/mod
+
 if [ -d "$HOME/.poetry/bin" ]; then
   export PATH="$HOME/.poetry/bin:$PATH"
 fi

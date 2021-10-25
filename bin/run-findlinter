@@ -1,0 +1,67 @@
+#!/usr/bin/env python3
+
+import os
+import sys
+
+
+def python(c, f):
+    with open("/tmp/xxx", "w") as g:
+        g.write(f"{c} {f}")
+    try:
+        if os.environ.get("VIRTUAL_ENV"):
+            p = os.path.join(os.environ["VIRTUAL_ENV"], "bin", "python")
+            c = f"{p} -m {c}"
+        else:
+            d = os.path.dirname(f)
+
+            while d != "/":
+                if os.path.exists(os.path.join(d, "poetry.lock")):
+                    c = f"cd {d} && poetry run {c}"
+                    break
+                if os.path.exists(os.path.join(d, ".venv", "bin", "python")):
+                    p = os.path.exists(os.path.join(d, ".venv", "bin", "python"))
+                    c = f"cd {d} && {p} -m {c}"
+                    break
+                if os.path.exists(os.path.join(d, ".git")):
+                    break
+
+                d = os.path.dirname(d)
+    except Exception:
+        pass
+
+    sys.stdout.write(c)
+
+
+def typescript(c, f):
+    try:
+        d = os.path.dirname(f)
+
+        while d != "/":
+            b = os.path.join(d, "node_modules", ".bin", c)
+            if os.path.exists(b):
+                c = f"cd {d} && {b}"
+                break
+
+            if os.path.exists(".git"):
+                break
+
+            d = os.path.dirname(d)
+    except Exception:
+        pass
+
+    sys.stdout.write(c)
+
+
+clist = {
+    "flake8": python,
+    "isort": python,
+    "black": python,
+    "eslint": typescript,
+    "prettier": typescript,
+}
+
+
+if __name__ == "__main__":
+    c = sys.argv[1]
+    f = sys.argv[2]
+    clist[c](c, f)

@@ -14,12 +14,16 @@ sudo apt install --purge \
   fonts-open-sans \
   fonts-wine \
   fzf \
+  golang \
   jq \
   pre-commit \
   python3-neovim \
   ripgrep \
+  universal-ctags \
   vim-gtk3 \
+  wamerican \
   watchman \
+  wbrazilian \
   zsh \
   zsh-antigen
 sudo apt dist-upgrade --purge "$@"
@@ -29,12 +33,15 @@ sudo apt autoremove --purge
 sudo apt clean
 
 echo "* Updating symlinks"
+mkdir -p ~/.config/nvim
+mkdir -p ~/.config/efm-langserver
 SOURCE_DIR="${HOME}/.dotfiles"
 LINKS="
 .bash_logout \
 .bashrc \
 .config/nvim/ginit.vim \
 .config/nvim/init.vim \
+.config/efm-langserver/config.yaml \
 .gitattributes \
 .gitconfig \
 .gitignore \
@@ -61,6 +68,9 @@ done
 
 echo "* Installing local"
 mkdir -p ~/.local/bin
+
+go install github.com/mattn/efm-langserver@latest
+
 NVIM_F=~/.local/bin/nvim
 NVIM_TMP=$(mktemp)
 curl -L -o ${NVIM_TMP} https://github.com/neovim/neovim/releases/latest/download/nvim.appimage
@@ -101,6 +111,13 @@ if [ ! -d "${HOME}/.vim/spell" ]; then
   wget -N -nv ftp://ftp.vim.org/pub/vim/runtime/spell/pt.* --timeout=5 && \
   cd - 2>/dev/null
 fi
+if [ ! -d "${HOME}/.config/nvim/spell" ]; then
+  mkdir -p ~/.config/nvim/spell
+  cd ~/.config/nvim/spell &&
+  wget -N -nv ftp://ftp.vim.org/pub/vim/runtime/spell/en.* --timeout=5 && \
+  wget -N -nv ftp://ftp.vim.org/pub/vim/runtime/spell/pt.* --timeout=5 && \
+  cd - 2>/dev/null
+fi
 
 echo "* Installing poetry"
 if [ ! -f "${HOME}/.poetry/bin/poetry" ]; then
@@ -122,7 +139,11 @@ zsh -i -c "nvm upgrade"
 echo "* Updating node"
 NODE_INSTALLED=`npm list -g --depth=0 --parseable | sort | grep node_modules | grep -v npm | rev | cut -d'/' -f1 | rev`
 NODE_PACKAGES="
+@tailwindcss/language-server \
+bash-language-server \
 create-react-native-app \
+diagnostic-languageserver \
+dockerfile-language-server-nodejs \
 expo-cli \
 gulp-cli \
 localtunnel \
@@ -133,6 +154,14 @@ prettier \
 pyright \
 react-native-cli \
 rimraf \
+ts-server \
+typescript-language-server \
+vim-language-server \
+vscode-css-languageserver-bin \
+vscode-html-languageserver-bin \
+vscode-json-languageserver \
+vscode-langservers-extracted \
+yaml-language-server \
 yarn"
 
 for P in $NODE_PACKAGES; do
