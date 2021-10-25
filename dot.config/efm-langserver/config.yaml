@@ -1,7 +1,7 @@
 version: 2
 root-markers:
   - .git/
-lint-debounce: 1s
+lint-debounce: 3s
 
 tools:
   eruby-erb: &eruby-erb
@@ -115,7 +115,6 @@ tools:
     lint-formats:
       - "%f(%l,%c): %tarning %m"
       - "%f(%l,%c): %rror %m"
-
 
   php-phpstan: &php-phpstan
     lint-command: './vendor/bin/phpstan analyze --error-format raw --no-progress'
