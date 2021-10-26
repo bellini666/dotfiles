@@ -5,8 +5,6 @@ import sys
 
 
 def python(c, f):
-    with open("/tmp/xxx", "w") as g:
-        g.write(f"{c} {f}")
     try:
         if os.environ.get("VIRTUAL_ENV"):
             p = os.path.join(os.environ["VIRTUAL_ENV"], "bin", "python")
@@ -29,7 +27,7 @@ def python(c, f):
     except Exception:
         pass
 
-    sys.stdout.write(c)
+    return c
 
 
 def typescript(c, f):
@@ -49,7 +47,7 @@ def typescript(c, f):
     except Exception:
         pass
 
-    sys.stdout.write(c)
+    return c
 
 
 clist = {
@@ -64,4 +62,4 @@ clist = {
 if __name__ == "__main__":
     c = sys.argv[1]
     f = sys.argv[2]
-    clist[c](c, f)
+    sys.stdout.write(clist[c](c, f))

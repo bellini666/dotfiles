@@ -8,25 +8,25 @@ cd - 2>/dev/null
 
 echo "* Updating the system"
 sudo apt update --list-cleanup
+sudo apt dist-upgrade --purge "$@"
 sudo apt install --purge \
   bat \
+  build-essential \
   fonts-inconsolata \
   fonts-open-sans \
   fonts-wine \
   fzf \
+  git \
   golang \
   jq \
   pre-commit \
-  python3-neovim \
   ripgrep \
   universal-ctags \
-  vim-gtk3 \
   wamerican \
   watchman \
   wbrazilian \
   zsh \
   zsh-antigen
-sudo apt dist-upgrade --purge "$@"
 sudo flatpak update
 sudo flatpak uninstall --unused
 sudo apt autoremove --purge
@@ -35,42 +35,43 @@ sudo apt clean
 echo "* Updating symlinks"
 mkdir -p ~/.config/nvim
 mkdir -p ~/.config/efm-langserver
+# TODO: Get this dinamically
 SOURCE_DIR="${HOME}/.dotfiles"
 LINKS="
-.bash_logout \
-.bashrc \
+.config/efm-langserver/config.yaml \
 .config/nvim/ginit.vim \
 .config/nvim/init.vim \
-.config/efm-langserver/config.yaml \
 .gitattributes \
 .gitconfig \
 .gitignore \
 .p10k.zsh \
-.profile \
-.sharedrc \
+.tmux.conf \
 .vimrc \
-.xprofile \
 .zshrc"
+set +x
 for FILE in $LINKS; do
-    SOURCE_FILE=$SOURCE_DIR/`echo $FILE | sed -e 's/^\./dot\./g'`
-    DEST_FILE=${HOME}/$FILE
+  SOURCE_FILE=$SOURCE_DIR/`echo $FILE | sed -e 's/^\.//g'`
+  DEST_FILE=${HOME}/$FILE
 
-    if [ ! -f "$SOURCE_FILE" -a ! -d "$SOURCE_FILE" ]; then
-        echo "$SOURCE_FILE is missing!"
-        exit 1
-    fi
+  if [ ! -f "$SOURCE_FILE" -a ! -d "$SOURCE_FILE" ]; then
+    echo "$SOURCE_FILE is missing!"
+    exit 1
+  fi
 
-    if [ ! "`readlink -f $DEST_FILE`" = "$SOURCE_FILE" ]; then
-        echo "* Updating symlink for $DEST_FILE"
-        ln -f -s $SOURCE_FILE $DEST_FILE
-    fi
+  if [ ! "`readlink -f $DEST_FILE`" = "$SOURCE_FILE" ]; then
+    echo "* Updating symlink for $DEST_FILE"
+    ln -f -s $SOURCE_FILE $DEST_FILE
+  fi
 done
+set -x
 
 echo "* Installing local"
 mkdir -p ~/.local/bin
 
+echo "* Installing efm langserver"
 go install github.com/mattn/efm-langserver@latest
 
+echo "* Installing neovim"
 NVIM_F=~/.local/bin/nvim
 NVIM_TMP=$(mktemp)
 curl -L -o ${NVIM_TMP} https://github.com/neovim/neovim/releases/latest/download/nvim.appimage
@@ -104,13 +105,6 @@ if [ ! -f "${HOME}/.vim/autoload/plug.vim" ]; then
 fi
 
 echo "* Installing vim spell files"
-if [ ! -d "${HOME}/.vim/spell" ]; then
-  mkdir -p ~/.vim/spell
-  cd ~/.vim/spell &&
-  wget -N -nv ftp://ftp.vim.org/pub/vim/runtime/spell/en.* --timeout=5 && \
-  wget -N -nv ftp://ftp.vim.org/pub/vim/runtime/spell/pt.* --timeout=5 && \
-  cd - 2>/dev/null
-fi
 if [ ! -d "${HOME}/.config/nvim/spell" ]; then
   mkdir -p ~/.config/nvim/spell
   cd ~/.config/nvim/spell &&
@@ -118,6 +112,21 @@ if [ ! -d "${HOME}/.config/nvim/spell" ]; then
   wget -N -nv ftp://ftp.vim.org/pub/vim/runtime/spell/pt.* --timeout=5 && \
   cd - 2>/dev/null
 fi
+
+echo "* Installing python libs"
+PIP_REQUIRE_VIRTUALENV=false
+pip install -U \
+  black \
+  debugpy \
+  flake8 \
+  ipython \
+  isort \
+  numpy \
+  pandas \
+  pip \
+  pynvim \
+  wheel
+PIP_REQUIRE_VIRTUALENV=true
 
 echo "* Installing poetry"
 if [ ! -f "${HOME}/.poetry/bin/poetry" ]; then
@@ -139,14 +148,16 @@ zsh -i -c "nvm upgrade"
 echo "* Updating node"
 NODE_INSTALLED=`npm list -g --depth=0 --parseable | sort | grep node_modules | grep -v npm | rev | cut -d'/' -f1 | rev`
 NODE_PACKAGES="
-@tailwindcss/language-server \
 bash-language-server \
 create-react-native-app \
-diagnostic-languageserver \
 dockerfile-language-server-nodejs \
+eslint \
 expo-cli \
+graphql \
+graphql-language-service-cli \
 gulp-cli \
 localtunnel \
+neovim \
 npm \
 opencollective \
 patch-package \
@@ -163,7 +174,7 @@ vscode-json-languageserver \
 vscode-langservers-extracted \
 yaml-language-server \
 yarn"
-
+set +x
 for P in $NODE_PACKAGES; do
   if [ "${P}" = "npm" ]; then
     continue
@@ -175,14 +186,15 @@ for P in $NODE_PACKAGES; do
 done
 for I in $NODE_INSTALLED; do
   if [[ "$NODE_PACKAGES" != *"$I"* ]]; then
-    echo "${P} should not be installed. Uninstalling it."
+    echo "${P} should not be installed. Uninstalling it..."
     npm -g uninstall $I
   fi
 done
+set -x
 npm update -g
 
 echo "* Updating vim plugins"
-${NVIM_F} +PlugUpgrade +qall
-${NVIM_F} +PlugClean! +qall
-${NVIM_F} +PlugUpdate! +qall
-${NVIM_F} +"TSUpdateSync all" +qall
+${NVIM_F} --headless -c "PlugUpgrade" -c "qall"
+${NVIM_F} --headless -c "PlugClean!" -c "qall"
+${NVIM_F} --headless -c "PlugUpdate!" -c "qall"
+${NVIM_F} --headless -c "TSUpdateSync all!" -c "qall"

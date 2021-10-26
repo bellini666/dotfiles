@@ -1,7 +1,7 @@
 source /usr/share/zsh-antigen/antigen.zsh
 
-if [ -f "$HOME/.sharedrc" ]; then
-  source "$HOME/.sharedrc"
+if [ -f "$HOME/.dotfiles/defaults" ]; then
+  source "$HOME/.dotfiles/defaults"
 fi
 
 # oh-my-zsh config
@@ -29,7 +29,6 @@ antigen bundle python
 antigen bundle screen
 antigen bundle supervisor
 antigen bundle systemd
-antigen bundle virtualenvwrapper
 
 # github
 antigen bundle zsh-users/zsh-syntax-highlighting

@@ -118,22 +118,14 @@ set laststatus=2
 set whichwrap+=h,l,<,>,[,],~
 set backspace=indent,eol,start
 set complete=".,w,b,k"
-" set completeopt=longest,menu,preview
 set completeopt=menu,menuone,noselect
 set shortmess+=c
-if has("nvim-0.5.0") || has("patch-8.1.1564")
-  set signcolumn=number
-else
-  set signcolumn=yes
-endif
+set signcolumn=number
 
 "    Show trailing spaces and tabs
 set list
 set listchars=tab:»·,trail:·,nbsp:·,extends:→,precedes:←
 set showbreak=↪\ 
-
-" This needs to be set before plugins are loaded
-let g:ale_disable_lsp = 1
 
 "  Plugins
 
@@ -147,13 +139,11 @@ Plug 'hrsh7th/nvim-cmp'
 Plug 'inkarkat/vcscommand.vim'
 Plug 'kyazdani42/nvim-tree.lua'
 Plug 'kyazdani42/nvim-web-devicons'
-Plug 'lewis6991/spellsitter.nvim'
 Plug 'mbbill/undotree'
 Plug 'metalelf0/jellybeans-nvim'
 Plug 'mg979/vim-visual-multi', {'branch': 'master'}
 Plug 'mg979/vim-xtabline'
 Plug 'mhinz/vim-grepper'
-Plug 'nanotech/jellybeans.vim'
 Plug 'neovim/nvim-lspconfig'
 Plug 'numToStr/Comment.nvim'
 Plug 'nvim-lua/plenary.nvim'
@@ -162,6 +152,7 @@ Plug 'nvim-telescope/telescope.nvim'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'nvim-treesitter/nvim-treesitter-textobjects'
 Plug 'ojroques/nvim-hardline'
+Plug 'onsails/lspkind-nvim'
 Plug 'rktjmp/lush.nvim'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
@@ -174,24 +165,8 @@ call plug#end()
 
 "    Default background/colorscheme
 set background=dark
-if has('nvim-0.5')
-  set termguicolors
-  colorscheme jellybeans-nvim
-else
-  colorscheme jellybeans
-endif
-if has("gui_running")
-  set gfn=Inconsolata\ Medium\ 12,Monospace\ 11
-  set guioptions-=T
-  set guioptions-=m
-  set guioptions+=d
-  set mousehide
-  set anti
-else
-  if $TERM == 'xterm-256color'
-    set t_Co=256
-  endif
-endif
+set termguicolors
+colorscheme jellybeans-nvim
 
 "  Maps
 
@@ -341,7 +316,6 @@ endfunction
 
 "  LUA config
 
-if has('nvim-0.5')
 lua << EOF
 local nvim_lsp = require('lspconfig')
 local cmp = require('cmp')
@@ -387,14 +361,6 @@ require'telescope'.setup {
 }
 require'telescope'.load_extension('fzf')
 
--- spellsitter
--- require'spellsitter'.setup {
---   hl = 'SpellBad',
---   -- captures = {'comment'},
---   captures = {},
---   spellchecker = 'vimfn',
--- }
-
 -- nvim-gps
 require'nvim-gps'.setup()
 
@@ -426,7 +392,7 @@ local on_attach = function(client, bufnr)
   vim.cmd [[augroup Format]]
   vim.cmd [[autocmd! * <buffer>]]
   if client.resolved_capabilities.document_formatting then
-    vim.cmd [[autocmd BufWritePost <buffer> lua vim.lsp.buf.formatting()]]
+    vim.cmd [[autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting()]]
   end
   vim.cmd [[ autocmd CursorHold * lua print_diagnostics() ]]
   vim.cmd [[augroup END]]
@@ -535,12 +501,6 @@ nvim_lsp.tsserver.setup {
 -- https://github.com/iamcco/vim-language-server
 nvim_lsp.vimls.setup { on_attach = on_attach }
 
--- https://github.com/vscode-langservers/vscode-json-languageserver
-nvim_lsp.jsonls.setup {
-  on_attach = on_attach,
-  cmd = { "json-languageserver", "--stdio" },
-}
-
 -- https://github.com/vscode-langservers/vscode-css-languageserver-bin
 nvim_lsp.cssls.setup { on_attach = on_attach }
 
@@ -551,11 +511,12 @@ nvim_lsp.html.setup { on_attach = on_attach }
 nvim_lsp.bashls.setup { on_attach = on_attach }
 
 -- https://github.com/rcjsuen/dockerfile-language-server-nodejs
-nvim_lsp.dockerls.setup {
-  on_attach = function(client)
-    client.resolved_capabilities.document_formatting = false
-    on_attach(client)
-  end,
+nvim_lsp.dockerls.setup { on_attach = on_attach }
+
+-- https://github.com/vscode-langservers/vscode-json-languageserver
+nvim_lsp.jsonls.setup {
+  on_attach = on_attach,
+  cmd = { "json-languageserver", "--stdio" },
 }
 
 -- Linting
@@ -622,7 +583,11 @@ nvim_lsp.efm.setup {
 }
 
 -- Completion
+local lspkind = require('lspkind')
 cmp.setup({
+  formatting = {
+    format = lspkind.cmp_format({with_text = false, maxwidth = 50})
+  },
   mapping = {
     ['<C-p>'] = cmp.mapping.select_prev_item(),
     ['<C-n>'] = cmp.mapping.select_next_item(),
@@ -650,10 +615,11 @@ cmp.setup({
     end,
   },
   sources = cmp.config.sources({
-    { name = 'nvim_lsp' },
-    { name = 'buffer' },
+    { name = "nvim_lsp" },
+    { name = "buffer" },
+    { name = "nvim_lua" },
+    { name = "path" },
   })
 })
 
 EOF
-endif

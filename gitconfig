@@ -1,14 +1,24 @@
 [user]
     name = Thiago Bellini Ribeiro
     email = thiago@bellini.dev
+
+[fetch]
+    prune = true
+
 [core]
     editor = nvim
     excludesfile = ~/.gitignore
     attributesfile = ~/.gitattributes
+
 [color]
     ui = always
+
 [diff]
     noprefix = true
+
+[pull]
+    ff = only
+
 [alias]
     co = checkout
     br = branch
@@ -18,8 +28,7 @@
     sdi = diff --cached
     ndi = diff --color=never
     nsdi = diff --cached --color=never
-    fe = fetch
-    fea = fetch --all
+    fe = fetch --all
     rom = rebase -i origin/master
     rm-stale = "!f(){\
         git branch --color=never | grep -v "master" | grep -v ^* | xargs git branch -d;\
@@ -27,5 +36,3 @@
     rm-stale-force = "!f(){\
         git branch --color=never | grep -v "master" | grep -v ^* | xargs git branch -D;\
     }; f"
-[pull]
-    ff = only
