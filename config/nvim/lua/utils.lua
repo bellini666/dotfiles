@@ -67,19 +67,26 @@ M.diagnostics = function(opts, bufnr, line_nr, client_id)
     print(diagnostic_message)
 end
 
+M.escape = function(str)
+    for _, char in ipairs({ '"', "(", ")" }) do
+        -- FIXME Why isn't gsub working?
+        -- str = string.gsub(str, char, "\\" .. char)
+        str = vim.fn.substitute(str, char, "\\" .. char, "g")
+    end
+    return str
+end
+
 M.grep = function()
-    local pattern = vim.fn.trim(vim.fn.input("Search for pattern ", vim.fn.expand("<cword>")))
+    local pattern = vim.fn.trim(vim.fn.input("Search for pattern: ", vim.fn.expand("<cword>")))
     if pattern == "" then
         return
     end
-    pattern = '"' .. vim.fn.substitute(pattern, '"', '\\"', "g") .. '"'
-    print("\r")
+    pattern = '"' .. M.escape(pattern) .. '"'
 
     local dirs = vim.fn.trim(vim.fn.input("Limit for directory: ", "./", "dir"))
     if dirs ~= "" then
         dirs = '"' .. dirs .. '"'
     end
-    print("\r")
 
     local files = vim.fn.trim(vim.fn.input("Limit for file patterns: ", "*"))
     if files == "*" then
@@ -87,7 +94,6 @@ M.grep = function()
     else
         files = '-g "' .. files .. '"'
     end
-    print("\r")
 
     local cmd = "GrepperRg " .. pattern .. " " .. dirs .. " " .. files
     print(cmd)

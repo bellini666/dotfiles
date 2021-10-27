@@ -32,6 +32,6 @@ map("n", "<C-P>", ":Telescope find_files<CR>")
 map("n", "<C-F>", ":Telescope live_grep<CR>")
 map("n", "<C-B>", ":Telescope buffers<CR>")
 map("n", "z=", ":Telescope spell_suggest theme=get_dropdown<CR>")
-map("n", "<Leader>gr", ":call <SID>my_run_grep()<CR>", { silent = true })
+map("n", "<Leader>gr", ':lua require("utils").grep()<CR>', { silent = true })
 
 return M
