@@ -1,7 +1,7 @@
 source /usr/share/zsh-antigen/antigen.zsh
 
-if [ -f "$HOME/.dotfiles/defaults" ]; then
-  source "$HOME/.dotfiles/defaults"
+if [ -f "$HOME/.dotfiles/core.sh" ]; then
+  source "$HOME/.dotfiles/core.sh"
 fi
 
 # oh-my-zsh config
