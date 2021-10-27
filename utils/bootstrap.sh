@@ -25,6 +25,7 @@ APT_PACKAGES=(
   git
   golang
   jq
+  libtool-bin
   ninja-build
   pre-commit
   ripgrep
@@ -41,6 +42,7 @@ APT_PACKAGES=(
 )
 PYTHON_LIBS=(
   black
+  cmake
   debugpy
   flake8
   ipython
@@ -103,6 +105,7 @@ set -x
 info "updating the system"
 sudo apt update --list-cleanup
 sudo apt dist-upgrade --purge "$@"
+sudo apt build-dep neovim "$@"
 sudo apt install --purge "${APT_PACKAGES[@]}" "${@}"
 sudo flatpak update
 sudo flatpak uninstall --unused
