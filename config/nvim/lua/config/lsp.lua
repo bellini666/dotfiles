@@ -41,9 +41,18 @@ local on_attach = function(client, bufnr)
 end
 
 local handlers = {
-    -- ["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
-    --     virtual_text = false,
-    -- }),
+    ["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
+        underline = {
+            severity_limit = "Information",
+        },
+        signs = {
+            severity_limit = "Information",
+        },
+        virtual_text = {
+            spacing = 4,
+            severity_limit = "Information",
+        },
+    }),
 }
 
 local function get_python_path(workspace)
