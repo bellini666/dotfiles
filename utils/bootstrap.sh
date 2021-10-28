@@ -232,5 +232,9 @@ npm update -g
 
 # nvim plugins
 info "updating nvim plugins"
-${NVIM_BIN} --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'
-${NVIM_BIN} --headless -c "TSUpdateSync" -c "quitall"
+${NVIM_BIN} --headless \
+  -c 'autocmd User PackerComplete sleep 100m | write! /tmp/packer.sync.result | qall' \
+  -c 'PackerSync'
+cat /tmp/packer.sync.result
+${NVIM_BIN} --headless -c "TSUpdateSync" -c "sleep 100m | write! /tmp/ts.update.result | qall"
+cat /tmp/ts.update.result
