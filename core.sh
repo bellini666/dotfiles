@@ -36,7 +36,7 @@ export PATH
 function bootstrap() { (
   set -e
   cd "${BASE_DIR}"
-  git pull origin master
+  git pull origin master || true
   bash "${BASE_DIR}/utils/bootstrap.sh" "${BASE_DIR}" "${@}" || return 1
 ); }
 

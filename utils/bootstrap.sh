@@ -75,12 +75,13 @@ NODE_LIBS=(
   react-native-cli
   rimraf
   tree-sitter
+  tree-sitter-cli
   ts-server
   typescript-language-server
   vim-language-server
-  vscode-css-languageserver-bin
   vscode-html-languageserver-bin
   vscode-json-languageserver-bin
+  vscode-langservers-extracted
   yaml-language-server
   yarn
 )
