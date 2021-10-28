@@ -53,6 +53,12 @@ function swap2ram() { (
   sudo swapon -a || return 1
 ); }
 
+function dotfiles() { (
+  set -e
+  cd "${BASE_DIR}"
+  echo "~ inside dotfiles ~"
+); }
+
 function edit-core() { (
   set -e
 
