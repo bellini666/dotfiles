@@ -11,7 +11,7 @@ LOCAL_DIR="${HOME}/.local"
 LOCAL_BIN_DIR="${LOCAL_DIR}/bin"
 LOCAL_BUILD_DIR="${HOME}/.local_build"
 NVIM_CONFIG="${HOME}/.config/nvim"
-NVIM_BIN="${LOCAL_BIN_DIR}/nvim"
+NVIM_BIN="${LOCAL_BIN_DIR}/.neovim/bin/nvim"
 APT_PACKAGES=(
   bat
   build-essential
@@ -144,12 +144,16 @@ zsh -i -c "nvm upgrade"
 
 # neovim
 info "installing neovim"
-download_executable \
-  "${NVIM_BIN}" https://github.com/neovim/neovim/releases/latest/download/nvim.appimage
+git_clone_or_pull "${LOCAL_BUILD_DIR}/neovim" https://github.com/neovim/neovim master
+(
+  cd "${LOCAL_BUILD_DIR}/neovim"
+  make CMAKE_BUILD_TYPE=Release -j4 -Wno-dev
+  make CMAKE_INSTALL_PREFIX="${HOME}/.neovim" install
+)
 
 # neovim-gtk
 info "installing neovim-gtk"
-git_clone_or_pull "${LOCAL_BUILD_DIR}/neovim-gtk" https://github.com/Lyude/neovim-gtk.git main
+git_clone_or_pull "${LOCAL_BUILD_DIR}/neovim-gtk" https://github.com/Lyude/neovim-gtk main
 (
   cd "${LOCAL_BUILD_DIR}/neovim-gtk"
   make PREFIX="${LOCAL_DIR}" install

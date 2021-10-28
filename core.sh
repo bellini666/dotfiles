@@ -28,6 +28,7 @@ if which ruby >/dev/null && which gem >/dev/null; then
 fi
 PATH="$HOME/.cargo/bin:$PATH"
 PATH="$HOME/.poetry/bin:$PATH"
+PATH="$HOME/.neovim/bin:$PATH"
 PATH="$HOME/.local/bin:$PATH"
 PATH="$HOME/bin:$PATH"
 export PATH
