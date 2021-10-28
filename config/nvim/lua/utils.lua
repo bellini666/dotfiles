@@ -96,7 +96,6 @@ M.grep = function()
     end
 
     local cmd = "GrepperRg " .. pattern .. " " .. dirs .. " " .. files
-    print(cmd)
     vim.api.nvim_command(cmd)
 end
 
