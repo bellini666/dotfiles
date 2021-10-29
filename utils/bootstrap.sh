@@ -147,8 +147,8 @@ info "installing neovim"
 git_clone_or_pull "${LOCAL_BUILD_DIR}/neovim" https://github.com/neovim/neovim master
 (
   cd "${LOCAL_BUILD_DIR}/neovim"
-  make CMAKE_BUILD_TYPE=Release -j4 -Wno-dev
-  make CMAKE_INSTALL_PREFIX="${HOME}/.neovim" install
+  make CMAKE_INSTALL_PREFIX="${HOME}/.neovim" CMAKE_BUILD_TYPE=Release -j4 -Wno-dev
+  make CMAKE_INSTALL_PREFIX="${HOME}/.neovim" CMAKE_BUILD_TYPE=Release install
 )
 
 # neovim-gtk
