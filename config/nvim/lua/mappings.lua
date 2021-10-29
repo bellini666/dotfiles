@@ -19,7 +19,7 @@ map("c", "<S-Insert>", "<MiddleMouse>")
 map("v", "<", "<gv")
 map("v", ">", ">gv")
 
--- Tooglers
+-- Togglers
 map("n", "<Leader>tl", "<cmd>set list!<CR>:set list?<CR>")
 map("n", "<Leader>tn", "<cmd>set number!<CR>:set number?<CR>")
 map("n", "<Leader>tp", "<cmd>set paste!<CR>:set paste?<CR>")
