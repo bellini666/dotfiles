@@ -3,8 +3,7 @@
 set -e
 
 MY_DIR=$(dirname "${0}")
-BASE_DIR="${1}"
-shift
+BASE_DIR=$(dirname "${MY_DIR}")
 source "${MY_DIR}/funcs.sh"
 
 LOCAL_DIR="${HOME}/.local"

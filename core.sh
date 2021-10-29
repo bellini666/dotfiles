@@ -4,8 +4,7 @@ if [ "${_DEFAULTS_SOURCED}" = "1" ]; then
   exit 0
 fi
 
-BASE_DIR=$(dirname "${0}")
-MYSELF=$(basename "${0}")
+BASE_DIR="${HOME}/.dotfiles"
 
 export EDITOR=nvim
 export GIT_SSH=ssh
@@ -37,7 +36,7 @@ function bootstrap() { (
   set -e
   cd "${BASE_DIR}"
   git pull origin master || true
-  bash "${BASE_DIR}/utils/bootstrap.sh" "${BASE_DIR}" "${@}" || return 1
+  bash "${BASE_DIR}/utils/bootstrap.sh" "${@}" || return 1
 ); }
 
 function swap2ram() { (
@@ -57,31 +56,7 @@ function swap2ram() { (
 function dotfiles() { (
   set -e
   cd "${BASE_DIR}"
-  echo "~ inside dotfiles ~"
-); }
-
-function edit-core() { (
-  set -e
-
-  CMD="nvim"
-  if [ "${1}" = "-g" ]; then
-    CMD="nvim-gtk"
-  fi
-
-  cd "${BASE_DIR}"
-  ${CMD} . -c ":e ${MYSELF}"
-); }
-
-function edit-nvim() { (
-  set -e
-
-  CMD="nvim"
-  if [ "${1}" = "-g" ]; then
-    CMD="nvim-gtk"
-  fi
-
-  cd "${BASE_DIR}/config/nvim"
-  ${CMD} . -c ":e init.lua"
+  echo "~~ inside dotfiles dir ~~"
 ); }
 
 function run-bb() { (
