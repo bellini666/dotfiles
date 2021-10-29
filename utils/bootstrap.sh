@@ -10,7 +10,7 @@ LOCAL_DIR="${HOME}/.local"
 LOCAL_BIN_DIR="${LOCAL_DIR}/bin"
 LOCAL_BUILD_DIR="${HOME}/.local_build"
 NVIM_CONFIG="${HOME}/.config/nvim"
-NVIM_BIN="${LOCAL_BIN_DIR}/.neovim/bin/nvim"
+NVIM_BIN="${HOME}/.neovim/bin/nvim"
 APT_PACKAGES=(
   bat
   build-essential
@@ -236,9 +236,6 @@ npm update -g
 
 # nvim plugins
 info "updating nvim plugins"
-${NVIM_BIN} --headless \
-  -c 'autocmd User PackerComplete sleep 100m | write! /tmp/packer.sync.result | qall' \
-  -c 'PackerSync'
-cat /tmp/packer.sync.result
+${NVIM_BIN} -c 'PackerSync'
 ${NVIM_BIN} --headless -c "TSUpdateSync" -c "sleep 100m | write! /tmp/ts.update.result | qall"
 cat /tmp/ts.update.result
