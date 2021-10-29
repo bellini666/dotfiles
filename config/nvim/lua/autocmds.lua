@@ -6,6 +6,9 @@ augroup __autocmds
   " Gui
   autocmd UIEnter * lua require("options").setup_gui()
 
+  " Highlight on yank
+  autocmd TextYankPost * silent! lua vim.highlight.on_yank()
+
   " Bash
   autocmd FileType sh,bash,zsh setlocal shiftwidth=2 softtabstop=2 expandtab
 

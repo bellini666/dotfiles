@@ -28,12 +28,12 @@ map("n", "<F2>", "<cmd>UndotreeToggle<CR>")
 map("n", "<F4>", "<cmd>NvimTreeToggle<CR>")
 
 -- Utils
+map("n", "z=", "<cmd>Telescope spell_suggest theme=get_dropdown<CR>")
 map("n", "<C-P>", "<cmd>Telescope find_files<CR>")
 map("n", "<C-F>", "<cmd>Telescope live_grep<CR>")
 map("n", "<C-B>", "<cmd>Telescope buffers<CR>")
-map("n", "<Leader>gr", '<cmd>lua require("utils").grep()<CR>', { silent = true })
-map("n", "z=", "<cmd>Telescope spell_suggest theme=get_dropdown<CR>")
-map("n", "<Leader>c<Space>", "gcc", { silent = true, noremap = false })
-map("v", "<Leader>c<Space>", "gc", { silent = true, noremap = false })
+map("n", "<C-G>", '<cmd>lua require("utils").grep()<CR>', { silent = true })
+map("n", "<C-_>", "gcc", { silent = true, noremap = false })
+map("v", "<C-_>", "gc", { silent = true, noremap = false })
 
 return M

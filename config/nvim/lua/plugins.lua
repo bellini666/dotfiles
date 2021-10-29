@@ -27,21 +27,7 @@ return packer.startup(function(use)
             "nvim-treesitter/nvim-treesitter-textobjects",
         },
         config = function()
-            require("nvim-treesitter.configs").setup({
-                ensure_installed = "maintained",
-                highlight = {
-                    enable = true,
-                    disable = {},
-                },
-                indent = {
-                    enable = true,
-                    -- FIXME: Reenable this when treesitter indenting is working for python
-                    disable = { "python" },
-                },
-                incremental_selection = {
-                    enable = true,
-                },
-            })
+            require("config.treesitter")
         end,
     })
 
@@ -53,6 +39,7 @@ return packer.startup(function(use)
         end,
         requires = {
             "hrsh7th/nvim-cmp",
+            "kosayoda/nvim-lightbulb",
             "jose-elias-alvarez/null-ls.nvim",
             "b0o/schemastore.nvim",
         },
@@ -155,6 +142,8 @@ return packer.startup(function(use)
             },
             "kyazdani42/nvim-web-devicons",
             "tpope/vim-fugitive",
+            "nvim-treesitter/nvim-treesitter",
+            "neovim/nvim-lspconfig",
         },
     })
 
@@ -179,7 +168,6 @@ return packer.startup(function(use)
         end,
     })
     use({ "mg979/vim-visual-multi", branch = "master" })
-    use({ "tpope/vim-fugitive" })
     use({ "tpope/vim-surround" })
     use({ "tpope/vim-unimpaired" })
     use({ "wakatime/vim-wakatime" })

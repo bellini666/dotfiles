@@ -54,20 +54,51 @@ local find_cmd_func = function(cmd, prefixes)
 end
 
 local on_attach = function(client, bufnr)
-    vim.cmd([[augroup __formating]])
-    vim.cmd([[autocmd! * <buffer>]])
-    vim.cmd([[autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting()]])
-    vim.cmd([[ autocmd CursorHold * lua require("utils").diagnostics() ]])
-    vim.cmd([[augroup END]])
+    vim.cmd([[
+      augroup _lsp_cursor_hold
+        autocmd! * <buffer>
+        autocmd CursorHold,CursorHoldI * lua require("utils").diagnostics()
+        autocmd CursorHold,CursorHoldI * lua require("nvim-lightbulb").update_lightbulb()
+      augroup END
+    ]])
+
+    if client.resolved_capabilities.document_formatting then
+        vim.cmd([[
+          augroup lsp_document_format
+            autocmd! * <buffer>
+            autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting()
+          augroup END
+        ]])
+    end
+
+    if client.resolved_capabilities.document_highlight then
+        vim.cmd([[
+          augroup lsp_document_highlight
+            autocmd! * <buffer>
+            autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
+            autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
+          augroup END
+        ]])
+    end
+
+    if client.resolved_capabilities.code_lens then
+        vim.cmd([[
+          augroup lsp_code_lens_refresh
+            autocmd! * <buffer>
+            autocmd InsertLeave <buffer> lua vim.lsp.codelens.refresh()
+            autocmd InsertLeave <buffer> lua vim.lsp.codelens.display()
+          augroup END
+        ]])
+    end
 
     vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
 
     local opts = { noremap = true, silent = true }
-    utils.bmap(bufnr, "n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", opts)
-    utils.bmap(bufnr, "n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", opts)
     utils.bmap(bufnr, "n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
+    utils.bmap(bufnr, "n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", opts)
+    utils.bmap(bufnr, "n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", opts)
     utils.bmap(bufnr, "n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", opts)
-    utils.bmap(bufnr, "n", "<C-k>", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
+    utils.bmap(bufnr, "n", "gs", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
     utils.bmap(bufnr, "n", "<leader>wa", "<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>", opts)
     utils.bmap(bufnr, "n", "<leader>wr", "<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>", opts)
     utils.bmap(bufnr, "n", "<leader>wl", "<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>", opts)
