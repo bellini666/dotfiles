@@ -56,6 +56,7 @@ opt.colorcolumn = "+1"
 opt.autoindent = true
 opt.smartindent = true
 opt.showmatch = true
+opt.wrap = true
 opt.matchpairs = { "(:)", "{:}", "[:]", "<:>" }
 opt.formatoptions = utils.merge(opt.formatoptions, { "1", "t", "o", "j" })
 opt.whichwrap = utils.merge(opt.whichwrap, { "h", "l", "<", ">", "[", "]", "~" })

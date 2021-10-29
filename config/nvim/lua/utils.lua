@@ -67,36 +67,38 @@ M.diagnostics = function(opts, bufnr, line_nr, client_id)
     print(diagnostic_message)
 end
 
-M.escape = function(str)
-    for _, char in ipairs({ '"', "(", ")" }) do
-        -- FIXME Why isn't gsub working?
-        -- str = string.gsub(str, char, "\\" .. char)
-        str = vim.fn.substitute(str, char, "\\" .. char, "g")
+M.grep = function()
+    local t_builtin = require("telescope.builtin")
+    local t_config = require("telescope.config")
+
+    local search = vim.fn.trim(vim.fn.input("rg > ", vim.fn.expand("<cword>")))
+    local dir = vim.fn.trim(vim.fn.input("dir > ", "./", "dir"))
+    local args = t_config.values.vimgrep_arguments
+    local pattern = vim.fn.trim(vim.fn.input("file patterns > ", "*"))
+    if pattern ~= "*" then
+        args = M.concat(args, { "-g", pattern })
     end
-    return str
+    t_builtin.grep_string({
+        search = search,
+        search_dirs = { dir },
+        vimgrep_arguments = args,
+    })
 end
 
-M.grep = function()
-    local pattern = vim.fn.trim(vim.fn.input("Search for pattern: ", vim.fn.expand("<cword>")))
-    if pattern == "" then
+M.toggle_qf = function()
+    local qf_exists = false
+    for _, win in pairs(vim.fn.getwininfo()) do
+        if win["quickfix"] == 1 then
+            qf_exists = true
+        end
+    end
+    if qf_exists == true then
+        vim.cmd("cclose")
         return
     end
-    pattern = '"' .. M.escape(pattern) .. '"'
-
-    local dirs = vim.fn.trim(vim.fn.input("Limit for directory: ", "./", "dir"))
-    if dirs ~= "" then
-        dirs = '"' .. dirs .. '"'
+    if not vim.tbl_isempty(vim.fn.getqflist()) then
+        vim.cmd("copen")
     end
-
-    local files = vim.fn.trim(vim.fn.input("Limit for file patterns: ", "*"))
-    if files == "*" then
-        files = ""
-    else
-        files = '-g "' .. files .. '"'
-    end
-
-    local cmd = "GrepperRg " .. pattern .. " " .. dirs .. " " .. files
-    vim.api.nvim_command(cmd)
 end
 
 return M
