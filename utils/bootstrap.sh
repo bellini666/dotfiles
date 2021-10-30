@@ -43,6 +43,7 @@ PYTHON_LIBS=(
   black
   cmake
   debugpy
+  debugpy
   flake8
   ipython
   isort
@@ -147,8 +148,9 @@ info "installing neovim"
 git_clone_or_pull "${LOCAL_BUILD_DIR}/neovim" https://github.com/neovim/neovim master
 (
   cd "${LOCAL_BUILD_DIR}/neovim"
-  make CMAKE_INSTALL_PREFIX="${HOME}/.neovim" CMAKE_BUILD_TYPE=Release -j4 -Wno-dev
-  make CMAKE_INSTALL_PREFIX="${HOME}/.neovim" CMAKE_BUILD_TYPE=Release install
+  # shellcheck disable=2015
+  make CMAKE_INSTALL_PREFIX="${HOME}/.neovim" CMAKE_BUILD_TYPE=Release -j4 -Wno-dev &&
+    make CMAKE_INSTALL_PREFIX="${HOME}/.neovim" CMAKE_BUILD_TYPE=Release install || true
 )
 
 # neovim-gtk

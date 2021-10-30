@@ -6,111 +6,17 @@ local utils = require("utils")
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require("cmp_nvim_lsp").update_capabilities(capabilities)
 
-local find_cmd = function(cmd, prefixes, start_from, stop_at)
-    if type(prefixes) == "string" then
-        prefixes = { prefixes }
-    end
-
-    local found
-    for _, prefix in ipairs(prefixes) do
-        local full_cmd = prefix and lsp_util.path.join(prefix, cmd) or cmd
-        local possibility
-
-        -- if start_from is a dir, test it first since transverse will start from its parent
-        if start_from and lsp_util.path.is_dir(start_from) then
-            possibility = lsp_util.path.join(start_from, full_cmd)
-            if vim.fn.executable(possibility) > 0 then
-                found = possibility
-                break
-            end
-        end
-
-        lsp_util.path.traverse_parents(start_from, function(dir)
-            possibility = lsp_util.path.join(dir, full_cmd)
-            if vim.fn.executable(possibility) > 0 then
-                found = possibility
-                return true
-            end
-            -- use cwd as a stopping point to avoid scanning the entire file system
-            if stop_at and dir == stop_at then
-                return true
-            end
-        end)
-
-        if found ~= nil then
-            break
-        end
-    end
-
-    return found or cmd
-end
-
 local find_cmd_func = function(cmd, prefixes)
     return function(params)
         local client = require("null-ls.utils").get_client()
         local cwd = client and client.root_dir or vim.fn.getcwd()
-        return find_cmd(cmd, prefixes, params.bufname, cwd) or cmd
+        return utils.find_cmd(cmd, prefixes, params.bufname, cwd) or cmd
     end
 end
 
 local on_attach = function(client, bufnr)
-    vim.cmd([[
-      augroup _lsp_cursor_hold
-        autocmd! * <buffer>
-        autocmd CursorHold,CursorHoldI * lua require("utils").diagnostics()
-        autocmd CursorHold,CursorHoldI * lua require("nvim-lightbulb").update_lightbulb()
-      augroup END
-    ]])
-
-    if client.resolved_capabilities.document_formatting then
-        vim.cmd([[
-          augroup lsp_document_format
-            autocmd! * <buffer>
-            autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting()
-          augroup END
-        ]])
-    end
-
-    if client.resolved_capabilities.document_highlight then
-        vim.cmd([[
-          augroup lsp_document_highlight
-            autocmd! * <buffer>
-            autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
-            autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
-          augroup END
-        ]])
-    end
-
-    if client.resolved_capabilities.code_lens then
-        vim.cmd([[
-          augroup lsp_code_lens_refresh
-            autocmd! * <buffer>
-            autocmd InsertLeave <buffer> lua vim.lsp.codelens.refresh()
-            autocmd InsertLeave <buffer> lua vim.lsp.codelens.display()
-          augroup END
-        ]])
-    end
-
-    vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
-
-    local opts = { noremap = true, silent = true }
-    utils.bmap(bufnr, "n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
-    utils.bmap(bufnr, "n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", opts)
-    utils.bmap(bufnr, "n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", opts)
-    utils.bmap(bufnr, "n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", opts)
-    utils.bmap(bufnr, "n", "gs", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
-    utils.bmap(bufnr, "n", "<leader>wa", "<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>", opts)
-    utils.bmap(bufnr, "n", "<leader>wr", "<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>", opts)
-    utils.bmap(bufnr, "n", "<leader>wl", "<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>", opts)
-    utils.bmap(bufnr, "n", "<leader>D", "<cmd>lua vim.lsp.buf.type_definition()<CR>", opts)
-    utils.bmap(bufnr, "n", "<leader>rn", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
-    utils.bmap(bufnr, "n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", opts)
-    utils.bmap(bufnr, "n", "<leader>ca", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
-    utils.bmap(bufnr, "n", "<leader>e", "<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>", opts)
-    utils.bmap(bufnr, "n", "[d", "<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>", opts)
-    utils.bmap(bufnr, "n", "]d", "<cmd>lua vim.lsp.diagnostic.goto_next()<CR>", opts)
-    utils.bmap(bufnr, "n", "<leader>q", "<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>", opts)
-    utils.bmap(bufnr, "n", "<leader>so", [[<cmd>lua require('telescope.builtin').lsp_document_symbols()<CR>]], opts)
+    require("autocmds").setup_lsp(client, bufnr)
+    require("mappings").setup_lsp(client, bufnr)
 end
 
 local handlers = {
@@ -142,7 +48,7 @@ nvim_lsp.pyright.setup({
         if vim.env.VIRTUAL_ENV then
             p = lsp_util.path.join(vim.env.VIRTUAL_ENV, "bin", "python3")
         else
-            p = find_cmd("python3", ".venv/bin", config.root_dir)
+            p = utils.find_cmd("python3", ".venv/bin", config.root_dir)
         end
         config.settings.python.pythonPath = p
     end,

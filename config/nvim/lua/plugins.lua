@@ -65,6 +65,29 @@ return packer.startup(function(use)
         },
     })
 
+    -- DAP
+    use({
+        "mfussenegger/nvim-dap",
+        config = function()
+            require("config.dap")
+        end,
+        requires = {
+            {
+                "rcarriga/nvim-dap-ui",
+                config = function()
+                    require("dapui").setup()
+                end,
+            },
+            {
+                "theHamsta/nvim-dap-virtual-text",
+                config = function()
+                    vim.g.dap_virtual_text = true
+                    require("nvim-dap-virtual-text")
+                end,
+            },
+        },
+    })
+
     -- Visual
     use({
         "kyazdani42/nvim-web-devicons",
