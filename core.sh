@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [ "${_DEFAULTS_SOURCED}" = "1" ]; then
-  exit 0
+  return
 fi
 
 BASE_DIR="${HOME}/.dotfiles"
