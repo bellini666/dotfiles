@@ -51,6 +51,9 @@ map("v", "gK", '<cmd>lua require("dapui").eval()<CR>')
 -- Comment with Ctrl-/
 map("n", "<C-_>", "gcc", { silent = true, noremap = false })
 map("v", "<C-_>", "gc", { silent = true, noremap = false })
+-- Also make them work for gui
+map("n", "<C-/>", "gcc", { silent = true, noremap = false })
+map("v", "<C-/>", "gc", { silent = true, noremap = false })
 
 -- Misc
 map("n", "z=", "<cmd>Telescope spell_suggest theme=cursor<CR>")

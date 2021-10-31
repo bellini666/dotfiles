@@ -32,6 +32,16 @@ PATH="$HOME/.local/bin:$PATH"
 PATH="$HOME/bin:$PATH"
 export PATH
 
+function dotfiles() {
+  cd "${BASE_DIR}"
+  echo "~~ inside dotfiles dir ~~"
+}
+
+function dotfiles-edit() { (
+  cd "${BASE_DIR}"
+  nvim-gtk .
+); }
+
 function bootstrap() { (
   set -e
   cd "${BASE_DIR}"
@@ -51,12 +61,6 @@ function swap2ram() { (
 
   sudo swapoff -a || return 1
   sudo swapon -a || return 1
-); }
-
-function dotfiles() { (
-  set -e
-  cd "${BASE_DIR}"
-  echo "~~ inside dotfiles dir ~~"
 ); }
 
 function run-bb() { (

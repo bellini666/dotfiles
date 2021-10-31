@@ -99,6 +99,17 @@ return packer.startup(function(use)
         "metalelf0/jellybeans-nvim",
         requires = {
             "rktjmp/lush.nvim",
+            {
+                "folke/lsp-colors.nvim",
+                config = function()
+                    require("lsp-colors").setup({
+                        Error = "#902020",
+                        Warning = "#cf6a4c",
+                        Information = "#ffb964",
+                        Hint = "#668799",
+                    })
+                end,
+            },
         },
     })
     use({
@@ -187,6 +198,14 @@ return packer.startup(function(use)
         "numToStr/Comment.nvim",
         config = function()
             require("Comment").setup()
+        end,
+    })
+    use({
+        "windwp/nvim-autopairs",
+        config = function()
+            require("nvim-autopairs").setup({
+                disable_in_macro = true,
+            })
         end,
     })
     use({ "mg979/vim-visual-multi", branch = "master" })

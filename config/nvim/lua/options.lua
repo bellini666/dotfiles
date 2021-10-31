@@ -95,7 +95,7 @@ opt.wildmenu = true
 opt.ignorecase = true
 opt.incsearch = true
 opt.smartcase = true
-opt.hlsearch = false
+opt.hlsearch = true
 opt.wildmode = { "list:longest", "full" }
 opt.wildignore = utils.merge(opt.wildignore, {
     "*.DS_Store",
