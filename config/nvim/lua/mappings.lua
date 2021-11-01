@@ -55,6 +55,9 @@ map("v", "<C-_>", "gc", { silent = true, noremap = false })
 map("n", "<C-/>", "gcc", { silent = true, noremap = false })
 map("v", "<C-/>", "gc", { silent = true, noremap = false })
 
+-- Reload treesitter
+map("n", "<Leader>rt", "<cmd>write | edit | TSBufEnable highlight<CR>")
+
 -- Misc
 map("n", "z=", "<cmd>Telescope spell_suggest theme=cursor<CR>")
 
