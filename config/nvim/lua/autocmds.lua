@@ -48,7 +48,6 @@ M.setup_lsp = function(client, bufnr)
       augroup _lsp_cursor_hold
         autocmd! * <buffer>
         autocmd CursorHold,CursorHoldI * lua require("utils").diagnostics()
-        autocmd CursorHold,CursorHoldI * lua require("nvim-lightbulb").update_lightbulb()
       augroup END
     ]])
 

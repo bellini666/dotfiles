@@ -39,7 +39,6 @@ return packer.startup(function(use)
         end,
         requires = {
             "hrsh7th/nvim-cmp",
-            "kosayoda/nvim-lightbulb",
             "jose-elias-alvarez/null-ls.nvim",
             "b0o/schemastore.nvim",
         },
@@ -55,7 +54,6 @@ return packer.startup(function(use)
             "hrsh7th/cmp-path",
             "hrsh7th/cmp-cmdline",
             "hrsh7th/cmp-nvim-lua",
-            "hrsh7th/nvim-cmp",
             "hrsh7th/cmp-vsnip",
             "hrsh7th/vim-vsnip",
             {
