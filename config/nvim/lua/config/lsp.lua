@@ -146,7 +146,7 @@ null_ls.config({
             name = "black",
             diagnostics_format = diagnostics_format,
             command = find_cmd_func("black", ".venv/bin"),
-            extra_args = { "--stdin-filename", "$FILENAME" },
+            extra_args = { "--fast", "--stdin-filename", "$FILENAME" },
             cwd = function(params)
                 return nvim_lsp["pyright"].get_root_dir(params.bufname) or params.cwd
             end,
@@ -183,6 +183,7 @@ null_ls.config({
         }),
         d.yamllint.with({
             diagnostics_format = diagnostics_format,
+            extra_args = { "-d", "{extends: default, rules: {line-length: {max: 100}}}" },
         }),
         f.sqlformat.with({
             diagnostics_format = diagnostics_format,
