@@ -13,7 +13,7 @@ cmp.setup({
     },
     mapping = {
         ["<C-Space>"] = cmp.mapping(cmp.mapping.complete(), { "i", "c" }),
-        ["<CR>"] = cmp.mapping.confirm({ select = true }),
+        ["<CR>"] = cmp.mapping.confirm({ select = false }),
     },
     snippet = {
         expand = function(args)

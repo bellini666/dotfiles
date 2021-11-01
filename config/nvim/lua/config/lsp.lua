@@ -134,18 +134,19 @@ null_ls.config({
                 return nvim_lsp["pyright"].get_root_dir(params.bufname) or params.cwd
             end,
         }),
-        f.black.with({
-            name = "black",
-            diagnostics_format = diagnostics_format,
-            command = find_cmd_func("black", ".venv/bin"),
-            cwd = function(params)
-                return nvim_lsp["pyright"].get_root_dir(params.bufname) or params.cwd
-            end,
-        }),
         f.isort.with({
             name = "isort",
             diagnostics_format = diagnostics_format,
             command = find_cmd_func("isort", ".venv/bin"),
+            cwd = function(params)
+                return nvim_lsp["pyright"].get_root_dir(params.bufname) or params.cwd
+            end,
+        }),
+        f.black.with({
+            name = "black",
+            diagnostics_format = diagnostics_format,
+            command = find_cmd_func("black", ".venv/bin"),
+            extra_args = { "--stdin-filename", "$FILENAME" },
             cwd = function(params)
                 return nvim_lsp["pyright"].get_root_dir(params.bufname) or params.cwd
             end,

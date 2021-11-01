@@ -49,6 +49,7 @@ alias p="showmarks"
 alias vi="nvim"
 alias vim="nvim"
 alias gvim="nvim-gtk"
+alias luamake=/home/bellini/.local_build/lua-language-server/3rd/luamake/luamake
 
 autoload -U compinit && compinit
 

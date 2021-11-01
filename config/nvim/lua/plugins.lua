@@ -81,8 +81,7 @@ return packer.startup(function(use)
             {
                 "theHamsta/nvim-dap-virtual-text",
                 config = function()
-                    vim.g.dap_virtual_text = true
-                    require("nvim-dap-virtual-text")
+                    require("nvim-dap-virtual-text").setup()
                 end,
             },
         },
