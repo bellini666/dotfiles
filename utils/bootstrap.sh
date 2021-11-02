@@ -77,10 +77,9 @@ NODE_LIBS=(
   tree-sitter
   tree-sitter-cli
   ts-server
+  typescript
   typescript-language-server
   vim-language-server
-  vscode-html-languageserver-bin
-  vscode-json-languageserver-bin
   vscode-langservers-extracted
   yaml-language-server
   yarn

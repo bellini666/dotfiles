@@ -65,27 +65,67 @@ nvim_lsp.tsserver.setup({
     end,
 })
 
+-- https://github.com/hrsh7th/vscode-langservers-extracted
+nvim_lsp.eslint.setup({
+    handlers = handlers,
+    capabilities = capabilities,
+    on_attach = on_attach,
+})
+
 -- https://github.com/iamcco/vim-language-server
-nvim_lsp.vimls.setup({ handlers = handlers, capabilities = capabilities, on_attach = on_attach })
+nvim_lsp.vimls.setup({
+    handlers = handlers,
+    capabilities = capabilities,
+    on_attach = on_attach,
+})
 
--- https://github.com/vscode-langservers/vscode-css-languageserver-bin
-nvim_lsp.cssls.setup({ handlers = handlers, capabilities = capabilities, on_attach = on_attach })
+-- https://github.com/hrsh7th/vscode-langservers-extracted
+nvim_lsp.cssls.setup({
+    handlers = handlers,
+    capabilities = capabilities,
+    on_attach = on_attach,
+})
 
--- https://github.com/vscode-langservers/vscode-html-languageserver-bin
-nvim_lsp.html.setup({ handlers = handlers, capabilities = capabilities, on_attach = on_attach })
+-- https://github.com/hrsh7th/vscode-langservers-extracted
+nvim_lsp.html.setup({
+    handlers = handlers,
+    capabilities = capabilities,
+    on_attach = on_attach,
+})
 
 -- https://github.com/bash-lsp/bash-language-server
-nvim_lsp.bashls.setup({ handlers = handlers, capabilities = capabilities, on_attach = on_attach })
+nvim_lsp.bashls.setup({
+    handlers = handlers,
+    capabilities = capabilities,
+    on_attach = on_attach,
+})
 
 -- https://github.com/rcjsuen/dockerfile-language-server-nodejs
-nvim_lsp.dockerls.setup({ handlers = handlers, capabilities = capabilities, on_attach = on_attach })
+nvim_lsp.dockerls.setup({
+    handlers = handlers,
+    capabilities = capabilities,
+    on_attach = on_attach,
+})
 
--- https://github.com/vscode-langservers/vscode-json-languageserver
+-- https://github.com/redhat-developer/yaml-language-server
+nvim_lsp.yamlls.setup({
+    handlers = handlers,
+    capabilities = capabilities,
+    on_attach = on_attach,
+    settings = {
+        yaml = {
+            format = {
+                printWidth = 100,
+            },
+        },
+    },
+})
+
+-- https://github.com/hrsh7th/vscode-langservers-extracted
 nvim_lsp.jsonls.setup({
     handlers = handlers,
     capabilities = capabilities,
     on_attach = on_attach,
-    cmd = { "json-languageserver", "--stdio" },
     settings = {
         json = {
             schemas = require("schemastore").json.schemas(),
@@ -120,7 +160,7 @@ nvim_lsp.sumneko_lua.setup({
     },
 })
 
--- Linting/Formatting
+-- https://github.com/jose-elias-alvarez/null-ls.nvim
 local diagnostics_format = "[#{c}] #{m} (#{s})"
 local f = null_ls.builtins.formatting
 local d = null_ls.builtins.diagnostics
@@ -138,6 +178,7 @@ null_ls.config({
             name = "isort",
             diagnostics_format = diagnostics_format,
             command = find_cmd_func("isort", ".venv/bin"),
+            extra_args = { "--profile", "black" },
             cwd = function(params)
                 return nvim_lsp["pyright"].get_root_dir(params.bufname) or params.cwd
             end,
@@ -159,24 +200,16 @@ null_ls.config({
                 return nvim_lsp["tsserver"].get_root_dir(params.bufname) or params.cwd
             end,
         }),
-        d.eslint.with({
-            name = "eslint",
-            diagnostics_format = diagnostics_format,
-            command = find_cmd_func("eslint", "node_modules/.bin"),
-            cwd = function(params)
-                return nvim_lsp["tsserver"].get_root_dir(params.bufname) or params.cwd
-            end,
-        }),
         f.stylua.with({
             diagnostics_format = diagnostics_format,
             extra_args = { "--indent-type", "Spaces" },
         }),
+        d.shellcheck.with({
+            diagnostics_format = diagnostics_format,
+        }),
         f.shfmt.with({
             diagnostics_format = diagnostics_format,
             extra_args = { "-i", "2" },
-        }),
-        d.shellcheck.with({
-            diagnostics_format = diagnostics_format,
         }),
         f.fixjson.with({
             diagnostics_format = diagnostics_format,
