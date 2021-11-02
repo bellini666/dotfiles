@@ -2,6 +2,11 @@ require("nvim-treesitter.configs").setup({
     highlight = {
         enable = true,
     },
+    indent = {
+        enable = true,
+        -- FIXME: Reenable this when treesitter indenting is working for python
+        disable = { "python" },
+    },
     incremental_selection = {
         enable = true,
         keymaps = {
@@ -11,10 +16,8 @@ require("nvim-treesitter.configs").setup({
             node_decremental = "grm",
         },
     },
-    indent = {
+    matchup = {
         enable = true,
-        -- FIXME: Reenable this when treesitter indenting is working for python
-        disable = { "python" },
     },
     textobjects = {
         select = {

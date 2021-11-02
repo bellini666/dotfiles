@@ -24,6 +24,7 @@ return packer.startup(function(use)
         "nvim-treesitter/nvim-treesitter",
         run = ":TSUpdate",
         requires = {
+            "andymass/vim-matchup",
             "nvim-treesitter/nvim-treesitter-textobjects",
         },
         config = function()
