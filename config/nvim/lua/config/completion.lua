@@ -21,6 +21,19 @@ cmp.setup({
             vim.fn["vsnip#anonymous"](args.body)
         end,
     },
+    sorting = {
+        comparators = {
+            cmp.config.compare.offset,
+            cmp.config.compare.exact,
+            cmp.config.compare.score,
+            require("cmp-under-comparator").under,
+        cmp.recently_used,
+        cmp.kind,
+        cmp.sort_text,
+        cmp.length,
+        cmp.order,
+        },
+    },
     experimental = {
         -- native_menu = true,
         -- ghost_text = true,

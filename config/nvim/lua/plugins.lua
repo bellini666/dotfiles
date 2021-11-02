@@ -57,6 +57,7 @@ return packer.startup(function(use)
             "hrsh7th/cmp-nvim-lua",
             "hrsh7th/cmp-vsnip",
             "hrsh7th/vim-vsnip",
+            "lukas-reineke/cmp-under-comparator",
             {
                 "onsails/lspkind-nvim",
                 requires = { "nvim-treesitter/nvim-treesitter" },
