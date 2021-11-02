@@ -51,14 +51,16 @@ map("v", "gK", '<cmd>lua require("dapui").eval()<CR>')
 -- Comment with Ctrl-/
 map("n", "<C-_>", "gcc", { silent = true, noremap = false })
 map("v", "<C-_>", "gc", { silent = true, noremap = false })
--- Also make them work for gui
 map("n", "<C-/>", "gcc", { silent = true, noremap = false })
 map("v", "<C-/>", "gc", { silent = true, noremap = false })
 
 -- Reload treesitter
 map("n", "<Leader>rt", "<cmd>write | edit | TSBufEnable highlight<CR>")
 
--- Misc
+-- Edit the quickfix
+map("n", "<Leader>h", '<cmd>lua require("replacer").run()<CR>')
+
+-- Fix spell with telescope
 map("n", "z=", "<cmd>Telescope spell_suggest theme=cursor<CR>")
 
 M.setup_lsp = function(client, bufnr)
