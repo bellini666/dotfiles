@@ -14,6 +14,7 @@ end
 
 local packer = require("packer")
 return packer.startup(function(use)
+    -- Packer manage itself
     use("wbthomason/packer.nvim")
 
     -- Core
@@ -44,6 +45,8 @@ return packer.startup(function(use)
             "b0o/schemastore.nvim",
         },
     })
+
+    -- Completion
     use({
         "hrsh7th/nvim-cmp",
         config = function()
@@ -142,6 +145,7 @@ return packer.startup(function(use)
             "nvim-lua/popup.nvim",
             "nvim-treesitter/nvim-treesitter",
             "neovim/nvim-lspconfig",
+            "kyazdani42/nvim-web-devicons",
             { "nvim-telescope/telescope-fzf-native.nvim", run = "make" },
         },
     })
@@ -165,6 +169,10 @@ return packer.startup(function(use)
             require("config.statusline")
         end,
         requires = {
+            "kyazdani42/nvim-web-devicons",
+            "tpope/vim-fugitive",
+            "nvim-treesitter/nvim-treesitter",
+            "neovim/nvim-lspconfig",
             {
                 "SmiteshP/nvim-gps",
                 config = function()
@@ -172,10 +180,6 @@ return packer.startup(function(use)
                 end,
                 requires = { "neovim/nvim-lspconfig" },
             },
-            "kyazdani42/nvim-web-devicons",
-            "tpope/vim-fugitive",
-            "nvim-treesitter/nvim-treesitter",
-            "neovim/nvim-lspconfig",
         },
     })
 
@@ -183,14 +187,16 @@ return packer.startup(function(use)
     use({ "Vimjas/vim-python-pep8-indent" })
 
     -- Misc
+    use({ "gabrielpoca/replacer.nvim" })
+    use({ "mbbill/undotree" })
+    use({ "mg979/vim-visual-multi", branch = "master" })
+    use({ "tpope/vim-surround" })
+    use({ "tpope/vim-unimpaired" })
+    use({ "wakatime/vim-wakatime" })
     use({
-        "mbbill/undotree",
-    })
-    use({
-        "inkarkat/vcscommand.vim",
+        "ggandor/lightspeed.nvim",
         config = function()
-            vim.g.VCSCommandMapPrefix = "<Leader>v"
-            vim.g.VCSCommandDeleteOnHide = 1
+            require("lightspeed").setup({})
         end,
     })
     use({
@@ -207,10 +213,6 @@ return packer.startup(function(use)
             })
         end,
     })
-    use({ "mg979/vim-visual-multi", branch = "master" })
-    use({ "tpope/vim-surround" })
-    use({ "tpope/vim-unimpaired" })
-    use({ "wakatime/vim-wakatime" })
 
     if BOOTSTRAPED then
         packer.sync()
