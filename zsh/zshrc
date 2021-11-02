@@ -53,4 +53,4 @@ alias luamake=/home/bellini/.local_build/lua-language-server/3rd/luamake/luamake
 
 autoload -U compinit && compinit
 
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+[[ ! -f ${DOTFILES_DIR}/zsh/p10k.zsh ]] || source ${DOTFILES_DIR}/zsh/p10k.zsh

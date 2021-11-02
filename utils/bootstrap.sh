@@ -85,14 +85,13 @@ NODE_LIBS=(
   yarn
 )
 SYMLINKS=(
-  config/efm-langserver
-  config/nvim
-  gitattributes
-  gitconfig
-  gitignore
-  p10k.zsh
-  tmux.conf
-  zshrc
+  "${BASE_DIR}/git/gitattributes ${HOME}/.gitattributes"
+  "${BASE_DIR}/git/gitconfig ${HOME}/.gitconfig"
+  "${BASE_DIR}/git/gitignore ${HOME}/.gitignore"
+  "${BASE_DIR}/git/gitignore ${HOME}/.gitignore"
+  "${BASE_DIR}/vim ${HOME}/.config/nvim"
+  "${BASE_DIR}/tmux/tmux.conf ${HOME}/.tmux.conf"
+  "${BASE_DIR}/zsh/zshrc ${HOME}/.zshrc"
 )
 
 [ -d "${BASE_DIR}" ] || exit 1
@@ -118,7 +117,8 @@ function _system {
 function _symlinks {
   info "updating symlinks"
   for FILE in "${SYMLINKS[@]}"; do
-    create_symlink "${BASE_DIR}/${FILE}" "${HOME}/.${FILE}"
+    # shellcheck disable=2086
+    create_symlink ${FILE}
   done
 }
 

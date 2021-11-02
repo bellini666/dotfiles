@@ -4,7 +4,7 @@ if [ "${_DEFAULTS_SOURCED}" = "1" ]; then
   return
 fi
 
-BASE_DIR="${HOME}/.dotfiles"
+export DOTFILES_DIR="${HOME}/.dotfiles"
 
 export EDITOR=nvim
 export GIT_SSH=ssh
@@ -34,9 +34,9 @@ export PATH
 
 function bootstrap() { (
   set -e
-  cd "${BASE_DIR}"
+  cd "${DOTFILES_DIR}"
   git pull origin master || true
-  bash "${BASE_DIR}/utils/bootstrap.sh" "${@}" || return 1
+  bash "${DOTFILES_DIR}/utils/bootstrap.sh" "${@}" || return 1
 ); }
 
 function swap2ram() { (

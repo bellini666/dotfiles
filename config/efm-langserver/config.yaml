@@ -1,6 +1,0 @@
-version: 2
-root-markers:
-  - .git/
-lint-debounce: 3s
-tools:
-languages:
