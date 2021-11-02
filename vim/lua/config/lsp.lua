@@ -187,7 +187,7 @@ null_ls.config({
             name = "black",
             diagnostics_format = diagnostics_format,
             command = find_cmd_func("black", ".venv/bin"),
-            extra_args = { "--fast", "--stdin-filename", "$FILENAME" },
+            extra_args = { "--fast" },
             cwd = function(params)
                 return nvim_lsp["pyright"].get_root_dir(params.bufname) or params.cwd
             end,
