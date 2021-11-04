@@ -31,7 +31,7 @@ antigen bundle supervisor
 antigen bundle systemd
 
 # github
-antigen bundle zsh-users/zsh-syntax-highlighting
+antigen bundle zdharma-continuum/fast-syntax-highlighting
 antigen bundle zsh-users/zsh-completions
 antigen bundle jocelynmallon/zshmarks
 antigen bundle wbingli/zsh-wakatime
