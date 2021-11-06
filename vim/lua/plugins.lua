@@ -128,7 +128,15 @@ return packer.startup(function(use)
     use({
         "nvim-telescope/telescope.nvim",
         config = function()
+            local actions = require("telescope.actions")
             require("telescope").setup({
+                defaults = {
+                    mappings = {
+                        i = {
+                            ["<Esc>"] = actions.close,
+                        },
+                    },
+                },
                 extensions = {
                     fzf = {
                         fuzzy = true,
