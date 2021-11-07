@@ -13,7 +13,7 @@ map("n", "Y", "y$")
 
 -- Shift + Insert to paste
 map("n", "<S-Insert>", '"+p')
-map("i", "<S-Insert>", '<C-O>"+p')
+map("i", "<S-Insert>", '<C-O>"+P')
 map("c", "<S-Insert>", "<MiddleMouse>")
 
 -- Continous visual indenting
