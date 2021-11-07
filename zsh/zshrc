@@ -42,6 +42,7 @@ antigen theme romkatv/powerlevel10k
 
 antigen apply
 
+unalias rm
 alias g="jump"
 alias s="bookmark"
 alias d="deletemark"
