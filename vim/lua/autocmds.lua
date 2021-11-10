@@ -55,7 +55,7 @@ M.setup_lsp = function(client, bufnr)
         vim.cmd([[
           augroup lsp_document_format
             autocmd! * <buffer>
-            autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting()
+            autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync(nil, 1500)
           augroup END
         ]])
     end
