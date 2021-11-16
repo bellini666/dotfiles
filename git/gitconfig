@@ -19,6 +19,13 @@
 [pull]
     ff = only
 
+# FIXME: Uncomment when git 2.34 is available
+#[gpg]
+#    format = ssh
+#
+#[gpg "ssh"]
+#    defaultKeyCommand = ssh-add -L
+
 [alias]
     co = checkout
     br = branch
