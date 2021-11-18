@@ -44,6 +44,7 @@ PYTHON_LIBS=(
   cmake
   debugpy
   debugpy
+  docker-compose
   flake8
   ipython
   isort
