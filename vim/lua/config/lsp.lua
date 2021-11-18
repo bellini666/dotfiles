@@ -184,36 +184,24 @@ null_ls.config({
         d.flake8.with({
             name = "flake8",
             diagnostics_format = diagnostics_format,
-            command = find_cmd_func("flake8", ".venv/bin"),
-            cwd = function(params)
-                return nvim_lsp["pyright"].get_root_dir(params.bufname) or params.cwd
-            end,
+            prefer_local = ".venv/bin",
         }),
         f.isort.with({
             name = "isort",
             diagnostics_format = diagnostics_format,
-            command = find_cmd_func("isort", ".venv/bin"),
+            prefer_local = ".venv/bin",
             extra_args = { "--profile", "black" },
-            cwd = function(params)
-                return nvim_lsp["pyright"].get_root_dir(params.bufname) or params.cwd
-            end,
         }),
         f.black.with({
             name = "black",
             diagnostics_format = diagnostics_format,
-            command = find_cmd_func("black", ".venv/bin"),
+            prefer_local = ".venv/bin",
             extra_args = { "--fast" },
-            cwd = function(params)
-                return nvim_lsp["pyright"].get_root_dir(params.bufname) or params.cwd
-            end,
         }),
         f.prettier.with({
             name = "prettier",
             diagnostics_format = diagnostics_format,
-            command = find_cmd_func("prettier", "node_modules/.bin"),
-            cwd = function(params)
-                return nvim_lsp["tsserver"].get_root_dir(params.bufname) or params.cwd
-            end,
+            prefer_local = "node_modules/.bin",
         }),
         f.stylua.with({
             diagnostics_format = diagnostics_format,
