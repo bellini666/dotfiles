@@ -4,11 +4,18 @@ local lspkind = require("lspkind")
 cmp.setup({
     sources = cmp.config.sources({
         { name = "nvim_lsp" },
-        { name = "buffer" },
         { name = "path" },
+        { name = "buffer" },
         { name = "vsnip" },
         { name = "nvim_lua" },
     }),
+    duplicates = {
+        nvim_lsp = 0,
+        buffer = 1,
+        path = 1,
+        luasnip = 1,
+    },
+    duplicates_default = 0,
     formatting = {
         format = lspkind.cmp_format(),
     },
@@ -27,11 +34,11 @@ cmp.setup({
             cmp.config.compare.exact,
             cmp.config.compare.score,
             require("cmp-under-comparator").under,
-        cmp.recently_used,
-        cmp.kind,
-        cmp.sort_text,
-        cmp.length,
-        cmp.order,
+            cmp.recently_used,
+            cmp.kind,
+            cmp.sort_text,
+            cmp.length,
+            cmp.order,
         },
     },
     experimental = {
