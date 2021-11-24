@@ -4,7 +4,7 @@ local bmap = require("utils").bmap
 local M = {}
 
 -- Clear highlight when refreshing.
-map("n", "<C-L>", "<cmd>nohls<CR><C-L>")
+map("n", "<C-L>", ":nohls<CR><C-L>")
 map("i", "<C-L>", "<cmd><C-O>:nohls<CR><C-L>")
 map("c", "<C-L>", "<cmd><C-O>:nohls<CR><C-L>")
 

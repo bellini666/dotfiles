@@ -203,12 +203,6 @@ return packer.startup(function(use)
     use({ "wellle/targets.vim" })
     use({ "wakatime/vim-wakatime" })
     use({
-        "ggandor/lightspeed.nvim",
-        config = function()
-            require("lightspeed").setup({})
-        end,
-    })
-    use({
         "numToStr/Comment.nvim",
         config = function()
             require("Comment").setup()
