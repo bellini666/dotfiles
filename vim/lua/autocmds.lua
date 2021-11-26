@@ -3,10 +3,15 @@ local M = {}
 vim.cmd([[
 augroup __autocmds
   " Packer
-  autocmd BufWritePost plugins.lua PackerCompile
+  autocmd BufWritePost plugins.lua source <afile> | PackerCompile
 
   " Gui
   autocmd UIEnter * lua require("options").setup_gui()
+  autocmd ColorScheme * highlight NormalFloat guibg=#141414
+  autocmd ColorScheme * highlight FloatBorder guifg=#80A0C2 guibg=NONE
+  autocmd ColorScheme * highlight Pmenu guifg=#e8e8d3 guibg=#2E2E2E
+  autocmd ColorScheme * highlight PmenuSel guifg=#141414 guibg=#597bc5
+  autocmd ColorScheme * highlight PmenuThumb guibg=#d0d0bd
 
   " Dap
   autocmd FileType dapui* set statusline=\ 

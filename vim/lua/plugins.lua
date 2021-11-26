@@ -65,6 +65,7 @@ return packer.startup(function(use)
                 "onsails/lspkind-nvim",
                 requires = { "nvim-treesitter/nvim-treesitter" },
             },
+            "rafamadriz/friendly-snippets",
         },
     })
 
@@ -210,10 +211,16 @@ return packer.startup(function(use)
     })
     use({
         "windwp/nvim-autopairs",
+        requires = { "hrsh7th/nvim-cmp" },
         config = function()
             require("nvim-autopairs").setup({
+                check_ts = true,
                 disable_in_macro = true,
             })
+            require("cmp").event:on(
+                "confirm_done",
+                require("nvim-autopairs.completion.cmp").on_confirm_done({ map_char = { tex = "" } })
+            )
         end,
     })
 

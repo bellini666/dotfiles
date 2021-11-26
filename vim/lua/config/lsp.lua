@@ -6,14 +6,6 @@ local utils = require("utils")
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require("cmp_nvim_lsp").update_capabilities(capabilities)
 
-local find_cmd_func = function(cmd, prefixes)
-    return function(params)
-        local client = require("null-ls.utils").get_client()
-        local cwd = client and client.root_dir or vim.fn.getcwd()
-        return utils.find_cmd(cmd, prefixes, params.bufname, cwd) or cmd
-    end
-end
-
 local on_attach = function(client, bufnr)
     require("autocmds").setup_lsp(client, bufnr)
     require("mappings").setup_lsp(client, bufnr)
@@ -23,19 +15,21 @@ local flags = {
     debounce_text_changes = 150,
 }
 
+local _util_open_floating_preview = vim.lsp.util.open_floating_preview
+function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
+    opts = opts or {}
+    opts.border = opts.border or "single"
+    return _util_open_floating_preview(contents, syntax, opts, ...)
+end
+
 local handlers = {
-    ["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
-        underline = {
-            severity_limit = "Information",
-        },
-        signs = {
-            severity_limit = "Information",
-        },
-        virtual_text = {
-            spacing = 4,
-            severity_limit = "Information",
-        },
-    }),
+    ["textDocument/publishDiagnostics"] = function(_, result, ...)
+        local min = vim.diagnostic.severity.INFO
+        result.diagnostics = vim.tbl_filter(function(t)
+            return t.severity <= min
+        end, result.diagnostics)
+        return vim.lsp.diagnostic.on_publish_diagnostics(_, result, ...)
+    end,
 }
 
 -- https://github.com/microsoft/pyright
@@ -57,6 +51,9 @@ nvim_lsp.pyright.setup({
         end
         config.settings.python.pythonPath = p
     end,
+    settings = {
+        disableOrganizeImports = true,
+    },
 })
 
 -- https://github.com/theia-ide/typescript-language-server
@@ -229,7 +226,7 @@ null_ls.config({
         }),
     },
 })
-nvim_lsp["null-ls"].setup({
+require("lspconfig")["null-ls"].setup({
     handlers = handlers,
     capabilities = capabilities,
     on_attach = on_attach,

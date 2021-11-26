@@ -9,13 +9,6 @@ cmp.setup({
         { name = "vsnip" },
         { name = "nvim_lua" },
     }),
-    duplicates = {
-        nvim_lsp = 0,
-        buffer = 1,
-        path = 1,
-        luasnip = 1,
-    },
-    duplicates_default = 0,
     formatting = {
         format = lspkind.cmp_format(),
     },
@@ -27,6 +20,9 @@ cmp.setup({
         expand = function(args)
             vim.fn["vsnip#anonymous"](args.body)
         end,
+    },
+    documentation = {
+        border = "single",
     },
     sorting = {
         comparators = {
