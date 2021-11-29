@@ -9,6 +9,7 @@ source "${MY_DIR}/funcs.sh"
 LOCAL_DIR="${HOME}/.local"
 LOCAL_BIN_DIR="${LOCAL_DIR}/bin"
 LOCAL_BUILD_DIR="${HOME}/.local_build"
+FONTS_DIR="${HOME}/.local/share/fonts"
 NVIM_CONFIG="${HOME}/.config/nvim"
 NVIM_BIN="${HOME}/.neovim/bin/nvim"
 APT_PACKAGES=(
@@ -17,6 +18,7 @@ APT_PACKAGES=(
   cargo
   cpanminus
   fd-find
+  fonts-hack-ttf
   fonts-inconsolata
   fonts-open-sans
   fonts-wine
@@ -98,6 +100,7 @@ SYMLINKS=(
 [ -d "${BASE_DIR}" ] || exit 1
 mkdir -p "${LOCAL_BIN_DIR}"
 mkdir -p "${LOCAL_BUILD_DIR}"
+mkdir -p "${FONTS_DIR}"
 
 function _system {
   EXTRA_OPTS="-t unstable"
@@ -121,6 +124,19 @@ function _symlinks {
     # shellcheck disable=2086
     create_symlink ${FILE}
   done
+}
+
+function _fonts {
+  info "installing fonts"
+  curl -sSL -o- \
+    https://github.com/microsoft/vscode-codicons/blob/main/dist/codicon.ttf?raw=true \
+    >"${FONTS_DIR}/codicon.ttf"
+  curl -sSL -o- \
+    https://github.com/ryanoasis/nerd-fonts/blob/master/patched-fonts/Hack/Regular/complete/Hack%20Regular%20Nerd%20Font%20Complete.ttf?raw=true \
+    >"${FONTS_DIR}/Hack Regular Nerd Font Complete.ttf"
+  curl -sSL -o- \
+    https://github.com/ryanoasis/nerd-fonts/blob/master/patched-fonts/Inconsolata/complete/Inconsolata%20Nerd%20Font%20Complete.otf?raw=true \
+    >"${FONTS_DIR}/Inconsolata Nerd Font Complete.otf"
 }
 
 function _zsh {
@@ -257,6 +273,7 @@ function _neovim-plugins {
 function _ {
   _system "$@"
   _symlinks "$@"
+  _fonts "$@"
   _zsh "$@"
   _poetry "$@"
   _nvm "$@"
