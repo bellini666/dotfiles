@@ -64,6 +64,11 @@ return packer.startup(function(use)
             {
                 "onsails/lspkind-nvim",
                 requires = { "nvim-treesitter/nvim-treesitter" },
+                config = function()
+                    require("lspkind").init({
+                        preset = "codicons",
+                    })
+                end,
             },
             "rafamadriz/friendly-snippets",
         },
