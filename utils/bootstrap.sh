@@ -135,7 +135,7 @@ function _fonts {
     https://github.com/ryanoasis/nerd-fonts/blob/master/patched-fonts/Hack/Regular/complete/Hack%20Regular%20Nerd%20Font%20Complete.ttf?raw=true \
     >"${FONTS_DIR}/Hack Regular Nerd Font Complete.ttf"
   curl -sSL -o- \
-    https://github.com/ryanoasis/nerd-fonts/blob/master/patched-fonts/Inconsolata/complete/Inconsolata%20Nerd%20Font%20Complete.ttf?raw=true \
+    https://github.com/ryanoasis/nerd-fonts/blob/master/patched-fonts/Inconsolata/complete/Inconsolata%20Regular%20Nerd%20Font%20Complete.ttf?raw=true \
     >"${FONTS_DIR}/Inconsolata Nerd Font Complete.ttf"
 }
 
