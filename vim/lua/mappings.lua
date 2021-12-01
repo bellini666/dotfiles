@@ -3,14 +3,6 @@ local bmap = require("utils").bmap
 
 local M = {}
 
--- Clear highlight when refreshing.
-map("n", "<C-L>", ":nohls<CR><C-L>")
-map("i", "<C-L>", "<cmd><C-O>:nohls<CR><C-L>")
-map("c", "<C-L>", "<cmd><C-O>:nohls<CR><C-L>")
-
--- Make Y compatible with D
-map("n", "Y", "y$")
-
 -- Shift + Insert to paste
 map("n", "<S-Insert>", '"+p')
 map("i", "<S-Insert>", '<C-O>"+P')
@@ -81,7 +73,7 @@ M.setup_lsp = function(client, bufnr)
     bmap(bufnr, "n", "gs", "<cmd>lua require('telescope.builtin').lsp_dynamic_workspace_symbols()<CR>", opts)
     bmap(bufnr, "n", "ge", "<cmd>lua require('telescope.builtin').lsp_document_diagnostics()<CR>", opts)
     bmap(bufnr, "n", "gE", "<cmd>lua require('telescope.builtin').lsp_workspace_diagnostics()<CR>", opts)
-    bmap(bufnr, "n", "<leaderD>", "<cmd>lua require('telescope.builtin').lsp_type_definitions()<CR>", opts)
+    bmap(bufnr, "n", "<leader>D", "<cmd>lua require('telescope.builtin').lsp_type_definitions()<CR>", opts)
     bmap(bufnr, "n", "<leader>ca", "<cmd>lua require('telescope.builtin').lsp_code_actions()<CR>", opts)
     bmap(bufnr, "n", "<leader>rn", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
     bmap(bufnr, "n", "<leader>e", "<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>", opts)
