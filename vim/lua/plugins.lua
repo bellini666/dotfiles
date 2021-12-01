@@ -25,7 +25,6 @@ return packer.startup(function(use)
         "nvim-treesitter/nvim-treesitter",
         run = ":TSUpdate",
         requires = {
-            "andymass/vim-matchup",
             "nvim-treesitter/nvim-treesitter-textobjects",
         },
         config = function()
@@ -152,7 +151,6 @@ return packer.startup(function(use)
                     },
                 },
             })
-            require("telescope").load_extension("fzf")
         end,
         requires = {
             "nvim-lua/plenary.nvim",
@@ -160,7 +158,13 @@ return packer.startup(function(use)
             "nvim-treesitter/nvim-treesitter",
             "neovim/nvim-lspconfig",
             "kyazdani42/nvim-web-devicons",
-            { "nvim-telescope/telescope-fzf-native.nvim", run = "make" },
+            {
+                "nvim-telescope/telescope-fzf-native.nvim",
+                run = "make",
+                config = function()
+                    require("telescope").load_extension("fzf")
+                end,
+            },
         },
     })
     use({
