@@ -2,6 +2,8 @@ local M = {}
 
 vim.cmd([[
 augroup __autocmds
+  autocmd! * <buffer>
+
   " Packer
   autocmd BufWritePost plugins.lua source <afile> | PackerCompile
 
@@ -12,10 +14,6 @@ augroup __autocmds
   autocmd ColorScheme * highlight Pmenu guifg=#e8e8d3 guibg=#424242
   autocmd ColorScheme * highlight PmenuSel guifg=#141414 guibg=#597bc5
   autocmd ColorScheme * highlight PmenuThumb guibg=#d0d0bd
-
-  " Dap
-  autocmd FileType dapui* set statusline=\ 
-  autocmd FileType dap-repl set statusline=\ 
 
   " Bash
   autocmd FileType sh,bash,zsh setlocal shiftwidth=2 softtabstop=2 expandtab
@@ -58,7 +56,7 @@ M.setup_lsp = function(client, bufnr)
 
     if client.resolved_capabilities.document_formatting then
         vim.cmd([[
-          augroup lsp_document_format
+          augroup _lsp_document_format
             autocmd! * <buffer>
             autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync(nil, 1500)
           augroup END
@@ -67,7 +65,7 @@ M.setup_lsp = function(client, bufnr)
 
     if client.resolved_capabilities.document_highlight then
         vim.cmd([[
-          augroup lsp_document_highlight
+          augroup _lsp_document_highlight
             autocmd! * <buffer>
             autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
             autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
@@ -77,7 +75,7 @@ M.setup_lsp = function(client, bufnr)
 
     if client.resolved_capabilities.code_lens then
         vim.cmd([[
-          augroup lsp_code_lens_refresh
+          augroup _lsp_code_lens_refresh
             autocmd! * <buffer>
             autocmd InsertLeave <buffer> lua vim.lsp.codelens.refresh()
             autocmd InsertLeave <buffer> lua vim.lsp.codelens.display()
