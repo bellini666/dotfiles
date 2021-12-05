@@ -128,6 +128,8 @@ return packer.startup(function(use)
             }
         end,
     })
+    use({ "stevearc/dressing.nvim" })
+    use({ "rcarriga/nvim-notify" })
 
     -- File browsing
     use({

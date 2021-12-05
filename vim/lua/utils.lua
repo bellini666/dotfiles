@@ -71,18 +71,36 @@ M.grep = function()
     local t_builtin = require("telescope.builtin")
     local t_config = require("telescope.config")
 
-    local search = vim.fn.trim(vim.fn.input("rg > ", vim.fn.expand("<cword>")))
-    local dir = vim.fn.trim(vim.fn.input("dir > ", "./", "dir"))
-    local args = t_config.values.vimgrep_arguments
-    local pattern = vim.fn.trim(vim.fn.input("file patterns > ", "*"))
-    if pattern ~= "*" then
-        args = M.concat(args, { "-g", pattern })
-    end
-    t_builtin.grep_string({
-        search = search,
-        search_dirs = { dir },
-        vimgrep_arguments = args,
-    })
+    vim.ui.input({ prompt = "Input: ", default = vim.fn.expand("<cword>") }, function(search)
+        search = vim.trim(search or "")
+        if search == "" then
+            return
+        end
+        vim.ui.input({ prompt = "Dir: ", default = "./", completion = "dir" }, function(dir)
+            dir = vim.trim(dir or "")
+            if dir == "" then
+                return
+            end
+
+            vim.ui.input({ prompt = "File pattern: ", default = "*" }, function(pattern)
+                pattern = vim.trim(pattern or "")
+                if pattern == "" then
+                    return
+                end
+
+                local args = require("telescope.config").values.vimgrep_arguments
+                if pattern ~= "*" then
+                    args = M.concat(args, { "-g", pattern })
+                end
+
+                require("telescope.builtin").grep_string({
+                    search = search,
+                    search_dirs = { dir },
+                    vimgrep_arguments = args,
+                })
+            end)
+        end)
+    end)
 end
 
 M.node_at_cursor = function()
