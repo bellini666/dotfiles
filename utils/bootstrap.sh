@@ -118,6 +118,15 @@ function _system {
   sudo apt clean
 }
 
+function _patches {
+  info "patching files"
+  if ! grep "force-dark-mode" /usr/share/applications/google-chrome.desktop; then
+    sudo sed -i \
+      's;/usr/bin/google-chrome-stable;/usr/bin/google-chrome-stable --force-dark-mode;g' \
+      /usr/share/applications/google-chrome.desktop
+  fi
+}
+
 function _symlinks {
   info "updating symlinks"
   for FILE in "${SYMLINKS[@]}"; do
@@ -272,6 +281,7 @@ function _neovim-plugins {
 
 function _ {
   _system "$@"
+  _patches "$@"
   _symlinks "$@"
   _fonts "$@"
   _zsh "$@"
