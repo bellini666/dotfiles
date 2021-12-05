@@ -45,6 +45,15 @@ return packer.startup(function(use)
         },
     })
 
+    use({
+        "akinsho/toggleterm.nvim",
+        config = function()
+            require("toggleterm").setup({
+                shade_terminals = false,
+            })
+        end,
+    })
+
     -- Completion
     use({
         "hrsh7th/nvim-cmp",

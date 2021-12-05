@@ -61,6 +61,14 @@ map("n", "<Leader>h", '<cmd>lua require("replacer").run()<CR>')
 -- Fix spell with telescope
 map("n", "z=", "<cmd>Telescope spell_suggest theme=cursor<CR>")
 
+-- Terminal toggle
+map("n", "<C-Z>", '<cmd>lua require("toggleterm").toggle(0)<CR>', { silent = true })
+map("t", "<C-Z>", '<cmd>lua require("toggleterm").toggle_all()<CR>', { silent = true })
+for i = 1, 5 do
+    map("n", "<A-" .. i .. ">", '<cmd>lua require("toggleterm").toggle(' .. i .. ")<CR>", { silent = true })
+    map("t", "<A-" .. i .. ">", '<cmd>lua require("toggleterm").toggle(' .. i .. ")<CR>", { silent = true })
+end
+
 M.setup_lsp = function(client, bufnr)
     vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
     local opts = { noremap = true, silent = true }
