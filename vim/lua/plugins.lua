@@ -223,6 +223,7 @@ return packer.startup(function(use)
     use({ "mg979/vim-visual-multi", branch = "master" })
     use({ "tpope/vim-surround" })
     use({ "tpope/vim-unimpaired" })
+    use({ "tpope/vim-speeddating" })
     use({ "wellle/targets.vim" })
     use({ "wakatime/vim-wakatime" })
     use({
