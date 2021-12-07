@@ -58,6 +58,7 @@ PYTHON_LIBS=(
   yamllint
 )
 NODE_LIBS=(
+  @taplo/cli
   bash-language-server
   corepack
   create-react-native-app
@@ -77,6 +78,7 @@ NODE_LIBS=(
   pyright
   react-native-cli
   rimraf
+  stylelint
   tree-sitter
   tree-sitter-cli
   ts-server

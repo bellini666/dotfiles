@@ -189,6 +189,7 @@ local f = null_ls.builtins.formatting
 local d = null_ls.builtins.diagnostics
 null_ls.config({
     sources = {
+        -- python
         d.flake8.with({
             name = "flake8",
             diagnostics_format = diagnostics_format,
@@ -206,15 +207,13 @@ null_ls.config({
             prefer_local = ".venv/bin",
             extra_args = { "--fast" },
         }),
+        -- javascript/typescript
         f.prettier.with({
             name = "prettier",
             diagnostics_format = diagnostics_format,
             prefer_local = "node_modules/.bin",
         }),
-        f.stylua.with({
-            diagnostics_format = diagnostics_format,
-            extra_args = { "--indent-type", "Spaces" },
-        }),
+        -- sh/bash
         d.shellcheck.with({
             diagnostics_format = diagnostics_format,
         }),
@@ -222,14 +221,30 @@ null_ls.config({
             diagnostics_format = diagnostics_format,
             extra_args = { "-i", "2" },
         }),
+        -- lua
+        f.stylua.with({
+            diagnostics_format = diagnostics_format,
+            extra_args = { "--indent-type", "Spaces" },
+        }),
+        -- json
         f.fixjson.with({
             diagnostics_format = diagnostics_format,
         }),
+        -- yaml
         d.yamllint.with({
             diagnostics_format = diagnostics_format,
             extra_args = { "-d", "{extends: default, rules: {line-length: {max: 100}}}" },
         }),
+        -- sql
         f.sqlformat.with({
+            diagnostics_format = diagnostics_format,
+        }),
+        -- toml
+        f.taplo.with({
+            diagnostics_format = diagnostics_format,
+        }),
+        -- css/scss/sass/less
+        f.stylelint.with({
             diagnostics_format = diagnostics_format,
         }),
     },
