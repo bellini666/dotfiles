@@ -215,7 +215,9 @@ return packer.startup(function(use)
     -- Language specifics
     use({ "Vimjas/vim-python-pep8-indent" })
 
-    -- Misc
+    -- Text editing
+    use({ "tpope/vim-repeat" })
+    use({ "ggandor/lightspeed.nvim" })
     use({ "gabrielpoca/replacer.nvim" })
     use({ "mbbill/undotree" })
     use({ "mg979/vim-visual-multi", branch = "master" })
