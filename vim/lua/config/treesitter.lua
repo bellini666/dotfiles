@@ -51,5 +51,22 @@ require("nvim-treesitter.configs").setup({
                 ["[]"] = "@class.outer",
             },
         },
+        swap = {
+            enable = true,
+            swap_next = {
+                ["<leader>a"] = "@parameter.inner",
+            },
+            swap_previous = {
+                ["<leader>A"] = "@parameter.inner",
+            },
+        },
+        lsp_interop = {
+            enable = true,
+            border = "single",
+            peek_definition_code = {
+                ["<leader>df"] = "@function.outer",
+                ["<leader>dF"] = "@class.outer",
+            },
+        },
     },
 })
