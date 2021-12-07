@@ -68,6 +68,14 @@ nvim_lsp.tsserver.setup({
     flags = flags,
 })
 
+-- https://github.com/graphql/graphiql/tree/main/packages/graphql-language-service-cli
+nvim_lsp.graphql.setup({
+    capabilities = capabilities,
+    handlers = handlers,
+    on_attach = on_attach,
+    flags = flags,
+})
+
 -- https://github.com/hrsh7th/vscode-langservers-extracted
 nvim_lsp.eslint.setup({
     handlers = handlers,

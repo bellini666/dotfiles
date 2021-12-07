@@ -20,7 +20,12 @@ augroup __autocmds
 
   " Javascript
   autocmd FileType javascript,javascript.jsx,javascriptreact setlocal shiftwidth=2 softtabstop=2 expandtab
+
+  " Typescript
   autocmd FileType typescript.tsx,typescriptreact setlocal shiftwidth=2 softtabstop=2 expandtab
+
+  " Graphql
+  autocmd FileType graphql setlocal shiftwidth=2 softtabstop=2 expandtab
 
   " CSS
   autocmd FileType css,scss setlocal shiftwidth=2 softtabstop=2 expandtab
