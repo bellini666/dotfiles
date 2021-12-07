@@ -26,6 +26,7 @@ return packer.startup(function(use)
         run = ":TSUpdate",
         requires = {
             "nvim-treesitter/nvim-treesitter-textobjects",
+            "RRethy/nvim-treesitter-textsubjects",
         },
         config = function()
             require("config.treesitter")
@@ -216,7 +217,6 @@ return packer.startup(function(use)
     use({ "Vimjas/vim-python-pep8-indent" })
 
     -- Text editing
-    use({ "tpope/vim-repeat" })
     use({ "ggandor/lightspeed.nvim" })
     use({ "gabrielpoca/replacer.nvim" })
     use({ "mbbill/undotree" })
