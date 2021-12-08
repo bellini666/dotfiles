@@ -40,7 +40,7 @@ augroup __autocmds
 
   " Misc
   autocmd FileType help,tags setlocal nospell
-  autocmd FileType text,bzr,git,gitcommit setlocal spell
+  autocmd FileType text,bzr,gitcommit setlocal spell
 
   " Jump to the last position when the file was last opened..
   autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
