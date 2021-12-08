@@ -116,17 +116,6 @@ return packer.startup(function(use)
         "metalelf0/jellybeans-nvim",
         requires = {
             "rktjmp/lush.nvim",
-            {
-                "folke/lsp-colors.nvim",
-                config = function()
-                    require("lsp-colors").setup({
-                        Error = "#902020",
-                        Warning = "#cf6a4c",
-                        Information = "#ffb964",
-                        Hint = "#668799",
-                    })
-                end,
-            },
         },
     })
     use({
@@ -140,6 +129,12 @@ return packer.startup(function(use)
     })
     use({ "stevearc/dressing.nvim" })
     use({ "rcarriga/nvim-notify" })
+    use({
+        "norcalli/nvim-colorizer.lua",
+        config = function()
+            require("colorizer").setup()
+        end,
+    })
 
     -- File browsing
     use({

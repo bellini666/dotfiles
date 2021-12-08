@@ -9,11 +9,7 @@ augroup __autocmds
 
   " Gui
   autocmd UIEnter * lua require("options").setup_gui()
-  autocmd ColorScheme * highlight NormalFloat guibg=#141414
-  autocmd ColorScheme * highlight FloatBorder guifg=#80A0C2 guibg=NONE
-  autocmd ColorScheme * highlight Pmenu guifg=#e8e8d3 guibg=#424242
-  autocmd ColorScheme * highlight PmenuSel guifg=#141414 guibg=#597bc5
-  autocmd ColorScheme * highlight PmenuThumb guibg=#d0d0bd
+  autocmd ColorScheme * lua require("options").setup_colors()
 
   " Bash
   autocmd FileType sh,bash,zsh setlocal shiftwidth=2 softtabstop=2 expandtab
