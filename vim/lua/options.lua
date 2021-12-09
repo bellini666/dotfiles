@@ -194,7 +194,7 @@ M.setup_colors = function()
     highlight! DiagnosticUnderlineWarn cterm=undercurl gui=undercurl guisp=Orange
 
     highlight! DiagnosticError guifg=#ef2929
-    highlight! DiagnosticsUnderlineError cterm=undercurl gui=undercurl guisp=#ef2929
+    highlight! DiagnosticUnderlineError cterm=undercurl gui=undercurl guisp=#ef2929
     ]])
 
     -- Spell
