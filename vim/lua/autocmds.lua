@@ -48,13 +48,6 @@ augroup END
 ]])
 
 M.setup_lsp = function(client, bufnr)
-    vim.cmd([[
-      augroup _lsp_cursor_hold
-        autocmd! * <buffer>
-        autocmd CursorHold,CursorHoldI * lua require("utils").diagnostics()
-      augroup END
-    ]])
-
     if client.resolved_capabilities.document_formatting then
         vim.cmd([[
           augroup _lsp_document_format
@@ -68,7 +61,7 @@ M.setup_lsp = function(client, bufnr)
         vim.cmd([[
           augroup _lsp_document_highlight
             autocmd! * <buffer>
-            autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
+            autocmd CursorHold,CursorHoldI <buffer> lua vim.lsp.buf.document_highlight()
             autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
           augroup END
         ]])
@@ -78,8 +71,7 @@ M.setup_lsp = function(client, bufnr)
         vim.cmd([[
           augroup _lsp_code_lens_refresh
             autocmd! * <buffer>
-            autocmd InsertLeave <buffer> lua vim.lsp.codelens.refresh()
-            autocmd InsertLeave <buffer> lua vim.lsp.codelens.display()
+            autocmd BufEnter,CursorHold,InsertLeave <buffer> lua vim.lsp.codelens.refresh()
           augroup END
         ]])
     end
