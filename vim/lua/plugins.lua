@@ -143,6 +143,9 @@ return packer.startup(function(use)
             local actions = require("telescope.actions")
             require("telescope").setup({
                 defaults = {
+                    prompt_prefix = "🔍 ",
+                    selection_caret = " ",
+                    dynamic_preview_title = true,
                     mappings = {
                         i = {
                             ["<Esc>"] = actions.close,
