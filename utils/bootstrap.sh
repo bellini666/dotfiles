@@ -294,7 +294,6 @@ function _ {
   _zsh "$@"
   _poetry "$@"
   _nvm "$@"
-  _nvm "$@"
   _neovim "$@"
   _neovim-gtk "$@"
   _language-servers "$@"
