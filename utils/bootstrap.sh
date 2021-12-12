@@ -148,6 +148,11 @@ function _fonts {
   curl -sSL -o- \
     https://github.com/ryanoasis/nerd-fonts/blob/master/patched-fonts/Inconsolata/complete/Inconsolata%20Nerd%20Font%20Complete.otf?raw=true \
     >"${FONTS_DIR}/Inconsolata Nerd Font Complete.otf"
+  curl -sSL -o- \
+    https://github.com/ryanoasis/nerd-fonts/blob/master/patched-fonts/FiraCode/Regular/complete/Fira%20Code%20Regular%20Nerd%20Font%20Complete.ttf?raw=true \
+    >"${FONTS_DIR}/Fira Code Regular Nerd Font Complete.ttf"
+  fc-cache -fv
+  gsettings set org.gnome.desktop.interface monospace-font-name 'Inconsolata Nerd Font 12'
 }
 
 function _zsh {

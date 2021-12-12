@@ -154,7 +154,6 @@ M.setup_gui = function()
     if g.GuiLoaded ~= nil then
         opt.mouse = "a"
         g.GuiInternalClipboard = 1
-        vim.rpcnotify(1, "Gui", "Font", "Inconsolata Nerd Font 12")
         vim.rpcnotify(1, "Gui", "Option", "Popupmenu", 0)
         vim.rpcnotify(1, "Gui", "Command", "SetCursorBlink", "0")
     end
