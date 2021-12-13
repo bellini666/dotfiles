@@ -187,7 +187,11 @@ nvim_lsp.sumneko_lua.setup({
 local diagnostics_format = "[#{c}] #{m} (#{s})"
 local f = null_ls.builtins.formatting
 local d = null_ls.builtins.diagnostics
-null_ls.config({
+null_ls.setup({
+    handlers = handlers,
+    capabilities = capabilities,
+    on_attach = on_attach,
+    flags = flags,
     sources = {
         -- python
         d.flake8.with({
@@ -248,10 +252,4 @@ null_ls.config({
             diagnostics_format = diagnostics_format,
         }),
     },
-})
-require("lspconfig")["null-ls"].setup({
-    handlers = handlers,
-    capabilities = capabilities,
-    on_attach = on_attach,
-    flags = flags,
 })
