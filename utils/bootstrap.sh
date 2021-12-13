@@ -244,6 +244,7 @@ function _gem-libs {
 
 function _go-libs {
   info "installing go libs"
+  go install github.com/jesseduffield/lazygit@latest
   go install github.com/mattn/efm-langserver@latest
   go install mvdan.cc/sh/v3/cmd/shfmt@latest
 }
