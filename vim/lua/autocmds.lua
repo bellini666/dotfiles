@@ -13,9 +13,6 @@ augroup __autocmds
 
   " Filetypes
   autocmd FileType * lua require("options").setup_ft()
-
-  " Jump to the last position when the file was last opened..
-  autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 augroup END
 ]])
 

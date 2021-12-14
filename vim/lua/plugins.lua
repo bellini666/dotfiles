@@ -1,8 +1,7 @@
-local fn = vim.fn
-local install_path = fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
+local install_path = vim.fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
 
-if fn.empty(fn.glob(install_path)) > 0 then
-    BOOTSTRAPED = fn.system({
+if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
+    BOOTSTRAPED = vim.fn.system({
         "git",
         "clone",
         "--depth",
@@ -15,7 +14,7 @@ end
 local packer = require("packer")
 return packer.startup(function(use)
     -- Packer manage itself
-    use("wbthomason/packer.nvim")
+    use({ "wbthomason/packer.nvim" })
 
     -- Core
     use({ "nvim-lua/plenary.nvim" })
@@ -28,6 +27,12 @@ return packer.startup(function(use)
             "nvim-treesitter/nvim-treesitter-textobjects",
             "RRethy/nvim-treesitter-textsubjects",
             "nvim-treesitter/playground",
+            {
+                "norcalli/nvim-colorizer.lua",
+                config = function()
+                    require("colorizer").setup()
+                end,
+            },
         },
         config = function()
             require("config.treesitter")
@@ -37,31 +42,24 @@ return packer.startup(function(use)
     -- LSP
     use({
         "neovim/nvim-lspconfig",
+        requires = {
+            "hrsh7th/nvim-cmp",
+            "b0o/schemastore.nvim",
+        },
         config = function()
             require("config.lsp")
         end,
-        requires = {
-            "hrsh7th/nvim-cmp",
-            "jose-elias-alvarez/null-ls.nvim",
-            "b0o/schemastore.nvim",
-        },
     })
-
     use({
-        "akinsho/toggleterm.nvim",
-        config = function()
-            require("toggleterm").setup({
-                shade_terminals = false,
-            })
-        end,
+        "jose-elias-alvarez/null-ls.nvim",
+        requires = {
+            "neovim/nvim-lspconfig",
+        },
     })
 
     -- Completion
     use({
         "hrsh7th/nvim-cmp",
-        config = function()
-            require("config.completion")
-        end,
         requires = {
             "hrsh7th/cmp-nvim-lsp",
             "hrsh7th/cmp-buffer",
@@ -82,14 +80,14 @@ return packer.startup(function(use)
             },
             "rafamadriz/friendly-snippets",
         },
+        config = function()
+            require("config.completion")
+        end,
     })
 
     -- DAP
     use({
         "mfussenegger/nvim-dap",
-        config = function()
-            require("config.dap")
-        end,
         requires = {
             {
                 "rcarriga/nvim-dap-ui",
@@ -104,20 +102,16 @@ return packer.startup(function(use)
                 end,
             },
         },
-    })
-
-    -- Visual
-    use({
-        "kyazdani42/nvim-web-devicons",
         config = function()
-            require("nvim-web-devicons").setup()
+            require("config.dap")
         end,
     })
+
+    -- UI
+    use({ "kyazdani42/nvim-web-devicons" })
     use({
         "metalelf0/jellybeans-nvim",
-        requires = {
-            "rktjmp/lush.nvim",
-        },
+        requires = { "rktjmp/lush.nvim" },
     })
     use({
         "mg979/vim-xtabline",
@@ -130,16 +124,24 @@ return packer.startup(function(use)
     })
     use({ "stevearc/dressing.nvim" })
     use({ "rcarriga/nvim-notify" })
-    use({
-        "norcalli/nvim-colorizer.lua",
-        config = function()
-            require("colorizer").setup()
-        end,
-    })
 
     -- File browsing
     use({
         "nvim-telescope/telescope.nvim",
+        requires = {
+            "nvim-lua/plenary.nvim",
+            "nvim-lua/popup.nvim",
+            "nvim-treesitter/nvim-treesitter",
+            "neovim/nvim-lspconfig",
+            "kyazdani42/nvim-web-devicons",
+            {
+                "nvim-telescope/telescope-fzf-native.nvim",
+                run = "make",
+                config = function()
+                    require("telescope").load_extension("fzf")
+                end,
+            },
+        },
         config = function()
             local actions = require("telescope.actions")
             require("telescope").setup({
@@ -163,53 +165,45 @@ return packer.startup(function(use)
                 },
             })
         end,
-        requires = {
-            "nvim-lua/plenary.nvim",
-            "nvim-lua/popup.nvim",
-            "nvim-treesitter/nvim-treesitter",
-            "neovim/nvim-lspconfig",
-            "kyazdani42/nvim-web-devicons",
-            {
-                "nvim-telescope/telescope-fzf-native.nvim",
-                run = "make",
-                config = function()
-                    require("telescope").load_extension("fzf")
-                end,
-            },
-        },
     })
     use({
         "kyazdani42/nvim-tree.lua",
+        requires = { "kyazdani42/nvim-web-devicons" },
         config = function()
             vim.g.nvim_tree_quit_on_open = 1
             require("nvim-tree").setup({
                 auto_close = true,
             })
         end,
-        requires = {
-            "kyazdani42/nvim-web-devicons",
-        },
     })
 
     -- Statusline
     use({
         "ojroques/nvim-hardline",
-        config = function()
-            require("config.statusline")
-        end,
         requires = {
             "kyazdani42/nvim-web-devicons",
             "tpope/vim-fugitive",
-            "nvim-treesitter/nvim-treesitter",
-            "neovim/nvim-lspconfig",
             {
                 "SmiteshP/nvim-gps",
                 config = function()
                     require("nvim-gps").setup()
                 end,
-                requires = { "neovim/nvim-lspconfig" },
+                requires = { "nvim-treesitter/nvim-treesitter" },
             },
         },
+        config = function()
+            require("config.statusline")
+        end,
+    })
+
+    -- Terminal integration
+    use({
+        "akinsho/toggleterm.nvim",
+        config = function()
+            require("toggleterm").setup({
+                shade_terminals = false,
+            })
+        end,
     })
 
     -- Language specifics
@@ -223,8 +217,16 @@ return packer.startup(function(use)
     use({ "tpope/vim-surround" })
     use({ "tpope/vim-unimpaired" })
     use({ "tpope/vim-speeddating" })
-    use({ "wellle/targets.vim" })
     use({ "wakatime/vim-wakatime" })
+    use({
+        "ethanholz/nvim-lastplace",
+        config = function()
+            require("nvim-lastplace").setup({
+                lastplace_ignore_buftype = { "quickfix", "nofile", "help" },
+                lastplace_ignore_filetype = { "gitcommit", "gitrebase" },
+            })
+        end,
+    })
     use({
         "numToStr/Comment.nvim",
         config = function()
