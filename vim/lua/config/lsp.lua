@@ -193,6 +193,10 @@ null_ls.setup({
     on_attach = on_attach,
     flags = flags,
     sources = {
+        -- codepell
+        d.codespell.with({
+            diagnostics_format = diagnostics_format,
+        }),
         -- python
         d.flake8.with({
             name = "flake8",

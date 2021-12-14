@@ -44,6 +44,7 @@ APT_PACKAGES=(
 PYTHON_LIBS=(
   black
   cmake
+  codespell
   debugpy
   debugpy
   docker-compose
