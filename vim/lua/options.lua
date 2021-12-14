@@ -1,107 +1,103 @@
 local utils = require("utils")
 
 local M = {}
-local opt = vim.opt
-local g = vim.g
-local cmd = vim.cmd
-local indent = 4
 
 -- Set python3 host path
 vim.g.python_host_prog = "/usr/bin/python"
 vim.g.python3_host_prog = "/usr/bin/python3"
 
 -- Set leader to ,
-g.mapleader = ","
+vim.g.mapleader = ","
 
 -- Default encoding
-opt.enc = "utf-8"
-opt.ff = "unix"
-opt.ffs = { "unix", "dos" }
+vim.opt.enc = "utf-8"
+vim.opt.ff = "unix"
+vim.opt.ffs = { "unix", "dos" }
 
 -- General
-opt.mouse = "nv"
-opt.synmaxcol = 2500
-opt.ruler = true
-opt.showcmd = true
-opt.linebreak = true
-opt.hidden = true
-opt.autoread = true
-opt.swapfile = false
-opt.modeline = false
-opt.history = 4000
+vim.opt.mouse = "nv"
+vim.opt.synmaxcol = 2500
+vim.opt.ruler = true
+vim.opt.showcmd = true
+vim.opt.linebreak = true
+vim.opt.hidden = true
+vim.opt.autoread = true
+vim.opt.swapfile = false
+vim.opt.modeline = false
+vim.opt.history = 4000
 
 -- Ui
-opt.number = true
-opt.lazyredraw = true
-opt.cursorline = true
-opt.signcolumn = "number"
-opt.laststatus = 2
-opt.list = true
-opt.listchars = {
+vim.opt.number = true
+vim.opt.lazyredraw = true
+vim.opt.cursorline = true
+vim.opt.signcolumn = "number"
+vim.opt.laststatus = 2
+vim.opt.list = true
+vim.opt.listchars = {
     tab = "»·",
     trail = "·",
     extends = "→",
     precedes = "←",
     nbsp = "×",
 }
-opt.showbreak = [[↪\ ]]
-opt.showmode = false
-opt.lazyredraw = true
-opt.splitright = true
-opt.splitbelow = true
+vim.opt.showbreak = [[↪\ ]]
+vim.opt.showmode = false
+vim.opt.lazyredraw = true
+vim.opt.splitright = true
+vim.opt.splitbelow = true
 
 -- Theme
-opt.termguicolors = true
-opt.background = "dark"
+vim.opt.termguicolors = true
+vim.opt.background = "dark"
 
 -- Dev
-opt.textwidth = 99
-opt.colorcolumn = "+1"
-opt.autoindent = true
-opt.smartindent = true
-opt.showmatch = true
-opt.wrap = true
-opt.matchpairs = { "(:)", "{:}", "[:]", "<:>" }
-opt.formatoptions = utils.merge(opt.formatoptions, { "1", "t", "o", "j" })
-opt.whichwrap = utils.merge(opt.whichwrap, { "h", "l", "<", ">", "[", "]", "~" })
-opt.backspace = { "indent", "eol", "start" }
-opt.shortmess = utils.merge(opt.shortmess, { "c" })
-opt.completeopt = { "menu", "menuone", "noselect" }
+vim.opt.textwidth = 99
+vim.opt.colorcolumn = "+1"
+vim.opt.autoindent = true
+vim.opt.smartindent = true
+vim.opt.showmatch = true
+vim.opt.wrap = true
+vim.opt.matchpairs = { "(:)", "{:}", "[:]", "<:>" }
+vim.opt.formatoptions = utils.merge(vim.opt.formatoptions, { "1", "t", "o", "j" })
+vim.opt.whichwrap = utils.merge(vim.opt.whichwrap, { "h", "l", "<", ">", "[", "]", "~" })
+vim.opt.backspace = { "indent", "eol", "start" }
+vim.opt.shortmess = utils.merge(vim.opt.shortmess, { "c" })
+vim.opt.completeopt = { "menu", "menuone", "noselect" }
 
 -- Folding
-opt.foldmethod = "expr"
-opt.foldexpr = "nvim_treesitter#foldexpr()"
-opt.foldenable = false
+vim.opt.foldmethod = "expr"
+vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
+vim.opt.foldenable = false
 
 -- Tabs
-opt.expandtab = true
-opt.smarttab = true
-opt.shiftwidth = indent
-opt.softtabstop = indent
-opt.tabstop = indent
+vim.opt.expandtab = true
+vim.opt.smarttab = true
+vim.opt.shiftwidth = 4
+vim.opt.softtabstop = 4
+vim.opt.tabstop = 4
 
 -- Performance
-opt.updatetime = 100
-opt.timeoutlen = 400
-opt.redrawtime = 1500
-opt.ttimeoutlen = 10
+vim.opt.updatetime = 100
+vim.opt.timeoutlen = 400
+vim.opt.redrawtime = 1500
+vim.opt.ttimeoutlen = 10
 
 -- Spell
-opt.spelllang = "en_us,pt_br"
-opt.dictionary = utils.merge(opt.dictionary, {
+vim.opt.spelllang = "en_us,pt_br"
+vim.opt.dictionary = utils.merge(vim.opt.dictionary, {
     "/usr/share/dict/words",
     "/usr/share/dict/brazilian",
     "/usr/share/dict/american-english",
 })
 
 -- Search
-opt.wildmenu = true
-opt.ignorecase = true
-opt.incsearch = true
-opt.smartcase = true
-opt.hlsearch = true
-opt.wildmode = { "list:longest", "full" }
-opt.wildignore = utils.merge(opt.wildignore, {
+vim.opt.wildmenu = true
+vim.opt.ignorecase = true
+vim.opt.incsearch = true
+vim.opt.smartcase = true
+vim.opt.hlsearch = true
+vim.opt.wildmode = { "list:longest", "full" }
+vim.opt.wildignore = utils.merge(vim.opt.wildignore, {
     "*.DS_Store",
     "*.bak",
     "*.class",
@@ -142,26 +138,72 @@ opt.wildignore = utils.merge(opt.wildignore, {
     "*~",
 })
 
+-- FT Configs
+local ft_configs = {
+    bash = { indent = 2 },
+    css = { indent = 2 },
+    gitcommit = { spell = true },
+    graphql = { indent = 2 },
+    help = { spell = false },
+    html = { indent = 2, spell = "toplevel" },
+    javascript = { indent = 2 },
+    javascriptreact = { indent = 2 },
+    ["javascript.jsx"] = { indent = 2 },
+    po = { spell = true },
+    python = { indent = 4 },
+    scss = { indent = 2 },
+    sh = { indent = 2 },
+    tags = { spell = false },
+    text = { spell = true },
+    typescript = { indent = 2 },
+    typescriptreact = { indent = 2 },
+    ["typescript.tsx"] = { indent = 2 },
+    xml = { indent = 2, spell = "toplevel" },
+    zsh = { indent = 2 },
+}
+
 M.setup = function()
-    cmd([[
+    vim.cmd([[
     colorscheme jellybeans-nvim
     syntax on
     filetype plugin indent on
     ]])
 end
 
+M.setup_ft = function()
+    local config = ft_configs[vim.bo.filetype]
+    if config == nil then
+        return
+    end
+
+    if config.indent ~= nil then
+        vim.opt_local.shiftwidth = config.indent
+        vim.opt_local.softtabstop = config.indent
+    end
+
+    if config.spell ~= nil then
+        if type(config.spell) == "string" then
+            vim.cmd("syn spell " .. config.spell)
+        elseif config.spell then
+            vim.cmd("setlocal spell")
+        else
+            vim.cmd("setlocal nospell")
+        end
+    end
+end
+
 M.setup_gui = function()
-    if g.GuiLoaded ~= nil then
-        opt.mouse = "a"
-        g.GuiInternalClipboard = 1
-        vim.rpcnotify(1, "Gui", "Option", "Popupmenu", 0)
+    if vim.g.GuiLoaded ~= nil then
+        vim.opt.mouse = "a"
+        vim.g.GuiInternalClipboard = 1
+        vim.rpcnotify(1, "Gui", "vim.opt.on", "Popupmenu", 0)
         vim.rpcnotify(1, "Gui", "Command", "SetCursorBlink", "0")
     end
 end
 
 M.setup_colors = function()
     -- Tango colors for builtin terminal
-    cmd([[
+    vim.cmd([[
     let g:terminal_color_0  = '#2e3436'
     let g:terminal_color_1  = '#cc0000'
     let g:terminal_color_2  = '#4e9a06'
@@ -181,8 +223,8 @@ M.setup_colors = function()
     ]])
 
     -- LSP
-    opt.termguicolors = true
-    cmd([[
+    vim.opt.termguicolors = true
+    vim.cmd([[
     highlight! DiagnosticHint guifg=LightGrey
     highlight! DiagnosticUnderlineHint cterm=undercurl gui=undercurl guisp=LightGrey
 
@@ -197,7 +239,7 @@ M.setup_colors = function()
     ]])
 
     -- Spell
-    cmd([[
+    vim.cmd([[
     highlight! SpellRare guibg=NONE cterm=undercurl gui=undercurl guisp=LightGrey
     highlight! SpellLocal guibg=NONE cterm=undercurl gui=undercurl guisp=LightBlue
     highlight! SpellCap guibg=NONE cterm=undercurl gui=undercurl guisp=Orange
@@ -205,20 +247,20 @@ M.setup_colors = function()
     ]])
 
     -- Float menu color
-    cmd([[
+    vim.cmd([[
     highlight NormalFloat guibg=#141414
     highlight FloatBorder guifg=#80A0C2 guibg=NONE
     ]])
 
     -- Pmenu colors
-    cmd([[
+    vim.cmd([[
     highlight Pmenu guifg=#e8e8d3 guibg=#424242
     highlight PmenuSel guifg=#141414 guibg=#597bc5
     highlight PmenuThumb guibg=#d0d0bd
     ]])
 
     -- vim-cmp
-    cmd([[
+    vim.cmd([[
     highlight! CmpItemAbbrDeprecated guibg=NONE gui=strikethrough guifg=#808080
     highlight! CmpItemAbbrMatch guibg=NONE guifg=#569CD6
     highlight! CmpItemAbbrMatchFuzzy guibg=NONE guifg=#569CD6
@@ -233,13 +275,13 @@ M.setup_colors = function()
     ]])
 
     -- telescope
-    cmd([[
+    vim.cmd([[
     highlight! TelescopeBorder guifg=#80A0C2
     highlight! TelescopePromptPrefix guifg=#cf6a4c
     ]])
 
     -- nvim-tree
-    cmd([[
+    vim.cmd([[
     highlight! NvimTreeImageFile guifg=#f0a0c0
     highlight! NvimTreeGitDirty guifg=#cf6a4c
     highlight! NvimTreeGitDeleted guifg=#902020
@@ -256,7 +298,7 @@ M.setup_colors = function()
     ]])
 
     -- vim-visual-multi
-    cmd([[
+    vim.cmd([[
     let g:VM_Mono_hl = 'Cursor'
     let g:VM_Extend_hl = 'Visual'
     let g:VM_Cursor_hl = 'Cursor'

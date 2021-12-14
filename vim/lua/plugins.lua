@@ -27,6 +27,7 @@ return packer.startup(function(use)
         requires = {
             "nvim-treesitter/nvim-treesitter-textobjects",
             "RRethy/nvim-treesitter-textsubjects",
+            "nvim-treesitter/playground",
         },
         config = function()
             require("config.treesitter")
