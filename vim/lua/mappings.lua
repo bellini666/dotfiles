@@ -8,7 +8,7 @@ map("n", "<S-Insert>", '"+p')
 map("i", "<S-Insert>", '<C-O>"+P')
 map("c", "<S-Insert>", "<MiddleMouse>")
 
--- Continous visual indenting
+-- Continuous visual indenting
 map("v", "<", "<gv")
 map("v", ">", ">gv")
 

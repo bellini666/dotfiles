@@ -5,7 +5,7 @@ require("nvim-treesitter.configs").setup({
     },
     indent = {
         enable = true,
-        -- FIXME: Reenable this when treesitter indenting is working for python
+        -- FIXME: Re-enable this when treesitter indenting is working for python
         disable = { "python" },
     },
     incremental_selection = {
