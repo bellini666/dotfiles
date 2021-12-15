@@ -196,28 +196,25 @@ null_ls.setup({
         -- codepell
         d.codespell.with({
             diagnostics_format = diagnostics_format,
+            prefer_local = ".venv/bin",
         }),
         -- python
         d.flake8.with({
-            name = "flake8",
             diagnostics_format = diagnostics_format,
             prefer_local = ".venv/bin",
         }),
         f.isort.with({
-            name = "isort",
             diagnostics_format = diagnostics_format,
             prefer_local = ".venv/bin",
             extra_args = { "--profile", "black" },
         }),
         f.black.with({
-            name = "black",
             diagnostics_format = diagnostics_format,
             prefer_local = ".venv/bin",
             extra_args = { "--fast" },
         }),
         -- javascript/typescript
         f.prettier.with({
-            name = "prettier",
             diagnostics_format = diagnostics_format,
             prefer_local = "node_modules/.bin",
         }),
