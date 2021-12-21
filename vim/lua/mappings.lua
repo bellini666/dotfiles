@@ -46,6 +46,10 @@ map("s", "<Tab>", "vsnip#jumpable(1) ? '<Plug>(vsnip-jump-next)' : '<Tab>'", { e
 map("i", "<S-Tab>", "vsnip#jumpable(1) ? '<Plug>(vsnip-jump-prev)' : '<S-Tab>'", { expr = true, noremap = false })
 map("s", "<S-Tab>", "vsnip#jumpable(1) ? '<Plug>(vsnip-jump-prev)' : '<S-Tab>'", { expr = true, noremap = false })
 
+-- Tabs management
+map("n", "<A-Left>", "<cmd>tabprev<cr>")
+map("n", "<A-Right>", "<cmd>tabnext<cr>")
+
 -- Comment with Ctrl-/
 map("n", "<C-_>", "gcc", { silent = true, noremap = false })
 map("v", "<C-_>", "gc", { silent = true, noremap = false })

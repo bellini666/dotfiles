@@ -114,12 +114,15 @@ return packer.startup(function(use)
         requires = { "rktjmp/lush.nvim" },
     })
     use({
-        "mg979/vim-xtabline",
+        "mg979/tabline.nvim",
+        requires = {
+            "kyazdani42/nvim-web-devicons",
+        },
         config = function()
-            vim.g.xtabline_settings = {
-                tab_number_in_left_corner = 0,
-                theme = "slate",
-            }
+            require("tabline.setup").setup({
+                modes = { "tabs" },
+                theme = "apprentice",
+            })
         end,
     })
     use({ "stevearc/dressing.nvim" })
