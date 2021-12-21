@@ -123,7 +123,16 @@ return packer.startup(function(use)
         end,
     })
     use({ "stevearc/dressing.nvim" })
-    use({ "rcarriga/nvim-notify" })
+    use({
+        "rcarriga/nvim-notify",
+        config = function()
+            local notify = require("notify")
+            notify.setup({
+                timeout = 1500,
+            })
+            vim.notify = notify
+        end,
+    })
 
     -- File browsing
     use({
