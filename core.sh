@@ -36,7 +36,7 @@ function bootstrap() { (
   set -e
   cd "${DOTFILES_DIR}"
   git pull origin master || true
-  bash "${DOTFILES_DIR}/utils/bootstrap.sh" "${@}" || return 1
+  bash "${DOTFILES_DIR}/bootstrap.sh" "${@}" || return 1
 ); }
 
 function swap2ram() { (

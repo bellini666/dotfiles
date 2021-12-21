@@ -2,10 +2,9 @@
 
 set -e
 
-MY_DIR=$(dirname "${0}")
-BASE_DIR=$(dirname "${MY_DIR}")
-# shellcheck source=/home/bellini/.dotfiles/utils/funcs.sh
-source "${MY_DIR}/funcs.sh"
+BASE_DIR=$(dirname "${0}")
+# shellcheck source=/home/bellini/.dotfiles/utils.sh
+source "${BASE_DIR}/utils.sh"
 
 LOCAL_DIR="${HOME}/.local"
 LOCAL_BIN_DIR="${LOCAL_DIR}/bin"
