@@ -12,7 +12,14 @@ if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
 end
 
 local packer = require("packer")
-return packer.startup(function(use)
+
+packer.init({
+    luarocks = {
+        python_cmd = "python3",
+    },
+})
+
+return packer.startup(function(use, use_rocks)
     -- Packer manage itself
     use({ "wbthomason/packer.nvim" })
 
@@ -119,10 +126,13 @@ return packer.startup(function(use)
             "kyazdani42/nvim-web-devicons",
         },
         config = function()
+            local theme = require("colors").tabline_theme
+            require("tabline.themes").add(theme)
             require("tabline.setup").setup({
                 modes = { "tabs" },
-                theme = "apprentice",
+                theme = theme.name,
             })
+            require("tabline.themes").apply(theme)
         end,
     })
     use({ "stevearc/dressing.nvim" })

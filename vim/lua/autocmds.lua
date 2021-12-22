@@ -9,7 +9,9 @@ augroup __autocmds
 
   " Gui
   autocmd UIEnter * lua require("options").setup_gui()
-  autocmd ColorScheme * lua require("options").setup_colors()
+
+  " Colors
+  autocmd ColorScheme * lua require("colors").setup()
 
   " Filetypes
   autocmd FileType * lua require("options").setup_ft()
