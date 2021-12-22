@@ -47,9 +47,6 @@ M.bmap = function(buf, modes, key, result, options)
 end
 
 M.grep = function()
-    local t_builtin = require("telescope.builtin")
-    local t_config = require("telescope.config")
-
     vim.ui.input({ prompt = "Input: ", default = vim.fn.expand("<cword>") }, function(search)
         search = vim.trim(search or "")
         if search == "" then
