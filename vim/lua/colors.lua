@@ -108,7 +108,7 @@ M.setup = function()
     let g:terminal_color_15 = '#eeeeec'
     ]])
 
-    -- LSP
+    -- LSP/Diagnostic
     vim.cmd([[
     highlight! DiagnosticHint guifg=LightGrey
     highlight! DiagnosticUnderlineHint cterm=undercurl gui=undercurl guisp=LightGrey
@@ -121,6 +121,8 @@ M.setup = function()
 
     highlight! DiagnosticError guifg=#ef2929
     highlight! DiagnosticUnderlineError cterm=undercurl gui=undercurl guisp=#ef2929
+
+    highlight! link LspSignatureActiveParameter Search
     ]])
 
     -- Spell
@@ -142,6 +144,7 @@ M.setup = function()
     highlight Pmenu guifg=#e8e8d3 guibg=#424242
     highlight PmenuSel guifg=#151515 guibg=#597bc5
     highlight PmenuThumb guibg=#d0d0bd
+    highlight link PmenuSbar Pmenu
     ]])
 
     -- vim-cmp
@@ -161,7 +164,7 @@ M.setup = function()
 
     -- telescope
     vim.cmd([[
-    highlight! TelescopeBorder guifg=#80A0C2
+    highlight! link TelescopeBorder FloatBorder
     highlight! TelescopePromptPrefix guifg=#cf6a4c
     ]])
 
