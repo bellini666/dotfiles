@@ -60,7 +60,7 @@ map("v", "<C-/>", "gc", { silent = true, noremap = false })
 map("n", "<Leader>rt", "<cmd>write | edit | TSBufEnable highlight<CR>")
 
 -- Edit the quickfix
-map("n", "<Leader>h", '<cmd>lua require("replacer").run()<CR>')
+map("n", "<Leader>rr", '<cmd>lua require("replacer").run()<CR>')
 
 -- Fix spell with telescope
 map("n", "z=", "<cmd>Telescope spell_suggest theme=cursor<CR>")

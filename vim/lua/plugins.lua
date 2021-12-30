@@ -17,6 +17,9 @@ packer.init({
     luarocks = {
         python_cmd = "python3",
     },
+    display = {
+        open_cmd = "topleft 65vnew \\[packer\\]",
+    },
 })
 
 return packer.startup(function(use, use_rocks)
@@ -116,6 +119,17 @@ return packer.startup(function(use, use_rocks)
 
     -- UI
     use({ "kyazdani42/nvim-web-devicons" })
+    use({ "stevearc/dressing.nvim" })
+    use({
+        "rcarriga/nvim-notify",
+        config = function()
+            local notify = require("notify")
+            notify.setup({
+                timeout = 1000,
+            })
+            vim.notify = notify
+        end,
+    })
     use({
         "metalelf0/jellybeans-nvim",
         requires = { "rktjmp/lush.nvim" },
@@ -133,17 +147,6 @@ return packer.startup(function(use, use_rocks)
                 theme = theme.name,
             })
             require("tabline.themes").apply(theme)
-        end,
-    })
-    use({ "stevearc/dressing.nvim" })
-    use({
-        "rcarriga/nvim-notify",
-        config = function()
-            local notify = require("notify")
-            notify.setup({
-                timeout = 1500,
-            })
-            vim.notify = notify
         end,
     })
 
@@ -197,6 +200,7 @@ return packer.startup(function(use, use_rocks)
                 auto_close = true,
             })
         end,
+        cmd = "NvimTreeToggle",
     })
 
     -- Statusline
@@ -229,17 +233,27 @@ return packer.startup(function(use, use_rocks)
     })
 
     -- Language specifics
-    use({ "Vimjas/vim-python-pep8-indent" })
+    use({
+        "Vimjas/vim-python-pep8-indent",
+        ft = "python",
+    })
 
     -- Text editing
     use({ "ggandor/lightspeed.nvim" })
-    use({ "gabrielpoca/replacer.nvim" })
-    use({ "mbbill/undotree" })
-    use({ "mg979/vim-visual-multi", branch = "master" })
     use({ "tpope/vim-surround" })
     use({ "tpope/vim-unimpaired" })
     use({ "tpope/vim-speeddating" })
     use({ "wakatime/vim-wakatime" })
+    use({ "gabrielpoca/replacer.nvim" })
+    use({
+        "mbbill/undotree",
+        cmd = "UndotreeToggle",
+    })
+    use({
+        "mg979/vim-visual-multi",
+        branch = "master",
+        keys = "<C-n>",
+    })
     use({
         "ethanholz/nvim-lastplace",
         config = function()
@@ -254,6 +268,7 @@ return packer.startup(function(use, use_rocks)
         config = function()
             require("Comment").setup()
         end,
+        keys = { { "n", "gcc" }, { "v", "gc" } },
     })
     use({
         "windwp/nvim-autopairs",
