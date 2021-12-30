@@ -24,9 +24,9 @@ map("n", "<F4>", "<cmd>NvimTreeToggle<CR>")
 
 -- File utils
 map("n", "z=", "<cmd>Telescope spell_suggest theme=cursor<CR>")
-map("n", "<C-P>", "<cmd>Telescope git_files theme=dropdown<CR>")
 map("n", "<C-F>", "<cmd>Telescope live_grep<CR>")
 map("n", "<C-B>", "<cmd>Telescope buffers<CR>")
+map("n", "<C-P>", '<cmd>lua require("utils").find_files()<CR>')
 map("n", "<C-G>", '<cmd>lua require("utils").grep()<CR>', { silent = true })
 
 -- Dap

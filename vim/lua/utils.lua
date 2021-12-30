@@ -46,6 +46,26 @@ M.bmap = function(buf, modes, key, result, options)
     end
 end
 
+M.find_files = function(opts)
+    local lsp_util = require("lspconfig/util")
+    local t_builtin = require("telescope.builtin")
+
+    if opts == nil then
+        opts = {}
+    end
+    opts.cwd = opts.cwd and vim.fn.expand(opts.cwd) or vim.loop.cwd()
+    opts.theme = opts.theme or "dropdown"
+
+    local cmd
+    if lsp_util.find_git_ancestor(opts.cwd) then
+        cmd = t_builtin.git_files
+    else
+        cmd = t_builtin.find_files
+    end
+
+    return cmd(opts)
+end
+
 M.grep = function()
     vim.ui.input({ prompt = "Input: ", default = vim.fn.expand("<cword>") }, function(search)
         search = vim.trim(search or "")
