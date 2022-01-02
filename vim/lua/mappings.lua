@@ -65,6 +65,10 @@ map("n", "<Leader>rr", '<cmd>lua require("replacer").run()<CR>')
 -- Fix spell with telescope
 map("n", "z=", "<cmd>Telescope spell_suggest theme=cursor<CR>")
 
+-- Keep the cursor at the center when scrolling with j/k
+map("n", "j", "jzz")
+map("n", "k", "kzz")
+
 -- Terminal toggle
 map("n", "<C-Z>", '<cmd>lua require("toggleterm").toggle(0)<CR>', { silent = true })
 map("t", "<C-Z>", '<cmd>lua require("toggleterm").toggle_all()<CR>', { silent = true })
