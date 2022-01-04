@@ -36,10 +36,10 @@ local handlers = {
 nvim_lsp.pyright.setup({
     capabilities = capabilities,
     handlers = handlers,
-    on_attach = function(client)
+    on_attach = function(client, bufnr)
         client.resolved_capabilities.document_formatting = false
         client.resolved_capabilities.document_range_formatting = false
-        on_attach(client)
+        on_attach(client, bufnr)
     end,
     flags = flags,
     before_init = function(_, config)
@@ -60,10 +60,10 @@ nvim_lsp.pyright.setup({
 nvim_lsp.tsserver.setup({
     capabilities = capabilities,
     handlers = handlers,
-    on_attach = function(client)
+    on_attach = function(client, bufnr)
         client.resolved_capabilities.document_formatting = false
         client.resolved_capabilities.document_range_formatting = false
-        on_attach(client)
+        on_attach(client, bufnr)
     end,
     flags = flags,
 })
