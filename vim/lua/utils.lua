@@ -14,35 +14,14 @@ M.concat = function(t1, t2)
     return t1
 end
 
-M.map = function(modes, key, result, options)
-    options = M.merge({
-        noremap = true,
-        silent = false,
-        expr = false,
-        nowait = false,
-    }, options or {})
-    if type(modes) ~= "table" then
-        modes = { modes }
-    end
-
-    for i = 1, #modes do
-        vim.api.nvim_set_keymap(modes[i], key, result, options)
-    end
-end
-
-M.bmap = function(buf, modes, key, result, options)
-    options = M.merge({
-        noremap = true,
-        silent = false,
-        expr = false,
-        nowait = false,
-    }, options or {})
-    if type(modes) ~= "table" then
-        modes = { modes }
-    end
-
-    for i = 1, #modes do
-        vim.api.nvim_buf_set_keymap(buf, modes[i], key, result, options)
+M.lazy = function(mod, func, ...)
+    local arg = ...
+    return function()
+        if arg then
+            return require(mod)[func](unpack(arg))
+        else
+            return require(mod)[func]()
+        end
     end
 end
 
@@ -64,6 +43,78 @@ M.find_files = function(opts)
     end
 
     return cmd(t_themes.get_dropdown(opts))
+end
+
+M.lsp_handler = function(parser, title, action, opts)
+    local function handle_result(err, result, ...)
+        local pickers = require("telescope.pickers")
+        local finders = require("telescope.finders")
+        local conf = require("telescope.config").values
+        local make_entry = require("telescope.make_entry")
+
+        if err then
+            vim.api.nvim_err_writeln(string.format('Error executing "%s": %s', action, err.message))
+            return
+        end
+
+        -- textDocument/definition can return Location or Location[]
+        if result ~= nil and not vim.tbl_islist(result) then
+            result = { result }
+        end
+
+        opts = opts or {}
+        if #result == 0 then
+            vim.api.nvim_err_writeln(string.format('No results for "%s"', action))
+            return
+        elseif #result == 1 and opts.jump_type ~= "never" then
+            if opts.jump_type == "tab" then
+                vim.cmd("tabedit")
+            elseif opts.jump_type == "split" then
+                vim.cmd("new")
+            elseif opts.jump_type == "vsplit" then
+                vim.cmd("vnew")
+            end
+            vim.lsp.util.jump_to_location(result[1])
+        else
+            pickers.new(opts, {
+                prompt_title = title,
+                finder = finders.new_table({
+                    results = parser(result),
+                    entry_maker = opts.entry_maker or make_entry.gen_from_quickfix(opts),
+                }),
+                previewer = conf.qflist_previewer(opts),
+                sorter = conf.generic_sorter(opts),
+            }):find()
+        end
+    end
+    return handle_result
+end
+
+M.lsp_locs_handler = function(...)
+    return M.lsp_handler(vim.lsp.util.locations_to_items, ...)
+end
+
+M.lsp_symbols_handler = function(...)
+    return M.lsp_handler(vim.lsp.util.symbols_to_items, ...)
+end
+
+M.lsp_calls_handler = function(direction, ...)
+    local function handler(result)
+        local items = {}
+        for _, res in pairs(result) do
+            local item = res[direction]
+            for _, range in pairs(res.fromRanges) do
+                table.insert(items, {
+                    filename = assert(vim.uri_to_fname(item.uri)),
+                    text = item.name,
+                    lnum = range.start.line + 1,
+                    col = range.start.character + 1,
+                })
+            end
+        end
+        return items
+    end
+    return M.lsp_handler(handler, ...)
 end
 
 M.grep = function()

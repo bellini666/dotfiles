@@ -30,6 +30,40 @@ local handlers = {
         end, result.diagnostics)
         return vim.lsp.diagnostic.on_publish_diagnostics(_, result, ...)
     end,
+    ["textDocument/definition"] = utils.lsp_locs_handler("LSP Definitions", "definitions"),
+    ["textDocument/references"] = utils.lsp_locs_handler(
+        "LSP References",
+        "references",
+        { jump_type = "never" }
+    ),
+    ["textDocument/typeDefinition"] = utils.lsp_locs_handler(
+        "LSP Type Definitions",
+        "typeDefinitions"
+    ),
+    ["textDocument/implementation"] = utils.lsp_locs_handler(
+        "LSP Implementations",
+        "implementations"
+    ),
+    ["workspace/symbol"] = utils.lsp_symbols_handler(
+        "LSP Workspace Symbols",
+        "symbols",
+        { ignore_filename = false }
+    ),
+    ["workspace/documentSymbol"] = utils.lsp_symbols_handler(
+        "LSP Document Symbols",
+        "document symbols",
+        { ignore_filename = true }
+    ),
+    ["callHierarchy/incomingCalls"] = utils.lsp_calls_handler(
+        "from",
+        "LSP Incoming Calls",
+        "incoming calls"
+    ),
+    ["callHierarchy/outgoingCalls"] = utils.lsp_calls_handler(
+        "to",
+        "LSP Outgoing Calls",
+        "outgoing calls"
+    ),
 }
 
 -- https://github.com/microsoft/pyright
@@ -193,6 +227,8 @@ null_ls.setup({
     on_attach = on_attach,
     flags = flags,
     sources = {
+        -- shellcheck code_actions,
+        null_ls.builtins.code_actions.shellcheck,
         -- codepell
         d.codespell.with({
             diagnostics_format = diagnostics_format,
@@ -229,7 +265,7 @@ null_ls.setup({
         -- lua
         f.stylua.with({
             diagnostics_format = diagnostics_format,
-            extra_args = { "--indent-type", "Spaces" },
+            extra_args = { "--indent-type", "Spaces", "--column-width", "100" },
         }),
         -- json
         f.fixjson.with({

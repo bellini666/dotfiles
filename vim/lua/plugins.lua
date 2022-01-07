@@ -125,7 +125,7 @@ return packer.startup(function(use, use_rocks)
         config = function()
             local notify = require("notify")
             notify.setup({
-                timeout = 1000,
+                timeout = 750,
             })
             vim.notify = notify
         end,
@@ -233,10 +233,7 @@ return packer.startup(function(use, use_rocks)
     })
 
     -- Language specifics
-    use({
-        "Vimjas/vim-python-pep8-indent",
-        ft = "python",
-    })
+    use({ "Vimjas/vim-python-pep8-indent" })
 
     -- Text editing
     use({ "ggandor/lightspeed.nvim" })
@@ -280,7 +277,9 @@ return packer.startup(function(use, use_rocks)
             })
             require("cmp").event:on(
                 "confirm_done",
-                require("nvim-autopairs.completion.cmp").on_confirm_done({ map_char = { tex = "" } })
+                require("nvim-autopairs.completion.cmp").on_confirm_done({
+                    map_char = { tex = "" },
+                })
             )
         end,
     })

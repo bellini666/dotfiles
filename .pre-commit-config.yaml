@@ -38,7 +38,7 @@ repos:
         name: StyLua
         language: rust
         types: [lua]
-        entry: stylua --indent-type Spaces -s -
+        entry: stylua --indent-type Spaces --column-width 100 -s -
 
   - repo: local
     hooks:

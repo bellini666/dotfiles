@@ -184,10 +184,8 @@ M.setup_ft = function()
     if config.spell ~= nil then
         if type(config.spell) == "string" then
             vim.cmd("syn spell " .. config.spell)
-        elseif config.spell then
-            vim.cmd("setlocal spell")
         else
-            vim.cmd("setlocal nospell")
+            vim.opt_local.spell = config.spell or false
         end
     end
 end

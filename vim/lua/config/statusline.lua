@@ -13,7 +13,11 @@ require("hardline").setup({
         { class = "mode", item = require("hardline.parts.mode").get_item },
         { class = "high", item = require("hardline.parts.git").get_item, hide = 100 },
         { class = "med", item = require("hardline.parts.filename").get_item },
-        { class = "high", item = require("hardline.parts.treesitter-context").get_item, hide = 100 },
+        {
+            class = "high",
+            item = require("hardline.parts.treesitter-context").get_item,
+            hide = 100,
+        },
         "%<",
         { class = "med", item = "%=" },
         { class = "low", item = require("hardline.parts.wordcount").get_item, hide = 100 },
