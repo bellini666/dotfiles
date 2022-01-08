@@ -68,7 +68,7 @@ map(
 
 -- Tabs management
 map("n", "<A-Left>", "gT")
-map("n", "<A-Right>", "gT")
+map("n", "<A-Right>", "gt")
 
 -- Comment with Ctrl-/
 map("n", "<C-_>", "gcc", { silent = true, remap = true })
