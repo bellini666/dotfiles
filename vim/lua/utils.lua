@@ -1,27 +1,9 @@
 local M = {}
 
-M.merge = function(t1, t2)
-    for k, v in pairs(t2) do
-        t1[k] = v
-    end
-    return t1
-end
-
-M.concat = function(t1, t2)
-    for i = 1, #t2 do
-        t1[#t1 + 1] = t2[i]
-    end
-    return t1
-end
-
 M.lazy = function(mod, func, ...)
-    local arg = ...
+    local arg = ... or {}
     return function()
-        if arg then
-            return require(mod)[func](unpack(arg))
-        else
-            return require(mod)[func]()
-        end
+        return require(mod)[func](unpack(arg))
     end
 end
 
@@ -45,12 +27,18 @@ M.find_files = function(opts)
     return cmd(t_themes.get_dropdown(opts))
 end
 
+M.spell_suggest = function(opts)
+    local t_builtin = require("telescope.builtin")
+    local t_themes = require("telescope.themes")
+    return t_builtin.spell_suggest(t_themes.get_cursor(opts))
+end
+
 M.lsp_handler = function(parser, title, action, opts)
     local function handle_result(err, result, ...)
         local pickers = require("telescope.pickers")
         local finders = require("telescope.finders")
-        local conf = require("telescope.config").values
         local make_entry = require("telescope.make_entry")
+        local conf = require("telescope.config").values
 
         if err then
             vim.api.nvim_err_writeln(string.format('Error executing "%s": %s', action, err.message))
@@ -137,7 +125,7 @@ M.grep = function()
 
                 local args = require("telescope.config").values.vimgrep_arguments
                 if pattern ~= "*" then
-                    args = M.concat(args, { "-g", pattern })
+                    vim.tbl_extend(args, { "-g", pattern })
                 end
 
                 require("telescope.builtin").grep_string({

@@ -1,6 +1,15 @@
-local utils = require("utils")
-
 local M = {}
+
+local function extend(opt, list)
+    if opt._info.flaglist then
+        local flaglist = {}
+        for _, v in ipairs(list) do
+            flaglist[v] = true
+        end
+        list = flaglist
+    end
+    return opt + list
+end
 
 -- Set python3 host path
 vim.g.python_host_prog = "/usr/bin/python"
@@ -57,11 +66,11 @@ vim.opt.autoindent = true
 vim.opt.smartindent = true
 vim.opt.showmatch = true
 vim.opt.wrap = true
-vim.opt.matchpairs = { "(:)", "{:}", "[:]", "<:>" }
-vim.opt.formatoptions = utils.merge(vim.opt.formatoptions, { "1", "t", "o", "j" })
-vim.opt.whichwrap = utils.merge(vim.opt.whichwrap, { "h", "l", "<", ">", "[", "]", "~" })
+vim.opt.matchpairs = extend(vim.opt.matchpairs, { "<:>" })
+vim.opt.formatoptions = extend(vim.opt.formatoptions, { "1", "o" })
+vim.opt.whichwrap = extend(vim.opt.whichwrap, { "<", ">", "[", "]", "~" })
 vim.opt.backspace = { "indent", "eol", "start" }
-vim.opt.shortmess = utils.merge(vim.opt.shortmess, { "c" })
+vim.opt.shortmess = extend(vim.opt.shortmess, { "a" })
 vim.opt.completeopt = { "menu", "menuone", "noselect" }
 
 -- Folding
@@ -83,8 +92,8 @@ vim.opt.redrawtime = 1500
 vim.opt.ttimeoutlen = 10
 
 -- Spell
-vim.opt.spelllang = "en_us,pt_br"
-vim.opt.dictionary = utils.merge(vim.opt.dictionary, {
+vim.opt.spelllang = { "en_us", "pt_br" }
+vim.opt.dictionary = extend(vim.opt.dictionary, {
     "/usr/share/dict/words",
     "/usr/share/dict/brazilian",
     "/usr/share/dict/american-english",
@@ -97,7 +106,7 @@ vim.opt.incsearch = true
 vim.opt.smartcase = true
 vim.opt.hlsearch = true
 vim.opt.wildmode = { "list:longest", "full" }
-vim.opt.wildignore = utils.merge(vim.opt.wildignore, {
+vim.opt.wildignore = extend(vim.opt.wildignore, {
     "*.DS_Store",
     "*.bak",
     "*.class",

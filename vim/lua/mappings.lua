@@ -27,54 +27,35 @@ map("n", "<F4>", "<cmd>NvimTreeToggle<cr>")
 map("n", "<C-F>", utils.lazy("telescope.builtin", "live_grep"))
 map("n", "<C-B>", utils.lazy("telescope.builtin", "buffers"))
 map("n", "<C-P>", utils.find_files)
-map("n", "<C-G>", utils.grep, { silent = true })
+map("n", "<C-G>", utils.grep)
 
 -- Dap
-map("n", "<F1>", '<cmd>lua require("dap").toggle_breakpoint()<cr>', { silent = true })
-map("n", "<F5>", '<cmd>lua require("dap").continue()<cr>')
-map("n", "<F6>", '<cmd>lua require("dap").step_over()<cr>')
-map("n", "<F7>", '<cmd>lua require("dap").step_into()<cr>')
-map("n", "<F8>", '<cmd>lua require("dap").step_out()<cr>')
-map("n", "<Leader>df", '<cmd>lua require("config.dap").test_func()<cr>', { silent = true })
-map("n", "<Leader>dc", '<cmd>lua require("config.dap").test_class()<cr>', { silent = true })
-map("n", "gK", '<cmd>lua require("dapui").eval()<cr>', { silent = true })
-map("v", "gK", '<cmd>lua require("dapui").eval()<cr>')
+map("n", "<F1>", utils.lazy("dap", "toggle_breakpoint"))
+map("n", "<F5>", utils.lazy("dap", "continue"))
+map("n", "<F6>", utils.lazy("dap", "step_over"))
+map("n", "<F7>", utils.lazy("dap", "sep_into"))
+map("n", "<F8>", utils.lazy("dap", "step_out"))
+map("n", "<Leader>df", utils.lazy("config.dap", "test_func"))
+map("n", "<Leader>dc", utils.lazy("config.dap", "test_class"))
+map({ "n", "v" }, "gK", utils.lazy("dapui", "eval"))
 
 -- Snippets
-map(
-    "i",
-    "<Tab>",
-    "vsnip#jumpable(1) ? '<Plug>(vsnip-jump-next)' : '<Tab>'",
-    { expr = true, remap = true }
-)
-map(
-    "s",
-    "<Tab>",
-    "vsnip#jumpable(1) ? '<Plug>(vsnip-jump-next)' : '<Tab>'",
-    { expr = true, remap = false }
-)
-map(
-    "i",
-    "<S-Tab>",
-    "vsnip#jumpable(1) ? '<Plug>(vsnip-jump-prev)' : '<S-Tab>'",
-    { expr = true, remap = true }
-)
-map(
-    "s",
-    "<S-Tab>",
-    "vsnip#jumpable(1) ? '<Plug>(vsnip-jump-prev)' : '<S-Tab>'",
-    { expr = true, remap = true }
-)
+map({ "i", "s" }, "<Tab>", function()
+    return vim.fn["vsnip#jumpable"](1) and "<Plug>(vsnip-jump-next)" or "<Tab>"
+end, { expr = true, silent = true })
+map({ "i", "s" }, "<S-Tab>", function()
+    return vim.fn["vsnip#jumpable"](1) and "<Plug>(vsnip-jump-prev)" or "<S-Tab>"
+end, { expr = true, silent = true })
 
 -- Tabs management
 map("n", "<A-Left>", "gT")
 map("n", "<A-Right>", "gt")
 
 -- Comment with Ctrl-/
-map("n", "<C-_>", "gcc", { silent = true, remap = true })
-map("v", "<C-_>", "gc", { silent = true, remap = true })
-map("n", "<C-/>", "gcc", { silent = true, remap = true })
-map("v", "<C-/>", "gc", { silent = true, remap = true })
+map("n", "<C-_>", "gcc", { remap = true })
+map("v", "<C-_>", "gc", { remap = true })
+map("n", "<C-/>", "gcc", { remap = true })
+map("v", "<C-/>", "gc", { remap = true })
 
 -- Reload treesitter
 map("n", "<Leader>rt", "<cmd>write | edit | TSBufEnable highlight<cr>")
@@ -83,7 +64,8 @@ map("n", "<Leader>rt", "<cmd>write | edit | TSBufEnable highlight<cr>")
 map("n", "<Leader>rr", utils.lazy("replaces", "run"))
 
 -- Fix spell with telescope
-map("n", "z=", utils.lazy("telescope.builtin", "spell_suggest", { { theme = "cursor" } }))
+-- map("n", "z=", utils.lazy("telescope.builtin", "spell_suggest", { { theme = "cursor" } }))
+map("n", "z=", utils.spell_suggest)
 
 -- Ctrl-Up/Down scrolls 10 lunes and keep the screen centered
 map("n", "<C-Up>", "10kzz")

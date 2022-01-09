@@ -12,9 +12,9 @@ require("nvim-treesitter.configs").setup({
         enable = true,
         keymaps = {
             init_selection = "gnn",
-            node_incremental = "grn",
-            scope_incremental = "grc",
-            node_decremental = "grm",
+            scope_incremental = ";",
+            node_incremental = ".",
+            node_decremental = ",",
         },
     },
     matchup = {
@@ -67,13 +67,6 @@ require("nvim-treesitter.configs").setup({
                 ["<leader>df"] = "@function.outer",
                 ["<leader>dF"] = "@class.outer",
             },
-        },
-    },
-    textsubjects = {
-        enable = true,
-        keymaps = {
-            ["."] = "textsubjects-smart",
-            [";"] = "textsubjects-container-outer",
         },
     },
 })

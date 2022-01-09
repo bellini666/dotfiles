@@ -11,10 +11,6 @@ local on_attach = function(client, bufnr)
     require("mappings").setup_lsp(client, bufnr)
 end
 
-local flags = {
-    debounce_text_changes = 150,
-}
-
 local _util_open_floating_preview = vim.lsp.util.open_floating_preview
 function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
     opts = opts or {}
@@ -75,7 +71,6 @@ nvim_lsp.pyright.setup({
         client.resolved_capabilities.document_range_formatting = false
         on_attach(client, bufnr)
     end,
-    flags = flags,
     before_init = function(_, config)
         local p
         if vim.env.VIRTUAL_ENV then
@@ -99,7 +94,6 @@ nvim_lsp.tsserver.setup({
         client.resolved_capabilities.document_range_formatting = false
         on_attach(client, bufnr)
     end,
-    flags = flags,
 })
 
 -- https://github.com/graphql/graphiql/tree/main/packages/graphql-language-service-cli
@@ -107,7 +101,6 @@ nvim_lsp.graphql.setup({
     capabilities = capabilities,
     handlers = handlers,
     on_attach = on_attach,
-    flags = flags,
 })
 
 -- https://github.com/hrsh7th/vscode-langservers-extracted
@@ -115,7 +108,6 @@ nvim_lsp.eslint.setup({
     handlers = handlers,
     capabilities = capabilities,
     on_attach = on_attach,
-    flags = flags,
 })
 
 -- https://github.com/iamcco/vim-language-server
@@ -123,7 +115,6 @@ nvim_lsp.vimls.setup({
     handlers = handlers,
     capabilities = capabilities,
     on_attach = on_attach,
-    flags = flags,
 })
 
 -- https://github.com/hrsh7th/vscode-langservers-extracted
@@ -131,7 +122,6 @@ nvim_lsp.cssls.setup({
     handlers = handlers,
     capabilities = capabilities,
     on_attach = on_attach,
-    flags = flags,
 })
 
 -- https://github.com/hrsh7th/vscode-langservers-extracted
@@ -139,7 +129,6 @@ nvim_lsp.html.setup({
     handlers = handlers,
     capabilities = capabilities,
     on_attach = on_attach,
-    flags = flags,
 })
 
 -- https://github.com/bash-lsp/bash-language-server
@@ -147,7 +136,6 @@ nvim_lsp.bashls.setup({
     handlers = handlers,
     capabilities = capabilities,
     on_attach = on_attach,
-    flags = flags,
 })
 
 -- https://github.com/rcjsuen/dockerfile-language-server-nodejs
@@ -155,7 +143,6 @@ nvim_lsp.dockerls.setup({
     handlers = handlers,
     capabilities = capabilities,
     on_attach = on_attach,
-    flags = flags,
 })
 
 -- https://github.com/redhat-developer/yaml-language-server
@@ -163,7 +150,6 @@ nvim_lsp.yamlls.setup({
     handlers = handlers,
     capabilities = capabilities,
     on_attach = on_attach,
-    flags = flags,
     settings = {
         yaml = {
             format = {
@@ -178,7 +164,6 @@ nvim_lsp.jsonls.setup({
     handlers = handlers,
     capabilities = capabilities,
     on_attach = on_attach,
-    flags = flags,
     init_options = {
         provideFormatter = false,
     },
@@ -198,7 +183,6 @@ table.insert(runtime_path, "lua/?/init.lua")
 nvim_lsp.sumneko_lua.setup({
     capabilities = capabilities,
     on_attach = on_attach,
-    flags = flags,
     handlers = handlers,
     cmd = { sumneko_binary, "-E", lsp_util.path.join(sumneko_root_path, "/main.lua") },
     settings = {
@@ -225,7 +209,6 @@ null_ls.setup({
     handlers = handlers,
     capabilities = capabilities,
     on_attach = on_attach,
-    flags = flags,
     sources = {
         -- shellcheck code_actions,
         null_ls.builtins.code_actions.shellcheck,

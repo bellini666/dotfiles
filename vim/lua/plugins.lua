@@ -35,7 +35,6 @@ return packer.startup(function(use, use_rocks)
         run = ":TSUpdate",
         requires = {
             "nvim-treesitter/nvim-treesitter-textobjects",
-            "RRethy/nvim-treesitter-textsubjects",
             "nvim-treesitter/playground",
             {
                 "norcalli/nvim-colorizer.lua",
@@ -53,18 +52,13 @@ return packer.startup(function(use, use_rocks)
     use({
         "neovim/nvim-lspconfig",
         requires = {
+            "jose-elias-alvarez/null-ls.nvim",
             "hrsh7th/nvim-cmp",
             "b0o/schemastore.nvim",
         },
         config = function()
             require("config.lsp")
         end,
-    })
-    use({
-        "jose-elias-alvarez/null-ls.nvim",
-        requires = {
-            "neovim/nvim-lspconfig",
-        },
     })
 
     -- Completion
@@ -107,6 +101,7 @@ return packer.startup(function(use, use_rocks)
             },
             {
                 "theHamsta/nvim-dap-virtual-text",
+                requires = { "nvim-treesitter/nvim-treesitter" },
                 config = function()
                     require("nvim-dap-virtual-text").setup()
                 end,
@@ -118,7 +113,6 @@ return packer.startup(function(use, use_rocks)
     })
 
     -- UI
-    use({ "kyazdani42/nvim-web-devicons" })
     use({ "stevearc/dressing.nvim" })
     use({
         "rcarriga/nvim-notify",
@@ -155,20 +149,14 @@ return packer.startup(function(use, use_rocks)
         "nvim-telescope/telescope.nvim",
         requires = {
             "nvim-lua/plenary.nvim",
-            "nvim-lua/popup.nvim",
             "nvim-treesitter/nvim-treesitter",
-            "neovim/nvim-lspconfig",
             "kyazdani42/nvim-web-devicons",
             {
                 "nvim-telescope/telescope-fzf-native.nvim",
                 run = "make",
-                config = function()
-                    require("telescope").load_extension("fzf")
-                end,
             },
         },
         config = function()
-            local actions = require("telescope.actions")
             require("telescope").setup({
                 defaults = {
                     prompt_prefix = "🔍 ",
@@ -176,7 +164,7 @@ return packer.startup(function(use, use_rocks)
                     dynamic_preview_title = true,
                     mappings = {
                         i = {
-                            ["<Esc>"] = actions.close,
+                            ["<Esc>"] = require("telescope.actions").close,
                         },
                     },
                 },
@@ -189,6 +177,7 @@ return packer.startup(function(use, use_rocks)
                     },
                 },
             })
+            require("telescope").load_extension("fzf")
         end,
     })
     use({
@@ -200,7 +189,6 @@ return packer.startup(function(use, use_rocks)
                 auto_close = true,
             })
         end,
-        cmd = "NvimTreeToggle",
     })
 
     -- Statusline
@@ -242,14 +230,10 @@ return packer.startup(function(use, use_rocks)
     use({ "tpope/vim-speeddating" })
     use({ "wakatime/vim-wakatime" })
     use({ "gabrielpoca/replacer.nvim" })
-    use({
-        "mbbill/undotree",
-        cmd = "UndotreeToggle",
-    })
+    use({ "mbbill/undotree" })
     use({
         "mg979/vim-visual-multi",
         branch = "master",
-        keys = "<C-n>",
     })
     use({
         "ethanholz/nvim-lastplace",
@@ -265,14 +249,12 @@ return packer.startup(function(use, use_rocks)
         config = function()
             require("Comment").setup()
         end,
-        keys = { { "n", "gcc" }, { "v", "gc" } },
     })
     use({
         "windwp/nvim-autopairs",
         requires = { "hrsh7th/nvim-cmp" },
         config = function()
             require("nvim-autopairs").setup({
-                check_ts = true,
                 disable_in_macro = true,
             })
             require("cmp").event:on(
