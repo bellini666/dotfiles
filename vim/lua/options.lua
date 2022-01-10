@@ -158,6 +158,7 @@ local ft_configs = {
     javascript = { indent = 2 },
     javascriptreact = { indent = 2 },
     ["javascript.jsx"] = { indent = 2 },
+    markdown = { spell = true },
     po = { spell = true },
     python = { indent = 4 },
     scss = { indent = 2 },
