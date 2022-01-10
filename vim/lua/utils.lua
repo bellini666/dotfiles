@@ -51,7 +51,7 @@ M.lsp_handler = function(parser, title, action, opts)
         end
 
         opts = opts or {}
-        if #result == 0 then
+        if not result or #result == 0 then
             vim.api.nvim_err_writeln(string.format('No results for "%s"', action))
             return
         elseif #result == 1 and opts.jump_type ~= "never" then

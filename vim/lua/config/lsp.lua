@@ -6,6 +6,10 @@ local utils = require("utils")
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require("cmp_nvim_lsp").update_capabilities(capabilities)
 
+local flags = {
+    debounce_text_changes = 0,
+}
+
 local on_attach = function(client, bufnr)
     require("autocmds").setup_lsp(client, bufnr)
     require("mappings").setup_lsp(client, bufnr)
@@ -66,6 +70,7 @@ local handlers = {
 nvim_lsp.pyright.setup({
     capabilities = capabilities,
     handlers = handlers,
+    flags = flags,
     on_attach = function(client, bufnr)
         client.resolved_capabilities.document_formatting = false
         client.resolved_capabilities.document_range_formatting = false
@@ -89,6 +94,7 @@ nvim_lsp.pyright.setup({
 nvim_lsp.tsserver.setup({
     capabilities = capabilities,
     handlers = handlers,
+    flags = flags,
     on_attach = function(client, bufnr)
         client.resolved_capabilities.document_formatting = false
         client.resolved_capabilities.document_range_formatting = false
@@ -100,12 +106,14 @@ nvim_lsp.tsserver.setup({
 nvim_lsp.graphql.setup({
     capabilities = capabilities,
     handlers = handlers,
+    flags = flags,
     on_attach = on_attach,
 })
 
 -- https://github.com/hrsh7th/vscode-langservers-extracted
 nvim_lsp.eslint.setup({
     handlers = handlers,
+    flags = flags,
     capabilities = capabilities,
     on_attach = on_attach,
 })
@@ -113,6 +121,7 @@ nvim_lsp.eslint.setup({
 -- https://github.com/iamcco/vim-language-server
 nvim_lsp.vimls.setup({
     handlers = handlers,
+    flags = flags,
     capabilities = capabilities,
     on_attach = on_attach,
 })
@@ -120,6 +129,7 @@ nvim_lsp.vimls.setup({
 -- https://github.com/hrsh7th/vscode-langservers-extracted
 nvim_lsp.cssls.setup({
     handlers = handlers,
+    flags = flags,
     capabilities = capabilities,
     on_attach = on_attach,
 })
@@ -127,6 +137,7 @@ nvim_lsp.cssls.setup({
 -- https://github.com/hrsh7th/vscode-langservers-extracted
 nvim_lsp.html.setup({
     handlers = handlers,
+    flags = flags,
     capabilities = capabilities,
     on_attach = on_attach,
 })
@@ -134,6 +145,7 @@ nvim_lsp.html.setup({
 -- https://github.com/bash-lsp/bash-language-server
 nvim_lsp.bashls.setup({
     handlers = handlers,
+    flags = flags,
     capabilities = capabilities,
     on_attach = on_attach,
 })
@@ -141,6 +153,7 @@ nvim_lsp.bashls.setup({
 -- https://github.com/rcjsuen/dockerfile-language-server-nodejs
 nvim_lsp.dockerls.setup({
     handlers = handlers,
+    flags = flags,
     capabilities = capabilities,
     on_attach = on_attach,
 })
@@ -148,6 +161,7 @@ nvim_lsp.dockerls.setup({
 -- https://github.com/redhat-developer/yaml-language-server
 nvim_lsp.yamlls.setup({
     handlers = handlers,
+    flags = flags,
     capabilities = capabilities,
     on_attach = on_attach,
     settings = {
@@ -162,6 +176,7 @@ nvim_lsp.yamlls.setup({
 -- https://github.com/hrsh7th/vscode-langservers-extracted
 nvim_lsp.jsonls.setup({
     handlers = handlers,
+    flags = flags,
     capabilities = capabilities,
     on_attach = on_attach,
     init_options = {
@@ -184,6 +199,7 @@ nvim_lsp.sumneko_lua.setup({
     capabilities = capabilities,
     on_attach = on_attach,
     handlers = handlers,
+    flags = flags,
     cmd = { sumneko_binary, "-E", lsp_util.path.join(sumneko_root_path, "/main.lua") },
     settings = {
         Lua = {
@@ -207,6 +223,7 @@ local f = null_ls.builtins.formatting
 local d = null_ls.builtins.diagnostics
 null_ls.setup({
     handlers = handlers,
+    flags = flags,
     capabilities = capabilities,
     on_attach = on_attach,
     sources = {
