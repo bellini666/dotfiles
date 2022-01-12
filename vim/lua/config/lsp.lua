@@ -238,6 +238,8 @@ null_ls.setup({
         d.flake8.with({
             diagnostics_format = diagnostics_format,
             prefer_local = ".venv/bin",
+            -- Ignore some errors that are always fixed by black
+            extra_args = { "--extend-ignore", "E1,E2,E3,F821" },
         }),
         f.isort.with({
             diagnostics_format = diagnostics_format,
