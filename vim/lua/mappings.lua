@@ -39,14 +39,6 @@ map("n", "<Leader>df", utils.lazy("config.dap", "test_func"))
 map("n", "<Leader>dc", utils.lazy("config.dap", "test_class"))
 map({ "n", "v" }, "gK", utils.lazy("dapui", "eval"))
 
--- Snippets
-map({ "i", "s" }, "<Tab>", function()
-    return vim.fn["vsnip#jumpable"](1) ~= 0 and "<Plug>(vsnip-jump-next)" or "<Tab>"
-end, { expr = true, silent = true })
-map({ "i", "s" }, "<S-Tab>", function()
-    return vim.fn["vsnip#jumpable"](1) ~= 0 and "<Plug>(vsnip-jump-prev)" or "<S-Tab>"
-end, { expr = true, silent = true })
-
 -- Tabs management
 map("n", "<A-Left>", "gT")
 map("n", "<A-Right>", "gt")

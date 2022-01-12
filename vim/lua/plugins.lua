@@ -70,9 +70,17 @@ return packer.startup(function(use, use_rocks)
             "hrsh7th/cmp-path",
             "hrsh7th/cmp-cmdline",
             "hrsh7th/cmp-nvim-lua",
-            "hrsh7th/cmp-vsnip",
-            "hrsh7th/vim-vsnip",
             "lukas-reineke/cmp-under-comparator",
+            {
+                "L3MON4D3/LuaSnip",
+                requires = {
+                    "saadparwaiz1/cmp_luasnip",
+                    "rafamadriz/friendly-snippets",
+                },
+                config = function()
+                    require("luasnip.loaders.from_vscode").lazy_load()
+                end,
+            },
             {
                 "onsails/lspkind-nvim",
                 requires = { "nvim-treesitter/nvim-treesitter" },
@@ -82,7 +90,6 @@ return packer.startup(function(use, use_rocks)
                     })
                 end,
             },
-            "rafamadriz/friendly-snippets",
         },
         config = function()
             require("config.completion")
