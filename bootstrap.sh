@@ -17,6 +17,8 @@ APT_PACKAGES=(
   build-essential
   cargo
   cpanminus
+  duf
+  exa
   fd-find
   fonts-hack-ttf
   fonts-inconsolata
@@ -25,8 +27,10 @@ APT_PACKAGES=(
   fzf
   git
   golang
+  htop
   jq
   libtool-bin
+  ncdu
   ninja-build
   pre-commit
   ripgrep
@@ -204,15 +208,6 @@ function _neovim {
   fi
 }
 
-function _neovim-gtk {
-  info "installing neovim-gtk"
-  git_clone_or_pull "${LOCAL_BUILD_DIR}/neovim-gtk" https://github.com/Lyude/neovim-gtk main
-  (
-    cd "${LOCAL_BUILD_DIR}/neovim-gtk"
-    make PREFIX="${LOCAL_DIR}" install
-  )
-}
-
 function _language-servers {
   info "installing stylua"
   git_clone_or_pull "${LOCAL_BUILD_DIR}/stylua" https://github.com/JohnnyMorganz/StyLua master
@@ -298,7 +293,6 @@ function _ {
   _poetry "$@"
   _nvm "$@"
   _neovim "$@"
-  _neovim-gtk "$@"
   _language-servers "$@"
   _python-libs "$@"
   _gem-libs "$@"

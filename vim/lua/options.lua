@@ -198,13 +198,4 @@ M.setup_ft = function()
     end
 end
 
-M.setup_gui = function()
-    if vim.g.GuiLoaded ~= nil then
-        vim.opt.mouse = "a"
-        vim.g.GuiInternalClipboard = 1
-        vim.rpcnotify(1, "Gui", "Option", "Popupmenu", 0)
-        vim.rpcnotify(1, "Gui", "Command", "SetCursorBlink", "0")
-    end
-end
-
 return M

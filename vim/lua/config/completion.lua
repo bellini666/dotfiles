@@ -69,7 +69,7 @@ cmp.setup({
         },
     },
     experimental = {
-        native_menu = true,
+        -- native_menu = true,
         -- ghost_text = true,
     },
 })

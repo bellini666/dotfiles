@@ -7,9 +7,6 @@ augroup __autocmds
   " Packer
   autocmd BufWritePost plugins.lua source <afile> | PackerCompile
 
-  " Gui
-  autocmd UIEnter * lua require("options").setup_gui()
-
   " Colors
   autocmd ColorScheme * lua require("colors").setup()
 
