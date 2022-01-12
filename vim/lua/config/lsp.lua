@@ -49,7 +49,7 @@ local handlers = {
         "symbols",
         { ignore_filename = false }
     ),
-    ["workspace/documentSymbol"] = utils.lsp_symbols_handler(
+    ["textDocument/documentSymbol"] = utils.lsp_symbols_handler(
         "LSP Document Symbols",
         "document symbols",
         { ignore_filename = true }
@@ -247,7 +247,7 @@ null_ls.setup({
         f.black.with({
             diagnostics_format = diagnostics_format,
             prefer_local = ".venv/bin",
-            extra_args = { "--fast" },
+            extra_args = { "--fast", "-W", "6" },
         }),
         -- javascript/typescript
         f.prettier.with({
