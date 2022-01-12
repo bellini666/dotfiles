@@ -28,7 +28,34 @@ local handlers = {
         result.diagnostics = vim.tbl_filter(function(t)
             return t.severity <= min
         end, result.diagnostics)
-        return vim.lsp.diagnostic.on_publish_diagnostics(_, result, ...)
+        return vim.lsp.handlers["textDocument/publishDiagnostics"](_, result, ...)
+    end,
+    ["textDocument/rename"] = function(_, result, ...)
+        local title = nil
+        local msg = {}
+
+        if result and result.changes then
+            local fname
+            local old = vim.fn.expand("<cword>")
+            local new = "<unknown>"
+            local root = vim.loop.cwd()
+            for f, c in pairs(result.changes) do
+                new = c[1].newText
+                fname = "." .. f:gsub("file://" .. root, "")
+                table.insert(msg, ("%d changes -> %s"):format(#c, fname))
+            end
+            title = ("Rename: %s -> %s"):format(old, new)
+        end
+
+        local ret = vim.lsp.handlers["textDocument/rename"](_, result, ...)
+
+        if not vim.tbl_isempty(msg) then
+            vim.notify(msg, vim.log.levels.INFO, { title = title })
+            -- Save the modified files after the rename
+            vim.cmd([[wall]])
+        end
+
+        return ret
     end,
     ["textDocument/definition"] = utils.lsp_locs_handler("LSP Definitions", "definitions"),
     ["textDocument/references"] = utils.lsp_locs_handler(
