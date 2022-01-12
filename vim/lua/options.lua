@@ -157,7 +157,6 @@ local ft_configs = {
     html = { indent = 2, spell = "toplevel" },
     javascript = { indent = 2 },
     javascriptreact = { indent = 2 },
-    ["javascript.jsx"] = { indent = 2 },
     markdown = { spell = true },
     po = { spell = true },
     python = { indent = 4 },
@@ -167,16 +166,15 @@ local ft_configs = {
     text = { spell = true },
     typescript = { indent = 2 },
     typescriptreact = { indent = 2 },
-    ["typescript.tsx"] = { indent = 2 },
     xml = { indent = 2, spell = "toplevel" },
     zsh = { indent = 2 },
 }
 
 M.setup = function()
     vim.cmd([[
-    colorscheme jellybeans-nvim
-    syntax on
-    filetype plugin indent on
+      colorscheme jellybeans-nvim
+      syntax on
+      filetype plugin indent on
     ]])
 end
 

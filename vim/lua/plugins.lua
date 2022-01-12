@@ -26,79 +26,92 @@ return packer.startup(function(use, use_rocks)
     -- Packer manage itself
     use({ "wbthomason/packer.nvim" })
 
-    -- Core
-    use({ "nvim-lua/plenary.nvim" })
-
     -- Treesitter
     use({
         "nvim-treesitter/nvim-treesitter",
         run = ":TSUpdate",
+        config = function()
+            require("config.treesitter")
+        end,
         requires = {
             "nvim-treesitter/nvim-treesitter-textobjects",
             "nvim-treesitter/playground",
             {
                 "norcalli/nvim-colorizer.lua",
                 config = function()
-                    require("colorizer").setup()
+                    require("colorizer").setup({
+                        "*",
+                        python = { names = false },
+                    })
                 end,
             },
         },
-        config = function()
-            require("config.treesitter")
-        end,
     })
 
     -- LSP
     use({
         "neovim/nvim-lspconfig",
-        requires = {
-            "jose-elias-alvarez/null-ls.nvim",
-            "hrsh7th/nvim-cmp",
-            "b0o/schemastore.nvim",
-        },
         config = function()
             require("config.lsp")
         end,
+        requires = {
+            "jose-elias-alvarez/null-ls.nvim",
+            "b0o/schemastore.nvim",
+        },
     })
 
     -- Completion
     use({
+        "windwp/nvim-autopairs",
+        config = function()
+            require("nvim-autopairs").setup({
+                disable_in_macro = true,
+            })
+        end,
+    })
+    use({
         "hrsh7th/nvim-cmp",
+        config = function()
+            require("config.completion")
+        end,
         requires = {
+            "windwp/nvim-autopairs",
+            "lukas-reineke/cmp-under-comparator",
             "hrsh7th/cmp-nvim-lsp",
             "hrsh7th/cmp-buffer",
             "hrsh7th/cmp-path",
             "hrsh7th/cmp-cmdline",
             "hrsh7th/cmp-nvim-lua",
-            "lukas-reineke/cmp-under-comparator",
             {
                 "L3MON4D3/LuaSnip",
+                config = function()
+                    require("luasnip.loaders.from_vscode").lazy_load()
+                end,
                 requires = {
                     "saadparwaiz1/cmp_luasnip",
                     "rafamadriz/friendly-snippets",
                 },
-                config = function()
-                    require("luasnip.loaders.from_vscode").lazy_load()
-                end,
             },
             {
                 "onsails/lspkind-nvim",
-                requires = { "nvim-treesitter/nvim-treesitter" },
                 config = function()
                     require("lspkind").init({
                         preset = "codicons",
                     })
                 end,
+                requires = {
+                    "nvim-treesitter/nvim-treesitter",
+                },
             },
         },
-        config = function()
-            require("config.completion")
-        end,
     })
 
     -- DAP
     use({
         "mfussenegger/nvim-dap",
+        config = function()
+            require("config.dap")
+        end,
         requires = {
             {
                 "rcarriga/nvim-dap-ui",
@@ -108,15 +121,14 @@ return packer.startup(function(use, use_rocks)
             },
             {
                 "theHamsta/nvim-dap-virtual-text",
-                requires = { "nvim-treesitter/nvim-treesitter" },
                 config = function()
                     require("nvim-dap-virtual-text").setup()
                 end,
+                requires = {
+                    "nvim-treesitter/nvim-treesitter",
+                },
             },
         },
-        config = function()
-            require("config.dap")
-        end,
     })
 
     -- UI
@@ -154,16 +166,8 @@ return packer.startup(function(use, use_rocks)
     -- File browsing
     use({
         "nvim-telescope/telescope.nvim",
-        requires = {
-            "nvim-lua/plenary.nvim",
-            "nvim-treesitter/nvim-treesitter",
-            "kyazdani42/nvim-web-devicons",
-            {
-                "nvim-telescope/telescope-fzf-native.nvim",
-                run = "make",
-            },
-        },
         config = function()
+            require("telescope").load_extension("fzf")
             require("telescope").setup({
                 defaults = {
                     prompt_prefix = "🔍 ",
@@ -184,18 +188,27 @@ return packer.startup(function(use, use_rocks)
                     },
                 },
             })
-            require("telescope").load_extension("fzf")
         end,
+        requires = {
+            "nvim-treesitter/nvim-treesitter",
+            "nvim-lua/plenary.nvim",
+            "kyazdani42/nvim-web-devicons",
+            {
+                "nvim-telescope/telescope-fzf-native.nvim",
+                run = "make",
+            },
+        },
     })
     use({
         "kyazdani42/nvim-tree.lua",
-        requires = { "kyazdani42/nvim-web-devicons" },
+        cmd = "NvimTreeToggle",
         config = function()
             vim.g.nvim_tree_quit_on_open = 1
             require("nvim-tree").setup({
                 auto_close = true,
             })
         end,
+        requires = { "kyazdani42/nvim-web-devicons" },
     })
 
     -- Statusline
@@ -228,7 +241,10 @@ return packer.startup(function(use, use_rocks)
     })
 
     -- Language specifics
-    use({ "Vimjas/vim-python-pep8-indent" })
+    use({
+        "Vimjas/vim-python-pep8-indent",
+        ft = "python",
+    })
 
     -- Text editing
     use({ "ggandor/lightspeed.nvim" })
@@ -237,10 +253,14 @@ return packer.startup(function(use, use_rocks)
     use({ "tpope/vim-speeddating" })
     use({ "wakatime/vim-wakatime" })
     use({ "gabrielpoca/replacer.nvim" })
-    use({ "mbbill/undotree" })
+    use({
+        "mbbill/undotree",
+        cmd = "UndotreeToggle",
+    })
     use({
         "mg979/vim-visual-multi",
         branch = "master",
+        keys = "<C-n>",
     })
     use({
         "ethanholz/nvim-lastplace",
@@ -256,21 +276,7 @@ return packer.startup(function(use, use_rocks)
         config = function()
             require("Comment").setup()
         end,
-    })
-    use({
-        "windwp/nvim-autopairs",
-        requires = { "hrsh7th/nvim-cmp" },
-        config = function()
-            require("nvim-autopairs").setup({
-                disable_in_macro = true,
-            })
-            require("cmp").event:on(
-                "confirm_done",
-                require("nvim-autopairs.completion.cmp").on_confirm_done({
-                    map_char = { tex = "" },
-                })
-            )
-        end,
+        keys = { { "n", "gcc" }, { "v", "gc" } },
     })
 
     if BOOTSTRAPED then
