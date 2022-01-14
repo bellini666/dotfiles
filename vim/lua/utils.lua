@@ -125,7 +125,7 @@ M.grep = function()
 
                 local args = require("telescope.config").values.vimgrep_arguments
                 if pattern ~= "*" then
-                    vim.tbl_extend(args, { "-g", pattern })
+                    vim.list_extend(args, { "-g", pattern })
                 end
 
                 require("telescope.builtin").grep_string({
