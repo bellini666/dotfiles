@@ -1,6 +1,8 @@
 local utils = require("utils")
 local devicons = require("nvim-web-devicons")
 
+local padch = "·"
+
 if not devicons.has_loaded() then
     devicons.setup()
 end
@@ -30,6 +32,14 @@ local function ftype()
     return ("%s | %s"):format(encoding, filetype)
 end
 
+local function line()
+    local nbline = vim.fn.line("$")
+    local line = vim.fn.line(".")
+    local nbcol = vim.fn.col("$") - 1
+    local col = vim.fn.col(".")
+    return ("%d/%d·%d/%d"):format(line, nbline, col, nbcol)
+end
+
 require("hardline").setup({
     bufferline = false,
     theme = "jellybeans",
@@ -50,6 +60,6 @@ require("hardline").setup({
         { class = "warning", item = require("hardline.parts.whitespace").get_item },
         { class = "med", item = dap_status, hide = 100 },
         { class = "high", item = ftype, hide = 80 },
-        { class = "mode", item = require("hardline.parts.line").get_item },
+        { class = "mode", item = line },
     },
 })
