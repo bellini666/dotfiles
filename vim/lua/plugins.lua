@@ -59,6 +59,18 @@ return packer.startup(function(use, use_rocks)
             "b0o/schemastore.nvim",
         },
     })
+    use({
+        "folke/trouble.nvim",
+        config = function()
+            require("trouble").setup({
+                close = "<C-q>",
+                padding = false,
+                auto_preview = false,
+                use_diagnostic_signs = true,
+            })
+        end,
+        requires = "kyazdani42/nvim-web-devicons",
+    })
 
     -- Completion
     use({
@@ -162,12 +174,14 @@ return packer.startup(function(use, use_rocks)
             require("tabline.themes").apply(theme)
         end,
     })
+    use({ "sindrets/winshift.nvim" })
 
     -- File browsing
     use({
         "nvim-telescope/telescope.nvim",
         config = function()
             require("telescope").load_extension("fzf")
+            local trouble = require("trouble.providers.telescope")
             require("telescope").setup({
                 defaults = {
                     prompt_prefix = "🔍 ",
@@ -176,6 +190,10 @@ return packer.startup(function(use, use_rocks)
                     mappings = {
                         i = {
                             ["<Esc>"] = require("telescope.actions").close,
+                            ["<c-q>"] = trouble.open_with_trouble,
+                        },
+                        n = {
+                            ["<C-q>"] = trouble.open_with_trouble,
                         },
                     },
                 },
@@ -248,6 +266,7 @@ return packer.startup(function(use, use_rocks)
 
     -- Text editing
     use({ "ggandor/lightspeed.nvim" })
+    use({ "tpope/vim-repeat" })
     use({ "tpope/vim-surround" })
     use({ "tpope/vim-unimpaired" })
     use({ "tpope/vim-speeddating" })
@@ -266,9 +285,15 @@ return packer.startup(function(use, use_rocks)
         "ethanholz/nvim-lastplace",
         config = function()
             require("nvim-lastplace").setup({
-                lastplace_ignore_buftype = { "quickfix", "nofile", "help" },
+                lastplace_ignore_buftype = { "quickfix", "nofile", "help", "Trouble" },
                 lastplace_ignore_filetype = { "gitcommit", "gitrebase" },
             })
+        end,
+    })
+    use({
+        "lewis6991/spellsitter.nvim",
+        config = function()
+            require("spellsitter").setup()
         end,
     })
     use({

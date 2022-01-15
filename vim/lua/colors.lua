@@ -147,6 +147,11 @@ M.setup = function()
     highlight link PmenuSbar Pmenu
     ]])
 
+    -- Trouble
+    vim.cmd([[
+    highlight TroubleCount guifg=#e8e8d3 guibg=#333333
+    ]])
+
     -- vim-cmp
     vim.cmd([[
     highlight! CmpItemAbbrDeprecated guibg=NONE gui=strikethrough guifg=#808080

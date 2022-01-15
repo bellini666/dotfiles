@@ -1,9 +1,33 @@
+local utils = require("utils")
+local devicons = require("nvim-web-devicons")
+
+if not devicons.has_loaded() then
+    devicons.setup()
+end
+
 local function dap_status()
     local ok, dap = pcall(require, "dap")
     if not ok then
         return ""
     end
     return dap.status()
+end
+
+local function ftype()
+    local encoding = vim.opt_local.fileencoding:get() or ""
+    local filetype = vim.bo.filetype or ""
+    if encoding == "" or filetype == "" then
+        return ""
+    end
+
+    local f_name, f_extension = vim.fn.expand("%:t"), vim.fn.expand("%:e")
+    local icon, color = devicons.get_icon(f_name, f_extension, { default = true })
+    if icon then
+        -- TODO: Add color to the icon
+        filetype = ("%s %s"):format(icon, filetype)
+    end
+
+    return ("%s | %s"):format(encoding, filetype)
 end
 
 require("hardline").setup({
@@ -25,7 +49,7 @@ require("hardline").setup({
         { class = "warning", item = require("hardline.parts.lsp").get_warning },
         { class = "warning", item = require("hardline.parts.whitespace").get_item },
         { class = "med", item = dap_status, hide = 100 },
-        { class = "high", item = require("hardline.parts.filetype").get_item, hide = 80 },
+        { class = "high", item = ftype, hide = 80 },
         { class = "mode", item = require("hardline.parts.line").get_item },
     },
 })

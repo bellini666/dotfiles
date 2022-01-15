@@ -1,3 +1,5 @@
+local colors = require("colors").colors.theme
+
 require("nvim-treesitter.configs").setup({
     ensure_installed = "maintained",
     highlight = {
@@ -20,6 +22,19 @@ require("nvim-treesitter.configs").setup({
     },
     matchup = {
         enable = true,
+    },
+    rainbow = {
+        enable = true,
+        extended_mode = true,
+        max_file_lines = nil,
+        colors = {
+            colors.hoki,
+            colors.green_smoke,
+            colors.raw_sienna,
+            colors.wewak,
+            colors.goldenrod,
+            colors.purple,
+        },
     },
     textobjects = {
         select = {

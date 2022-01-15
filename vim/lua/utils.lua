@@ -7,6 +7,10 @@ M.lazy = function(mod, func, ...)
     end
 end
 
+M.trim = function(s)
+    return s:gsub("^%s*(.-)%s*$", "%1")
+end
+
 M.find_files = function(opts)
     local lsp_util = require("lspconfig.util")
     local t_builtin = require("telescope.builtin")
@@ -106,34 +110,27 @@ M.lsp_calls_handler = function(direction, ...)
 end
 
 M.grep = function()
-    vim.ui.input({ prompt = "Input: ", default = vim.fn.expand("<cword>") }, function(search)
-        search = vim.trim(search or "")
-        if search == "" then
+    vim.ui.input({ prompt = "Directory: ", default = "./", completion = "dir" }, function(dir)
+        dir = vim.trim(dir or "")
+        if dir == "" then
             return
         end
-        vim.ui.input({ prompt = "Dir: ", default = "./", completion = "dir" }, function(dir)
-            dir = vim.trim(dir or "")
-            if dir == "" then
+
+        vim.ui.input({ prompt = "File pattern: ", default = "*" }, function(pattern)
+            pattern = vim.trim(pattern or "")
+            if pattern == "" then
                 return
             end
 
-            vim.ui.input({ prompt = "File pattern: ", default = "*" }, function(pattern)
-                pattern = vim.trim(pattern or "")
-                if pattern == "" then
-                    return
-                end
+            local args = require("telescope.config").values.vimgrep_arguments
+            if pattern ~= "*" then
+                vim.list_extend(args, { "-g", pattern })
+            end
 
-                local args = require("telescope.config").values.vimgrep_arguments
-                if pattern ~= "*" then
-                    vim.list_extend(args, { "-g", pattern })
-                end
-
-                require("telescope.builtin").grep_string({
-                    search = search,
-                    search_dirs = { dir },
-                    vimgrep_arguments = args,
-                })
-            end)
+            require("telescope.builtin").live_grep({
+                search_dirs = { dir },
+                vimgrep_arguments = args,
+            })
         end)
     end)
 end
@@ -200,22 +197,6 @@ M.find_cmd = function(cmd, prefixes, start_from, stop_at)
     end
 
     return found or cmd
-end
-
-M.toggle_qf = function()
-    local qf_exists = false
-    for _, win in pairs(vim.fn.getwininfo()) do
-        if win["quickfix"] == 1 then
-            qf_exists = true
-        end
-    end
-    if qf_exists == true then
-        vim.cmd("cclose")
-        return
-    end
-    if not vim.tbl_isempty(vim.fn.getqflist()) then
-        vim.cmd("copen")
-    end
 end
 
 return M

@@ -49,6 +49,15 @@ map("v", "<C-_>", "gc", { remap = true })
 map("n", "<C-/>", "gcc", { remap = true })
 map("v", "<C-/>", "gc", { remap = true })
 
+-- Trouble
+map("n", "<C-q>", "<cmd>TroubleToggle<cr>")
+map("n", "]q", utils.lazy("trouble", "next", { { skip_groups = true, jump = true } }))
+map("n", "[q", utils.lazy("trouble", "previous", { { skip_groups = true, jump = true } }))
+
+-- Winshift
+map("n", "<C-w>m", "<cmd>WinShift<cr>")
+map("n", "<C-w>x", "<cmd>WinShift swap<cr>")
+
 -- Reload treesitter
 map("n", "<Leader>rt", "<cmd>write | edit | TSBufEnable highlight<cr>")
 
@@ -85,9 +94,8 @@ M.setup_lsp = function(client, bufnr)
     map("n", "[d", vim.diagnostic.goto_prev, opts)
     map("n", "]d", vim.diagnostic.goto_next, opts)
     map("n", "<leader>e", vim.diagnostic.open_float, opts)
-    map("n", "<leader>q", vim.diagnostic.setloclist, opts)
-    map("n", "ge", utils.lazy("telescope.builtin", "diagnostics", { { bufnr = 0 } }))
-    map("n", "gE", utils.lazy("telescope.builtin", "diagnostics"))
+    map("n", "ge", "<cmd>TroubleToggle document_diagnostics<cr>", opts)
+    map("n", "gE", "<cmd>TroubleToggle workspace_diagnostics<cr>", opts)
 
     -- lsp
     map("n", "K", vim.lsp.buf.hover, opts)
