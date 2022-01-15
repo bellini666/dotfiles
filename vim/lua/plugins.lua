@@ -271,7 +271,6 @@ return packer.startup(function(use, use_rocks)
     use({ "tpope/vim-unimpaired" })
     use({ "tpope/vim-speeddating" })
     use({ "wakatime/vim-wakatime" })
-    use({ "gabrielpoca/replacer.nvim" })
     use({
         "mbbill/undotree",
         cmd = "UndotreeToggle",

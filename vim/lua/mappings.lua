@@ -61,9 +61,6 @@ map("n", "<C-w>x", "<cmd>WinShift swap<cr>")
 -- Reload treesitter
 map("n", "<Leader>rt", "<cmd>write | edit | TSBufEnable highlight<cr>")
 
--- Edit the quickfix
-map("n", "<Leader>rr", utils.lazy("replaces", "run"))
-
 -- Fix spell with telescope
 -- map("n", "z=", utils.lazy("telescope.builtin", "spell_suggest", { { theme = "cursor" } }))
 map("n", "z=", utils.spell_suggest)
