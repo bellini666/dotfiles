@@ -59,7 +59,6 @@ PYTHON_LIBS=(
   pip
   pre-commit
   pynvim
-  setuptools
   wheel
   yamllint
 )
