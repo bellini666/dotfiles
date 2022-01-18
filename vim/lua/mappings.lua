@@ -14,11 +14,9 @@ map("v", ">", ">gv")
 
 -- Togglers
 map("n", "<leader>tl", "<cmd>set list!<cr>:set list?<CR>")
-map("n", "<leader>tl", "<cmd>set list!<cr>:set list?<CR>")
 map("n", "<leader>tn", "<cmd>set number!<cr>:set number?<CR>")
 map("n", "<leader>tp", "<cmd>set paste!<cr>:set paste?<CR>")
 map("n", "<leader>ts", "<cmd>set spell!<cr>:set spell?<CR>")
-map("n", "<leader>tq", '<cmd>lua require("utils").toggle_qf()<cr>')
 map("n", "<leader>td", '<cmd>lua require("dapui").toggle()<cr>')
 map("n", "<F2>", "<cmd>UndotreeToggle<cr>")
 map("n", "<F4>", "<cmd>NvimTreeToggle<cr>")
@@ -62,7 +60,6 @@ map("n", "<C-w>x", "<cmd>WinShift swap<cr>")
 map("n", "<Leader>rt", "<cmd>write | edit | TSBufEnable highlight<cr>")
 
 -- Fix spell with telescope
--- map("n", "z=", utils.lazy("telescope.builtin", "spell_suggest", { { theme = "cursor" } }))
 map("n", "z=", utils.spell_suggest)
 
 -- Ctrl-Up/Down scrolls 10 lunes and keep the screen centered
