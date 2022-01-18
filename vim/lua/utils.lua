@@ -38,7 +38,7 @@ M.spell_suggest = function(opts)
 end
 
 M.lsp_handler = function(parser, title, action, opts)
-    local function handle_result(err, result, ...)
+    local function handle_result(err, result, ctx, ...)
         local pickers = require("telescope.pickers")
         local finders = require("telescope.finders")
         local make_entry = require("telescope.make_entry")
@@ -71,7 +71,7 @@ M.lsp_handler = function(parser, title, action, opts)
             pickers.new(opts, {
                 prompt_title = title,
                 finder = finders.new_table({
-                    results = parser(result),
+                    results = parser(result, ctx),
                     entry_maker = opts.entry_maker or make_entry.gen_from_quickfix(opts),
                 }),
                 previewer = conf.qflist_previewer(opts),
@@ -83,15 +83,22 @@ M.lsp_handler = function(parser, title, action, opts)
 end
 
 M.lsp_locs_handler = function(...)
-    return M.lsp_handler(vim.lsp.util.locations_to_items, ...)
+    return M.lsp_handler(function(result, ctx)
+        return vim.lsp.util.locations_to_items(
+            result,
+            vim.lsp.get_client_by_id(ctx.client_id).offset_encoding
+        )
+    end, ...)
 end
 
 M.lsp_symbols_handler = function(...)
-    return M.lsp_handler(vim.lsp.util.symbols_to_items, ...)
+    return M.lsp_handler(function(result, ctx)
+        return vim.lsp.util.symbols_to_items(result, ctx.bufnr)
+    end, ...)
 end
 
 M.lsp_calls_handler = function(direction, ...)
-    local function handler(result)
+    local function handler(result, ctx)
         local items = {}
         for _, res in pairs(result) do
             local item = res[direction]
