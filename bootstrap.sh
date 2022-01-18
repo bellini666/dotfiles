@@ -32,7 +32,6 @@ APT_PACKAGES=(
   libtool-bin
   ncdu
   ninja-build
-  pre-commit
   ripgrep
   ruby
   ruby-dev
@@ -58,7 +57,9 @@ PYTHON_LIBS=(
   numpy
   pandas
   pip
+  pre-commit
   pynvim
+  setuptools
   wheel
   yamllint
 )
