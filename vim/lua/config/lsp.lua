@@ -224,7 +224,7 @@ nvim_lsp.jsonls.setup({
 
 -- https://github.com/sumneko/lua-language-server
 local sumneko_root_path = lsp_util.path.join(vim.env.HOME, ".local_build", "lua-language-server")
-local sumneko_binary = lsp_util.path.join(sumneko_root_path, "bin", "Linux", "lua-language-server")
+local sumneko_binary = lsp_util.path.join(sumneko_root_path, "bin", "lua-language-server")
 local runtime_path = vim.split(package.path, ";")
 table.insert(runtime_path, "lua/?.lua")
 table.insert(runtime_path, "lua/?/init.lua")
