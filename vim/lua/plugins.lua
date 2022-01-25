@@ -250,10 +250,14 @@ return packer.startup(function(use, use_rocks)
 
     -- Terminal integration
     use({
-        "akinsho/toggleterm.nvim",
+        "numToStr/FTerm.nvim",
         config = function()
-            require("toggleterm").setup({
-                shade_terminals = false,
+            require("FTerm").setup({
+                border = "double",
+                dimensions = {
+                    height = 0.9,
+                    width = 0.9,
+                },
             })
         end,
     })

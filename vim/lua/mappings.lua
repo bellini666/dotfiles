@@ -67,16 +67,7 @@ map("n", "<C-Up>", "10kzz")
 map("n", "<C-Down>", "10jzz")
 
 -- Terminal toggle
-map("n", "<C-Z>", utils.lazy("toggleterm", "toggle", { 0 }), { silent = true })
-map("t", "<C-Z>", utils.lazy("toggleterm", "toggle_all"), { silent = true })
-for i = 1, 5 do
-    map(
-        { "n", "t" },
-        "<A-" .. i .. ">",
-        utils.lazy("toggleterm", "toggle", { i }),
-        { silent = true }
-    )
-end
+map({ "n", "t" }, "<C-Z>", utils.lazy("FTerm", "toggle"), { silent = true })
 
 M.setup_lsp = function(client, bufnr)
     local opts = { buffer = true, silent = true }
