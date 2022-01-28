@@ -66,7 +66,10 @@ M.lsp_handler = function(parser, title, action, opts)
             elseif opts.jump_type == "vsplit" then
                 vim.cmd("vnew")
             end
-            vim.lsp.util.jump_to_location(result[1])
+            vim.lsp.util.jump_to_location(
+                result[1],
+                vim.lsp.get_client_by_id(ctx.client_id).offset_encoding
+            )
         else
             pickers.new(opts, {
                 prompt_title = title,
