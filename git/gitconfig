@@ -19,12 +19,15 @@
 [pull]
     ff = only
 
-# FIXME: Uncomment when git 2.34 is available
-#[gpg]
-#    format = ssh
-#
-#[gpg "ssh"]
-#    defaultKeyCommand = ssh-add -L
+[gpg]
+    format = ssh
+
+[gpg "ssh"]
+    defaultKeyCommand = ssh-add -L
+    allowedSignersFile = ~/.ssh/allowed_signers
+
+[commit]
+    gpgsign = true
 
 [alias]
     co = checkout
