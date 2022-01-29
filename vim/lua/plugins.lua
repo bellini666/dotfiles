@@ -152,8 +152,13 @@ return packer.startup(function(use, use_rocks)
         requires = {
             {
                 "mg979/tabline.nvim",
+                requires = { "kyazdani42/nvim-web-devicons" },
+            },
+            {
+                "nvim-lualine/lualine.nvim",
                 requires = {
                     "kyazdani42/nvim-web-devicons",
+                    "arkav/lualine-lsp-progress",
                 },
             },
         },
@@ -227,25 +232,6 @@ return packer.startup(function(use, use_rocks)
             })
         end,
         requires = { "kyazdani42/nvim-web-devicons" },
-    })
-
-    -- Statusline
-    use({
-        "ojroques/nvim-hardline",
-        requires = {
-            "kyazdani42/nvim-web-devicons",
-            "tpope/vim-fugitive",
-            {
-                "SmiteshP/nvim-gps",
-                config = function()
-                    require("nvim-gps").setup()
-                end,
-                requires = { "nvim-treesitter/nvim-treesitter" },
-            },
-        },
-        config = function()
-            require("config.statusline")
-        end,
     })
 
     -- Terminal integration

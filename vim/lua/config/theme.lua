@@ -11,7 +11,7 @@ M.setup = function()
             palette = {
                 jellybeans = {
                     bg = {
-                        alt = utils.lighten(jellybeans.bg.base, 0.95),
+                        alt = utils.lighten(jellybeans.bg.base, 0.92),
                     },
                     pum = {
                         fg = jellybeans.fg,
@@ -39,41 +39,72 @@ M.setup = function()
         },
     })
 
+    local c = require("themer.modules.core.api").get_cp("jellybeans")
+    local lualine_jellybeans = require("lualine.themes.jellybeans")
+    local lualine_get_color = function(a_bg)
+        return {
+            a = { bg = a_bg, fg = c.bg.alt, gui = "NONE" },
+            b = { bg = utils.lighten(c.bg.alt, 0.95), fg = c.accent },
+            c = { bg = c.bg.alt, fg = c.cursorlinenr },
+        }
+    end
+    local lualine_theme = vim.tbl_deep_extend("force", lualine_jellybeans, {
+        normal = lualine_get_color(c.blue),
+        insert = lualine_get_color(c.yellow),
+        command = lualine_get_color(c.syntax.constant),
+        visual = lualine_get_color(c.magenta),
+        replace = lualine_get_color(c.syntax.constant),
+        inactive = lualine_get_color(c.bg.alt),
+    })
+    require("lualine").setup({
+        options = {
+            theme = lualine_theme,
+            component_separators = { left = "｜", right = "｜" },
+        },
+        sections = {
+            lualine_b = { "branch", "diagnostics" },
+            lualine_c = {
+                { "filename", path = 1 },
+            },
+            lualine_x = {
+                {
+                    "lsp_progress",
+                    spinner_symbols = { "◴", "◷", "◶", "◵" },
+                },
+                "encoding",
+                "fileformat",
+                "filetype",
+            },
+        },
+        extensions = {
+            "nvim-tree",
+        },
+    })
+
     -- Tabline setup
-    local tabline_default = require("tabline.themes.default").theme()
-    local tabline_theme = vim.tbl_deep_extend("force", tabline_default, {
-        name = "jellybeans",
-
-        TSelect = "link %s ThemerNormal",
-        TSelectDim = "link %s ThemerDimmed",
-        TSelectSep = "link %s ThemerSubtle",
-        TSelectMod = "link %s ThemerAccent",
-
-        TSpecial = "link %s ThemerNormal",
-        TSpecialDim = "link %s ThemerDimmed",
-        TSpecialSep = "link %s ThemerSubtle",
-        TSpecialMod = "link %s ThemerAccent",
-
-        TVisible = "link %s ThemerFloat",
-        TVisibleDim = "link %s ThemerDimmedFloat",
-        TVisibleSep = "link %s ThemerSubtleFloat",
-        TVisibleMod = "link %s ThemerAccentFloat",
-
-        THidden = "link %s ThemerFloat",
-        THiddenDim = "link %s ThemerDimmedFloat",
-        THiddenSep = "link %s ThemerSubtleFloat",
-        THiddenMod = "link %s ThemerAccentFloat",
-
-        TExtra = "link %s ThemerFloat",
-        TExtraDim = "link %s ThemerDimmedFloat",
-        TExtraSep = "link %s ThemerSubtleFloat",
-        TExtraMod = "link %s ThemerAccentFloat",
-
+    local tabline_theme = require("tabline.themes.default").theme()
+    tabline_theme = vim.tbl_extend("force", tabline_theme, {
         TFill = "link %s ThemerNormalFloat",
         TNumSel = "link %s ThemerAccentFloat",
         TNum = "link %s ThemerAccentFloat",
         TCorner = "link %s ThemerAccentFloat",
     })
+    for _, hl_name in ipairs({ "TSelect", "TSpecial" }) do
+        tabline_theme = vim.tbl_extend("force", tabline_theme, {
+            [hl_name] = "link %s ThemerNormal",
+            [hl_name .. "Dim"] = "link %s ThemerDimmed",
+            [hl_name .. "Sep"] = "link %s ThemerSubtle",
+            [hl_name .. "Mod"] = "link %s ThemerAccent",
+        })
+    end
+    for _, hl_name in ipairs({ "TVisible", "THidden", "TExtra" }) do
+        tabline_theme = vim.tbl_extend("force", tabline_theme, {
+            [hl_name] = "link %s ThemerFloat",
+            [hl_name .. "Dim"] = "link %s ThemerDimmedFloat",
+            [hl_name .. "Sep"] = "link %s ThemerSubtleFloat",
+            [hl_name .. "Mod"] = "link %s ThemerAccentFloat",
+        })
+    end
     require("tabline.setup").setup({
         modes = { "tabs" },
         theme = tabline_theme.name,
