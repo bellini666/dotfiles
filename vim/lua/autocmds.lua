@@ -7,9 +7,6 @@ augroup __autocmds
   " Packer
   autocmd BufWritePost plugins.lua source <afile> | PackerCompile
 
-  " Colors
-  autocmd ColorScheme * lua require("colors").setup()
-
   " Filetypes
   autocmd FileType * lua require("options").setup_ft()
 
@@ -26,16 +23,6 @@ M.setup_lsp = function(client, bufnr)
         ]])
     end
 
-    if client.resolved_capabilities.document_highlight then
-        vim.cmd([[
-          augroup __lsp_document_highlight
-            autocmd! * <buffer>
-            autocmd CursorHold,CursorHoldI <buffer> lua vim.lsp.buf.document_highlight()
-            autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
-          augroup END
-        ]])
-    end
-
     if client.resolved_capabilities.code_lens then
         vim.cmd([[
           augroup __lsp_code_lens_refresh
@@ -44,6 +31,17 @@ M.setup_lsp = function(client, bufnr)
           augroup END
         ]])
     end
+
+    -- Not using this right now as it is annoying
+    -- if client.resolved_capabilities.document_highlight then
+    --     vim.cmd([[
+    --       augroup __lsp_document_highlight
+    --         autocmd! * <buffer>
+    --         autocmd CursorHold,CursorHoldI <buffer> lua vim.lsp.buf.document_highlight()
+    --         autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
+    --       augroup END
+    --     ]])
+    -- end
 end
 
 return M

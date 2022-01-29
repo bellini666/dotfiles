@@ -144,7 +144,26 @@ return packer.startup(function(use, use_rocks)
     })
 
     -- UI
-    use({ "stevearc/dressing.nvim" })
+    use({
+        "themercorp/themer.lua",
+        config = function()
+            require("config.theme").setup()
+        end,
+        requires = {
+            {
+                "mg979/tabline.nvim",
+                requires = {
+                    "kyazdani42/nvim-web-devicons",
+                },
+            },
+        },
+    })
+    use({
+        "stevearc/dressing.nvim",
+        config = function()
+            require("dressing").setup()
+        end,
+    })
     use({
         "rcarriga/nvim-notify",
         config = function()
@@ -153,25 +172,6 @@ return packer.startup(function(use, use_rocks)
                 timeout = 750,
             })
             vim.notify = notify
-        end,
-    })
-    use({
-        "metalelf0/jellybeans-nvim",
-        requires = { "rktjmp/lush.nvim" },
-    })
-    use({
-        "mg979/tabline.nvim",
-        requires = {
-            "kyazdani42/nvim-web-devicons",
-        },
-        config = function()
-            local theme = require("colors").tabline_theme
-            require("tabline.themes").add(theme)
-            require("tabline.setup").setup({
-                modes = { "tabs" },
-                theme = theme.name,
-            })
-            require("tabline.themes").apply(theme)
         end,
     })
     use({ "sindrets/winshift.nvim" })
@@ -290,7 +290,15 @@ return packer.startup(function(use, use_rocks)
     })
     use({
         "mg979/vim-visual-multi",
+        config = function()
+            -- Use colors from themer
+            vim.g.VM_Mono_hl = "ThemerSearchResult"
+            vim.g.VM_Extend_hl = "ThemerSearchResult"
+            vim.g.VM_Cursor_hl = "ThemerSearchResult"
+            vim.g.VM_Insert_hl = "Cursor"
+        end,
         branch = "master",
+        requires = "themercorp/themer.lua",
         keys = "<C-n>",
     })
     use({

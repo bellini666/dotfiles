@@ -172,7 +172,6 @@ local ft_configs = {
 
 M.setup = function()
     vim.cmd([[
-      colorscheme jellybeans-nvim
       syntax on
       filetype plugin indent on
     ]])
