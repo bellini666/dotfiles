@@ -267,6 +267,15 @@ return packer.startup(function(use, use_rocks)
         "Vimjas/vim-python-pep8-indent",
         ft = "python",
     })
+    use({
+        "danymat/neogen",
+        config = function()
+            require("neogen").setup({
+                enabled = true,
+            })
+        end,
+        requires = "nvim-treesitter/nvim-treesitter",
+    })
 
     -- Text editing
     use({ "ggandor/lightspeed.nvim" })
