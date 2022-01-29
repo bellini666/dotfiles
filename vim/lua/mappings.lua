@@ -66,6 +66,9 @@ map("n", "z=", utils.spell_suggest)
 map("n", "<C-Up>", "10kzz")
 map("n", "<C-Down>", "10jzz")
 
+-- Apply last change to next search result
+map("n", "g.", '/\\V<C-r>"<CR>cgn<C-a><Esc>')
+
 -- Terminal toggle
 map({ "n", "t" }, "<C-Z>", utils.lazy("FTerm", "toggle"), { silent = true })
 
