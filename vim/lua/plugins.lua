@@ -35,7 +35,10 @@ return packer.startup(function(use, use_rocks)
         end,
         requires = {
             "nvim-treesitter/nvim-treesitter-textobjects",
-            "nvim-treesitter/playground",
+            {
+                "nvim-treesitter/playground",
+                cmd = { "TSPlaygroundToggle", "TSHighlightCapturesUnderCursor" },
+            },
             {
                 "norcalli/nvim-colorizer.lua",
                 config = function()
@@ -57,30 +60,44 @@ return packer.startup(function(use, use_rocks)
         requires = {
             "jose-elias-alvarez/null-ls.nvim",
             "b0o/schemastore.nvim",
+            use({
+                "ray-x/lsp_signature.nvim",
+                config = function()
+                    require("lsp_signature").setup({
+                        hint_enable = false,
+                        toggle_key = "<C-K>",
+                    })
+                end,
+            }),
         },
     })
     use({
-        "folke/trouble.nvim",
+        "ThePrimeagen/refactoring.nvim",
+        config = function()
+            require("refactoring").setup({})
+        end,
+        requires = {
+            "nvim-lua/plenary.nvim",
+            "nvim-treesitter/nvim-treesitter",
+        },
+    })
+    use({
+        -- FIXME: Go back to the original repo once my PRs are merged
+        -- "folke/trouble.nvim",
+        "bellini666/trouble.nvim",
         config = function()
             require("trouble").setup({
                 close = "<C-q>",
                 padding = false,
                 auto_preview = false,
                 use_diagnostic_signs = true,
+                track_cursor = true,
             })
         end,
         requires = "kyazdani42/nvim-web-devicons",
     })
 
     -- Completion
-    use({
-        "windwp/nvim-autopairs",
-        config = function()
-            require("nvim-autopairs").setup({
-                disable_in_macro = true,
-            })
-        end,
-    })
     use({
         "hrsh7th/nvim-cmp",
         config = function()
@@ -116,6 +133,14 @@ return packer.startup(function(use, use_rocks)
                 },
             },
         },
+    })
+    use({
+        "windwp/nvim-autopairs",
+        config = function()
+            require("nvim-autopairs").setup({
+                disable_in_macro = true,
+            })
+        end,
     })
 
     -- DAP
@@ -166,7 +191,11 @@ return packer.startup(function(use, use_rocks)
     use({
         "stevearc/dressing.nvim",
         config = function()
-            require("dressing").setup()
+            require("dressing").setup({
+                input = {
+                    insert_only = true,
+                },
+            })
         end,
     })
     use({

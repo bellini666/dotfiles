@@ -3,10 +3,9 @@ local utils = require("utils")
 
 local M = {}
 
--- Shift + Insert to paste
-map("n", "<S-Insert>", '"+p')
-map("i", "<S-Insert>", '<C-O>"+P')
-map("c", "<S-Insert>", "<MiddleMouse>")
+-- Global copy/paste helpers
+map("v", "<C-C>", '"+y')
+map({ "i", "v", "c", "n" }, "<C-S-V>", '"+p')
 
 -- Continuous visual indenting
 map("v", "<", "<gv")
@@ -49,12 +48,14 @@ map("v", "<C-/>", "gc", { remap = true })
 
 -- Trouble
 map("n", "<C-q>", "<cmd>TroubleToggle<cr>")
-map("n", "]q", utils.lazy("trouble", "next", { { skip_groups = true, jump = true } }))
 map("n", "[q", utils.lazy("trouble", "previous", { { skip_groups = true, jump = true } }))
+map("n", "]q", utils.lazy("trouble", "next", { { skip_groups = true, jump = true } }))
+map("n", "[Q", utils.lazy("trouble", "first", { { skip_groups = true, jump = true } }))
+map("n", "]Q", utils.lazy("trouble", "last", { { skip_groups = true, jump = true } }))
 
 -- Winshift
 map("n", "<C-w>m", "<cmd>WinShift<cr>")
-map("n", "<C-w>x", "<cmd>WinShift swap<cr>")
+map("n", "<C-w>x", "<cmd>WinShift swap<cr><C-w><C-w>")
 
 -- Reload treesitter
 map("n", "<Leader>rt", "<cmd>write | edit | TSBufEnable highlight<cr>")
@@ -70,7 +71,7 @@ map("n", "<C-Down>", "10jzz")
 map("n", "g.", '/\\V<C-r>"<CR>cgn<C-a><Esc>')
 
 -- Terminal toggle
-map({ "n", "t" }, "<C-Z>", utils.lazy("FTerm", "toggle"), { silent = true })
+map({ "n", "t" }, "<C-\\>", utils.lazy("FTerm", "toggle"), { silent = true })
 
 M.setup_lsp = function(client, bufnr)
     local opts = { buffer = true, silent = true }
@@ -87,7 +88,7 @@ M.setup_lsp = function(client, bufnr)
 
     -- lsp
     map("n", "K", vim.lsp.buf.hover, opts)
-    map({ "i", "n" }, "<C-K>", vim.lsp.buf.signature_help, opts)
+    map("n", "<C-K>", vim.lsp.buf.signature_help, opts)
     map("n", "gD", vim.lsp.buf.declaration, opts)
     map("n", "<C-LeftMouse>", vim.lsp.buf.definition, opts)
     map("n", "gd", vim.lsp.buf.definition, opts)
