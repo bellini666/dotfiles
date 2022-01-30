@@ -67,7 +67,7 @@ NODE_LIBS=(
   bash-language-server
   corepack
   create-react-native-app
-  cspell-cli
+  cspell
   dockerfile-language-server-nodejs
   eslint
   expo-cli

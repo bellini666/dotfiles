@@ -1,14 +1,14 @@
 local M = {}
 
 local function extend(opt, list)
-    if opt._info.flaglist then
-        local flaglist = {}
-        for _, v in ipairs(list) do
-            flaglist[v] = true
-        end
-        list = flaglist
+  if opt._info.flaglist then
+    local flaglist = {}
+    for _, v in ipairs(list) do
+      flaglist[v] = true
     end
-    return opt + list
+    list = flaglist
+  end
+  return opt + list
 end
 
 -- Set python3 host path
@@ -43,11 +43,11 @@ vim.opt.signcolumn = "number"
 vim.opt.laststatus = 2
 vim.opt.list = true
 vim.opt.listchars = {
-    tab = "»·",
-    trail = "·",
-    extends = "→",
-    precedes = "←",
-    nbsp = "×",
+  tab = "»·",
+  trail = "·",
+  extends = "→",
+  precedes = "←",
+  nbsp = "×",
 }
 vim.opt.showbreak = [[↪\ ]]
 vim.opt.showmode = false
@@ -94,9 +94,9 @@ vim.opt.ttimeoutlen = 10
 -- Spell
 vim.opt.spelllang = { "en_us", "pt_br" }
 vim.opt.dictionary = extend(vim.opt.dictionary, {
-    "/usr/share/dict/words",
-    "/usr/share/dict/brazilian",
-    "/usr/share/dict/american-english",
+  "/usr/share/dict/words",
+  "/usr/share/dict/brazilian",
+  "/usr/share/dict/american-english",
 })
 
 -- Search
@@ -107,94 +107,95 @@ vim.opt.smartcase = true
 vim.opt.hlsearch = true
 vim.opt.wildmode = { "list:longest", "full" }
 vim.opt.wildignore = extend(vim.opt.wildignore, {
-    "*.DS_Store",
-    "*.bak",
-    "*.class",
-    "*.gif",
-    "*.jpeg",
-    "*.jpg",
-    "*.min.js",
-    "*.o",
-    "*.obj",
-    "*.out",
-    "*.png",
-    "*.pyc",
-    "*.so",
-    "*.swp",
-    "*.zip",
-    "*/*-egg-info/*",
-    "*/.egg-info/*",
-    "*/.expo/*",
-    "*/.git/*",
-    "*/.hg/*",
-    "*/.mypy_cache/*",
-    "*/.next/*",
-    "*/.pnp/*",
-    "*/.pytest_cache/*",
-    "*/.repo/*",
-    "*/.sass-cache/*",
-    "*/.svn/*",
-    "*/.venv/*",
-    "*/.yarn/*",
-    "*/.yarn/*",
-    "*/__pycache__/*",
-    "*/bower_modules/*",
-    "*/build/*",
-    "*/dist/*",
-    "*/node_modules/*",
-    "*/target/*",
-    "*/venv/*",
-    "*~",
+  "*.DS_Store",
+  "*.bak",
+  "*.class",
+  "*.gif",
+  "*.jpeg",
+  "*.jpg",
+  "*.min.js",
+  "*.o",
+  "*.obj",
+  "*.out",
+  "*.png",
+  "*.pyc",
+  "*.so",
+  "*.swp",
+  "*.zip",
+  "*/*-egg-info/*",
+  "*/.egg-info/*",
+  "*/.expo/*",
+  "*/.git/*",
+  "*/.hg/*",
+  "*/.mypy_cache/*",
+  "*/.next/*",
+  "*/.pnp/*",
+  "*/.pytest_cache/*",
+  "*/.repo/*",
+  "*/.sass-cache/*",
+  "*/.svn/*",
+  "*/.venv/*",
+  "*/.yarn/*",
+  "*/.yarn/*",
+  "*/__pycache__/*",
+  "*/bower_modules/*",
+  "*/build/*",
+  "*/dist/*",
+  "*/node_modules/*",
+  "*/target/*",
+  "*/venv/*",
+  "*~",
 })
 
 -- FT Configs
 local ft_configs = {
-    bash = { indent = 2 },
-    css = { indent = 2 },
-    gitcommit = { spell = true },
-    graphql = { indent = 2 },
-    help = { spell = false },
-    html = { indent = 2, spell = "toplevel" },
-    javascript = { indent = 2 },
-    javascriptreact = { indent = 2 },
-    markdown = { spell = true },
-    po = { spell = true },
-    python = { indent = 4 },
-    scss = { indent = 2 },
-    sh = { indent = 2 },
-    tags = { spell = false },
-    text = { spell = true },
-    typescript = { indent = 2 },
-    typescriptreact = { indent = 2 },
-    xml = { indent = 2, spell = "toplevel" },
-    zsh = { indent = 2 },
+  bash = { indent = 2 },
+  css = { indent = 2 },
+  gitcommit = { spell = true },
+  graphql = { indent = 2 },
+  help = { spell = false },
+  html = { indent = 2, spell = "toplevel" },
+  javascript = { indent = 2 },
+  javascriptreact = { indent = 2 },
+  lua = { indent = 2 },
+  markdown = { spell = true },
+  po = { spell = true },
+  python = { indent = 4 },
+  scss = { indent = 2 },
+  sh = { indent = 2 },
+  tags = { spell = false },
+  text = { spell = true },
+  typescript = { indent = 2 },
+  typescriptreact = { indent = 2 },
+  xml = { indent = 2, spell = "toplevel" },
+  zsh = { indent = 2 },
 }
 
 M.setup = function()
-    vim.cmd([[
-      syntax on
-      filetype plugin indent on
-    ]])
+  vim.cmd([[
+    syntax on
+    filetype plugin indent on
+  ]])
 end
 
 M.setup_ft = function()
-    local config = ft_configs[vim.bo.filetype]
-    if config == nil then
-        return
-    end
+  local config = ft_configs[vim.bo.filetype]
+  if config == nil then
+    return
+  end
 
-    if config.indent ~= nil then
-        vim.opt_local.shiftwidth = config.indent
-        vim.opt_local.softtabstop = config.indent
-    end
+  if config.indent ~= nil then
+    vim.opt_local.shiftwidth = config.indent
+    vim.opt_local.softtabstop = config.indent
+  end
 
-    if config.spell ~= nil then
-        if type(config.spell) == "string" then
-            vim.cmd("syn spell " .. config.spell)
-        else
-            vim.opt_local.spell = config.spell or false
-        end
+  if config.spell ~= nil then
+    if type(config.spell) == "string" then
+      vim.cmd("syn spell " .. config.spell)
+    else
+      vim.opt_local.spell = config.spell or false
     end
+  end
 end
 
 return M

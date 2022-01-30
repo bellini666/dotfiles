@@ -38,14 +38,14 @@ repos:
         name: StyLua
         language: rust
         types: [lua]
-        entry: stylua --indent-type Spaces --column-width 100 -s -
+        entry: stylua -s -
 
   - repo: local
     hooks:
       - id: prettier
         name: prettier
         language: system
-        types: [yaml, json, markdown]
+        types_or: [yaml, json, markdown]
         entry: prettier --write --list-different --ignore-unknown
 
   - repo: local
