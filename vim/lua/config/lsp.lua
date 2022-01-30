@@ -1,6 +1,5 @@
 local nvim_lsp = require("lspconfig")
 local lsp_util = require("lspconfig/util")
-local null_ls = require("null-ls")
 local utils = require("utils")
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
@@ -253,76 +252,79 @@ nvim_lsp.sumneko_lua.setup({
 })
 
 -- https://github.com/jose-elias-alvarez/null-ls.nvim
+local null_ls = require("null-ls")
 local diagnostics_format = "[#{c}] #{m} (#{s})"
-local f = null_ls.builtins.formatting
-local d = null_ls.builtins.diagnostics
+local formatting = null_ls.builtins.formatting
+local diagnostics = null_ls.builtins.diagnostics
+local code_actions = null_ls.builtins.code_actions
 null_ls.setup({
     handlers = handlers,
     flags = flags,
     capabilities = capabilities,
     on_attach = on_attach,
     sources = {
+        -- refactoring.nvim code_actions,
+        code_actions.refactoring,
         -- shellcheck code_actions,
-        null_ls.builtins.code_actions.shellcheck,
-        -- codepell
-        d.codespell.with({
-            diagnostics_format = diagnostics_format,
-            prefer_local = ".venv/bin",
-        }),
+        code_actions.shellcheck,
+        -- gitrebase code_actions,
+        code_actions.gitrebase,
+        -- cspell
+        diagnostics.cspell,
         -- python
-        d.flake8.with({
+        diagnostics.flake8.with({
             diagnostics_format = diagnostics_format,
             prefer_local = ".venv/bin",
             -- Ignore some errors that are always fixed by black
             extra_args = { "--extend-ignore", "E1,E2,E3,F821,E731,R504,SIM106" },
         }),
-        f.isort.with({
+        formatting.isort.with({
             diagnostics_format = diagnostics_format,
             prefer_local = ".venv/bin",
             extra_args = { "--profile", "black" },
         }),
-        f.black.with({
+        formatting.black.with({
             diagnostics_format = diagnostics_format,
             prefer_local = ".venv/bin",
             extra_args = { "--fast", "-W", "6" },
         }),
         -- javascript/typescript
-        f.prettier.with({
+        formatting.prettier.with({
             diagnostics_format = diagnostics_format,
             prefer_local = "node_modules/.bin",
         }),
         -- sh/bash
-        d.shellcheck.with({
+        diagnostics.shellcheck.with({
             diagnostics_format = diagnostics_format,
         }),
-        f.shfmt.with({
+        formatting.shfmt.with({
             diagnostics_format = diagnostics_format,
             extra_args = { "-i", "2" },
         }),
         -- lua
-        f.stylua.with({
+        formatting.stylua.with({
             diagnostics_format = diagnostics_format,
             extra_args = { "--indent-type", "Spaces", "--column-width", "100" },
         }),
         -- json
-        f.fixjson.with({
+        formatting.fixjson.with({
             diagnostics_format = diagnostics_format,
         }),
         -- yaml
-        d.yamllint.with({
+        diagnostics.yamllint.with({
             diagnostics_format = diagnostics_format,
             extra_args = { "-d", "{extends: default, rules: {line-length: {max: 100}}}" },
         }),
         -- sql
-        f.sqlformat.with({
+        formatting.sqlformat.with({
             diagnostics_format = diagnostics_format,
         }),
         -- toml
-        f.taplo.with({
+        formatting.taplo.with({
             diagnostics_format = diagnostics_format,
         }),
         -- css/scss/sass/less
-        f.stylelint.with({
+        formatting.stylelint.with({
             diagnostics_format = diagnostics_format,
         }),
     },
