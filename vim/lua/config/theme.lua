@@ -1,64 +1,71 @@
 local M = {}
 
-M.setup = function()
-    -- Themer setup
+local function setup_themer()
     local themer = require("themer")
     local utils = require("themer.utils.colors")
-    local jellybeans = require("themer.modules.themes.jellybeans")
+    local colors = require("themer.modules.themes.jellybeans")
+
     themer.setup({
         colorscheme = "jellybeans",
         remaps = {
             palette = {
                 jellybeans = {
                     bg = {
-                        alt = utils.lighten(jellybeans.bg.base, 0.92),
+                        alt = utils.lighten(colors.bg.base, 0.9),
                     },
                     pum = {
-                        fg = jellybeans.fg,
-                        bg = utils.lighten(jellybeans.bg.base, 0.85),
+                        fg = colors.fg,
+                        bg = utils.lighten(colors.bg.base, 0.85),
+                        sbar = utils.lighten(colors.bg.base, 0.75),
+                        thumb = utils.lighten(colors.bg.base, 0.65),
                         sel = {
-                            bg = utils.darken(jellybeans.uri, 0.75),
+                            bg = colors.blue,
                         },
-                        sbar = utils.lighten(jellybeans.bg.base, 0.85),
-                        thumb = utils.lighten(jellybeans.bg.base, 0.65),
                     },
-                    border = jellybeans.blue,
-                    match = utils.darken(jellybeans.uri, 0.75),
+                    border = colors.blue,
+                    match = utils.darken(colors.syntax.struct, 0.85),
                 },
             },
             highlights = {
                 jellybeans = {
                     base = {
-                        Visual = { bg = utils.lighten(jellybeans.bg.selected, 0.9) },
+                        Visual = {
+                            bg = utils.lighten(colors.bg.selected, 0.9),
+                        },
                         NormalFloat = {
-                            bg = jellybeans.bg.base,
+                            bg = colors.bg.base,
                         },
                     },
                 },
             },
         },
     })
+end
 
-    local c = require("themer.modules.core.api").get_cp("jellybeans")
-    local lualine_jellybeans = require("lualine.themes.jellybeans")
-    local lualine_get_color = function(a_bg)
-        return {
-            a = { bg = a_bg, fg = c.bg.alt, gui = "NONE" },
-            b = { bg = utils.lighten(c.bg.alt, 0.95), fg = c.accent },
-            c = { bg = c.bg.alt, fg = c.cursorlinenr },
-        }
+local function setup_lualine()
+    local utils = require("themer.utils.colors")
+    local colors = require("themer.modules.core.api").get_cp("jellybeans")
+    local theme = require("lualine.themes.jellybeans")
+    local bgs = {
+        normal = colors.blue,
+        insert = colors.yellow,
+        command = colors.syntax.constant,
+        visual = colors.magenta,
+        replace = colors.syntax.constant,
+        inactive = colors.bg.alt,
+    }
+    for kind, bg in pairs(bgs) do
+        vim.tbl_deep_extend("force", theme, {
+            [kind] = {
+                a = { bg = bg, fg = colors.bg.alt, gui = "NONE" },
+                b = { bg = utils.lighten(colors.bg.alt, 0.95), fg = colors.accent },
+                c = { bg = colors.bg.alt, fg = colors.cursorlinenr },
+            },
+        })
     end
-    local lualine_theme = vim.tbl_deep_extend("force", lualine_jellybeans, {
-        normal = lualine_get_color(c.blue),
-        insert = lualine_get_color(c.yellow),
-        command = lualine_get_color(c.syntax.constant),
-        visual = lualine_get_color(c.magenta),
-        replace = lualine_get_color(c.syntax.constant),
-        inactive = lualine_get_color(c.bg.alt),
-    })
     require("lualine").setup({
         options = {
-            theme = lualine_theme,
+            theme = theme,
             component_separators = { left = "｜", right = "｜" },
         },
         sections = {
@@ -80,17 +87,20 @@ M.setup = function()
             "nvim-tree",
         },
     })
+end
 
-    -- Tabline setup
-    local tabline_theme = require("tabline.themes.default").theme()
-    tabline_theme = vim.tbl_extend("force", tabline_theme, {
+local function setup_tabline()
+    local themes = require("tabline.themes")
+    local theme = require("tabline.themes.default").theme()
+    theme = vim.tbl_extend("force", theme, {
+        name = "jellybeans",
         TFill = "link %s ThemerNormalFloat",
         TNumSel = "link %s ThemerAccentFloat",
         TNum = "link %s ThemerAccentFloat",
         TCorner = "link %s ThemerAccentFloat",
     })
     for _, hl_name in ipairs({ "TSelect", "TSpecial" }) do
-        tabline_theme = vim.tbl_extend("force", tabline_theme, {
+        theme = vim.tbl_extend("force", theme, {
             [hl_name] = "link %s ThemerNormal",
             [hl_name .. "Dim"] = "link %s ThemerDimmed",
             [hl_name .. "Sep"] = "link %s ThemerSubtle",
@@ -98,18 +108,27 @@ M.setup = function()
         })
     end
     for _, hl_name in ipairs({ "TVisible", "THidden", "TExtra" }) do
-        tabline_theme = vim.tbl_extend("force", tabline_theme, {
+        theme = vim.tbl_extend("force", theme, {
             [hl_name] = "link %s ThemerFloat",
             [hl_name .. "Dim"] = "link %s ThemerDimmedFloat",
             [hl_name .. "Sep"] = "link %s ThemerSubtleFloat",
             [hl_name .. "Mod"] = "link %s ThemerAccentFloat",
         })
     end
+    themes.add(theme)
     require("tabline.setup").setup({
         modes = { "tabs" },
-        theme = tabline_theme.name,
+        theme = theme.name,
     })
-    require("tabline.themes").apply(tabline_theme)
+    -- FIXME: The plugin is not respecting theme above.
+    -- Remove this once it is fixed...
+    themes.apply(theme)
+end
+
+M.setup = function()
+    setup_themer()
+    setup_lualine()
+    setup_tabline()
 end
 
 return M
