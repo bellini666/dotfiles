@@ -120,9 +120,6 @@ local function setup_tabline()
     modes = { "tabs" },
     theme = theme.name,
   })
-  -- FIXME: The plugin is not respecting theme above.
-  -- Remove this once it is fixed...
-  themes.apply(theme)
 end
 
 M.setup = function()
