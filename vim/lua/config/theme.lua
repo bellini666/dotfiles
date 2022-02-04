@@ -28,13 +28,14 @@ local function setup_themer()
       },
       highlights = {
         jellybeans = {
-          base = {
-            Visual = {
-              bg = utils.lighten(colors.bg.selected, 0.9),
-            },
-            NormalFloat = {
-              bg = colors.bg.base,
-            },
+          Visual = {
+            bg = utils.lighten(colors.bg.selected, 0.9),
+          },
+          NormalFloat = {
+            bg = colors.bg.base,
+          },
+          LineNr = {
+            link = "ThemerDimmed",
           },
         },
       },
@@ -91,7 +92,7 @@ end
 
 local function setup_tabline()
   local themes = require("tabline.themes")
-  local theme = require("tabline.themes.default").theme()
+  local theme = require("tabline.themes.themer").theme()
   theme = vim.tbl_extend("force", theme, {
     name = "jellybeans",
     TFill = "link %s ThemerNormalFloat",
