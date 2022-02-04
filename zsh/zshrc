@@ -53,7 +53,6 @@ alias d="deletemark"
 alias p="showmarks"
 alias vi="nvim"
 alias vim="nvim"
-alias gvim="nvim-gtk"
 alias lg="lazygit"
 alias luamake=/home/bellini/.local_build/lua-language-server/3rd/luamake/luamake
 
