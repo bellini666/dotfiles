@@ -67,11 +67,10 @@ local function setup_lualine()
     inactive = colors.bg.alt,
   }
   for kind, bg in pairs(bgs) do
-    vim.tbl_deep_extend("force", theme, {
+    theme = vim.tbl_deep_extend("force", theme, {
       [kind] = {
-        a = { bg = bg, fg = colors.bg.alt, gui = "NONE" },
-        b = { bg = utils.lighten(colors.bg.alt, 0.95), fg = colors.accent },
-        c = { bg = colors.bg.alt, fg = colors.cursorlinenr },
+        a = { bg = bg },
+        b = { bg = utils.lighten(colors.bg.alt, 0.9) },
       },
     })
   end
