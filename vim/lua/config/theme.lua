@@ -31,6 +31,10 @@ local function setup_themer()
       },
       highlights = {
         jellybeans = {
+          _TabDimmed = {
+            bg = bg_alt,
+            fg = colors.syntax.comment,
+          },
           Visual = {
             bg = utils.lighten(colors.bg.selected, 0.9),
           },
@@ -102,10 +106,6 @@ local function setup_tabline()
   local theme = require("tabline.themes.themer").theme()
   theme = vim.tbl_extend("force", theme, {
     name = "jellybeans",
-    TFill = "link %s ThemerNormalFloat",
-    TNumSel = "link %s ThemerAccentFloat",
-    TNum = "link %s ThemerAccentFloat",
-    TCorner = "link %s ThemerAccentFloat",
   })
   for _, hl_name in ipairs({ "TSelect", "TSpecial" }) do
     theme = vim.tbl_extend("force", theme, {
@@ -117,7 +117,7 @@ local function setup_tabline()
   end
   for _, hl_name in ipairs({ "TVisible", "THidden", "TExtra" }) do
     theme = vim.tbl_extend("force", theme, {
-      [hl_name] = "link %s ThemerFloat",
+      [hl_name] = "link %s _TabDimmed",
       [hl_name .. "Dim"] = "link %s ThemerDimmedFloat",
       [hl_name .. "Sep"] = "link %s ThemerSubtleFloat",
       [hl_name .. "Mod"] = "link %s ThemerAccentFloat",
