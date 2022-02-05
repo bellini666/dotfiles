@@ -12,6 +12,7 @@ map("v", "<", "<gv")
 map("v", ">", ">gv")
 
 -- Togglers
+map("n", "<leader>tf", utils.toggle_format)
 map("n", "<leader>tl", "<cmd>set list!<cr>:set list?<CR>")
 map("n", "<leader>tn", "<cmd>set number!<cr>:set number?<CR>")
 map("n", "<leader>tp", "<cmd>set paste!<cr>:set paste?<CR>")

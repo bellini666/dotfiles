@@ -1,5 +1,6 @@
 local mods = {
   "options",
+  "cmds",
   "mappings",
   "autocmds",
   "plugins",

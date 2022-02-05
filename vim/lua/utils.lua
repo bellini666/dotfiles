@@ -1,5 +1,7 @@
 local M = {}
 
+local format_enabled = true
+
 M.lazy = function(mod, func, ...)
   local arg = ... or {}
   return function()
@@ -35,6 +37,19 @@ M.spell_suggest = function(opts)
   local t_builtin = require("telescope.builtin")
   local t_themes = require("telescope.themes")
   return t_builtin.spell_suggest(t_themes.get_cursor(opts))
+end
+
+M.toggle_format = function()
+  -- Mimic :set <option>?
+  format_enabled = not format_enabled
+  print((format_enabled and "  " or "no") .. "format")
+end
+
+M.lsp_format = function(opts)
+  opts = opts or {}
+  if format_enabled or opts.force then
+    vim.lsp.buf.formatting_sync(nil, 1500)
+  end
 end
 
 M.lsp_handler = function(parser, title, action, opts)
