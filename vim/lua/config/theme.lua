@@ -5,13 +5,16 @@ local function setup_themer()
   local utils = require("themer.utils.colors")
   local colors = require("themer.modules.themes.jellybeans")
 
+  local bg_alt = utils.lighten(colors.bg.base, 0.9)
+  local border = colors.blue
+
   themer.setup({
     colorscheme = "jellybeans",
     remaps = {
       palette = {
         jellybeans = {
           bg = {
-            alt = utils.lighten(colors.bg.base, 0.9),
+            alt = bg_alt,
           },
           pum = {
             fg = colors.fg,
@@ -22,7 +25,7 @@ local function setup_themer()
               bg = colors.blue,
             },
           },
-          border = colors.blue,
+          border = border,
           match = utils.darken(colors.syntax.struct, 0.85),
         },
       },
@@ -32,7 +35,11 @@ local function setup_themer()
             bg = utils.lighten(colors.bg.selected, 0.9),
           },
           NormalFloat = {
-            bg = colors.bg.base,
+            bg = bg_alt,
+          },
+          FloatBorder = {
+            bg = bg_alt,
+            fg = border,
           },
           LineNr = {
             link = "ThemerDimmed",

@@ -52,7 +52,7 @@ cmp.setup({
     end,
   },
   documentation = {
-    border = "single",
+    winhighlight = "NormalFloat:NormalFloat,FloatBorder:FloatBorder",
   },
   sorting = {
     comparators = {
