@@ -30,23 +30,22 @@ local function setup_themer()
         },
       },
       highlights = {
-        jellybeans = {
-          _TabDimmed = {
-            bg = bg_alt,
-            fg = colors.syntax.comment,
-          },
-          Visual = {
-            bg = utils.lighten(colors.bg.selected, 0.9),
-          },
-          NormalFloat = {
-            bg = bg_alt,
-          },
-          FloatBorder = {
-            bg = bg_alt,
-            fg = border,
-          },
-          LineNr = {
-            link = "ThemerDimmed",
+        globals = {
+          base = {
+            _TabDimmed = {
+              bg = bg_alt,
+              fg = colors.syntax.comment,
+            },
+            Visual = {
+              bg = utils.lighten(colors.bg.selected, 0.9),
+            },
+            NormalFloat = {
+              bg = bg_alt,
+            },
+            FloatBorder = {
+              bg = bg_alt,
+              fg = border,
+            },
           },
         },
       },
