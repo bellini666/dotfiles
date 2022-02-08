@@ -232,7 +232,7 @@ function _language-servers {
 
 function _python-libs {
   info "installing python libs"
-  PIP_REQUIRE_VIRTUALENV=false pip install --progress-bar=ascii --user -U "${PYTHON_LIBS[@]}"
+  PIP_REQUIRE_VIRTUALENV=false pip install --user -U "${PYTHON_LIBS[@]}"
 }
 
 function _gem-libs {
