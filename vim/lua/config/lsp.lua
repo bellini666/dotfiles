@@ -28,13 +28,19 @@ function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
 end
 
 local handlers = {
-  ["textDocument/publishDiagnostics"] = function(_, result, ...)
+  ["textDocument/publishDiagnostics"] = vim.lsp.with(function(_, result, ...)
     local min = vim.diagnostic.severity.INFO
     result.diagnostics = vim.tbl_filter(function(t)
       return t.severity <= min
     end, result.diagnostics)
     return vim.lsp.handlers["textDocument/publishDiagnostics"](_, result, ...)
-  end,
+  end, {
+    underline = {
+      severity = {
+        min = vim.diagnostic.severity.WARN,
+      },
+    },
+  }),
   ["textDocument/rename"] = function(_, result, ...)
     local title = nil
     local msg = {}
