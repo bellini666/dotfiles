@@ -30,7 +30,7 @@ local function setup_themer()
         },
       },
       highlights = {
-        globals = {
+        jellybeans = {
           base = {
             _TabDimmed = {
               bg = bg_alt,
