@@ -286,11 +286,6 @@ null_ls.setup({
         return utils.root_has_file({ "cspell.json", "cspell.config.yaml", "cspell.config.cjs" })
       end,
     }),
-    -- codepell
-    diagnostics.codespell.with({
-      diagnostics_format = diagnostics_format,
-      prefer_local = ".venv/bin",
-    }),
     -- python
     diagnostics.flake8.with({
       diagnostics_format = diagnostics_format,
