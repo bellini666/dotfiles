@@ -1,6 +1,6 @@
 local cmp = require("cmp")
 local luasnip = require("luasnip")
-local kind = cmp.lsp.CompletionItemKind
+local lspkind = require("lspkind")
 
 local has_words_before = function()
   local line, col = unpack(vim.api.nvim_win_get_cursor(0))
@@ -20,15 +20,11 @@ cmp.setup({
     { name = "path" },
   }),
   formatting = {
-    format = require("lspkind").cmp_format(),
+    format = lspkind.cmp_format(),
   },
   mapping = {
     ["<C-Space>"] = cmp.mapping(cmp.mapping.complete(), { "i", "c" }),
-    ["<CR>"] = cmp.mapping(function(fallback)
-      if not cmp.confirm({ select = false }) then
-        require("pairs.enter").type()
-      end
-    end),
+    ["<CR>"] = cmp.mapping.confirm({ select = false }),
     ["<Tab>"] = cmp.mapping(function(fallback)
       if cmp.visible() then
         cmp.select_next_item()
@@ -79,13 +75,12 @@ cmp.setup({
   },
 })
 
-cmp.event:on("confirm_done", function(event)
-  local item = event.entry:get_completion_item()
-  local parensDisabled = item.data and item.data.funcParensDisabled or false
-  if not parensDisabled and (item.kind == kind.Method or item.kind == kind.Function) then
-    require("pairs.bracket").type_left("(")
-  end
-end)
+cmp.event:on(
+  "confirm_done",
+  require("nvim-autopairs.completion.cmp").on_confirm_done({
+    map_char = { tex = "" },
+  })
+)
 
 -- Use buffer source for `/`.
 -- cmp.setup.cmdline("/", {
