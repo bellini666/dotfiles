@@ -104,7 +104,7 @@ return packer.startup(function(use, use_rocks)
       require("config.completion")
     end,
     requires = {
-      "windwp/nvim-autopairs",
+      "ZhiyuanLck/smart-pairs",
       "lukas-reineke/cmp-under-comparator",
       "hrsh7th/cmp-nvim-lsp",
       "hrsh7th/cmp-buffer",
@@ -135,10 +135,13 @@ return packer.startup(function(use, use_rocks)
     },
   })
   use({
-    "windwp/nvim-autopairs",
+    "ZhiyuanLck/smart-pairs",
+    event = "InsertEnter",
     config = function()
-      require("nvim-autopairs").setup({
-        disable_in_macro = true,
+      require("pairs"):setup({
+        enter = {
+          enable_mapping = false,
+        },
       })
     end,
   })
