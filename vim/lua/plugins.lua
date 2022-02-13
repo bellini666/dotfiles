@@ -99,13 +99,21 @@ return packer.startup(function(use, use_rocks)
 
   -- Completion
   use({
+    "windwp/nvim-autopairs",
+    config = function()
+      require("nvim-autopairs").setup({
+        disable_in_macro = true,
+        check_ts = true,
+      })
+    end,
+  })
+  use({
     "hrsh7th/nvim-cmp",
     config = function()
       require("config.completion")
     end,
     requires = {
       "windwp/nvim-autopairs",
-      "lukas-reineke/cmp-under-comparator",
       "hrsh7th/cmp-nvim-lsp",
       "hrsh7th/cmp-buffer",
       "hrsh7th/cmp-path",
@@ -133,14 +141,6 @@ return packer.startup(function(use, use_rocks)
         },
       },
     },
-  })
-  use({
-    "windwp/nvim-autopairs",
-    config = function()
-      require("nvim-autopairs").setup({
-        disable_in_macro = true,
-      })
-    end,
   })
 
   -- DAP

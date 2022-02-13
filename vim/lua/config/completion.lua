@@ -24,7 +24,7 @@ cmp.setup({
   },
   mapping = {
     ["<C-Space>"] = cmp.mapping(cmp.mapping.complete(), { "i", "c" }),
-    ["<CR>"] = cmp.mapping.confirm({ select = false }),
+    ["<CR>"] = cmp.mapping.confirm({ select = true }),
     ["<Tab>"] = cmp.mapping(function(fallback)
       if cmp.visible() then
         cmp.select_next_item()
@@ -41,6 +41,8 @@ cmp.setup({
         cmp.select_prev_item()
       elseif luasnip.jumpable(-1) then
         luasnip.jump(-1)
+      elseif has_words_before() then
+        cmp.complete()
       else
         fallback()
       end
@@ -54,45 +56,33 @@ cmp.setup({
   documentation = {
     winhighlight = "NormalFloat:NormalFloat,FloatBorder:FloatBorder",
   },
-  sorting = {
-    comparators = {
-      cmp.config.compare.offset,
-      cmp.config.compare.exact,
-      cmp.config.compare.score,
-      require("cmp-under-comparator").under,
-      cmp.recently_used,
-      cmp.kind,
-      cmp.sort_text,
-      cmp.length,
-      cmp.order,
-    },
+  experimental = {
+    ghost_text = true,
   },
   view = {
     -- entries = "native",
   },
-  experimental = {
-    -- ghost_text = true,
-  },
 })
 
-cmp.event:on(
-  "confirm_done",
-  require("nvim-autopairs.completion.cmp").on_confirm_done({
-    map_char = { tex = "" },
-  })
-)
+cmp.event:on("confirm_done", require("nvim-autopairs.completion.cmp").on_confirm_done())
 
 -- Use buffer source for `/`.
 -- cmp.setup.cmdline("/", {
---     sources = {
---         { name = "buffer" },
---     },
+--   sources = {
+--     { name = "buffer" },
+--   },
+--   view = {
+--     entries = "wildmenu",
+--   },
 -- })
 
--- Use cmdline & path source for ':'.
+-- -- Use cmdline & path source for ':'.
 -- cmp.setup.cmdline(":", {
---     sources = cmp.config.sources({
---         { name = "path" },
---         { name = "cmdline" },
---     }),
+--   sources = cmp.config.sources({
+--     { name = "path" },
+--     { name = "cmdline" },
+--   }),
+--   view = {
+--     entries = "wildmenu",
+--   },
 -- })
