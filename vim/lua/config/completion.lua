@@ -24,7 +24,7 @@ cmp.setup({
   },
   mapping = {
     ["<C-Space>"] = cmp.mapping(cmp.mapping.complete(), { "i", "c" }),
-    ["<CR>"] = cmp.mapping.confirm({ select = true }),
+    ["<CR>"] = cmp.mapping.confirm({ select = false }),
     ["<Tab>"] = cmp.mapping(function(fallback)
       if cmp.visible() then
         cmp.select_next_item()
@@ -57,7 +57,7 @@ cmp.setup({
     winhighlight = "NormalFloat:NormalFloat,FloatBorder:FloatBorder",
   },
   experimental = {
-    ghost_text = true,
+    -- ghost_text = true,
   },
   view = {
     -- entries = "native",
