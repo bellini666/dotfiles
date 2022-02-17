@@ -214,9 +214,10 @@ return packer.startup(function(use, use_rocks)
   use({
     "nvim-telescope/telescope.nvim",
     config = function()
-      require("telescope").load_extension("fzf")
+      local telescope = require("telescope")
       local trouble = require("trouble.providers.telescope")
-      require("telescope").setup({
+      telescope.load_extension("fzf")
+      telescope.setup({
         defaults = {
           prompt_prefix = "🔍 ",
           selection_caret = " ",
@@ -252,15 +253,21 @@ return packer.startup(function(use, use_rocks)
     },
   })
   use({
-    "kyazdani42/nvim-tree.lua",
-    cmd = "NvimTreeToggle",
+    "nvim-neo-tree/neo-tree.nvim",
+    requires = {
+      "nvim-lua/plenary.nvim",
+      "kyazdani42/nvim-web-devicons",
+      "MunifTanjim/nui.nvim",
+    },
+    cmd = "NeoTreeRevealToggle",
     config = function()
-      vim.g.nvim_tree_quit_on_open = 1
-      require("nvim-tree").setup({
-        auto_close = true,
+      require("neo-tree").setup({
+        close_if_last_window = true,
+        filesystem = {
+          follow_current_file = true,
+        },
       })
     end,
-    requires = { "kyazdani42/nvim-web-devicons" },
   })
 
   -- Terminal integration

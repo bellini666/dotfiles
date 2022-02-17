@@ -19,7 +19,7 @@ map("n", "<leader>tp", "<cmd>set paste!<cr>:set paste?<CR>")
 map("n", "<leader>ts", "<cmd>set spell!<cr>:set spell?<CR>")
 map("n", "<leader>td", '<cmd>lua require("dapui").toggle()<cr>')
 map("n", "<F2>", "<cmd>UndotreeToggle<cr>")
-map("n", "<F4>", "<cmd>NvimTreeToggle<cr>")
+map("n", "<F4>", "<cmd>NeoTreeRevealToggle<cr>")
 
 -- File utils
 map("n", "<C-F>", utils.lazy("telescope.builtin", "live_grep"))
