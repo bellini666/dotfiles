@@ -36,9 +36,6 @@ local function setup_themer()
               bg = bg_alt,
               fg = colors.syntax.comment,
             },
-            Visual = {
-              bg = utils.lighten(colors.bg.selected, 0.9),
-            },
             NormalFloat = {
               bg = bg_alt,
             },
