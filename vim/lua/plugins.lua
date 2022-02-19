@@ -305,6 +305,7 @@ return packer.startup(function(use, use_rocks)
   use({ "tpope/vim-surround" })
   use({ "tpope/vim-unimpaired" })
   use({ "tpope/vim-speeddating" })
+  use({ "tpope/vim-fugitive" })
   use({ "wakatime/vim-wakatime" })
   use({
     "mbbill/undotree",
