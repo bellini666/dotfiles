@@ -5,7 +5,8 @@ require("nvim-treesitter.configs").setup({
     use_languagetree = true,
   },
   indent = {
-    enable = true,
+    -- FIXME: Re-enable once this gets better. Using yati for now...
+    enable = false,
   },
   yati = {
     enable = true,
