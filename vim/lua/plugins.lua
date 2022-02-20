@@ -303,6 +303,7 @@ return packer.startup(function(use, use_rocks)
   use({ "tpope/vim-unimpaired" })
   use({ "tpope/vim-speeddating" })
   use({ "tpope/vim-fugitive" })
+  use({ "andweeb/presence.nvim" })
   use({ "wakatime/vim-wakatime" })
   use({
     "mbbill/undotree",
