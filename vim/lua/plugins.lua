@@ -35,6 +35,7 @@ return packer.startup(function(use, use_rocks)
     end,
     requires = {
       "nvim-treesitter/nvim-treesitter-textobjects",
+      "yioneko/nvim-yati",
       {
         "nvim-treesitter/playground",
         cmd = { "TSPlaygroundToggle", "TSHighlightCapturesUnderCursor" },
@@ -285,10 +286,6 @@ return packer.startup(function(use, use_rocks)
   })
 
   -- Language specifics
-  use({
-    "Vimjas/vim-python-pep8-indent",
-    ft = "python",
-  })
   use({
     "danymat/neogen",
     config = function()
