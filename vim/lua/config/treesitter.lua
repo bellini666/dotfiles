@@ -5,11 +5,9 @@ require("nvim-treesitter.configs").setup({
     use_languagetree = true,
   },
   indent = {
-    -- FIXME: Re-enable once this gets better. Using yati for now...
-    enable = false,
-  },
-  yati = {
     enable = true,
+    -- FIXME: Re-enable this when treesitter indenting is working for python
+    disable = { "python" },
   },
   incremental_selection = {
     enable = true,
