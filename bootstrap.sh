@@ -50,6 +50,7 @@ PYTHON_LIBS=(
   codespell
   debugpy
   debugpy
+  djhtml
   docker-compose
   flake8
   ipython

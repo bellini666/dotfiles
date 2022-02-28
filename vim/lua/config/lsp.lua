@@ -177,7 +177,11 @@ nvim_lsp.html.setup({
   handlers = handlers,
   flags = flags,
   capabilities = capabilities,
-  on_attach = on_attach,
+  on_attach = function(client, bufnr)
+    client.resolved_capabilities.document_formatting = false
+    client.resolved_capabilities.document_range_formatting = false
+    on_attach(client, bufnr)
+  end,
 })
 
 -- https://github.com/bash-lsp/bash-language-server
@@ -302,6 +306,11 @@ null_ls.setup({
       diagnostics_format = diagnostics_format,
       prefer_local = ".venv/bin",
       extra_args = { "--fast", "-W", "6" },
+    }),
+    -- djhtml
+    formatting.djhtml.with({
+      diagnostics_format = diagnostics_format,
+      prefer_local = "node_modules/.bin",
     }),
     -- javascript/typescript
     formatting.prettier.with({
