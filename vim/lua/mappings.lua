@@ -84,8 +84,8 @@ M.setup_lsp = function(client, bufnr)
   map("n", "[d", vim.diagnostic.goto_prev, opts)
   map("n", "]d", vim.diagnostic.goto_next, opts)
   map("n", "<leader>e", vim.diagnostic.open_float, opts)
-  map("n", "ge", "<cmd>TroubleToggle document_diagnostics<cr>", opts)
-  map("n", "gE", "<cmd>TroubleToggle workspace_diagnostics<cr>", opts)
+  map("n", "ge", utils.lazy("telescope.builtin", "diagnostics", { { bufnr = 0 } }))
+  map("n", "gE", utils.lazy("telescope.builtin", "diagnostics"))
 
   -- lsp
   map("n", "K", vim.lsp.buf.hover, opts)
