@@ -73,6 +73,7 @@ local function setup_lualine()
   require("lualine").setup({
     options = {
       theme = theme,
+      globalstatus = true,
       component_separators = { left = "｜", right = "｜" },
     },
     sections = {
