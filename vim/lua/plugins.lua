@@ -300,7 +300,6 @@ return packer.startup(function(use, use_rocks)
   })
 
   -- Text editing
-  use({ "ggandor/lightspeed.nvim" })
   use({ "tpope/vim-repeat" })
   use({ "tpope/vim-surround" })
   use({ "tpope/vim-unimpaired" })
@@ -308,6 +307,12 @@ return packer.startup(function(use, use_rocks)
   use({ "tpope/vim-fugitive" })
   use({ "andweeb/presence.nvim" })
   use({ "wakatime/vim-wakatime" })
+  use({
+    "ggandor/leap.nvim",
+    config = function()
+      require("leap").set_default_keymaps()
+    end,
+  })
   use({
     "mbbill/undotree",
     cmd = "UndotreeToggle",
