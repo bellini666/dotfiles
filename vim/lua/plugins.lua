@@ -254,13 +254,15 @@ return packer.startup(function(use, use_rocks)
   })
   use({
     "nvim-neo-tree/neo-tree.nvim",
+    branch = "v2.x",
     requires = {
       "nvim-lua/plenary.nvim",
       "kyazdani42/nvim-web-devicons",
       "MunifTanjim/nui.nvim",
     },
-    cmd = "NeoTreeRevealToggle",
+    cmd = "Neotree",
     config = function()
+      vim.g.neo_tree_remove_legacy_commands = 1
       require("neo-tree").setup({
         close_if_last_window = true,
         filesystem = {
