@@ -10,7 +10,6 @@ local has_words_before = function()
   return vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
 end
 
----@diagnostic disable-next-line
 cmp.setup({
   sources = cmp.config.sources({
     { name = "nvim_lsp" },
@@ -22,7 +21,7 @@ cmp.setup({
   formatting = {
     format = lspkind.cmp_format(),
   },
-  mapping = {
+  mapping = cmp.mapping.preset.insert({
     ["<C-Space>"] = cmp.mapping(cmp.mapping.complete(), { "i", "c" }),
     ["<CR>"] = cmp.mapping.confirm({ select = false }),
     ["<Tab>"] = cmp.mapping(function(fallback)
@@ -47,14 +46,15 @@ cmp.setup({
         fallback()
       end
     end, { "i", "s" }),
-  },
+  }),
   snippet = {
     expand = function(args)
       luasnip.lsp_expand(args.body)
     end,
   },
-  documentation = {
-    winhighlight = "NormalFloat:NormalFloat,FloatBorder:FloatBorder",
+  window = {
+    completion = cmp.config.window.bordered(),
+    documentation = cmp.config.window.bordered(),
   },
   experimental = {
     -- ghost_text = true,
