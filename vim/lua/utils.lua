@@ -48,7 +48,7 @@ end
 M.lsp_format = function(opts)
   opts = opts or {}
   if format_enabled or opts.force then
-    vim.lsp.buf.formatting_sync(nil, 1500)
+    vim.lsp.buf.format({ timeout_ms = 1500 })
   end
 end
 

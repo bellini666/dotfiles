@@ -13,7 +13,7 @@ vim.api.nvim_create_autocmd("FileType", {
 })
 
 M.setup_lsp = function(client, bufnr)
-  if client.resolved_capabilities.document_formatting then
+  if client.server_capabilities.documentFormattingProvider then
     local group_id = vim.api.nvim_create_augroup(
       ("_lsp_formatting_%d"):format(bufnr),
       { clear = true }
@@ -25,7 +25,7 @@ M.setup_lsp = function(client, bufnr)
     })
   end
 
-  if client.resolved_capabilities.code_lens then
+  if client.server_capabilities.codeLensProvider then
     local group_id = vim.api.nvim_create_augroup(
       ("_lsp_codelens_%d"):format(bufnr),
       { clear = true }
@@ -38,7 +38,7 @@ M.setup_lsp = function(client, bufnr)
   end
 
   -- Not using this right now as it is annoying
-  if client.resolved_capabilities.document_highlight and false then
+  if client.server_capabilities.documentHighlightProvider and false then
     local group_id = vim.api.nvim_create_augroup(
       ("_lsp_highlight_%d"):format(bufnr),
       { clear = true }
