@@ -143,18 +143,13 @@ M.grep = function()
 
     vim.ui.input({ prompt = "File pattern: ", default = "*" }, function(pattern)
       pattern = vim.trim(pattern or "")
-      if pattern == "" then
-        return
-      end
-
-      local args = require("telescope.config").values.vimgrep_arguments
-      if pattern ~= "*" then
-        vim.list_extend(args, { "-g", pattern })
+      if pattern == "" or pattern == "*" then
+        pattern = nil
       end
 
       require("telescope.builtin").live_grep({
         search_dirs = { dir },
-        vimgrep_arguments = args,
+        glob_pattern = pattern,
       })
     end)
   end)
