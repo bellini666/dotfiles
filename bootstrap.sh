@@ -85,7 +85,6 @@ NODE_LIBS=(
   react-native-cli
   rimraf
   stylelint
-  tree-sitter
   tree-sitter-cli
   ts-server
   typescript
