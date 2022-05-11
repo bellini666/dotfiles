@@ -65,6 +65,7 @@ PYTHON_LIBS=(
 NODE_LIBS=(
   @taplo/cli
   bash-language-server
+  cloc
   corepack
   create-react-native-app
   cspell
