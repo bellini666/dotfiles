@@ -159,7 +159,7 @@ function _fonts {
     >"${FONTS_DIR}/Fira Code Regular Nerd Font Complete.ttf"
   # FIXME: This is crashing my terminal sometimes...
   # fc-cache -fv
-  gsettings set org.gnome.desktop.interface monospace-font-name 'Inconsolata Nerd Font 12'
+  gsettings set org.gnome.desktop.interface monospace-font-name 'Hack Regular 11'
 }
 
 function _zsh {
