@@ -29,6 +29,9 @@ PATH="$HOME/.local/bin:$PATH"
 PATH="$HOME/bin:$PATH"
 export PATH
 
+# https://gitlab.gnome.org/GNOME/console/-/issues/124
+source /etc/profile.d/vte-2.91.sh
+
 function bootstrap() { (
   set -e
   cd "${DOTFILES_DIR}"
