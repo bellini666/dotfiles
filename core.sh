@@ -9,9 +9,6 @@ export DOTFILES_DIR="${HOME}/.dotfiles"
 export EDITOR=nvim
 export GIT_SSH=ssh
 
-export NVIM_GTK_NO_HEADERBAR=1
-export NVIM_GTK_PREFER_DARK_THEME=1
-
 export PIP_REQUIRE_VIRTUALENV=true
 export PROJECT_HOME=$HOME/dev
 export WORKON_HOME=$HOME/.virtualenvs
