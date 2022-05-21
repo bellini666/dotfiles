@@ -339,7 +339,7 @@ return packer.startup(function(use, use_rocks)
   use({
     "numToStr/Comment.nvim",
     config = function()
-      require("Comment").setup()
+      require("Comment").setup({})
     end,
     keys = { { "n", "gcc" }, { "v", "gc" } },
   })
