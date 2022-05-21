@@ -343,6 +343,7 @@ return packer.startup(function(use, use_rocks)
     end,
     keys = { { "n", "gcc" }, { "v", "gc" } },
   })
+  use({ "andymass/vim-matchup" })
 
   if BOOTSTRAPED then
     packer.sync()
