@@ -72,16 +72,6 @@ return packer.startup(function(use, use_rocks)
     },
   })
   use({
-    "ThePrimeagen/refactoring.nvim",
-    config = function()
-      require("refactoring").setup({})
-    end,
-    requires = {
-      "nvim-lua/plenary.nvim",
-      "nvim-treesitter/nvim-treesitter",
-    },
-  })
-  use({
     -- FIXME: Go back to the original repo once my PRs are merged
     -- "folke/trouble.nvim",
     "bellini666/trouble.nvim",
