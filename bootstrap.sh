@@ -61,6 +61,7 @@ PYTHON_LIBS=(
   pynvim
   wheel
   yamllint
+  djlint
 )
 NODE_LIBS=(
   @taplo/cli
@@ -77,6 +78,7 @@ NODE_LIBS=(
   graphql-language-service-cli
   gulp-cli
   localtunnel
+  markdownlint
   neovim
   npm
   opencollective

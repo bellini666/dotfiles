@@ -299,23 +299,22 @@ null_ls.setup({
       extra_args = { "--extend-ignore", "E1,E2,E3,F821,E731,R504,SIM106" },
     }),
     formatting.isort.with({
-      diagnostics_format = diagnostics_format,
       prefer_local = ".venv/bin",
       extra_args = { "--profile", "black" },
     }),
     formatting.black.with({
-      diagnostics_format = diagnostics_format,
       prefer_local = ".venv/bin",
       extra_args = { "--fast", "-W", "6" },
     }),
-    -- djhtml
-    formatting.djhtml.with({
+    -- djlint
+    formatting.djlint.with({
+      prefer_local = ".venv/bin",
+    }),
+    diagnostics.djlint.with({
       diagnostics_format = diagnostics_format,
-      prefer_local = "node_modules/.bin",
     }),
     -- javascript/typescript
     formatting.prettier.with({
-      diagnostics_format = diagnostics_format,
       prefer_local = "node_modules/.bin",
     }),
     -- sh/bash
@@ -323,36 +322,30 @@ null_ls.setup({
       diagnostics_format = diagnostics_format,
     }),
     formatting.shfmt.with({
-      diagnostics_format = diagnostics_format,
       extra_args = { "-i", "2" },
     }),
     -- lua
     formatting.stylua.with({
-      diagnostics_format = diagnostics_format,
       condition = function(utils)
         return utils.root_has_file({ "stylua.toml", ".stylua.toml" })
       end,
     }),
     -- json
-    formatting.fixjson.with({
-      diagnostics_format = diagnostics_format,
-    }),
+    formatting.fixjson,
     -- yaml
     diagnostics.yamllint.with({
       diagnostics_format = diagnostics_format,
       extra_args = { "-d", "{extends: default, rules: {line-length: {max: 100}}}" },
     }),
+    -- markdown
+    diagnostics.markdownlint.with({
+      diagnostics_format = diagnostics_format,
+    }),
     -- sql
-    formatting.sqlformat.with({
-      diagnostics_format = diagnostics_format,
-    }),
+    formatting.sqlformat,
     -- toml
-    formatting.taplo.with({
-      diagnostics_format = diagnostics_format,
-    }),
+    formatting.taplo,
     -- css/scss/sass/less
-    formatting.stylelint.with({
-      diagnostics_format = diagnostics_format,
-    }),
+    formatting.stylelint,
   },
 })
