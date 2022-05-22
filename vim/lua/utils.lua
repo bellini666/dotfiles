@@ -158,20 +158,16 @@ M.grep = function()
 end
 
 M.node_at_cursor = function()
-  local ts_utils = require("nvim-treesitter.ts_utils")
-  local expr = ts_utils.get_node_at_cursor()
+  local gps = require("nvim-gps")
 
-  local func
-  local class
-
-  while expr do
-    if expr:type() == "function_definition" then
-      func = (ts_utils.get_node_text(expr:child(1)))[1]
+  local func = nil
+  local class = nil
+  for _, data in ipairs(gps.get_data()) do
+    if data.type == "class-name" then
+      class = data.text
+    elseif data.type == "method-name" or data.type == "function-name" then
+      func = data.text
     end
-    if expr:type() == "class_definition" then
-      class = (ts_utils.get_node_text(expr:child(1)))[1]
-    end
-    expr = expr:parent()
   end
 
   return {

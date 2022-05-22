@@ -50,6 +50,12 @@ return packer.startup(function(use, use_rocks)
       },
     },
   })
+  use({
+    "SmiteshP/nvim-gps",
+    requires = {
+      "nvim-treesitter/nvim-treesitter",
+    },
+  })
 
   -- LSP
   use({

@@ -51,6 +51,8 @@ local function setup_themer()
 end
 
 local function setup_lualine()
+  local gps = require("nvim-gps")
+  gps.setup()
   local utils = require("themer.utils.colors")
   local colors = require("themer.modules.core.api").get_cp("jellybeans")
   assert(colors, "jellybeans not found in themer modules")
@@ -81,6 +83,7 @@ local function setup_lualine()
       lualine_b = { "branch", "diagnostics" },
       lualine_c = {
         { "filename", path = 1 },
+        { gps.get_location, cond = gps.is_available },
       },
       lualine_x = {
         {
