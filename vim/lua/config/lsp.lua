@@ -45,15 +45,15 @@ local handlers = {
     local title = nil
     local msg = {}
 
-    if result and result.changes then
+    if result and result.documentChanges then
       local fname
       local old = vim.fn.expand("<cword>")
       local new = "<unknown>"
       local root = vim.loop.cwd()
-      for f, c in pairs(result.changes) do
-        new = c[1].newText
-        fname = "." .. f:gsub("file://" .. root, "")
-        table.insert(msg, ("%d changes -> %s"):format(#c, fname))
+      for _, c in pairs(result.documentChanges) do
+        new = c.edits[1].newText
+        fname = "." .. c.textDocument.uri:gsub("file://" .. root, "")
+        table.insert(msg, ("%d changes -> %s"):format(#c.edits, fname))
       end
       title = ("Rename: %s -> %s"):format(old, new)
     end
