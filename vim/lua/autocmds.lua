@@ -7,6 +7,7 @@ vim.api.nvim_create_autocmd("BufWritePost", {
     vim.cmd("PackerCompile")
   end,
 })
+
 vim.api.nvim_create_autocmd("FileType", {
   pattern = "*",
   callback = require("options").setup_ft,

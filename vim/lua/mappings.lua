@@ -64,7 +64,7 @@ map("n", "<Leader>rt", "<cmd>write | edit | TSBufEnable highlight<cr>")
 -- Fix spell with telescope
 map("n", "z=", utils.spell_suggest)
 
--- Ctrl-Up/Down scrolls 10 lunes and keep the screen centered
+-- Ctrl-Up/Down scrolls 10 lines and keep the screen centered
 map("n", "<C-Up>", "10kzz")
 map("n", "<C-Down>", "10jzz")
 

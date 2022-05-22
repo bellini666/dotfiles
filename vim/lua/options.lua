@@ -18,22 +18,11 @@ vim.g.python3_host_prog = "/usr/bin/python3"
 -- Set leader to ,
 vim.g.mapleader = ","
 
--- Default encoding
-vim.opt.enc = "utf-8"
-vim.opt.ff = "unix"
-vim.opt.ffs = { "unix", "dos" }
-
 -- General
 vim.opt.mouse = "nv"
-vim.opt.synmaxcol = 2500
-vim.opt.ruler = true
-vim.opt.showcmd = true
 vim.opt.linebreak = true
-vim.opt.hidden = true
-vim.opt.autoread = true
 vim.opt.swapfile = false
-vim.opt.modeline = false
-vim.opt.history = 4000
+vim.opt.updatetime = 500
 
 -- Ui
 vim.opt.number = true
@@ -47,11 +36,10 @@ vim.opt.listchars = {
   trail = "·",
   extends = "→",
   precedes = "←",
-  nbsp = "×",
+  nbsp = "␣",
 }
-vim.opt.showbreak = [[↪\ ]]
+vim.opt.showbreak = [[↪ ]]
 vim.opt.showmode = false
-vim.opt.lazyredraw = true
 vim.opt.splitright = true
 vim.opt.splitbelow = true
 
@@ -62,14 +50,10 @@ vim.opt.background = "dark"
 -- Dev
 vim.opt.textwidth = 99
 vim.opt.colorcolumn = "+1"
-vim.opt.autoindent = true
-vim.opt.smartindent = true
 vim.opt.showmatch = true
-vim.opt.wrap = true
 vim.opt.matchpairs = extend(vim.opt.matchpairs, { "<:>" })
 vim.opt.formatoptions = extend(vim.opt.formatoptions, { "1", "o" })
 vim.opt.whichwrap = extend(vim.opt.whichwrap, { "<", ">", "[", "]", "~" })
-vim.opt.backspace = { "indent", "eol", "start" }
 vim.opt.shortmess = extend(vim.opt.shortmess, { "a" })
 vim.opt.completeopt = { "menu", "menuone", "noselect" }
 
@@ -85,12 +69,6 @@ vim.opt.shiftwidth = 4
 vim.opt.softtabstop = 4
 vim.opt.tabstop = 4
 
--- Performance
-vim.opt.updatetime = 100
-vim.opt.timeoutlen = 400
-vim.opt.redrawtime = 1500
-vim.opt.ttimeoutlen = 10
-
 -- Spell
 vim.opt.spelllang = { "en_us", "pt_br" }
 vim.opt.dictionary = extend(vim.opt.dictionary, {
@@ -100,52 +78,9 @@ vim.opt.dictionary = extend(vim.opt.dictionary, {
 })
 
 -- Search
-vim.opt.wildmenu = true
 vim.opt.ignorecase = true
-vim.opt.incsearch = true
 vim.opt.smartcase = true
-vim.opt.hlsearch = true
 vim.opt.wildmode = { "list:longest", "full" }
-vim.opt.wildignore = extend(vim.opt.wildignore, {
-  "*.DS_Store",
-  "*.bak",
-  "*.class",
-  "*.gif",
-  "*.jpeg",
-  "*.jpg",
-  "*.min.js",
-  "*.o",
-  "*.obj",
-  "*.out",
-  "*.png",
-  "*.pyc",
-  "*.so",
-  "*.swp",
-  "*.zip",
-  "*/*-egg-info/*",
-  "*/.egg-info/*",
-  "*/.expo/*",
-  "*/.git/*",
-  "*/.hg/*",
-  "*/.mypy_cache/*",
-  "*/.next/*",
-  "*/.pnp/*",
-  "*/.pytest_cache/*",
-  "*/.repo/*",
-  "*/.sass-cache/*",
-  "*/.svn/*",
-  "*/.venv/*",
-  "*/.yarn/*",
-  "*/.yarn/*",
-  "*/__pycache__/*",
-  "*/bower_modules/*",
-  "*/build/*",
-  "*/dist/*",
-  "*/node_modules/*",
-  "*/target/*",
-  "*/venv/*",
-  "*~",
-})
 
 -- FT Configs
 local ft_configs = {
