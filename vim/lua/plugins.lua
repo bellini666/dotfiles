@@ -206,6 +206,7 @@ return packer.startup(function(use, use_rocks)
     config = function()
       local telescope = require("telescope")
       local trouble = require("trouble.providers.telescope")
+      local actions = require("telescope.actions")
       telescope.load_extension("fzf")
       telescope.setup({
         defaults = {
@@ -214,11 +215,20 @@ return packer.startup(function(use, use_rocks)
           dynamic_preview_title = true,
           mappings = {
             i = {
-              ["<Esc>"] = require("telescope.actions").close,
+              ["<Esc>"] = actions.close,
               ["<c-q>"] = trouble.open_with_trouble,
             },
             n = {
               ["<C-q>"] = trouble.open_with_trouble,
+            },
+          },
+        },
+        pickers = {
+          buffers = {
+            mappings = {
+              i = {
+                ["<c-d>"] = actions.delete_buffer + actions.move_to_top,
+              },
             },
           },
         },
