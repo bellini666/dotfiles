@@ -5,7 +5,7 @@ local function setup_themer()
   local utils = require("themer.utils.colors")
   local colors = require("themer.modules.themes.jellybeans")
 
-  local bg_alt = utils.lighten(colors.bg.base, 0.9)
+  local bg_alt = utils.lighten(colors.bg.base, 0.9, nil)
   local border = colors.blue
 
   themer.setup({
@@ -18,15 +18,15 @@ local function setup_themer()
           },
           pum = {
             fg = colors.fg,
-            bg = utils.lighten(colors.bg.base, 0.85),
-            sbar = utils.lighten(colors.bg.base, 0.75),
-            thumb = utils.lighten(colors.bg.base, 0.65),
+            bg = utils.lighten(colors.bg.base, 0.85, nil),
+            sbar = utils.lighten(colors.bg.base, 0.75, nil),
+            thumb = utils.lighten(colors.bg.base, 0.65, nil),
             sel = {
               bg = colors.blue,
             },
           },
           border = border,
-          match = utils.darken(colors.syntax.struct, 0.85),
+          match = utils.darken(colors.syntax.struct, 0.85, nil),
         },
       },
       highlights = {
@@ -53,6 +53,7 @@ end
 local function setup_lualine()
   local utils = require("themer.utils.colors")
   local colors = require("themer.modules.core.api").get_cp("jellybeans")
+  assert(colors, "jellybeans not found in themer modules")
   local theme = require("lualine.themes.jellybeans")
   local bgs = {
     normal = colors.blue,
@@ -66,7 +67,7 @@ local function setup_lualine()
     theme = vim.tbl_deep_extend("force", theme, {
       [kind] = {
         a = { bg = bg },
-        b = { bg = utils.lighten(colors.bg.alt, 0.9) },
+        b = { bg = utils.lighten(colors.bg.alt, 0.9, nil) },
       },
     })
   end
