@@ -96,7 +96,9 @@ local function setup_lualine()
       },
     },
     extensions = {
-      "nvim-tree",
+      "neo-tree",
+      "fugitive",
+      "toggleterm",
     },
   })
 end
