@@ -78,7 +78,7 @@ NODE_LIBS=(
   graphql-language-service-cli
   gulp-cli
   localtunnel
-  markdownlint
+  markdownlint-cli
   neovim
   npm
   opencollective
