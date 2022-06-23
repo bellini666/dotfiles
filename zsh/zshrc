@@ -27,6 +27,8 @@ antigen bundle encode64
 antigen bundle extract
 antigen bundle fzf
 antigen bundle gitfast
+antigen bundle kubectl
+antigen bundle kubectx
 antigen bundle npm
 antigen bundle pip
 antigen bundle python

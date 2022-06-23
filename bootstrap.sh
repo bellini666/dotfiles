@@ -29,6 +29,9 @@ APT_PACKAGES=(
   golang
   htop
   jq
+  kubectx
+  kubernetes-client
+  kubetail
   libtool-bin
   ncdu
   ninja-build
