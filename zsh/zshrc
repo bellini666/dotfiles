@@ -35,6 +35,8 @@ antigen bundle python
 antigen bundle screen
 antigen bundle supervisor
 antigen bundle systemd
+antigen bundle celery
+antigen bundle yarn
 
 # github
 antigen bundle zdharma-continuum/fast-syntax-highlighting
