@@ -53,6 +53,7 @@ PYTHON_LIBS=(
   codespell
   debugpy
   debugpy
+  djlint
   docker-compose
   flake8
   ipython
@@ -60,11 +61,11 @@ PYTHON_LIBS=(
   numpy
   pandas
   pip
+  poetryup
   pre-commit
   pynvim
   wheel
   yamllint
-  djlint
 )
 NODE_LIBS=(
   @taplo/cli
