@@ -15,10 +15,8 @@ vim.api.nvim_create_autocmd("FileType", {
 
 M.setup_lsp = function(client, bufnr)
   if client.server_capabilities.documentFormattingProvider then
-    local group_id = vim.api.nvim_create_augroup(
-      ("_lsp_formatting_%d"):format(bufnr),
-      { clear = true }
-    )
+    local group_id =
+      vim.api.nvim_create_augroup(("_lsp_formatting_%d"):format(bufnr), { clear = true })
     vim.api.nvim_create_autocmd("BufWritePre", {
       buffer = bufnr,
       callback = require("utils").lsp_format,
@@ -27,10 +25,8 @@ M.setup_lsp = function(client, bufnr)
   end
 
   if client.server_capabilities.codeLensProvider then
-    local group_id = vim.api.nvim_create_augroup(
-      ("_lsp_codelens_%d"):format(bufnr),
-      { clear = true }
-    )
+    local group_id =
+      vim.api.nvim_create_augroup(("_lsp_codelens_%d"):format(bufnr), { clear = true })
     vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "InsertLeave" }, {
       buffer = bufnr,
       callback = vim.lsp.codelens.refresh,
@@ -40,10 +36,8 @@ M.setup_lsp = function(client, bufnr)
 
   -- Not using this right now as it is annoying
   if client.server_capabilities.documentHighlightProvider and false then
-    local group_id = vim.api.nvim_create_augroup(
-      ("_lsp_highlight_%d"):format(bufnr),
-      { clear = true }
-    )
+    local group_id =
+      vim.api.nvim_create_augroup(("_lsp_highlight_%d"):format(bufnr), { clear = true })
     vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
       buffer = bufnr,
       callback = vim.lsp.buf.document_highlight,
