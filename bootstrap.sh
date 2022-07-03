@@ -233,7 +233,7 @@ function _language-servers {
     ./compile/install.sh
     cd ../..
     ./3rd/luamake/luamake rebuild
-  )
+  ) || true
 }
 
 function _python-libs {
