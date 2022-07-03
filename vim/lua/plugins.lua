@@ -306,6 +306,9 @@ return packer.startup(function(use, use_rocks)
     end,
     requires = "nvim-treesitter/nvim-treesitter",
   })
+  use({
+    "towolf/vim-helm",
+  })
 
   -- Text editing
   use({ "tpope/vim-repeat" })

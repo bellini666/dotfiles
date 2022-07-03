@@ -14,6 +14,14 @@ vim.api.nvim_create_autocmd("FileType", {
 })
 
 M.setup_lsp = function(client, bufnr)
+  -- FIXME: Put this in a better place
+  if vim.bo[bufnr].filetype == "helm" then
+    vim.diagnostic.disable(bufnr)
+    vim.defer_fn(function()
+      vim.diagnostic.reset(nil, bufnr)
+    end, 1000)
+  end
+
   if client.server_capabilities.documentFormattingProvider then
     local group_id =
       vim.api.nvim_create_augroup(("_lsp_formatting_%d"):format(bufnr), { clear = true })
