@@ -18,6 +18,9 @@ end
 local on_attach = function(client, bufnr)
   require("autocmds").setup_lsp(client, bufnr)
   require("mappings").setup_lsp(client, bufnr)
+  if client.server_capabilities.documentSymbolProvider then
+    require("nvim-navic").attach(client, bufnr)
+  end
 end
 
 local _util_open_floating_preview = vim.lsp.util.open_floating_preview

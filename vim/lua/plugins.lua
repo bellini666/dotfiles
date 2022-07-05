@@ -50,12 +50,6 @@ return packer.startup(function(use, use_rocks)
       },
     },
   })
-  use({
-    "SmiteshP/nvim-gps",
-    requires = {
-      "nvim-treesitter/nvim-treesitter",
-    },
-  })
 
   -- LSP
   use({
@@ -205,6 +199,16 @@ return packer.startup(function(use, use_rocks)
     end,
   })
   use({ "sindrets/winshift.nvim" })
+  use({
+    "SmiteshP/nvim-navic",
+    config = function()
+      require("nvim-navic").setup({
+        highlight = true,
+        separator = " ⇒ ",
+      })
+    end,
+    requires = "neovim/nvim-lspconfig",
+  })
 
   -- File browsing
   use({
