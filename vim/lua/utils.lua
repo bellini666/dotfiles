@@ -86,17 +86,19 @@ M.lsp_handler = function(parser, title, action, opts)
         vim.lsp.get_client_by_id(ctx.client_id).offset_encoding
       )
     else
-      pickers.new(opts, {
-        prompt_title = title,
-        finder = finders.new_table({
-          results = parser(result, ctx),
-          entry_maker = opts.entry_maker or make_entry.gen_from_quickfix(opts),
-        }),
-        previewer = conf.qflist_previewer(opts),
-        sorter = conf.generic_sorter(opts),
-        push_cursor_on_edit = true,
-        push_tagstack_on_edit = true,
-      }):find()
+      pickers
+        .new(opts, {
+          prompt_title = title,
+          finder = finders.new_table({
+            results = parser(result, ctx),
+            entry_maker = opts.entry_maker or make_entry.gen_from_quickfix(opts),
+          }),
+          previewer = conf.qflist_previewer(opts),
+          sorter = conf.generic_sorter(opts),
+          push_cursor_on_edit = true,
+          push_tagstack_on_edit = true,
+        })
+        :find()
     end
   end
   return handle_result
