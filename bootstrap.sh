@@ -236,6 +236,14 @@ function _language-servers {
   ) || true
 }
 
+function _utils {
+  info "installing utils"
+  curl -sSL -o- \
+    "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" \
+    >"${LOCAL_BIN_DIR}/kubectl"
+  chmod +x "${LOCAL_BIN_DIR}/kubectl"
+}
+
 function _python-libs {
   info "installing python libs"
   PIP_REQUIRE_VIRTUALENV=false pip install --user -U "${PYTHON_LIBS[@]}"
@@ -301,6 +309,7 @@ function _ {
   _nvm "$@"
   _neovim "$@"
   _language-servers "$@"
+  _utils "$@"
   _python-libs "$@"
   _gem-libs "$@"
   _go-libs "$@"
