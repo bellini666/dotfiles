@@ -242,6 +242,10 @@ function _utils {
     "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" \
     >"${LOCAL_BIN_DIR}/kubectl"
   chmod +x "${LOCAL_BIN_DIR}/kubectl"
+  curl -sSL -o- \
+    https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64 \
+    >"${LOCAL_BIN_DIR}/argocd"
+  chmod +x "${LOCAL_BIN_DIR}/argocd"
 }
 
 function _python-libs {
