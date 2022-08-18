@@ -202,6 +202,7 @@ return packer.startup(function(use, use_rocks)
   use({
     "SmiteshP/nvim-navic",
     config = function()
+      vim.g.navic_silence = 1
       require("nvim-navic").setup({
         highlight = true,
         separator = " ⇒ ",
