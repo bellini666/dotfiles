@@ -43,7 +43,6 @@ antigen bundle zdharma-continuum/fast-syntax-highlighting
 antigen bundle zsh-users/zsh-completions
 antigen bundle jocelynmallon/zshmarks
 antigen bundle wbingli/zsh-wakatime
-antigen bundle lukechilds/zsh-nvm
 
 # theme
 antigen theme romkatv/powerlevel10k

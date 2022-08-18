@@ -19,6 +19,12 @@ export GOBIN=$HOME/.local/bin
 export GOPATH=$HOME/.go
 export GOMODCACHE=$HOME/.go/pkg/mod
 
+export NVM_DIR="$HOME/.nvm"
+# shellcheck source=/home/bellini/.nvm/nvm.sh
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+# shellcheck source=/home/bellini/.nvm/bash_completion
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+
 if which ruby >/dev/null && which gem >/dev/null; then
   PATH="$(ruby -r rubygems -e 'puts Gem.user_dir')/bin:$PATH"
 fi
