@@ -192,7 +192,7 @@ function _nvm {
     nvm use 16
     nvm alias default 16
   fi
-  nvm upgrade
+  zsh -i -c "nvm upgrade"
 }
 
 function _neovim {

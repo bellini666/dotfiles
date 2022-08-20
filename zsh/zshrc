@@ -37,6 +37,7 @@ antigen bundle supervisor
 antigen bundle systemd
 antigen bundle celery
 antigen bundle yarn
+antigen bundle lukechilds/zsh-nvm
 
 # github
 antigen bundle zdharma-continuum/fast-syntax-highlighting
