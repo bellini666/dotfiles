@@ -317,11 +317,16 @@ return packer.startup(function(use, use_rocks)
 
   -- Text editing
   use({ "tpope/vim-repeat" })
-  use({ "tpope/vim-surround" })
   use({ "tpope/vim-unimpaired" })
   use({ "tpope/vim-speeddating" })
   use({ "tpope/vim-fugitive" })
   use({ "wakatime/vim-wakatime" })
+  use({
+    "kylechui/nvim-surround",
+    config = function()
+      require("nvim-surround").setup({})
+    end,
+  })
   use({
     "ggandor/leap.nvim",
     config = function()
