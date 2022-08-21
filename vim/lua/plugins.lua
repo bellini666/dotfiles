@@ -311,6 +311,9 @@ return packer.startup(function(use, use_rocks)
       vim.g.VM_Extend_hl = "ThemerSearchResult"
       vim.g.VM_Cursor_hl = "ThemerSearchResult"
       vim.g.VM_Insert_hl = "Cursor"
+      vim.g.VM_silent_exit = 1
+      vim.g.VM_quit_after_leaving_insert_mode = 1
+      vim.g.VM_show_warnings = 0
     end,
     branch = "master",
     requires = "themercorp/themer.lua",
