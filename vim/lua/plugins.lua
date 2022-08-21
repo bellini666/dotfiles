@@ -139,7 +139,9 @@ return packer.startup(function(use, use_rocks)
     config = function()
       require("neotest").setup({
         adapters = {
-          require("neotest-python"),
+          require("neotest-python")({
+            args = { "-vvv" },
+          }),
         },
       })
     end,
