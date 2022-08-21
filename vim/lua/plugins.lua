@@ -133,6 +133,30 @@ return packer.startup(function(use, use_rocks)
     },
   })
 
+  -- Testing
+  use({
+    "nvim-neotest/neotest",
+    config = function()
+      require("neotest").setup({
+        adapters = {
+          require("neotest-python"),
+        },
+      })
+    end,
+    requires = {
+      "nvim-lua/plenary.nvim",
+      "nvim-treesitter/nvim-treesitter",
+      "antoinemadec/FixCursorHold.nvim",
+      "nvim-neotest/neotest-python",
+    },
+  })
+  use({
+    "andrewferrier/debugprint.nvim",
+    config = function()
+      require("debugprint").setup()
+    end,
+  })
+
   -- UI
   use({
     "themercorp/themer.lua",
@@ -141,9 +165,7 @@ return packer.startup(function(use, use_rocks)
     end,
     requires = {
       {
-        -- FIXME: Go back to the original repo once my PRs are merged
-        -- "mg979/tabline.nvim",
-        "bellini666/tabline.nvim",
+        "mg979/tabline.nvim",
         requires = { "kyazdani42/nvim-web-devicons" },
       },
       {
@@ -271,30 +293,6 @@ return packer.startup(function(use, use_rocks)
           width = 0.9,
         },
       })
-    end,
-  })
-
-  -- Testing
-  use({
-    "nvim-neotest/neotest",
-    config = function()
-      require("neotest").setup({
-        adapters = {
-          require("neotest-python"),
-        },
-      })
-    end,
-    requires = {
-      "nvim-lua/plenary.nvim",
-      "nvim-treesitter/nvim-treesitter",
-      "antoinemadec/FixCursorHold.nvim",
-      "nvim-neotest/neotest-python",
-    },
-  })
-  use({
-    "andrewferrier/debugprint.nvim",
-    config = function()
-      require("debugprint").setup()
     end,
   })
 
