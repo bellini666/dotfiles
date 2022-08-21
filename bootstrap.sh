@@ -217,10 +217,9 @@ function _neovim {
 
 function _language-servers {
   info "installing stylua"
-  git_clone_or_pull "${LOCAL_BUILD_DIR}/stylua" https://github.com/JohnnyMorganz/StyLua master
+  git_clone_or_pull "${LOCAL_BUILD_DIR}/stylua" https://github.com/JohnnyMorganz/StyLua main
   (
     cd "${LOCAL_BUILD_DIR}/stylua"
-    git pull origin master
     cargo install --path . 2>/dev/null
   ) || true
   # lua-ls
