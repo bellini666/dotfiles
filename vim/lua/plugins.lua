@@ -278,15 +278,6 @@ return packer.startup(function(use, use_rocks)
     ft = "python",
   })
   use({
-    "danymat/neogen",
-    config = function()
-      require("neogen").setup({
-        enabled = true,
-      })
-    end,
-    requires = "nvim-treesitter/nvim-treesitter",
-  })
-  use({
     "towolf/vim-helm",
   })
 
