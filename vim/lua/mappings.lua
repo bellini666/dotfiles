@@ -27,7 +27,7 @@ map("n", "<C-B>", utils.lazy("telescope.builtin", "buffers"))
 map("n", "<C-P>", utils.find_files)
 map("n", "<C-G>", utils.grep)
 
--- Dap
+-- Testing
 map("n", "<F8>", function()
   require("neotest").summary.toggle()
 end)

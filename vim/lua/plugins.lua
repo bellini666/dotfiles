@@ -291,6 +291,12 @@ return packer.startup(function(use, use_rocks)
       "nvim-neotest/neotest-python",
     },
   })
+  use({
+    "andrewferrier/debugprint.nvim",
+    config = function()
+      require("debugprint").setup()
+    end,
+  })
 
   -- Language specifics
   use({
