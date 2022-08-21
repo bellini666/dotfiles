@@ -133,31 +133,6 @@ return packer.startup(function(use, use_rocks)
     },
   })
 
-  -- DAP
-  use({
-    "mfussenegger/nvim-dap",
-    config = function()
-      require("config.dap")
-    end,
-    requires = {
-      {
-        "rcarriga/nvim-dap-ui",
-        config = function()
-          require("dapui").setup()
-        end,
-      },
-      {
-        "theHamsta/nvim-dap-virtual-text",
-        config = function()
-          require("nvim-dap-virtual-text").setup()
-        end,
-        requires = {
-          "nvim-treesitter/nvim-treesitter",
-        },
-      },
-    },
-  })
-
   -- UI
   use({
     "themercorp/themer.lua",
