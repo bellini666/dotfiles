@@ -28,14 +28,15 @@ map("n", "<C-P>", utils.find_files)
 map("n", "<C-G>", utils.grep)
 
 -- Dap
-map("n", "<F1>", utils.lazy("dap", "toggle_breakpoint"))
-map("n", "<F5>", utils.lazy("dap", "continue"))
-map("n", "<F6>", utils.lazy("dap", "step_over"))
-map("n", "<F7>", utils.lazy("dap", "sep_into"))
-map("n", "<F8>", utils.lazy("dap", "step_out"))
-map("n", "<Leader>df", utils.lazy("config.dap", "test_func"))
-map("n", "<Leader>dc", utils.lazy("config.dap", "test_class"))
-map({ "n", "v" }, "gK", utils.lazy("dapui", "eval"))
+map("n", "<F8>", function()
+  require("neotest").summary.toggle()
+end)
+map("n", "<Leader>tf", function()
+  require("neotest").run.run(vim.fn.expand("%"))
+end)
+map("n", "<Leader>tt", function()
+  require("neotest").run.run()
+end)
 
 -- Tabs management
 map("n", "<A-Left>", "gT")

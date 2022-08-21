@@ -141,7 +141,9 @@ return packer.startup(function(use, use_rocks)
     end,
     requires = {
       {
-        "mg979/tabline.nvim",
+        -- FIXME: Go back to the original repo once my PRs are merged
+        -- "mg979/tabline.nvim",
+        "bellini666/tabline.nvim",
         requires = { "kyazdani42/nvim-web-devicons" },
       },
       {
@@ -270,6 +272,24 @@ return packer.startup(function(use, use_rocks)
         },
       })
     end,
+  })
+
+  -- Testing
+  use({
+    "nvim-neotest/neotest",
+    config = function()
+      require("neotest").setup({
+        adapters = {
+          require("neotest-python"),
+        },
+      })
+    end,
+    requires = {
+      "nvim-lua/plenary.nvim",
+      "nvim-treesitter/nvim-treesitter",
+      "antoinemadec/FixCursorHold.nvim",
+      "nvim-neotest/neotest-python",
+    },
   })
 
   -- Language specifics
