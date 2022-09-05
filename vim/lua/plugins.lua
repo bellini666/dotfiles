@@ -39,15 +39,6 @@ return packer.startup(function(use, use_rocks)
         "nvim-treesitter/playground",
         cmd = { "TSPlaygroundToggle", "TSHighlightCapturesUnderCursor" },
       },
-      {
-        "norcalli/nvim-colorizer.lua",
-        config = function()
-          require("colorizer").setup({
-            "*",
-            python = { names = false },
-          })
-        end,
-      },
     },
   })
 
