@@ -248,6 +248,8 @@ nvim_lsp.sumneko_lua.setup({
 
 -- https://github.com/jose-elias-alvarez/null-ls.nvim
 local null_ls = require("null-ls")
+local nutils = require("null-ls.utils")
+local nhelpers = require("null-ls.helpers")
 local diagnostics_format = "[#{c}] #{m} (#{s})"
 local formatting = null_ls.builtins.formatting
 local diagnostics = null_ls.builtins.diagnostics
@@ -274,22 +276,77 @@ null_ls.setup({
     diagnostics.flake8.with({
       diagnostics_format = diagnostics_format,
       prefer_local = ".venv/bin",
+      cwd = nhelpers.cache.by_bufnr(function(params)
+        return nutils.root_pattern(
+          ".flake8",
+          "pyproject.toml",
+          "setup.py",
+          "setup.cfg",
+          "requirements.txt",
+          "Pipfile",
+          "pyrightconfig.json"
+        )(params.bufname)
+      end),
       -- Ignore some errors that are always fixed by black
       extra_args = { "--extend-ignore", "E1,E2,E3,F821,E731,R504,SIM106" },
     }),
     formatting.isort.with({
       prefer_local = ".venv/bin",
+      cwd = nhelpers.cache.by_bufnr(function(params)
+        return nutils.root_pattern(
+          ".isort.cfg",
+          "pyproject.toml",
+          "setup.py",
+          "setup.cfg",
+          "requirements.txt",
+          "Pipfile",
+          "pyrightconfig.json"
+        )(params.bufname)
+      end),
       extra_args = { "--profile", "black" },
     }),
     formatting.black.with({
       prefer_local = ".venv/bin",
+      cwd = nhelpers.cache.by_bufnr(function(params)
+        return nutils.root_pattern(
+          "pyproject.toml",
+          "setup.py",
+          "setup.cfg",
+          "requirements.txt",
+          "Pipfile",
+          "pyrightconfig.json"
+        )(params.bufname)
+      end),
       extra_args = { "--fast", "-W", "6" },
     }),
     -- djlint
     formatting.djlint.with({
       prefer_local = ".venv/bin",
+      cwd = nhelpers.cache.by_bufnr(function(params)
+        return nutils.root_pattern(
+          ".djlintrc",
+          "pyproject.toml",
+          "setup.py",
+          "setup.cfg",
+          "requirements.txt",
+          "Pipfile",
+          "pyrightconfig.json"
+        )(params.bufname)
+      end),
     }),
     diagnostics.djlint.with({
+      prefer_local = ".venv/bin",
+      cwd = nhelpers.cache.by_bufnr(function(params)
+        return nutils.root_pattern(
+          ".djlintrc",
+          "pyproject.toml",
+          "setup.py",
+          "setup.cfg",
+          "requirements.txt",
+          "Pipfile",
+          "pyrightconfig.json"
+        )(params.bufname)
+      end),
       diagnostics_format = diagnostics_format,
     }),
     -- javascript/typescript
