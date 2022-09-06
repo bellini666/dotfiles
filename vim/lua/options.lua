@@ -18,6 +18,9 @@ vim.g.python3_host_prog = "/usr/bin/python3"
 -- Set leader to ,
 vim.g.mapleader = ","
 
+-- Use lua parser and highlight
+vim.g.ts_highlight_lua = true
+
 -- General
 vim.opt.mouse = "nv"
 vim.opt.linebreak = true
