@@ -19,6 +19,7 @@ DISABLE_VENV_CD=1
 antigen use oh-my-zsh
 
 # oh-my-zsh
+antigen bundle celery
 antigen bundle colored-man-pages
 antigen bundle colorize
 antigen bundle common-aliases
@@ -29,15 +30,14 @@ antigen bundle fzf
 antigen bundle gitfast
 antigen bundle kubectl
 antigen bundle kubectx
+antigen bundle lukechilds/zsh-nvm
 antigen bundle npm
 antigen bundle pip
 antigen bundle python
 antigen bundle screen
 antigen bundle supervisor
 antigen bundle systemd
-antigen bundle celery
 antigen bundle yarn
-antigen bundle lukechilds/zsh-nvm
 
 # github
 antigen bundle zdharma-continuum/fast-syntax-highlighting

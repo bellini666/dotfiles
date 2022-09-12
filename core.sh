@@ -19,6 +19,10 @@ export GOBIN=$HOME/.local/bin
 export GOPATH=$HOME/.go
 export GOMODCACHE=$HOME/.go/pkg/mod
 
+export PYENV_ROOT="$HOME/.pyenv"
+export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init --path)"
+
 if which ruby >/dev/null && which gem >/dev/null; then
   PATH="$(ruby -r rubygems -e 'puts Gem.user_dir')/bin:$PATH"
 fi

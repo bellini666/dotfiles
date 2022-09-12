@@ -184,6 +184,14 @@ function _poetry {
   poetry self update
 }
 
+function _pyenv {
+  info "installing pyenv"
+  if [ ! -f "${HOME}/.pyenv/bin/pyenv" ]; then
+    curl -sSL -o- https://pyenv.run | bash
+  fi
+  zsh -i -c "pyenv upgrade"
+}
+
 function _nvm {
   info "installing nvm"
   if [ ! -f "${HOME}/.nvm/nvm.sh" ]; then
@@ -309,6 +317,7 @@ function _ {
   _fonts "$@"
   _zsh "$@"
   _poetry "$@"
+  _pyenv "$@"
   _nvm "$@"
   _neovim "$@"
   _language-servers "$@"
