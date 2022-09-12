@@ -346,12 +346,6 @@ return packer.startup(function(use, use_rocks)
     end,
   })
   use({
-    "lewis6991/spellsitter.nvim",
-    config = function()
-      require("spellsitter").setup()
-    end,
-  })
-  use({
     "numToStr/Comment.nvim",
     config = function()
       require("Comment").setup({})
