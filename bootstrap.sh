@@ -189,7 +189,7 @@ function _pyenv {
   if [ ! -f "${HOME}/.pyenv/bin/pyenv" ]; then
     curl -sSL -o- https://pyenv.run | bash
   fi
-  zsh -i -c "pyenv upgrade"
+  zsh -i -c "pyenv update"
 }
 
 function _nvm {
