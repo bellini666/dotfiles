@@ -36,6 +36,12 @@ return packer.startup(function(use, use_rocks)
     requires = {
       "nvim-treesitter/nvim-treesitter-textobjects",
       {
+        "NvChad/nvim-colorizer.lua",
+        config = function()
+          require("colorizer").setup()
+        end,
+      },
+      {
         "nvim-treesitter/playground",
         cmd = { "TSPlaygroundToggle", "TSHighlightCapturesUnderCursor" },
       },
