@@ -2,8 +2,7 @@ local nvim_lsp = require("lspconfig")
 local lsp_util = require("lspconfig/util")
 local utils = require("utils")
 
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities = require("cmp_nvim_lsp").update_capabilities(capabilities)
+local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
 local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
 for type, icon in pairs(signs) do
