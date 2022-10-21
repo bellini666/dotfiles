@@ -29,7 +29,6 @@ vim.opt.updatetime = 500
 
 -- Ui
 vim.opt.number = true
-vim.opt.lazyredraw = true
 vim.opt.cursorline = true
 vim.opt.signcolumn = "number"
 vim.opt.laststatus = 3
