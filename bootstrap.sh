@@ -120,6 +120,7 @@ function _system {
   EXTRA_OPTS="-t unstable"
   info "updating the system"
   sudo apt update --list-cleanup
+  sudo apt dist-upgrade --purge "$@"
   # shellcheck disable=2086
   sudo apt dist-upgrade --purge ${EXTRA_OPTS} "$@"
   # shellcheck disable=2086
