@@ -271,6 +271,8 @@ null_ls.setup({
         return utils.root_has_file({ "cspell.json", "cspell.config.yaml", "cspell.config.cjs" })
       end,
     }),
+    -- github actioins
+    diagnostics.actionlint,
     -- python
     diagnostics.flake8.with({
       diagnostics_format = diagnostics_format,
