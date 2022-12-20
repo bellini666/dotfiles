@@ -81,7 +81,7 @@ return packer.startup(function(use, use_rocks)
         track_cursor = true,
       })
     end,
-    requires = "kyazdani42/nvim-web-devicons",
+    requires = "nvim-tree/nvim-web-devicons",
   })
 
   -- Completion
@@ -165,12 +165,12 @@ return packer.startup(function(use, use_rocks)
     requires = {
       {
         "mg979/tabline.nvim",
-        requires = { "kyazdani42/nvim-web-devicons" },
+        requires = { "nvim-tree/nvim-web-devicons" },
       },
       {
         "nvim-lualine/lualine.nvim",
         requires = {
-          "kyazdani42/nvim-web-devicons",
+          "nvim-tree/nvim-web-devicons",
           "arkav/lualine-lsp-progress",
         },
       },
@@ -254,7 +254,7 @@ return packer.startup(function(use, use_rocks)
     requires = {
       "nvim-treesitter/nvim-treesitter",
       "nvim-lua/plenary.nvim",
-      "kyazdani42/nvim-web-devicons",
+      "nvim-tree/nvim-web-devicons",
       {
         "nvim-telescope/telescope-fzf-native.nvim",
         run = "make",
@@ -266,7 +266,7 @@ return packer.startup(function(use, use_rocks)
     branch = "v2.x",
     requires = {
       "nvim-lua/plenary.nvim",
-      "kyazdani42/nvim-web-devicons",
+      "nvim-tree/nvim-web-devicons",
       "MunifTanjim/nui.nvim",
     },
     cmd = "Neotree",
