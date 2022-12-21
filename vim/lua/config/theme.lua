@@ -89,6 +89,10 @@ local function setup_lualine()
           "lsp_progress",
           spinner_symbols = { "◴", "◷", "◶", "◵" },
         },
+        {
+          require("noice").api.status.mode.get_hl,
+          cond = require("noice").api.status.mode.has,
+        },
         "encoding",
         "fileformat",
         "filetype",
