@@ -48,6 +48,14 @@ map("v", "<C-_>", "gc", { remap = true })
 map("n", "<C-/>", "gcc", { remap = true })
 map("v", "<C-/>", "gc", { remap = true })
 
+-- dial.nvim
+map("n", "<C-a>", utils.lazy("dial.map", "inc_normal"), { noremap = true })
+map("n", "<C-x>", utils.lazy("dial.map", "dec_normal"), { noremap = true })
+map("v", "<C-a>", utils.lazy("dial.map", "inc_visual"), { noremap = true })
+map("v", "<C-x>", utils.lazy("dial.map", "dec_visual"), { noremap = true })
+map("v", "g<C-a>", utils.lazy("dial.map", "inc_gvisual"), { noremap = true })
+map("v", "g<C-x>", utils.lazy("dial.map", "dec_gvisual"), { noremap = true })
+
 -- Trouble
 map("n", "<C-q>", "<cmd>TroubleToggle<cr>")
 map("n", "[q", utils.lazy("trouble", "previous", { { skip_groups = true, jump = true } }))

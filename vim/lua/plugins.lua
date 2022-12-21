@@ -328,8 +328,16 @@ return packer.startup(function(use, use_rocks)
   -- Text editing
   use({ "tpope/vim-repeat" })
   use({ "tpope/vim-unimpaired" })
-  use({ "tpope/vim-speeddating" })
   use({ "tpope/vim-fugitive" })
+  use({
+    "monaqa/dial.nvim",
+    keys = {
+      { "n", "<C-a>" },
+      { "n", "<C-x>" },
+      { "v", "<C-a>" },
+      { "v", "<C-x>" },
+    },
+  })
   use({ "wakatime/vim-wakatime" })
   use({
     "kylechui/nvim-surround",
