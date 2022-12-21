@@ -71,3 +71,11 @@ require("nvim-treesitter.configs").setup({
     },
   },
 })
+
+require("colorizer").setup({
+  filetypes = {
+    "*",
+    python = { names = false },
+    toml = { names = false },
+  },
+})

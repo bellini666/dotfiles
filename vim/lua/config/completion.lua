@@ -10,6 +10,7 @@ local has_words_before = function()
   return vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
 end
 
+---@diagnostic disable-next-line
 cmp.setup({
   sources = cmp.config.sources({
     { name = "nvim_lsp" },
@@ -19,11 +20,23 @@ cmp.setup({
     { name = "path" },
   }),
   formatting = {
-    format = lspkind.cmp_format(),
+    format = function(entry, vim_item)
+      if vim.tbl_contains({ "path" }, entry.source.name) then
+        local icon, hl_group =
+          require("nvim-web-devicons").get_icon(entry:get_completion_item().label)
+        if icon then
+          vim_item.kind = icon
+          vim_item.kind_hl_group = hl_group
+          return vim_item
+        end
+      end
+      return lspkind.cmp_format({ with_text = false })(entry, vim_item)
+    end,
   },
   mapping = cmp.mapping.preset.insert({
-    ["<C-Space>"] = cmp.mapping(cmp.mapping.complete(), { "i", "c" }),
-    ["<CR>"] = cmp.mapping.confirm({ select = false }),
+    ["<C-Space>"] = cmp.mapping.complete(),
+    ["<C-e>"] = cmp.mapping.close(),
+    ["<CR>"] = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = false }),
     ["<Tab>"] = cmp.mapping(function(fallback)
       if cmp.visible() then
         cmp.select_next_item()
@@ -61,32 +74,8 @@ cmp.setup({
     }),
   },
   experimental = {
-    -- ghost_text = true,
-  },
-  view = {
-    -- entries = "native",
+    ghost_text = true,
   },
 })
 
 cmp.event:on("confirm_done", require("nvim-autopairs.completion.cmp").on_confirm_done())
-
--- Use buffer source for `/`.
--- cmp.setup.cmdline("/", {
---   sources = {
---     { name = "buffer" },
---   },
---   view = {
---     entries = "wildmenu",
---   },
--- })
-
--- -- Use cmdline & path source for ':'.
--- cmp.setup.cmdline(":", {
---   sources = cmp.config.sources({
---     { name = "path" },
---     { name = "cmdline" },
---   }),
---   view = {
---     entries = "wildmenu",
---   },
--- })

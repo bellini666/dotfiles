@@ -5,7 +5,7 @@ local function setup_themer()
   local utils = require("themer.utils.colors")
   local colors = require("themer.modules.themes.jellybeans")
 
-  local bg_alt = utils.lighten(colors.bg.base, 0.9, nil)
+  local bg_alt = utils.lighten(colors.bg.base, 0.9, utils.fg)
   local border = colors.blue
 
   themer.setup({
@@ -18,15 +18,15 @@ local function setup_themer()
           },
           pum = {
             fg = colors.fg,
-            bg = utils.lighten(colors.bg.base, 0.85, nil),
-            sbar = utils.lighten(colors.bg.base, 0.75, nil),
-            thumb = utils.lighten(colors.bg.base, 0.65, nil),
+            bg = utils.lighten(colors.bg.base, 0.85, utils.fg),
+            sbar = utils.lighten(colors.bg.base, 0.75, utils.fg),
+            thumb = utils.lighten(colors.bg.base, 0.65, utils.fg),
             sel = {
               bg = colors.blue,
             },
           },
           border = border,
-          match = utils.darken(colors.syntax.struct, 0.85, nil),
+          match = utils.darken(colors.syntax.struct, 0.85, utils.bg),
         },
       },
       highlights = {
@@ -68,7 +68,7 @@ local function setup_lualine()
     theme = vim.tbl_deep_extend("force", theme, {
       [kind] = {
         a = { bg = bg },
-        b = { bg = utils.lighten(colors.bg.alt, 0.9, nil) },
+        b = { bg = utils.lighten(colors.bg.alt, 0.9, utils.fg) },
       },
     })
   end

@@ -29,49 +29,38 @@ return packer.startup(function(use, use_rocks)
   -- Treesitter
   use({
     "nvim-treesitter/nvim-treesitter",
-    run = ":TSUpdate",
-    config = function()
-      require("config.treesitter")
-    end,
     requires = {
       "nvim-treesitter/nvim-treesitter-textobjects",
-      {
-        "NvChad/nvim-colorizer.lua",
-        config = function()
-          require("colorizer").setup()
-        end,
-      },
+      "NvChad/nvim-colorizer.lua",
       {
         "nvim-treesitter/playground",
         cmd = { "TSPlaygroundToggle", "TSHighlightCapturesUnderCursor" },
       },
     },
+    run = ":TSUpdate",
+    config = function()
+      require("config.treesitter")
+    end,
   })
 
   -- LSP
   use({
     "neovim/nvim-lspconfig",
-    config = function()
-      require("config.lsp")
-    end,
     requires = {
       "jose-elias-alvarez/null-ls.nvim",
       "b0o/schemastore.nvim",
-      use({
-        "ray-x/lsp_signature.nvim",
-        config = function()
-          require("lsp_signature").setup({
-            hint_enable = false,
-            toggle_key = "<C-K>",
-          })
-        end,
-      }),
     },
+    config = function()
+      require("config.lsp")
+    end,
   })
   use({
     -- FIXME: Go back to the original repo once my PRs are merged
     -- "folke/trouble.nvim",
     "bellini666/trouble.nvim",
+    requires = {
+      "nvim-tree/nvim-web-devicons",
+    },
     config = function()
       require("trouble").setup({
         close = "<C-q>",
@@ -81,7 +70,6 @@ return packer.startup(function(use, use_rocks)
         track_cursor = true,
       })
     end,
-    requires = "nvim-tree/nvim-web-devicons",
   })
 
   -- Completion
@@ -96,9 +84,6 @@ return packer.startup(function(use, use_rocks)
   })
   use({
     "hrsh7th/nvim-cmp",
-    config = function()
-      require("config.completion")
-    end,
     requires = {
       "windwp/nvim-autopairs",
       "hrsh7th/cmp-nvim-lsp",
@@ -108,31 +93,39 @@ return packer.startup(function(use, use_rocks)
       "hrsh7th/cmp-nvim-lua",
       {
         "L3MON4D3/LuaSnip",
-        config = function()
-          require("luasnip.loaders.from_vscode").lazy_load()
-        end,
         requires = {
           "saadparwaiz1/cmp_luasnip",
           "rafamadriz/friendly-snippets",
         },
+        config = function()
+          require("luasnip.loaders.from_vscode").lazy_load()
+        end,
       },
       {
         "onsails/lspkind-nvim",
+        requires = {
+          "nvim-treesitter/nvim-treesitter",
+        },
         config = function()
           require("lspkind").init({
             preset = "codicons",
           })
         end,
-        requires = {
-          "nvim-treesitter/nvim-treesitter",
-        },
       },
     },
+    config = function()
+      require("config.completion")
+    end,
   })
 
   -- Testing
   use({
     "nvim-neotest/neotest",
+    requires = {
+      "nvim-lua/plenary.nvim",
+      "nvim-treesitter/nvim-treesitter",
+      "nvim-neotest/neotest-python",
+    },
     config = function()
       require("neotest").setup({
         adapters = {
@@ -142,12 +135,6 @@ return packer.startup(function(use, use_rocks)
         },
       })
     end,
-    requires = {
-      "nvim-lua/plenary.nvim",
-      "nvim-treesitter/nvim-treesitter",
-      "antoinemadec/FixCursorHold.nvim",
-      "nvim-neotest/neotest-python",
-    },
   })
   use({
     "andrewferrier/debugprint.nvim",
@@ -158,10 +145,34 @@ return packer.startup(function(use, use_rocks)
 
   -- UI
   use({
-    "themercorp/themer.lua",
+    "folke/noice.nvim",
+    requires = {
+      "MunifTanjim/nui.nvim",
+      "rcarriga/nvim-notify",
+    },
     config = function()
-      require("config.theme").setup()
+      require("noice").setup({
+        popupmenu = {
+          backend = "cmp",
+        },
+        lsp = {
+          progress = {
+            enabled = false,
+          },
+          override = {
+            ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
+            ["vim.lsp.util.stylize_markdown"] = true,
+            ["cmp.entry.get_documentation"] = true,
+          },
+        },
+        presets = {
+          lsp_doc_border = true,
+        },
+      })
     end,
+  })
+  use({
+    "themercorp/themer.lua",
     requires = {
       {
         "mg979/tabline.nvim",
@@ -175,15 +186,8 @@ return packer.startup(function(use, use_rocks)
         },
       },
     },
-  })
-  use({
-    "stevearc/dressing.nvim",
     config = function()
-      require("dressing").setup({
-        input = {
-          insert_only = true,
-        },
-      })
+      require("config.theme").setup()
     end,
   })
   use({
@@ -199,6 +203,9 @@ return packer.startup(function(use, use_rocks)
   use({ "sindrets/winshift.nvim" })
   use({
     "SmiteshP/nvim-navic",
+    requires = {
+      "neovim/nvim-lspconfig",
+    },
     config = function()
       vim.g.navic_silence = 1
       require("nvim-navic").setup({
@@ -206,16 +213,26 @@ return packer.startup(function(use, use_rocks)
         separator = " ⇒ ",
       })
     end,
-    requires = "neovim/nvim-lspconfig",
   })
 
   -- File browsing
   use({
+    requires = {
+      "folke/noice.nvim",
+      "nvim-treesitter/nvim-treesitter",
+      "nvim-lua/plenary.nvim",
+      "nvim-tree/nvim-web-devicons",
+      {
+        "nvim-telescope/telescope-fzf-native.nvim",
+        run = "make",
+      },
+    },
     "nvim-telescope/telescope.nvim",
     config = function()
       local telescope = require("telescope")
       local trouble = require("trouble.providers.telescope")
       local actions = require("telescope.actions")
+      telescope.load_extension("noice")
       telescope.load_extension("fzf")
       telescope.setup({
         defaults = {
@@ -251,15 +268,6 @@ return packer.startup(function(use, use_rocks)
         },
       })
     end,
-    requires = {
-      "nvim-treesitter/nvim-treesitter",
-      "nvim-lua/plenary.nvim",
-      "nvim-tree/nvim-web-devicons",
-      {
-        "nvim-telescope/telescope-fzf-native.nvim",
-        run = "make",
-      },
-    },
   })
   use({
     "nvim-neo-tree/neo-tree.nvim",

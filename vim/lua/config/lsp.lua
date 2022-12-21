@@ -59,7 +59,7 @@ local handlers = {
     local ret = vim.lsp.handlers["textDocument/rename"](_, result, ...)
 
     if not vim.tbl_isempty(msg) then
-      vim.notify(msg, vim.log.levels.INFO, { title = title })
+      vim.notify(table.concat(msg, "\n"), vim.log.levels.INFO, { title = title })
       -- Save the modified files after the rename
       vim.cmd("wall")
     end
@@ -258,12 +258,10 @@ null_ls.setup({
   capabilities = capabilities,
   on_attach = on_attach,
   sources = {
-    -- refactoring.nvim code_actions,
-    code_actions.refactoring,
-    -- shellcheck code_actions,
-    code_actions.shellcheck,
     -- gitrebase code_actions,
     code_actions.gitrebase,
+    -- github actioins
+    diagnostics.actionlint,
     -- cspell
     diagnostics.cspell.with({
       diagnostics_format = diagnostics_format,
@@ -271,8 +269,6 @@ null_ls.setup({
         return utils.root_has_file({ "cspell.json", "cspell.config.yaml", "cspell.config.cjs" })
       end,
     }),
-    -- github actioins
-    diagnostics.actionlint,
     -- python
     diagnostics.flake8.with({
       diagnostics_format = diagnostics_format,
@@ -355,6 +351,7 @@ null_ls.setup({
       prefer_local = "node_modules/.bin",
     }),
     -- sh/bash
+    code_actions.shellcheck,
     diagnostics.shellcheck.with({
       diagnostics_format = diagnostics_format,
     }),
