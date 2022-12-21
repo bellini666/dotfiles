@@ -49,6 +49,16 @@ return packer.startup(function(use, use_rocks)
     requires = {
       "jose-elias-alvarez/null-ls.nvim",
       "b0o/schemastore.nvim",
+      use({
+        "ray-x/lsp_signature.nvim",
+        config = function()
+          require("lsp_signature").setup({
+            hint_enable = false,
+            toggle_key = "<C-K>",
+            noice = true,
+          })
+        end,
+      }),
     },
     config = function()
       require("config.lsp")
@@ -157,6 +167,9 @@ return packer.startup(function(use, use_rocks)
         },
         lsp = {
           progress = {
+            enabled = false,
+          },
+          signature = {
             enabled = false,
           },
           override = {
