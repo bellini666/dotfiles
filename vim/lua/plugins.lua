@@ -155,6 +155,16 @@ return packer.startup(function(use, use_rocks)
 
   -- UI
   use({
+    "stevearc/dressing.nvim",
+    config = function()
+      require("dressing").setup({
+        input = {
+          insert_only = true,
+        },
+      })
+    end,
+  })
+  use({
     "folke/noice.nvim",
     requires = {
       "MunifTanjim/nui.nvim",
@@ -177,6 +187,9 @@ return packer.startup(function(use, use_rocks)
             ["vim.lsp.util.stylize_markdown"] = true,
             ["cmp.entry.get_documentation"] = true,
           },
+        },
+        messages = {
+          view_search = false,
         },
         presets = {
           lsp_doc_border = true,
