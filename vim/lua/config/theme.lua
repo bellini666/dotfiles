@@ -10,7 +10,6 @@ end
 
 local function setup_lualine()
   local navic = require("nvim-navic")
-  local utils = require("themer.utils.colors")
   require("lualine").setup({
     options = {
       theme = "kanagawa",
