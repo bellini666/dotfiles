@@ -29,7 +29,7 @@ vim.opt.updatetime = 500
 
 -- Ui
 vim.opt.number = true
-vim.opt.cursorline = true
+vim.opt.cursorline = false
 vim.opt.signcolumn = "number"
 vim.opt.laststatus = 3
 vim.opt.list = true
@@ -44,7 +44,8 @@ vim.opt.showbreak = [[↪ ]]
 vim.opt.showmode = false
 vim.opt.splitright = true
 vim.opt.splitbelow = true
-vim.opt.scrolloff = 15
+vim.opt.scrolloff = 5
+vim.opt.showtabline = 1
 
 -- Theme
 vim.opt.termguicolors = true

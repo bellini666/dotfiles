@@ -66,12 +66,8 @@ cmp.setup({
     end,
   },
   window = {
-    completion = cmp.config.window.bordered({
-      winhighlight = "NormalFloat:NormalFloat,FloatBorder:FloatBorder",
-    }),
-    documentation = cmp.config.window.bordered({
-      winhighlight = "NormalFloat:NormalFloat,FloatBorder:FloatBorder",
-    }),
+    completion = cmp.config.window.bordered({}),
+    documentation = cmp.config.window.bordered({}),
   },
   experimental = {
     ghost_text = true,

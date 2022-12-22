@@ -32,18 +32,18 @@ M.setup_lsp = function(client, bufnr)
     })
   end
 
-  if client.server_capabilities.documentHighlightProvider then
-    vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
-      buffer = bufnr,
-      callback = vim.lsp.buf.document_highlight,
-      group = augroup,
-    })
-    vim.api.nvim_create_autocmd({ "CursorMoved" }, {
-      buffer = bufnr,
-      callback = vim.lsp.buf.clear_references,
-      group = augroup,
-    })
-  end
+  -- if client.server_capabilities.documentHighlightProvider then
+  --   vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
+  --     buffer = bufnr,
+  --     callback = vim.lsp.buf.document_highlight,
+  --     group = augroup,
+  --   })
+  --   vim.api.nvim_create_autocmd({ "CursorMoved" }, {
+  --     buffer = bufnr,
+  --     callback = vim.lsp.buf.clear_references,
+  --     group = augroup,
+  --   })
+  -- end
 end
 
 return M

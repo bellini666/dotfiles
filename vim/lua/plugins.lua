@@ -49,6 +49,7 @@ return packer.startup(function(use, use_rocks)
     requires = {
       "jose-elias-alvarez/null-ls.nvim",
       "b0o/schemastore.nvim",
+      "SmiteshP/nvim-navic",
       use({
         "ray-x/lsp_signature.nvim",
         config = function()
@@ -164,17 +165,20 @@ return packer.startup(function(use, use_rocks)
     end,
   })
   use({
-    "themercorp/themer.lua",
+    "rebelot/kanagawa.nvim",
     requires = {
-      {
-        "mg979/tabline.nvim",
-        requires = { "nvim-tree/nvim-web-devicons" },
-      },
       {
         "nvim-lualine/lualine.nvim",
         requires = {
           "nvim-tree/nvim-web-devicons",
           "arkav/lualine-lsp-progress",
+          "SmiteshP/nvim-navic",
+        },
+      },
+      {
+        "akinsho/bufferline.nvim",
+        requires = {
+          "nvim-tree/nvim-web-devicons",
         },
       },
     },
@@ -201,7 +205,6 @@ return packer.startup(function(use, use_rocks)
     config = function()
       vim.g.navic_silence = 1
       require("nvim-navic").setup({
-        highlight = true,
         separator = " ⇒ ",
       })
     end,
@@ -209,8 +212,8 @@ return packer.startup(function(use, use_rocks)
 
   -- File browsing
   use({
+    "nvim-telescope/telescope.nvim",
     requires = {
-      "folke/noice.nvim",
       "nvim-treesitter/nvim-treesitter",
       "nvim-lua/plenary.nvim",
       "nvim-tree/nvim-web-devicons",
@@ -219,12 +222,10 @@ return packer.startup(function(use, use_rocks)
         run = "make",
       },
     },
-    "nvim-telescope/telescope.nvim",
     config = function()
       local telescope = require("telescope")
       local trouble = require("trouble.providers.telescope")
       local actions = require("telescope.actions")
-      telescope.load_extension("noice")
       telescope.load_extension("fzf")
       telescope.setup({
         defaults = {
@@ -337,17 +338,11 @@ return packer.startup(function(use, use_rocks)
   use({
     "mg979/vim-visual-multi",
     config = function()
-      -- Use colors from themer
-      vim.g.VM_Mono_hl = "ThemerSearchResult"
-      vim.g.VM_Extend_hl = "ThemerSearchResult"
-      vim.g.VM_Cursor_hl = "ThemerSearchResult"
-      vim.g.VM_Insert_hl = "Cursor"
       vim.g.VM_silent_exit = 1
       vim.g.VM_quit_after_leaving_insert_mode = 1
       vim.g.VM_show_warnings = 0
     end,
     branch = "master",
-    requires = "themercorp/themer.lua",
     keys = "<C-n>",
   })
   use({
@@ -355,7 +350,7 @@ return packer.startup(function(use, use_rocks)
     config = function()
       require("nvim-lastplace").setup({
         lastplace_ignore_buftype = { "quickfix", "nofile", "help", "Trouble" },
-        lastplace_ignore_filetype = { "gitcommit", "gitrebase" },
+        lastplace_ignore_filetype = { "gitcommit", "gitrebase", "neo-tree" },
       })
     end,
   })
