@@ -175,6 +175,12 @@ return {
               separator = true,
               padding = 1,
             },
+            {
+              filetype = "neotest-summary",
+              text = "Tests",
+              separator = true,
+              padding = 1,
+            },
           },
         },
       })
@@ -196,7 +202,8 @@ return {
     config = function()
       local notify = require("notify")
       notify.setup({
-        timeout = 750,
+        background_colour = "#000000",
+        timeout = 1500,
       })
       vim.notify = notify
     end,
@@ -222,22 +229,33 @@ return {
   -- File browsing
   {
     "nvim-telescope/telescope.nvim",
-    lazy = true,
     dependencies = {
-      "nvim-treesitter/nvim-treesitter",
       "nvim-lua/plenary.nvim",
+      "nvim-treesitter/nvim-treesitter",
       "nvim-tree/nvim-web-devicons",
       {
         "nvim-telescope/telescope-fzf-native.nvim",
         build = "make",
+        config = function()
+          require("telescope").load_extension("fzf")
+        end,
+      },
+      {
+        "nvim-telescope/telescope-file-browser.nvim",
+        config = function()
+          require("telescope").load_extension("file_browser")
+        end,
+      },
+      {
+        "debugloop/telescope-undo.nvim",
+        config = function()
+          require("telescope").load_extension("undo")
+        end,
       },
     },
     config = function()
-      local telescope = require("telescope")
-      local trouble = require("trouble.providers.telescope")
       local actions = require("telescope.actions")
-      telescope.load_extension("fzf")
-      telescope.setup({
+      require("telescope").setup({
         defaults = {
           prompt_prefix = "🔍 ",
           selection_caret = " ",
@@ -245,10 +263,10 @@ return {
           mappings = {
             i = {
               ["<Esc>"] = actions.close,
-              ["<c-q>"] = trouble.open_with_trouble,
+              ["<c-q>"] = require("trouble.providers.telescope").open_with_trouble,
             },
             n = {
-              ["<C-q>"] = trouble.open_with_trouble,
+              ["<C-q>"] = require("trouble.providers.telescope").open_with_trouble,
             },
           },
         },
@@ -256,7 +274,7 @@ return {
           buffers = {
             mappings = {
               i = {
-                ["<c-d>"] = actions.delete_buffer + actions.move_to_top,
+                ["<A-d>"] = actions.delete_buffer + actions.move_to_top,
               },
             },
           },
@@ -268,25 +286,6 @@ return {
             override_file_sorter = true,
             case_mode = "smart_case",
           },
-        },
-      })
-    end,
-  },
-  {
-    "nvim-neo-tree/neo-tree.nvim",
-    branch = "v2.x",
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-      "nvim-tree/nvim-web-devicons",
-      "MunifTanjim/nui.nvim",
-    },
-    cmd = "Neotree",
-    config = function()
-      vim.g.neo_tree_remove_legacy_commands = 1
-      require("neo-tree").setup({
-        close_if_last_window = true,
-        filesystem = {
-          follow_current_file = true,
         },
       })
     end,
@@ -352,10 +351,6 @@ return {
     config = function()
       require("leap").set_default_keymaps()
     end,
-  },
-  {
-    "mbbill/undotree",
-    cmd = "UndotreeToggle",
   },
   {
     "mg979/vim-visual-multi",

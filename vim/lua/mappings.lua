@@ -18,8 +18,8 @@ map("n", "<leader>tn", "<cmd>set number!<cr>:set number?<CR>")
 map("n", "<leader>tp", "<cmd>set paste!<cr>:set paste?<CR>")
 map("n", "<leader>ts", "<cmd>set spell!<cr>:set spell?<CR>")
 map("n", "<leader>td", '<cmd>lua require("dapui").toggle()<cr>')
-map("n", "<F2>", "<cmd>UndotreeToggle<cr>")
-map("n", "<F4>", "<cmd>Neotree reveal toggle<cr>")
+map("n", "<F2>", "<cmd>Telescope undo<cr>")
+map("n", "<F4>", "<cmd>Telescope file_browser<cr>")
 
 -- File utils
 map("n", "<C-F>", utils.lazy("telescope.builtin", "live_grep"))
@@ -41,6 +41,9 @@ end)
 -- Tabs management
 map("n", "<A-Left>", "gT")
 map("n", "<A-Right>", "gt")
+
+-- Clear search with <esc>
+vim.keymap.set({ "i", "n" }, "<esc>", "<cmd>noh<cr><esc>")
 
 -- Comment with Ctrl-/
 map("n", "<C-_>", "gcc", { remap = true })
@@ -67,15 +70,18 @@ map("n", "]Q", utils.lazy("trouble", "last", { { skip_groups = true, jump = true
 map("n", "<C-w>m", "<cmd>WinShift<cr>")
 map("n", "<C-w>x", "<cmd>WinShift swap<cr><C-w><C-w>")
 
--- Reload treesitter
-map("n", "<Leader>rt", "<cmd>write | edit | TSBufEnable highlight<cr>")
-
 -- Fix spell with telescope
 map("n", "z=", utils.spell_suggest)
 
--- Ctrl-Up/Down scrolls 10 lines and keep the screen centered
-map("n", "<C-Up>", "10kzz")
-map("n", "<C-Down>", "10jzz")
+-- https://github.com/mhinz/vim-galore#saner-behavior-of-n-and-n
+map({ "n", "x", "o" }, "n", "'Nn'[v:searchforward]", { expr = true })
+map({ "n", "x", "o" }, "N", "'nN'[v:searchforward]", { expr = true })
+
+-- Move Lines
+map({ "n", "i" }, "<A-Down>", "<Plug>(unimpaired-move-down)")
+map("v", "<A-Down>", "<Plug>(unimpaired-move-selection-down)gv")
+map({ "n", "i" }, "<A-Up>", "<Plug>(unimpaired-move-up)")
+map("v", "<A-Up>", "<Plug>(unimpaired-move-selection-up)gv")
 
 -- Apply last change to next search result
 map("n", "g.", '/\\V<C-r>"<CR>cgn<C-a><Esc>')
@@ -88,7 +94,7 @@ map("n", "n", "nzz", { noremap = true, silent = true })
 map("n", "N", "Nzz", { noremap = true, silent = true })
 
 -- Terminal toggle
-map({ "n", "t" }, "<F5>", utils.lazy("FTerm", "toggle"), { silent = true })
+map({ "n", "t" }, "<F1>", utils.lazy("FTerm", "toggle"), { silent = true })
 
 M.setup_lsp = function(client, bufnr)
   local opts = { buffer = true, silent = true }
