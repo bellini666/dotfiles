@@ -268,8 +268,6 @@ null_ls.setup({
           "pyrightconfig.json"
         )(params.bufname)
       end),
-      -- Ignore some errors that are always fixed by black
-      extra_args = { "--extend-ignore", "E1,E2,E3" },
     }),
     formatting.isort.with({
       prefer_local = ".venv/bin",
