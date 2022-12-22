@@ -48,7 +48,18 @@ end
 M.lsp_format = function(opts)
   opts = opts or {}
   if format_enabled or opts.force then
-    vim.lsp.buf.format({ timeout_ms = 1500 })
+    vim.lsp.buf.format({
+      filter = function(client)
+        local name = client.name
+        for _, v in ipairs({ "pyright", "sumneko_lua", "html", "tsserver", "jsonls" }) do
+          if name == v then
+            return false
+          end
+        end
+        return true
+      end,
+      timeout_ms = 1500,
+    })
   end
 end
 
@@ -159,27 +170,8 @@ M.grep = function()
   end)
 end
 
-M.node_at_cursor = function()
-  local gps = require("nvim-gps")
-
-  local func = nil
-  local class = nil
-  for _, data in ipairs(gps.get_data()) do
-    if data.type == "class-name" then
-      class = data.text
-    elseif data.type == "method-name" or data.type == "function-name" then
-      func = data.text
-    end
-  end
-
-  return {
-    func = func,
-    class = class,
-  }
-end
-
 M.find_cmd = function(cmd, prefixes, start_from, stop_at)
-  local path = require("lspconfig/util").path
+  local util = require("null-ls.utils")
 
   if type(prefixes) == "string" then
     prefixes = { prefixes }
@@ -187,29 +179,18 @@ M.find_cmd = function(cmd, prefixes, start_from, stop_at)
 
   local found
   for _, prefix in ipairs(prefixes) do
-    local full_cmd = prefix and path.join(prefix, cmd) or cmd
-    local possibility
+    local full_cmd = prefix and util.path.join(prefix, cmd) or cmd
 
-    -- if start_from is a dir, test it first since transverse will start from its parent
-    if start_from and path.is_dir(start_from) then
-      possibility = path.join(start_from, full_cmd)
-      if vim.fn.executable(possibility) > 0 then
-        found = possibility
+    for dir in vim.fs.parents(start_from) do
+      local maybe_executable = util.path.join(dir, full_cmd)
+      if util.is_executable(maybe_executable) then
+        found = maybe_executable
+        break
+      end
+      if dir == stop_at then
         break
       end
     end
-
-    path.traverse_parents(start_from, function(dir)
-      possibility = path.join(dir, full_cmd)
-      if vim.fn.executable(possibility) > 0 then
-        found = possibility
-        return true
-      end
-      -- use cwd as a stopping point to avoid scanning the entire file system
-      if stop_at and dir == stop_at then
-        return true
-      end
-    end)
 
     if found ~= nil then
       break

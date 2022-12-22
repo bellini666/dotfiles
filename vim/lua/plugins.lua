@@ -55,7 +55,6 @@ return packer.startup(function(use, use_rocks)
           require("lsp_signature").setup({
             hint_enable = false,
             toggle_key = "<C-K>",
-            noice = true,
           })
         end,
       }),
@@ -160,39 +159,6 @@ return packer.startup(function(use, use_rocks)
       require("dressing").setup({
         input = {
           insert_only = true,
-        },
-      })
-    end,
-  })
-  use({
-    "folke/noice.nvim",
-    requires = {
-      "MunifTanjim/nui.nvim",
-      "rcarriga/nvim-notify",
-    },
-    config = function()
-      require("noice").setup({
-        popupmenu = {
-          backend = "cmp",
-        },
-        lsp = {
-          progress = {
-            enabled = false,
-          },
-          signature = {
-            enabled = false,
-          },
-          override = {
-            ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
-            ["vim.lsp.util.stylize_markdown"] = true,
-            ["cmp.entry.get_documentation"] = true,
-          },
-        },
-        messages = {
-          view_search = false,
-        },
-        presets = {
-          lsp_doc_border = true,
         },
       })
     end,

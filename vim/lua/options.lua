@@ -44,6 +44,7 @@ vim.opt.showbreak = [[↪ ]]
 vim.opt.showmode = false
 vim.opt.splitright = true
 vim.opt.splitbelow = true
+vim.opt.scrolloff = 15
 
 -- Theme
 vim.opt.termguicolors = true
@@ -105,6 +106,7 @@ local ft_configs = {
   typescript = { indent = 2 },
   typescriptreact = { indent = 2 },
   xml = { indent = 2, spell = "toplevel" },
+  yaml = { indent = 2 },
   zsh = { indent = 2 },
 }
 

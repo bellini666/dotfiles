@@ -80,8 +80,15 @@ map("n", "<C-Down>", "10jzz")
 -- Apply last change to next search result
 map("n", "g.", '/\\V<C-r>"<CR>cgn<C-a><Esc>')
 
+-- Paste over currently selected text without yanking it
+map("v", "p", '"_dP', { noremap = true, silent = true })
+
+-- Center search results
+map("n", "n", "nzz", { noremap = true, silent = true })
+map("n", "N", "Nzz", { noremap = true, silent = true })
+
 -- Terminal toggle
-map({ "n", "t" }, "<C-\\>", utils.lazy("FTerm", "toggle"), { silent = true })
+map({ "n", "t" }, "<F5>", utils.lazy("FTerm", "toggle"), { silent = true })
 
 M.setup_lsp = function(client, bufnr)
   local opts = { buffer = true, silent = true }
@@ -114,7 +121,7 @@ M.setup_lsp = function(client, bufnr)
   map("n", "<leader>wa", vim.lsp.buf.add_workspace_folder, opts)
   map("n", "<leader>wr", vim.lsp.buf.remove_workspace_folder, opts)
   map("n", "<leader>wl", function()
-    print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+    vim.pretty_print(vim.lsp.buf.list_workspace_folders())
   end, opts)
 end
 

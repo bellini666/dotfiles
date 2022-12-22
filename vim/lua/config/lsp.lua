@@ -1,5 +1,7 @@
 local nvim_lsp = require("lspconfig")
-local lsp_util = require("lspconfig/util")
+local null_ls = require("null-ls")
+local nhelpers = require("null-ls.helpers")
+local nutils = require("null-ls.utils")
 local utils = require("utils")
 
 local capabilities = require("cmp_nvim_lsp").default_capabilities()
@@ -19,6 +21,7 @@ local on_attach = function(client, bufnr)
 end
 
 local _util_open_floating_preview = vim.lsp.util.open_floating_preview
+---@diagnostic disable-next-line
 function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
   opts = opts or {}
   opts.border = opts.border or "rounded"
@@ -106,17 +109,13 @@ local handlers = {
 nvim_lsp.pyright.setup({
   capabilities = capabilities,
   handlers = handlers,
-  on_attach = function(client, bufnr)
-    client.server_capabilities.documentFormattingProvider = false
-    client.server_capabilities.documentRangeFormattingProvider = false
-    on_attach(client, bufnr)
-  end,
+  on_attach = on_attach,
   before_init = function(_, config)
     local p
     if vim.env.VIRTUAL_ENV then
-      p = lsp_util.path.join(vim.env.VIRTUAL_ENV, "bin", "python3")
+      p = nutils.path.join(vim.env.VIRTUAL_ENV, "bin", "python3")
     else
-      p = utils.find_cmd("python3", ".venv/bin", config.root_dir)
+      p = utils.find_cmd("python3", ".venv/bin", vim.api.nvim_buf_get_name(0))
     end
     config.settings.python.pythonPath = p
   end,
@@ -129,11 +128,7 @@ nvim_lsp.pyright.setup({
 nvim_lsp.tsserver.setup({
   capabilities = capabilities,
   handlers = handlers,
-  on_attach = function(client, bufnr)
-    client.server_capabilities.documentFormattingProvider = false
-    client.server_capabilities.documentRangeFormattingProvider = false
-    on_attach(client, bufnr)
-  end,
+  on_attach = on_attach,
 })
 
 -- https://github.com/graphql/graphiql/tree/main/packages/graphql-language-service-cli
@@ -168,11 +163,7 @@ nvim_lsp.cssls.setup({
 nvim_lsp.html.setup({
   handlers = handlers,
   capabilities = capabilities,
-  on_attach = function(client, bufnr)
-    client.server_capabilities.documentFormattingProvider = false
-    client.server_capabilities.documentRangeFormattingProvider = false
-    on_attach(client, bufnr)
-  end,
+  on_attach = on_attach,
 })
 
 -- https://github.com/bash-lsp/bash-language-server
@@ -222,11 +213,7 @@ nvim_lsp.jsonls.setup({
 -- https://github.com/sumneko/lua-language-server
 nvim_lsp.sumneko_lua.setup({
   capabilities = capabilities,
-  on_attach = function(client, bufnr)
-    client.server_capabilities.documentFormattingProvider = false
-    client.server_capabilities.documentRangeFormattingProvider = false
-    on_attach(client, bufnr)
-  end,
+  on_attach = on_attach,
   handlers = handlers,
   settings = {
     Lua = {
@@ -246,9 +233,6 @@ nvim_lsp.sumneko_lua.setup({
 })
 
 -- https://github.com/jose-elias-alvarez/null-ls.nvim
-local null_ls = require("null-ls")
-local nutils = require("null-ls.utils")
-local nhelpers = require("null-ls.helpers")
 local diagnostics_format = "[#{c}] #{m} (#{s})"
 local formatting = null_ls.builtins.formatting
 local diagnostics = null_ls.builtins.diagnostics
@@ -285,7 +269,7 @@ null_ls.setup({
         )(params.bufname)
       end),
       -- Ignore some errors that are always fixed by black
-      extra_args = { "--extend-ignore", "E1,E2,E3,F821,E731,R504,SIM106" },
+      extra_args = { "--extend-ignore", "E1,E2,E3" },
     }),
     formatting.isort.with({
       prefer_local = ".venv/bin",
@@ -314,7 +298,7 @@ null_ls.setup({
           "pyrightconfig.json"
         )(params.bufname)
       end),
-      extra_args = { "--fast", "-W", "6" },
+      extra_args = { "--fast" },
     }),
     -- djlint
     formatting.djlint.with({
