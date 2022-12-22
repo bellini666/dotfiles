@@ -305,13 +305,6 @@ function _node-libs {
   npm update -g
 }
 
-function _neovim-plugins {
-  info "updating nvim plugins"
-  ${NVIM_BIN} -c 'PackerSync'
-  ${NVIM_BIN} --headless -c "TSUpdateSync" -c "sleep 100m | write! /tmp/ts.update.result | qall"
-  cat /tmp/ts.update.result
-}
-
 function _ {
   _system "$@"
   _patches "$@"
@@ -328,7 +321,6 @@ function _ {
   _gem-libs "$@"
   _go-libs "$@"
   _node-libs "$@"
-  _neovim-plugins "$@"
 }
 
 echo
