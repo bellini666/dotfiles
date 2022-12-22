@@ -53,9 +53,7 @@ return {
     end,
   },
   {
-    -- FIXME: Go back to the original repo once my PRs are merged
-    -- "folke/trouble.nvim",
-    "bellini666/trouble.nvim",
+    "folke/trouble.nvim",
     dependencies = {
       "nvim-tree/nvim-web-devicons",
     },
@@ -66,7 +64,6 @@ return {
         padding = false,
         auto_preview = false,
         use_diagnostic_signs = true,
-        track_cursor = true,
       })
     end,
   },
