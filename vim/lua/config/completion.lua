@@ -1,6 +1,4 @@
 local cmp = require("cmp")
-local luasnip = require("luasnip")
-local lspkind = require("lspkind")
 
 local has_words_before = function()
   local line, col = unpack(vim.api.nvim_win_get_cursor(0))
@@ -30,7 +28,7 @@ cmp.setup({
           return vim_item
         end
       end
-      return lspkind.cmp_format({ with_text = false })(entry, vim_item)
+      return require("lspkind").cmp_format({ with_text = false })(entry, vim_item)
     end,
   },
   mapping = cmp.mapping.preset.insert({
@@ -40,8 +38,8 @@ cmp.setup({
     ["<Tab>"] = cmp.mapping(function(fallback)
       if cmp.visible() then
         cmp.select_next_item()
-      elseif luasnip.expand_or_jumpable() then
-        luasnip.expand_or_jump()
+      elseif require("luasnip").expand_or_jumpable() then
+        require("luasnip").expand_or_jump()
       elseif has_words_before() then
         cmp.complete()
       else
@@ -51,8 +49,8 @@ cmp.setup({
     ["<S-Tab>"] = cmp.mapping(function(fallback)
       if cmp.visible() then
         cmp.select_prev_item()
-      elseif luasnip.jumpable(-1) then
-        luasnip.jump(-1)
+      elseif require("luasnip").jumpable(-1) then
+        require("luasnip").jump(-1)
       elseif has_words_before() then
         cmp.complete()
       else
@@ -62,7 +60,7 @@ cmp.setup({
   }),
   snippet = {
     expand = function(args)
-      luasnip.lsp_expand(args.body)
+      require("luasnip").lsp_expand(args.body)
     end,
   },
   window = {

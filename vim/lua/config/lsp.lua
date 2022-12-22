@@ -1,10 +1,8 @@
 local nvim_lsp = require("lspconfig")
-local null_ls = require("null-ls")
-local nhelpers = require("null-ls.helpers")
-local nutils = require("null-ls.utils")
 local utils = require("utils")
 
 local capabilities = require("cmp_nvim_lsp").default_capabilities()
+local augroup = vim.api.nvim_create_augroup("LspAutocmds", {})
 
 local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
 for type, icon in pairs(signs) do
@@ -13,11 +11,27 @@ for type, icon in pairs(signs) do
 end
 
 local on_attach = function(client, bufnr)
-  require("autocmds").setup_lsp(client, bufnr)
-  require("mappings").setup_lsp(client, bufnr)
   if client.server_capabilities.documentSymbolProvider then
     require("nvim-navic").attach(client, bufnr)
   end
+
+  if client.server_capabilities.documentFormattingProvider then
+    vim.api.nvim_create_autocmd("BufWritePre", {
+      buffer = bufnr,
+      callback = require("utils").lsp_format,
+      group = augroup,
+    })
+  end
+
+  if client.server_capabilities.codeLensProvider then
+    vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "InsertLeave" }, {
+      buffer = bufnr,
+      callback = vim.lsp.codelens.refresh,
+      group = augroup,
+    })
+  end
+
+  require("mappings").setup_lsp(client, bufnr)
 end
 
 local _util_open_floating_preview = vim.lsp.util.open_floating_preview
@@ -113,7 +127,7 @@ nvim_lsp.pyright.setup({
   before_init = function(_, config)
     local p
     if vim.env.VIRTUAL_ENV then
-      p = nutils.path.join(vim.env.VIRTUAL_ENV, "bin", "python3")
+      p = require("null-ls.utils").path.join(vim.env.VIRTUAL_ENV, "bin", "python3")
     else
       p = utils.find_cmd("python3", ".venv/bin", vim.api.nvim_buf_get_name(0))
     end
@@ -234,6 +248,8 @@ nvim_lsp.sumneko_lua.setup({
 
 -- https://github.com/jose-elias-alvarez/null-ls.nvim
 local diagnostics_format = "[#{c}] #{m} (#{s})"
+local null_ls = require("null-ls")
+local nhelpers = require("null-ls.helpers")
 local formatting = null_ls.builtins.formatting
 local diagnostics = null_ls.builtins.diagnostics
 local code_actions = null_ls.builtins.code_actions
@@ -258,7 +274,7 @@ null_ls.setup({
       diagnostics_format = diagnostics_format,
       prefer_local = ".venv/bin",
       cwd = nhelpers.cache.by_bufnr(function(params)
-        return nutils.root_pattern(
+        return require("null-ls.utils").root_pattern(
           ".flake8",
           "pyproject.toml",
           "setup.py",
@@ -272,7 +288,7 @@ null_ls.setup({
     formatting.isort.with({
       prefer_local = ".venv/bin",
       cwd = nhelpers.cache.by_bufnr(function(params)
-        return nutils.root_pattern(
+        return require("null-ls.utils").root_pattern(
           ".isort.cfg",
           "pyproject.toml",
           "setup.py",
@@ -287,7 +303,7 @@ null_ls.setup({
     formatting.black.with({
       prefer_local = ".venv/bin",
       cwd = nhelpers.cache.by_bufnr(function(params)
-        return nutils.root_pattern(
+        return require("null-ls.utils").root_pattern(
           "pyproject.toml",
           "setup.py",
           "setup.cfg",
@@ -302,7 +318,7 @@ null_ls.setup({
     formatting.djlint.with({
       prefer_local = ".venv/bin",
       cwd = nhelpers.cache.by_bufnr(function(params)
-        return nutils.root_pattern(
+        return require("null-ls.utils").root_pattern(
           ".djlintrc",
           "pyproject.toml",
           "setup.py",
@@ -316,7 +332,7 @@ null_ls.setup({
     diagnostics.djlint.with({
       prefer_local = ".venv/bin",
       cwd = nhelpers.cache.by_bufnr(function(params)
-        return nutils.root_pattern(
+        return require("null-ls.utils").root_pattern(
           ".djlintrc",
           "pyproject.toml",
           "setup.py",

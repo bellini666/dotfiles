@@ -1,5 +1,3 @@
-local M = {}
-
 local function extend(opt, list)
   if opt._info.flaglist then
     local flaglist = {}
@@ -111,31 +109,25 @@ local ft_configs = {
   zsh = { indent = 2 },
 }
 
-M.setup = function()
-  vim.cmd([[
-    syntax on
-    filetype plugin indent on
-  ]])
-end
-
-M.setup_ft = function()
-  local config = ft_configs[vim.bo.filetype]
-  if config == nil then
-    return
-  end
-
-  if config.indent ~= nil then
-    vim.opt_local.shiftwidth = config.indent
-    vim.opt_local.softtabstop = config.indent
-  end
-
-  if config.spell ~= nil then
-    if type(config.spell) == "string" then
-      vim.cmd("syn spell " .. config.spell)
-    else
-      vim.opt_local.spell = config.spell or false
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "*",
+  callback = function()
+    local config = ft_configs[vim.bo.filetype]
+    if config == nil then
+      return
     end
-  end
-end
 
-return M
+    if config.indent ~= nil then
+      vim.opt_local.shiftwidth = config.indent
+      vim.opt_local.softtabstop = config.indent
+    end
+
+    if config.spell ~= nil then
+      if type(config.spell) == "string" then
+        vim.cmd("syn spell " .. config.spell)
+      else
+        vim.opt_local.spell = config.spell or false
+      end
+    end
+  end,
+})

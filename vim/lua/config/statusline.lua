@@ -1,5 +1,3 @@
-local navic = require("nvim-navic")
-
 require("lualine").setup({
   options = {
     theme = "kanagawa",
@@ -11,9 +9,17 @@ require("lualine").setup({
     lualine_b = { "branch", "diff", "diagnostics" },
     lualine_c = {
       { "filename", path = 1 },
-      { navic.get_location, cond = navic.is_available },
+      {
+        require("nvim-navic").get_location,
+        cond = require("nvim-navic").is_available,
+      },
     },
     lualine_x = {
+      {
+        require("lazy.status").updates,
+        cond = require("lazy.status").has_updates,
+        color = { fg = "#ff9e64" },
+      },
       {
         "lsp_progress",
         spinner_symbols = {
