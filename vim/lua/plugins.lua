@@ -1,56 +1,64 @@
-local install_path = vim.fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
-
-if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
-  BOOTSTRAPED = vim.fn.system({
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not vim.loop.fs_stat(lazypath) then
+  vim.fn.system({
     "git",
     "clone",
-    "--depth",
-    "1",
-    "https://github.com/wbthomason/packer.nvim",
-    install_path,
+    "--filter=blob:none",
+    "--single-branch",
+    "https://github.com/folke/lazy.nvim.git",
+    lazypath,
   })
 end
+vim.opt.runtimepath:prepend(lazypath)
 
-local packer = require("packer")
-
-packer.init({
-  luarocks = {
-    python_cmd = "python3",
+local opts = {
+  install = { colorscheme = { "kanagawa", "default" } },
+  dev = {
+    path = "~/dev",
   },
-  display = {
-    open_cmd = "topleft 65vnew \\[packer\\]",
-  },
-})
+}
 
-return packer.startup(function(use, use_rocks)
-  -- Packer manage itself
-  use({ "wbthomason/packer.nvim" })
+local plugins = {
+  -- Theme
+  {
+    "rebelot/kanagawa.nvim",
+    config = function()
+      require("kanagawa").setup({
+        transparent = true,
+        globalStatus = true,
+      })
+      vim.cmd("colorscheme kanagawa")
+    end,
+  },
 
   -- Treesitter
-  use({
+  {
     "nvim-treesitter/nvim-treesitter",
-    requires = {
+    dependencies = {
       "nvim-treesitter/nvim-treesitter-textobjects",
       "NvChad/nvim-colorizer.lua",
-      {
-        "nvim-treesitter/playground",
-        cmd = { "TSPlaygroundToggle", "TSHighlightCapturesUnderCursor" },
-      },
     },
-    run = ":TSUpdate",
+    build = ":TSUpdate",
     config = function()
       require("config.treesitter")
     end,
-  })
+  },
+  {
+    "nvim-treesitter/playground",
+    dependencies = {
+      "nvim-treesitter/nvim-treesitter",
+    },
+    cmd = { "TSPlaygroundToggle", "TSHighlightCapturesUnderCursor" },
+  },
 
   -- LSP
-  use({
+  {
     "neovim/nvim-lspconfig",
-    requires = {
+    dependencies = {
       "jose-elias-alvarez/null-ls.nvim",
       "b0o/schemastore.nvim",
       "SmiteshP/nvim-navic",
-      use({
+      {
         "ray-x/lsp_signature.nvim",
         config = function()
           require("lsp_signature").setup({
@@ -58,19 +66,20 @@ return packer.startup(function(use, use_rocks)
             toggle_key = "<C-K>",
           })
         end,
-      }),
+      },
     },
     config = function()
       require("config.lsp")
     end,
-  })
-  use({
+  },
+  {
     -- FIXME: Go back to the original repo once my PRs are merged
     -- "folke/trouble.nvim",
     "bellini666/trouble.nvim",
-    requires = {
+    dependencies = {
       "nvim-tree/nvim-web-devicons",
     },
+    cmd = { "TroubleToggle", "Trouble" },
     config = function()
       require("trouble").setup({
         close = "<C-q>",
@@ -80,22 +89,22 @@ return packer.startup(function(use, use_rocks)
         track_cursor = true,
       })
     end,
-  })
+  },
 
   -- Completion
-  use({
+  {
     "windwp/nvim-autopairs",
+    event = "BufReadPost",
     config = function()
       require("nvim-autopairs").setup({
         disable_in_macro = true,
         check_ts = true,
       })
     end,
-  })
-  use({
+  },
+  {
     "hrsh7th/nvim-cmp",
-    requires = {
-      "windwp/nvim-autopairs",
+    dependencies = {
       "hrsh7th/cmp-nvim-lsp",
       "hrsh7th/cmp-buffer",
       "hrsh7th/cmp-path",
@@ -103,7 +112,7 @@ return packer.startup(function(use, use_rocks)
       "hrsh7th/cmp-nvim-lua",
       {
         "L3MON4D3/LuaSnip",
-        requires = {
+        dependencies = {
           "saadparwaiz1/cmp_luasnip",
           "rafamadriz/friendly-snippets",
         },
@@ -113,7 +122,7 @@ return packer.startup(function(use, use_rocks)
       },
       {
         "onsails/lspkind-nvim",
-        requires = {
+        dependencies = {
           "nvim-treesitter/nvim-treesitter",
         },
         config = function()
@@ -123,15 +132,17 @@ return packer.startup(function(use, use_rocks)
         end,
       },
     },
+    event = "InsertEnter",
     config = function()
       require("config.completion")
     end,
-  })
+  },
 
   -- Testing
-  use({
+  {
     "nvim-neotest/neotest",
-    requires = {
+    event = "BufReadPost",
+    dependencies = {
       "nvim-lua/plenary.nvim",
       "nvim-treesitter/nvim-treesitter",
       "nvim-neotest/neotest-python",
@@ -145,17 +156,56 @@ return packer.startup(function(use, use_rocks)
         },
       })
     end,
-  })
-  use({
+  },
+  {
     "andrewferrier/debugprint.nvim",
+    event = "BufReadPost",
     config = function()
       require("debugprint").setup()
     end,
-  })
+  },
 
   -- UI
-  use({
+  {
+    "nvim-lualine/lualine.nvim",
+    dependencies = {
+      "nvim-tree/nvim-web-devicons",
+      "arkav/lualine-lsp-progress",
+      "SmiteshP/nvim-navic",
+    },
+    config = function()
+      require("config.statusline")
+    end,
+  },
+  {
+
+    "akinsho/bufferline.nvim",
+    dependencies = {
+      "nvim-tree/nvim-web-devicons",
+    },
+    config = function()
+      require("bufferline").setup({
+        options = {
+          mode = "tabs",
+          diagnostics = "nvim_lsp",
+          color_icons = true,
+          show_close_icon = false,
+          always_show_bufferline = false,
+          offsets = {
+            {
+              filetype = "neo-tree",
+              text = "File Explorer",
+              separator = true,
+              padding = 1,
+            },
+          },
+        },
+      })
+    end,
+  },
+  {
     "stevearc/dressing.nvim",
+    event = "VeryLazy",
     config = function()
       require("dressing").setup({
         input = {
@@ -163,30 +213,8 @@ return packer.startup(function(use, use_rocks)
         },
       })
     end,
-  })
-  use({
-    "rebelot/kanagawa.nvim",
-    requires = {
-      {
-        "nvim-lualine/lualine.nvim",
-        requires = {
-          "nvim-tree/nvim-web-devicons",
-          "arkav/lualine-lsp-progress",
-          "SmiteshP/nvim-navic",
-        },
-      },
-      {
-        "akinsho/bufferline.nvim",
-        requires = {
-          "nvim-tree/nvim-web-devicons",
-        },
-      },
-    },
-    config = function()
-      require("config.theme").setup()
-    end,
-  })
-  use({
+  },
+  {
     "rcarriga/nvim-notify",
     config = function()
       local notify = require("notify")
@@ -195,11 +223,15 @@ return packer.startup(function(use, use_rocks)
       })
       vim.notify = notify
     end,
-  })
-  use({ "sindrets/winshift.nvim" })
-  use({
+  },
+  {
+    "sindrets/winshift.nvim",
+    event = "BufReadPost",
+  },
+  {
     "SmiteshP/nvim-navic",
-    requires = {
+    lazy = true,
+    dependencies = {
       "neovim/nvim-lspconfig",
     },
     config = function()
@@ -208,18 +240,19 @@ return packer.startup(function(use, use_rocks)
         separator = " ⇒ ",
       })
     end,
-  })
+  },
 
   -- File browsing
-  use({
+  {
     "nvim-telescope/telescope.nvim",
-    requires = {
+    lazy = true,
+    dependencies = {
       "nvim-treesitter/nvim-treesitter",
       "nvim-lua/plenary.nvim",
       "nvim-tree/nvim-web-devicons",
       {
         "nvim-telescope/telescope-fzf-native.nvim",
-        run = "make",
+        build = "make",
       },
     },
     config = function()
@@ -261,11 +294,11 @@ return packer.startup(function(use, use_rocks)
         },
       })
     end,
-  })
-  use({
+  },
+  {
     "nvim-neo-tree/neo-tree.nvim",
     branch = "v2.x",
-    requires = {
+    dependencies = {
       "nvim-lua/plenary.nvim",
       "nvim-tree/nvim-web-devicons",
       "MunifTanjim/nui.nvim",
@@ -280,10 +313,10 @@ return packer.startup(function(use, use_rocks)
         },
       })
     end,
-  })
+  },
 
   -- Terminal integration
-  use({
+  {
     "numToStr/FTerm.nvim",
     config = function()
       require("FTerm").setup({
@@ -294,48 +327,60 @@ return packer.startup(function(use, use_rocks)
         },
       })
     end,
-  })
+    cmd = "FTerm",
+  },
 
   -- Language specifics
-  use({
+  {
     "Vimjas/vim-python-pep8-indent",
     ft = "python",
-  })
-  use({
-    "towolf/vim-helm",
-  })
+  },
 
   -- Text editing
-  use({ "tpope/vim-repeat" })
-  use({ "tpope/vim-unimpaired" })
-  use({ "tpope/vim-fugitive" })
-  use({
+  {
+    "tpope/vim-repeat",
+    keys = { "." },
+  },
+  {
+    "tpope/vim-unimpaired",
+    event = "BufReadPost",
+  },
+  {
+    "tpope/vim-fugitive",
+    event = "BufReadPost",
+  },
+  {
     "monaqa/dial.nvim",
     keys = {
-      { "n", "<C-a>" },
-      { "n", "<C-x>" },
-      { "v", "<C-a>" },
-      { "v", "<C-x>" },
+      { "<C-a>" },
+      { "<C-x>" },
+      { "<C-a>", mode = "v" },
+      { "<C-x>", mode = "v" },
     },
-  })
-  use({ "wakatime/vim-wakatime" })
-  use({
+  },
+  {
+    "wakatime/vim-wakatime",
+    event = "VeryLazy",
+  },
+  {
     "kylechui/nvim-surround",
+    event = "BufReadPost",
     config = function()
       require("nvim-surround").setup({})
     end,
-  })
-  use({
+  },
+  {
     "ggandor/leap.nvim",
+    event = "BufReadPost",
     config = function()
       require("leap").set_default_keymaps()
     end,
-  })
-  use({
+  },
+  {
     "mbbill/undotree",
     cmd = "UndotreeToggle",
-  })
-  use({
+  },
+  {
     "mg979/vim-visual-multi",
     config = function()
       vim.g.VM_silent_exit = 1
@@ -343,9 +388,9 @@ return packer.startup(function(use, use_rocks)
       vim.g.VM_show_warnings = 0
     end,
     branch = "master",
-    keys = "<C-n>",
-  })
-  use({
+    keys = { "<C-n>" },
+  },
+  {
     "ethanholz/nvim-lastplace",
     config = function()
       require("nvim-lastplace").setup({
@@ -353,17 +398,18 @@ return packer.startup(function(use, use_rocks)
         lastplace_ignore_filetype = { "gitcommit", "gitrebase", "neo-tree" },
       })
     end,
-  })
-  use({
+  },
+  {
     "numToStr/Comment.nvim",
     config = function()
       require("Comment").setup({})
     end,
-    keys = { { "n", "gcc" }, { "v", "gc" } },
-  })
-  use({ "andymass/vim-matchup" })
+    keys = { { "gcc" }, { "gc", mode = "v" } },
+  },
+  {
+    "andymass/vim-matchup",
+    event = "BufReadPost",
+  },
+}
 
-  if BOOTSTRAPED then
-    packer.sync()
-  end
-end)
+require("lazy").setup(plugins, opts)

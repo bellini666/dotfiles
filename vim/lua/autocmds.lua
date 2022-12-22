@@ -1,13 +1,5 @@
 local M = {}
 
-vim.api.nvim_create_autocmd("BufWritePost", {
-  pattern = "plugins.lua",
-  callback = function()
-    vim.cmd("source <afile>")
-    vim.cmd("PackerCompile")
-  end,
-})
-
 vim.api.nvim_create_autocmd("FileType", {
   pattern = "*",
   callback = require("options").setup_ft,
