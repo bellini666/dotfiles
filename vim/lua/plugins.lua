@@ -40,12 +40,10 @@ return {
       "SmiteshP/nvim-navic",
       {
         "ray-x/lsp_signature.nvim",
-        config = function()
-          require("lsp_signature").setup({
-            hint_enable = false,
-            toggle_key = "<C-K>",
-          })
-        end,
+        config = {
+          hint_enable = false,
+          toggle_key = "<C-K>",
+        },
       },
     },
     config = function()
@@ -58,26 +56,22 @@ return {
       "nvim-tree/nvim-web-devicons",
     },
     cmd = { "TroubleToggle", "Trouble" },
-    config = function()
-      require("trouble").setup({
-        close = "<C-q>",
-        padding = false,
-        auto_preview = false,
-        use_diagnostic_signs = true,
-      })
-    end,
+    config = {
+      close = "<C-q>",
+      padding = false,
+      auto_preview = false,
+      use_diagnostic_signs = true,
+    },
   },
 
   -- Completion
   {
     "windwp/nvim-autopairs",
     event = "BufReadPost",
-    config = function()
-      require("nvim-autopairs").setup({
-        disable_in_macro = true,
-        check_ts = true,
-      })
-    end,
+    config = {
+      disable_in_macro = true,
+      check_ts = true,
+    },
   },
   {
     "hrsh7th/nvim-cmp",
@@ -137,9 +131,7 @@ return {
   {
     "andrewferrier/debugprint.nvim",
     event = "BufReadPost",
-    config = function()
-      require("debugprint").setup()
-    end,
+    config = true,
   },
 
   -- UI
@@ -160,42 +152,38 @@ return {
     dependencies = {
       "nvim-tree/nvim-web-devicons",
     },
-    config = function()
-      require("bufferline").setup({
-        options = {
-          mode = "tabs",
-          diagnostics = "nvim_lsp",
-          color_icons = true,
-          show_close_icon = false,
-          always_show_bufferline = false,
-          offsets = {
-            {
-              filetype = "neo-tree",
-              text = "File Explorer",
-              separator = true,
-              padding = 1,
-            },
-            {
-              filetype = "neotest-summary",
-              text = "Tests",
-              separator = true,
-              padding = 1,
-            },
+    config = {
+      options = {
+        mode = "tabs",
+        diagnostics = "nvim_lsp",
+        color_icons = true,
+        show_close_icon = false,
+        always_show_bufferline = false,
+        offsets = {
+          {
+            filetype = "neo-tree",
+            text = "File Explorer",
+            separator = true,
+            padding = 1,
+          },
+          {
+            filetype = "neotest-summary",
+            text = "Tests",
+            separator = true,
+            padding = 1,
           },
         },
-      })
-    end,
+      },
+    },
   },
   {
     "stevearc/dressing.nvim",
     event = "VeryLazy",
-    config = function()
-      require("dressing").setup({
-        input = {
-          insert_only = true,
-        },
-      })
-    end,
+    config = {
+      input = {
+        insert_only = true,
+      },
+    },
   },
   {
     "rcarriga/nvim-notify",
@@ -218,12 +206,12 @@ return {
     dependencies = {
       "neovim/nvim-lspconfig",
     },
-    config = function()
+    init = function()
       vim.g.navic_silence = 1
-      require("nvim-navic").setup({
-        separator = " ⇒ ",
-      })
     end,
+    config = {
+      separator = " ⇒ ",
+    },
   },
 
   -- File browsing
@@ -299,15 +287,13 @@ return {
   -- Terminal integration
   {
     "numToStr/FTerm.nvim",
-    config = function()
-      require("FTerm").setup({
-        border = "double",
-        dimensions = {
-          height = 0.9,
-          width = 0.9,
-        },
-      })
-    end,
+    config = {
+      border = "double",
+      dimensions = {
+        height = 0.9,
+        width = 0.9,
+      },
+    },
     cmd = "FTerm",
   },
 
@@ -346,9 +332,7 @@ return {
   {
     "kylechui/nvim-surround",
     event = "BufReadPost",
-    config = function()
-      require("nvim-surround").setup({})
-    end,
+    config = true,
   },
   {
     "ggandor/leap.nvim",
@@ -369,18 +353,14 @@ return {
   },
   {
     "ethanholz/nvim-lastplace",
-    config = function()
-      require("nvim-lastplace").setup({
-        lastplace_ignore_buftype = { "quickfix", "nofile", "help", "Trouble" },
-        lastplace_ignore_filetype = { "gitcommit", "gitrebase", "neo-tree" },
-      })
-    end,
+    config = {
+      lastplace_ignore_buftype = { "quickfix", "nofile", "help", "Trouble" },
+      lastplace_ignore_filetype = { "gitcommit", "gitrebase", "neo-tree" },
+    },
   },
   {
     "numToStr/Comment.nvim",
-    config = function()
-      require("Comment").setup({})
-    end,
+    config = true,
     keys = { { "gcc" }, { "gc", mode = "v" } },
   },
   {
