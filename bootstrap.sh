@@ -11,7 +11,6 @@ LOCAL_BIN_DIR="${LOCAL_DIR}/bin"
 LOCAL_BUILD_DIR="${HOME}/.local_build"
 FONTS_DIR="${HOME}/.local/share/fonts"
 NVIM_CONFIG="${HOME}/.config/nvim"
-NVIM_BIN="${HOME}/.neovim/bin/nvim"
 APT_PACKAGES=(
   bat
   build-essential
@@ -64,6 +63,7 @@ PYTHON_LIBS=(
   poetryup
   pre-commit
   pynvim
+  virtualenv
   wheel
   yamllint
 )
