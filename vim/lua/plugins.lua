@@ -40,7 +40,7 @@ return {
       "SmiteshP/nvim-navic",
       {
         "ray-x/lsp_signature.nvim",
-        config = {
+        opts = {
           hint_enable = false,
           toggle_key = "<C-K>",
         },
@@ -56,7 +56,7 @@ return {
       "nvim-tree/nvim-web-devicons",
     },
     cmd = { "TroubleToggle", "Trouble" },
-    config = {
+    opts = {
       close = "<C-q>",
       padding = false,
       auto_preview = false,
@@ -68,7 +68,7 @@ return {
   {
     "windwp/nvim-autopairs",
     event = "BufReadPost",
-    config = {
+    opts = {
       disable_in_macro = true,
       check_ts = true,
     },
@@ -152,7 +152,7 @@ return {
     dependencies = {
       "nvim-tree/nvim-web-devicons",
     },
-    config = {
+    opts = {
       options = {
         mode = "tabs",
         diagnostics = "nvim_lsp",
@@ -179,7 +179,7 @@ return {
   {
     "stevearc/dressing.nvim",
     event = "VeryLazy",
-    config = {
+    opts = {
       input = {
         insert_only = true,
       },
@@ -209,7 +209,7 @@ return {
     init = function()
       vim.g.navic_silence = 1
     end,
-    config = {
+    opts = {
       separator = " ⇒ ",
     },
   },
@@ -287,7 +287,7 @@ return {
   -- Terminal integration
   {
     "numToStr/FTerm.nvim",
-    config = {
+    opts = {
       border = "double",
       dimensions = {
         height = 0.9,
@@ -353,7 +353,7 @@ return {
   },
   {
     "ethanholz/nvim-lastplace",
-    config = {
+    opts = {
       lastplace_ignore_buftype = { "quickfix", "nofile", "help", "Trouble" },
       lastplace_ignore_filetype = { "gitcommit", "gitrebase", "neo-tree" },
     },
