@@ -367,4 +367,15 @@ return {
     "andymass/vim-matchup",
     event = "BufReadPost",
   },
+
+  -- Misc
+  {
+    "andweeb/presence.nvim",
+    config = function()
+      require("presence"):setup({
+        auto_update = true,
+      })
+    end,
+    event = "VeryLazy",
+  },
 }
