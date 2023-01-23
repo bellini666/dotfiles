@@ -367,6 +367,10 @@ return {
     "andymass/vim-matchup",
     event = "BufReadPost",
   },
+  {
+    "nvim-pack/nvim-spectre",
+    cmd = "Spectre",
+  },
 
   -- Misc
   {
