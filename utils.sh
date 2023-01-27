@@ -46,7 +46,7 @@ function download_executable {
   set -x
 
   TMP=$(mktemp)
-  curl -sSL -o "${TMP}" "${URL}"
+  curl -4 -sSL -o "${TMP}" "${URL}"
   chmod +x "${TMP}"
 
   if [ -f "${DEST}" ]; then

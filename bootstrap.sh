@@ -152,16 +152,16 @@ function _symlinks {
 
 function _fonts {
   info "installing fonts"
-  curl -sSL -o- \
+  curl -4 -sSL -o- \
     https://github.com/microsoft/vscode-codicons/blob/main/dist/codicon.ttf?raw=true \
     >"${FONTS_DIR}/codicon.ttf"
-  curl -sSL -o- \
+  curl -4 -sSL -o- \
     https://github.com/ryanoasis/nerd-fonts/blob/master/patched-fonts/Hack/Regular/complete/Hack%20Regular%20Nerd%20Font%20Complete.ttf?raw=true \
     >"${FONTS_DIR}/Hack Regular Nerd Font Complete.ttf"
-  curl -sSL -o- \
+  curl -4 -sSL -o- \
     https://github.com/ryanoasis/nerd-fonts/blob/master/patched-fonts/Inconsolata/complete/Inconsolata%20Nerd%20Font%20Complete.otf?raw=true \
     >"${FONTS_DIR}/Inconsolata Nerd Font Complete.otf"
-  curl -sSL -o- \
+  curl -4 -sSL -o- \
     https://github.com/ryanoasis/nerd-fonts/blob/master/patched-fonts/FiraCode/Regular/complete/Fira%20Code%20Regular%20Nerd%20Font%20Complete.ttf?raw=true \
     >"${FONTS_DIR}/Fira Code Regular Nerd Font Complete.ttf"
   # FIXME: This is crashing my terminal sometimes...
@@ -178,7 +178,7 @@ function _zsh {
 function _poetry {
   info "installing poetry"
   if [ ! -f "${HOME}/.poetry/bin/poetry" ]; then
-    curl -sSL -o- https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python3 -
+    curl -4 -sSL -o- https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python3 -
     poetry config virtualenvs.create true
     poetry config virtualenvs.in-project true
   fi
@@ -188,7 +188,7 @@ function _poetry {
 function _pyenv {
   info "installing pyenv"
   if [ ! -f "${HOME}/.pyenv/bin/pyenv" ]; then
-    curl -sSL -o- https://pyenv.run | bash
+    curl -4 -sSL -o- https://pyenv.run | bash
   fi
   zsh -i -c "pyenv update"
 }
@@ -196,7 +196,7 @@ function _pyenv {
 function _nvm {
   info "installing nvm"
   if [ ! -f "${HOME}/.nvm/nvm.sh" ]; then
-    curl -ssL -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
+    curl -4 -ssL -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
     nvm install 16
     nvm use 16
     nvm alias default 16
@@ -249,7 +249,7 @@ function _utils {
   # kubectl
   download_executable \
     "${LOCAL_BIN_DIR}/kubectl" \
-    "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+    "https://dl.k8s.io/release/$(curl -4 -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
   # argocd
   download_executable \
     "${LOCAL_BIN_DIR}/argocd" \
