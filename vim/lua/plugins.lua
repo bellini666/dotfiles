@@ -76,6 +76,21 @@ return {
     },
   },
   {
+    "zbirenbaum/copilot.lua",
+    opts = {
+      panel = {
+        enabled = false,
+      },
+      suggestion = {
+        enabled = false,
+      },
+      filetypes = {
+        ["*"] = true,
+      },
+    },
+    event = "VeryLazy",
+  },
+  {
     "hrsh7th/nvim-cmp",
     dependencies = {
       "hrsh7th/cmp-nvim-lsp",
@@ -83,6 +98,13 @@ return {
       "hrsh7th/cmp-path",
       "hrsh7th/cmp-cmdline",
       "hrsh7th/cmp-nvim-lua",
+      {
+        "zbirenbaum/copilot-cmp",
+        dependencies = {
+          "copilot.lua",
+        },
+        config = true,
+      },
       {
         "L3MON4D3/LuaSnip",
         dependencies = {
@@ -102,7 +124,11 @@ return {
         config = function()
           require("lspkind").init({
             preset = "codicons",
+            symbol_map = {
+              Copilot = "",
+            },
           })
+          vim.api.nvim_set_hl(0, "CmpItemKindCopilot", { fg = "#6CC644" })
         end,
       },
     },
