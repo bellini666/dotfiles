@@ -378,11 +378,9 @@ return {
   -- Misc
   {
     "andweeb/presence.nvim",
-    config = function()
-      require("presence"):setup({
-        auto_update = true,
-      })
-    end,
+    opts = {
+      auto_update = true,
+    },
     event = "VeryLazy",
   },
 }
