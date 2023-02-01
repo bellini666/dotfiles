@@ -43,9 +43,9 @@ cmp.setup({
   mapping = cmp.mapping.preset.insert({
     ["<C-Space>"] = cmp.mapping.complete(),
     ["<C-e>"] = cmp.mapping.close(),
-    ["<CR>"] = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = false }),
+    ["<CR>"] = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Select, select = false }),
     ["<Tab>"] = cmp.mapping(function(fallback)
-      if cmp.visible() and has_words_before() then
+      if cmp.visible() then
         cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
       elseif require("luasnip").expand_or_jumpable() then
         require("luasnip").expand_or_jump()
@@ -56,7 +56,7 @@ cmp.setup({
       end
     end, { "i", "s" }),
     ["<S-Tab>"] = cmp.mapping(function(fallback)
-      if cmp.visible() and has_words_before() then
+      if cmp.visible() then
         cmp.select_prev_item()
       elseif require("luasnip").jumpable(-1) then
         require("luasnip").jump(-1)
