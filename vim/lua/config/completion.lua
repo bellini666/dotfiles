@@ -45,6 +45,11 @@ cmp.setup({
     ["<C-e>"] = cmp.mapping.close(),
     ["<CR>"] = cmp.mapping(function(fallback)
       local selected = cmp.get_selected_entry()
+      if not selected then
+        fallback()
+        return
+      end
+
       local behavior = selected.source.name == "copilot" and cmp.ConfirmBehavior.Replace
         or cmp.ConfirmBehavior.Select
       if not cmp.confirm({ behavior = behavior, select = false }) then
