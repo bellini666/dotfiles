@@ -24,7 +24,7 @@ cmp.setup({
     { name = "nvim_lua" },
     { name = "luasnip" },
     { name = "path" },
-    -- { name = "buffer" },
+    { name = "buffer" },
   }),
   formatting = {
     format = function(entry, vim_item)
@@ -43,7 +43,14 @@ cmp.setup({
   mapping = cmp.mapping.preset.insert({
     ["<C-Space>"] = cmp.mapping.complete(),
     ["<C-e>"] = cmp.mapping.close(),
-    ["<CR>"] = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Select, select = false }),
+    ["<CR>"] = cmp.mapping(function(fallback)
+      local selected = cmp.get_selected_entry()
+      local behavior = selected.source.name == "copilot" and cmp.ConfirmBehavior.Replace
+        or cmp.ConfirmBehavior.Select
+      if not cmp.confirm({ behavior = behavior, select = false }) then
+        fallback()
+      end
+    end, { "i", "s" }),
     ["<Tab>"] = cmp.mapping(function(fallback)
       if cmp.visible() then
         cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
