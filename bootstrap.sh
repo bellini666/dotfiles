@@ -63,6 +63,7 @@ PYTHON_LIBS=(
   poetryup
   pre-commit
   pynvim
+  ruff
   virtualenv
   wheel
   yamllint
