@@ -170,10 +170,44 @@ M.grep = function()
   end)
 end
 
+M.find_file = function(file, prefixes, start_from, stop_at)
+  local util = require("null-ls.utils")
+
+  if start_from == nil then
+    start_from = vim.api.nvim_buf_get_name(0)
+  end
+
+  if prefixes == nil then
+    prefixes = { "" }
+  elseif type(prefixes) == "string" then
+    prefixes = { prefixes }
+  end
+
+  for _, prefix in ipairs(prefixes) do
+    local full_cmd = prefix and util.path.join(prefix, file) or file
+
+    for dir in vim.fs.parents(start_from) do
+      local maybe_file = util.path.join(dir, full_cmd)
+      if vim.fn.filereadable(maybe_file) == 1 then
+        return maybe_file
+      end
+      if dir == stop_at then
+        break
+      end
+    end
+  end
+end
+
 M.find_cmd = function(cmd, prefixes, start_from, stop_at)
   local util = require("null-ls.utils")
 
-  if type(prefixes) == "string" then
+  if start_from == nil then
+    start_from = vim.api.nvim_buf_get_name(0)
+  end
+
+  if prefixes == nil then
+    prefixes = { "" }
+  elseif type(prefixes) == "string" then
     prefixes = { prefixes }
   end
 

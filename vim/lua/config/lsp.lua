@@ -129,7 +129,7 @@ nvim_lsp.pyright.setup({
     if vim.env.VIRTUAL_ENV then
       p = require("null-ls.utils").path.join(vim.env.VIRTUAL_ENV, "bin", "python3")
     else
-      p = utils.find_cmd("python3", ".venv/bin", vim.api.nvim_buf_get_name(0))
+      p = utils.find_cmd("python3", ".venv/bin")
     end
     config.settings.python.pythonPath = p
   end,
@@ -284,6 +284,20 @@ null_ls.setup({
           "pyrightconfig.json"
         )(params.bufname)
       end),
+      condition = function()
+        if utils.find_file(".flake8") then
+          return true
+        end
+        local pyproject = utils.find_file("pyproject.toml")
+        if pyproject then
+          local file = assert(io.open(pyproject, "r"))
+          local content = file:read("*all")
+          if string.find(content, "tool.ruff") then
+            return false
+          end
+        end
+        return true
+      end,
     }),
     formatting.isort.with({
       prefer_local = ".venv/bin",
@@ -299,6 +313,20 @@ null_ls.setup({
         )(params.bufname)
       end),
       extra_args = { "--profile", "black" },
+      condition = function()
+        if utils.find_file(".isort.cfg") then
+          return true
+        end
+        local pyproject = utils.find_file("pyproject.toml")
+        if pyproject then
+          local file = assert(io.open(pyproject, "r"))
+          local content = file:read("*all")
+          if string.find(content, "tool.ruff.isort") then
+            return false
+          end
+        end
+        return true
+      end,
     }),
     formatting.black.with({
       prefer_local = ".venv/bin",
@@ -313,6 +341,55 @@ null_ls.setup({
         )(params.bufname)
       end),
       extra_args = { "--fast" },
+    }),
+    diagnostics.ruff.with({
+      diagnostics_format = diagnostics_format,
+      prefer_local = ".venv/bin",
+      cwd = nhelpers.cache.by_bufnr(function(params)
+        return require("null-ls.utils").root_pattern(
+          "pyproject.toml",
+          "setup.py",
+          "setup.cfg",
+          "requirements.txt",
+          "Pipfile",
+          "pyrightconfig.json"
+        )(params.bufname)
+      end),
+      condition = function()
+        local pyproject = utils.find_file("pyproject.toml")
+        if pyproject then
+          local file = assert(io.open(pyproject, "r"))
+          local content = file:read("*all")
+          if string.find(content, "tool.ruff") then
+            return true
+          end
+        end
+        return false
+      end,
+    }),
+    formatting.ruff.with({
+      prefer_local = ".venv/bin",
+      cwd = nhelpers.cache.by_bufnr(function(params)
+        return require("null-ls.utils").root_pattern(
+          "pyproject.toml",
+          "setup.py",
+          "setup.cfg",
+          "requirements.txt",
+          "Pipfile",
+          "pyrightconfig.json"
+        )(params.bufname)
+      end),
+      condition = function()
+        local pyproject = utils.find_file("pyproject.toml")
+        if pyproject then
+          local file = assert(io.open(pyproject, "r"))
+          local content = file:read("*all")
+          if string.find(content, "tool.ruff") then
+            return true
+          end
+        end
+        return false
+      end,
     }),
     -- djlint
     formatting.djlint.with({
