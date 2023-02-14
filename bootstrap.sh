@@ -34,6 +34,7 @@ APT_PACKAGES=(
   libtool-bin
   ncdu
   ninja-build
+  pre-commit
   python3-numpy
   python3-nvim
   python3-pandas
@@ -61,7 +62,6 @@ PYTHON_LIBS=(
   ipython
   isort
   pipx
-  pre-commit
   ruff
   yamllint
 )
