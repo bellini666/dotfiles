@@ -281,7 +281,7 @@ function _node-libs {
   set +x
   NODE_INSTALLED=$(
     npm list -g --depth=0 --parseable |
-      sort | grep node_modules | grep -v npm | rev | cut -d'/' -f1 | rev
+      grep node_modules | grep -v npm | sed 's/.*\/node_modules\///' | sort
   )
   NP="${NODE_LIBS[*]}"
   for P in ${NP}; do
