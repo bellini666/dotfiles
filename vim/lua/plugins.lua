@@ -400,13 +400,4 @@ return {
     "nvim-pack/nvim-spectre",
     cmd = "Spectre",
   },
-
-  -- Misc
-  {
-    "andweeb/presence.nvim",
-    opts = {
-      auto_update = true,
-    },
-    event = "VeryLazy",
-  },
 }
