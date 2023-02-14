@@ -34,12 +34,12 @@ APT_PACKAGES=(
   libtool-bin
   ncdu
   ninja-build
+  pipx
   pre-commit
   python3-numpy
-  python3-nvim
   python3-pandas
   python3-pip
-  python3-pipx
+  python3-pynvim
   ripgrep
   ruby
   ruby-dev
