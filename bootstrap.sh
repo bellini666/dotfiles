@@ -34,6 +34,11 @@ APT_PACKAGES=(
   libtool-bin
   ncdu
   ninja-build
+  python3-numpy
+  python3-nvim
+  python3-pandas
+  python3-pip
+  python3-pipx
   ripgrep
   ruby
   ruby-dev
@@ -50,22 +55,14 @@ PYTHON_LIBS=(
   black
   cmake
   codespell
-  debugpy
-  debugpy
   djlint
   docker-compose
   flake8
   ipython
   isort
-  numpy
-  pandas
-  pip
-  poetryup
+  pipx
   pre-commit
-  pynvim
   ruff
-  virtualenv
-  wheel
   yamllint
 )
 NODE_LIBS=(
@@ -259,7 +256,11 @@ function _utils {
 
 function _python-libs {
   info "installing python libs"
-  PIP_REQUIRE_VIRTUALENV=false pip install --user -U "${PYTHON_LIBS[@]}"
+  PP="${PYTHON_LIBS[*]}"
+  for P in ${PP}; do
+    pipx install "${P}"
+  done
+  pipx upgrade-all -f
 }
 
 function _gem-libs {
