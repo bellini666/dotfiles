@@ -232,13 +232,10 @@ function _language-servers {
   # lua-ls
   info "installing lua-ls"
   git_clone_or_pull \
-    "${LOCAL_BUILD_DIR}/lua-language-server" https://github.com/sumneko/lua-language-server master
+    "${LOCAL_BUILD_DIR}/lua-ls" https://github.com/LuaLS/lua-language-server.git master
   (
-    cd "${LOCAL_BUILD_DIR}/lua-language-server"
-    cd 3rd/luamake
-    ./compile/install.sh
-    cd ../..
-    ./3rd/luamake/luamake rebuild
+    cd "${LOCAL_BUILD_DIR}/lua-ls"
+    ./make.sh
   ) || true
 }
 

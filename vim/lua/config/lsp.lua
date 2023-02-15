@@ -224,8 +224,8 @@ nvim_lsp.jsonls.setup({
   },
 })
 
--- https://github.com/sumneko/lua-language-server
-nvim_lsp.sumneko_lua.setup({
+-- https://github.com/LuaLS/lua-language-server
+nvim_lsp.lua_ls.setup({
   capabilities = capabilities,
   on_attach = on_attach,
   handlers = handlers,
@@ -241,6 +241,9 @@ nvim_lsp.sumneko_lua.setup({
         library = vim.api.nvim_get_runtime_file("", true),
         maxPreload = 10000,
         preloadFileSize = 1000,
+      },
+      telemetry = {
+        enable = false,
       },
     },
   },
