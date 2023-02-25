@@ -36,6 +36,7 @@ APT_PACKAGES=(
   ninja-build
   pipx
   pre-commit
+  python3-debugpy
   python3-numpy
   python3-pandas
   python3-pip
@@ -63,10 +64,12 @@ PYTHON_LIBS=(
   isort
   pipx
   ruff
+  ruff-lsp
+  textLSP
   yamllint
 )
 NODE_LIBS=(
-  @taplo/cli
+  @microsoft/compose-language-service
   bash-language-server
   cloc
   corepack
@@ -74,6 +77,8 @@ NODE_LIBS=(
   cspell
   dockerfile-language-server-nodejs
   eslint
+  eslint
+  eslint_d
   expo-cli
   fixjson
   graphql
@@ -237,6 +242,9 @@ function _language-servers {
     cd "${LOCAL_BUILD_DIR}/lua-ls"
     ./make.sh
   ) || true
+  cargo install cargo-update
+  cargo install --features lsp --locked taplo-cli
+  cargo install-update -a
 }
 
 function _utils {
@@ -258,6 +266,10 @@ function _python-libs {
     pipx install "${P}"
   done
   pipx upgrade-all -f
+  if [ ! -f "${HOME}/.debugpy/bin/poetry" ]; then
+    python3 -m venv "${HOME}/.debugpy"
+  fi
+  "${HOME}/.debugpy/bin/pip" install -U debugpy
 }
 
 function _gem-libs {

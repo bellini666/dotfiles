@@ -18,7 +18,7 @@ map("n", "<leader>tn", "<cmd>set number!<cr>:set number?<CR>")
 map("n", "<leader>tp", "<cmd>set paste!<cr>:set paste?<CR>")
 map("n", "<leader>ts", "<cmd>set spell!<cr>:set spell?<CR>")
 map("n", "<leader>td", '<cmd>lua require("dapui").toggle()<cr>')
-map("n", "<F2>", "<cmd>Telescope undo<cr>")
+map("n", "<F2>", "<cmd>UndotreeToggle<cr>")
 map("n", "<F4>", "<cmd>Telescope file_browser<cr>")
 
 -- File utils
@@ -27,8 +27,20 @@ map("n", "<C-B>", utils.lazy("telescope.builtin", "buffers"))
 map("n", "<C-P>", utils.find_files)
 map("n", "<C-G>", utils.grep)
 
+-- Tasks
+map("n", "<F10>", function()
+  require("telescope").extensions.vstask.tasks()
+end)
+
 -- Testing
-map("n", "<F8>", function()
+map("n", "<F1>", utils.lazy("dap", "toggle_breakpoint"))
+map("n", "<F5>", utils.lazy("dap", "continue"))
+map("n", "<F6>", utils.lazy("dap", "step_over"))
+map("n", "<F7>", utils.lazy("dap", "sep_into"))
+map("n", "<F8>", utils.lazy("dap", "step_out"))
+map({ "n", "v" }, "gK", utils.lazy("dap.ui.widgets", "hover"))
+map("n", "<F11>", utils.lazy("dapui", "toggle"))
+map("n", "<F12>", function()
   require("neotest").summary.toggle()
 end)
 map("n", "<Leader>tf", function()
@@ -36,6 +48,12 @@ map("n", "<Leader>tf", function()
 end)
 map("n", "<Leader>tt", function()
   require("neotest").run.run()
+end)
+map("n", "<Leader>td", function()
+  require("neotest").run.run({ strategy = "dap" })
+end)
+map("n", "<Leader>to", function()
+  require("neotest").output.open()
 end)
 
 -- Tabs management
@@ -94,7 +112,7 @@ map("n", "n", "nzz", { noremap = true, silent = true })
 map("n", "N", "Nzz", { noremap = true, silent = true })
 
 -- Terminal toggle
-map({ "n", "t" }, "<F1>", utils.lazy("FTerm", "toggle"), { silent = true })
+map({ "n", "t" }, "<F9>", utils.lazy("FTerm", "toggle"), { silent = true })
 
 M.setup_lsp = function(client, bufnr)
   local opts = { buffer = true, silent = true }
@@ -106,8 +124,8 @@ M.setup_lsp = function(client, bufnr)
   map("n", "[d", vim.diagnostic.goto_prev, opts)
   map("n", "]d", vim.diagnostic.goto_next, opts)
   map("n", "<leader>e", vim.diagnostic.open_float, opts)
-  map("n", "ge", utils.lazy("telescope.builtin", "diagnostics", { { bufnr = 0 } }))
-  map("n", "gE", utils.lazy("telescope.builtin", "diagnostics"))
+  map("n", "ge", "<cmd>TroubleToggle document_diagnostics<cr>")
+  map("n", "gE", "<cmd>TroubleToggle workspace_diagnostics<cr>")
 
   -- lsp
   map("n", "K", vim.lsp.buf.hover, opts)

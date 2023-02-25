@@ -194,6 +194,13 @@ nvim_lsp.dockerls.setup({
   on_attach = on_attach,
 })
 
+-- https://github.com/microsoft/compose-language-service
+nvim_lsp.docker_compose_language_service.setup({
+  handlers = handlers,
+  capabilities = capabilities,
+  on_attach = on_attach,
+})
+
 -- https://github.com/redhat-developer/yaml-language-server
 nvim_lsp.yamlls.setup({
   handlers = handlers,
@@ -222,6 +229,20 @@ nvim_lsp.jsonls.setup({
       validate = { enable = true },
     },
   },
+})
+
+-- https://github.com/hangyav/textLSP
+nvim_lsp.textlsp.setup({
+  handlers = handlers,
+  capabilities = capabilities,
+  on_attach = on_attach,
+})
+
+-- https://taplo.tamasfe.dev/cli/usage/language-server.html
+nvim_lsp.taplo.setup({
+  handlers = handlers,
+  capabilities = capabilities,
+  on_attach = on_attach,
 })
 
 -- https://github.com/LuaLS/lua-language-server
@@ -458,7 +479,5 @@ null_ls.setup({
     formatting.sqlformat,
     -- toml
     formatting.taplo,
-    -- css/scss/sass/less
-    formatting.stylelint,
   },
 })

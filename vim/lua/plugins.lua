@@ -140,6 +140,30 @@ return {
 
   -- Testing
   {
+    "mfussenegger/nvim-dap",
+    config = function()
+      require("config.dap")
+    end,
+    lazy = true,
+    dependencies = {
+      {
+        "mfussenegger/nvim-dap-python",
+        config = false,
+      },
+      {
+        "rcarriga/nvim-dap-ui",
+        config = true,
+      },
+      {
+        "theHamsta/nvim-dap-virtual-text",
+        config = true,
+        dependencies = {
+          "nvim-treesitter/nvim-treesitter",
+        },
+      },
+    },
+  },
+  {
     "nvim-neotest/neotest",
     event = "BufReadPost",
     dependencies = {
@@ -151,16 +175,15 @@ return {
       require("neotest").setup({
         adapters = {
           require("neotest-python")({
-            args = { "-vvv" },
+            args = { "-vvv", "--no-cov" },
           }),
+        },
+        quickfix = {
+          enabled = false,
+          open = false,
         },
       })
     end,
-  },
-  {
-    "andrewferrier/debugprint.nvim",
-    event = "BufReadPost",
-    config = true,
   },
 
   -- UI
@@ -174,6 +197,19 @@ return {
     config = function()
       require("config.statusline")
     end,
+  },
+  {
+    "utilyre/barbecue.nvim",
+    dependencies = {
+      "SmiteshP/nvim-navic",
+      "nvim-tree/nvim-web-devicons",
+    },
+    opts = {
+      attach_navic = false,
+    },
+  },
+  {
+    "xiyaowong/virtcolumn.nvim",
   },
   {
 
@@ -243,6 +279,26 @@ return {
     },
   },
 
+  -- Tasks
+  {
+    "EthanJWright/vs-tasks.nvim",
+    name = "vstask",
+    dependencies = {
+      "nvim-lua/popup.nvim",
+      "nvim-lua/plenary.nvim",
+      "nvim-telescope/telescope.nvim",
+    },
+    lazy = true,
+    opts = {
+      telescope_keys = {
+        split = "<CR>",
+        vertical = "<C-v>",
+        tab = "<C-t>",
+        current = "<C-c>",
+      },
+    },
+  },
+
   -- File browsing
   {
     "nvim-telescope/telescope.nvim",
@@ -261,12 +317,6 @@ return {
         "nvim-telescope/telescope-file-browser.nvim",
         config = function()
           require("telescope").load_extension("file_browser")
-        end,
-      },
-      {
-        "debugloop/telescope-undo.nvim",
-        config = function()
-          require("telescope").load_extension("undo")
         end,
       },
     },
@@ -344,6 +394,10 @@ return {
   {
     "tpope/vim-fugitive",
     event = "BufReadPost",
+  },
+  {
+    "mbbill/undotree",
+    cmd = "UndotreeToggle",
   },
   {
     "monaqa/dial.nvim",

@@ -9,10 +9,6 @@ require("lualine").setup({
     lualine_b = { "branch", "diff", "diagnostics" },
     lualine_c = {
       { "filename", path = 1 },
-      {
-        require("nvim-navic").get_location,
-        cond = require("nvim-navic").is_available,
-      },
     },
     lualine_x = {
       {
@@ -47,5 +43,7 @@ require("lualine").setup({
     "neo-tree",
     "fugitive",
     "toggleterm",
+    "nvim-dap-ui",
+    "mundo",
   },
 })
