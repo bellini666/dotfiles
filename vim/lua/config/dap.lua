@@ -10,3 +10,23 @@ dap_python.resolve_python = function()
   end
   return utils.find_cmd("python3", ".venv/bin")
 end
+
+table.insert(dap.configurations.python, {
+  type = "python",
+  request = "launch",
+  name = "Launch Django",
+  cwd = "${workspaceFolder}/",
+  program = "${workspaceFolder}/manage.py",
+  args = {
+    "runserver",
+    "0.0.0.0:8080",
+    "--noreload",
+  },
+  console = "integratedTerminal",
+  autoReload = {
+    enable = true,
+  },
+  django = true,
+})
+
+require("dap.ext.vscode").load_launchjs()
