@@ -38,6 +38,7 @@ antigen bundle screen
 antigen bundle supervisor
 antigen bundle systemd
 antigen bundle yarn
+antigen bundle rust
 
 # github
 antigen bundle zdharma-continuum/fast-syntax-highlighting

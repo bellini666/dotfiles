@@ -14,7 +14,6 @@ NVIM_CONFIG="${HOME}/.config/nvim"
 APT_PACKAGES=(
   bat
   build-essential
-  cargo
   cpanminus
   duf
   exa
@@ -228,12 +227,6 @@ function _neovim {
 }
 
 function _language-servers {
-  info "installing stylua"
-  git_clone_or_pull "${LOCAL_BUILD_DIR}/stylua" https://github.com/JohnnyMorganz/StyLua main
-  (
-    cd "${LOCAL_BUILD_DIR}/stylua"
-    cargo install --path . 2>/dev/null
-  ) || true
   # lua-ls
   info "installing lua-ls"
   git_clone_or_pull \
@@ -242,9 +235,6 @@ function _language-servers {
     cd "${LOCAL_BUILD_DIR}/lua-ls"
     ./make.sh
   ) || true
-  cargo install cargo-update
-  cargo install --features lsp --locked taplo-cli
-  cargo install-update -a
 }
 
 function _utils {
@@ -257,6 +247,18 @@ function _utils {
   download_executable \
     "${LOCAL_BIN_DIR}/argocd" \
     https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64
+}
+
+function _rust-libs {
+  info "installing rust libs"
+  if [ ! -f "${HOME}/.cargo/bin/rustup" ]; then
+    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+  fi
+  "${HOME}/.cargo/bin/rustup" update
+  cargo install cargo-update
+  cargo install stylua
+  cargo install --features lsp taplo-cli
+  cargo install-update -a
 }
 
 function _python-libs {
@@ -329,6 +331,7 @@ function _ {
   _language-servers "$@"
   _utils "$@"
   _python-libs "$@"
+  _rust-libs "$@"
   _gem-libs "$@"
   _go-libs "$@"
   _node-libs "$@"
