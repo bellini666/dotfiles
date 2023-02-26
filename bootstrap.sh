@@ -269,7 +269,7 @@ function _python-libs {
   if [ ! -f "${HOME}/.debugpy/bin/poetry" ]; then
     python3 -m venv "${HOME}/.debugpy"
   fi
-  "${HOME}/.debugpy/bin/pip" install -U debugpy
+  "${HOME}/.debugpy/bin/pip" install -U git+https://github.com/microsoft/debugpy.git@main
 }
 
 function _gem-libs {
