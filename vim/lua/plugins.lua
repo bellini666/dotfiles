@@ -144,7 +144,6 @@ return {
     config = function()
       require("config.dap")
     end,
-    lazy = true,
     dependencies = {
       {
         "mfussenegger/nvim-dap-python",
