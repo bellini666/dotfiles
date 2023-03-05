@@ -4,10 +4,17 @@ return {
     "rebelot/kanagawa.nvim",
     lazy = false,
     priority = 1000,
+    build = "KanagawaCompile",
     config = function()
       require("kanagawa").setup({
         transparent = true,
         globalStatus = true,
+        overrides = function(colors)
+          return {
+            -- https://github.com/rebelot/kanagawa.nvim/issues/112
+            LineNr = { bg = "#1e1e1e" },
+          }
+        end,
       })
       vim.cmd("colorscheme kanagawa")
     end,
@@ -211,7 +218,6 @@ return {
     "xiyaowong/virtcolumn.nvim",
   },
   {
-
     "akinsho/bufferline.nvim",
     dependencies = {
       "nvim-tree/nvim-web-devicons",
