@@ -68,7 +68,6 @@ PYTHON_LIBS=(
   yamllint
 )
 NODE_LIBS=(
-  @microsoft/compose-language-service
   bash-language-server
   cloc
   corepack

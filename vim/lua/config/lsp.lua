@@ -194,22 +194,23 @@ nvim_lsp.dockerls.setup({
   on_attach = on_attach,
 })
 
--- https://github.com/microsoft/compose-language-service
-nvim_lsp.docker_compose_language_service.setup({
-  handlers = handlers,
-  capabilities = capabilities,
-  on_attach = on_attach,
-})
-
 -- https://github.com/redhat-developer/yaml-language-server
+local yaml_schemas = {}
+vim.tbl_map(function(schema)
+  yaml_schemas[schema.url] = schema.fileMatch
+end, require("schemastore").json.schemas())
 nvim_lsp.yamlls.setup({
   handlers = handlers,
   capabilities = capabilities,
   on_attach = on_attach,
   settings = {
     yaml = {
+      validate = true,
+      completion = true,
+      schemas = yaml_schemas,
       format = {
         printWidth = 100,
+        proseWrap = "Preserve",
       },
     },
   },
