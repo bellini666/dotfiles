@@ -59,13 +59,8 @@ alias p="showmarks"
 alias vi="nvim"
 alias vim="nvim"
 alias lg="lazygit"
-alias luamake=/home/bellini/.local_build/lua-language-server/3rd/luamake/luamake
-
-# workaround until https://github.com/nvm-sh/nvm/issues/3007 is fixed
-# nvm() {
-#     sh -c '. "$NVM_DIR/nvm.sh" && nvm "$@"' - "$@"
-# }
 
 autoload -U compinit && compinit
 
 [[ ! -f ${DOTFILES_DIR}/zsh/p10k.zsh ]] || source ${DOTFILES_DIR}/zsh/p10k.zsh
+alias luamake=/home/bellini/.local_build/lua-ls/3rd/luamake/luamake

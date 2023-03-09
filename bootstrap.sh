@@ -73,6 +73,7 @@ NODE_LIBS=(
   corepack
   create-react-native-app
   cspell
+  diff-so-fancy
   dockerfile-language-server-nodejs
   eslint
   eslint
