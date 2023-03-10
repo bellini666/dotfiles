@@ -309,7 +309,7 @@ null_ls.setup({
           "pyrightconfig.json"
         )(params.bufname)
       end),
-      condition = function()
+      runtime_condition = nhelpers.cache.by_bufnr(function(params)
         if utils.find_file(".flake8") then
           return true
         end
@@ -322,7 +322,7 @@ null_ls.setup({
           end
         end
         return true
-      end,
+      end),
     }),
     formatting.isort.with({
       prefer_local = ".venv/bin",
@@ -338,7 +338,7 @@ null_ls.setup({
         )(params.bufname)
       end),
       extra_args = { "--profile", "black" },
-      condition = function()
+      runtime_condition = nhelpers.cache.by_bufnr(function(params)
         if utils.find_file(".isort.cfg") then
           return true
         end
@@ -351,7 +351,7 @@ null_ls.setup({
           end
         end
         return true
-      end,
+      end),
     }),
     formatting.black.with({
       prefer_local = ".venv/bin",
@@ -380,7 +380,7 @@ null_ls.setup({
           "pyrightconfig.json"
         )(params.bufname)
       end),
-      condition = function()
+      runtime_condition = nhelpers.cache.by_bufnr(function(params)
         local pyproject = utils.find_file("pyproject.toml")
         if pyproject then
           local file = assert(io.open(pyproject, "r"))
@@ -390,7 +390,7 @@ null_ls.setup({
           end
         end
         return false
-      end,
+      end),
     }),
     formatting.ruff.with({
       prefer_local = ".venv/bin",
@@ -404,7 +404,7 @@ null_ls.setup({
           "pyrightconfig.json"
         )(params.bufname)
       end),
-      condition = function()
+      runtime_condition = nhelpers.cache.by_bufnr(function(params)
         local pyproject = utils.find_file("pyproject.toml")
         if pyproject then
           local file = assert(io.open(pyproject, "r"))
@@ -414,7 +414,7 @@ null_ls.setup({
           end
         end
         return false
-      end,
+      end),
       extra_args = { "--unfixable", "T20,ERA001" },
     }),
     -- djlint
