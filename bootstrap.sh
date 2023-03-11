@@ -5,6 +5,10 @@ set -e
 BASE_DIR=$(dirname "${0}")
 # shellcheck source=/home/bellini/.dotfiles/utils.sh
 source "${BASE_DIR}/utils.sh"
+if [ -f "${HOME}/.secret_env.sh" ]; then
+  # shellcheck source=/home/bellini/.secret_env.sh
+  source "${HOME}/.secret_env.sh"
+fi
 
 LOCAL_DIR="${HOME}/.local"
 LOCAL_BIN_DIR="${LOCAL_DIR}/bin"
@@ -151,7 +155,7 @@ function _rtx {
   "${HOME}/.local/share/rtx/bin/rtx" prune
 
   mkdir -p "${HOME}/.local/share/zsh/site-functions"
-  "${HOME}/.local/share/rtx/bin/rtx" complete -s zsh  > "${HOME}/.local/share/zsh/site-functions/_rtx"
+  "${HOME}/.local/share/rtx/bin/rtx" complete -s zsh >"${HOME}/.local/share/zsh/site-functions/_rtx"
 }
 
 function _fonts {
