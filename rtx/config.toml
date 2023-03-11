@@ -1,0 +1,2 @@
+[plugins]
+mykubeseal = 'https://github.com/bellini666/asdf-kubeseal'

@@ -11,24 +11,16 @@ LOCAL_BIN_DIR="${LOCAL_DIR}/bin"
 LOCAL_BUILD_DIR="${HOME}/.local_build"
 FONTS_DIR="${HOME}/.local/share/fonts"
 NVIM_CONFIG="${HOME}/.config/nvim"
+RTX_CONFIG="${HOME}/.config/rtx/"
 APT_PACKAGES=(
-  bat
   build-essential
   cpanminus
-  duf
-  exa
-  fd-find
   fonts-hack-ttf
   fonts-inconsolata
   fonts-open-sans
   fonts-wine
-  fzf
   git
-  golang
   htop
-  jq
-  kubectx
-  kubernetes-client
   kubetail
   libtool-bin
   ncdu
@@ -40,10 +32,8 @@ APT_PACKAGES=(
   python3-pandas
   python3-pip
   python3-pynvim
-  ripgrep
   ruby
   ruby-dev
-  shellcheck
   sqlformat
   universal-ctags
   wamerican
@@ -54,7 +44,6 @@ APT_PACKAGES=(
 )
 PYTHON_LIBS=(
   black
-  cmake
   codespell
   djlint
   docker-compose
@@ -71,19 +60,14 @@ NODE_LIBS=(
   bash-language-server
   cloc
   corepack
-  create-react-native-app
   cspell
   diff-so-fancy
   dockerfile-language-server-nodejs
   eslint
-  eslint
   eslint_d
-  expo-cli
   fixjson
   graphql
   graphql-language-service-cli
-  gulp-cli
-  localtunnel
   markdownlint-cli
   neovim
   npm
@@ -91,25 +75,24 @@ NODE_LIBS=(
   patch-package
   prettier
   pyright
-  react-native-cli
-  rimraf
   stylelint
   tree-sitter-cli
   ts-server
   typescript
   typescript-language-server
-  vim-language-server
   vscode-langservers-extracted
   yaml-language-server
-  yarn
 )
 SYMLINKS=(
   "${BASE_DIR}/git/gitattributes ${HOME}/.gitattributes"
   "${BASE_DIR}/git/gitconfig ${HOME}/.gitconfig"
   "${BASE_DIR}/git/gitignore ${HOME}/.gitignore"
   "${BASE_DIR}/git/gitignore ${HOME}/.gitignore"
-  "${BASE_DIR}/vim ${HOME}/.config/nvim"
+  "${BASE_DIR}/rtx/rtxtool-versions ${HOME}/.tool-versions"
+  "${BASE_DIR}/rtx/config.toml ${HOME}/.config/rtx/config.toml"
   "${BASE_DIR}/tmux/tmux.conf ${HOME}/.tmux.conf"
+  "${BASE_DIR}/vim ${HOME}/.config/nvim"
+  "${BASE_DIR}/zsh/zshrc ${HOME}/.zshrc"
   "${BASE_DIR}/zsh/zshrc ${HOME}/.zshrc"
 )
 
@@ -117,22 +100,25 @@ SYMLINKS=(
 mkdir -p "${LOCAL_BIN_DIR}"
 mkdir -p "${LOCAL_BUILD_DIR}"
 mkdir -p "${FONTS_DIR}"
+mkdir -p "${RTX_CONFIG}"
 
 function _system {
-  EXTRA_OPTS="-t unstable"
   info "updating the system"
-  sudo apt update --list-cleanup
-  sudo apt dist-upgrade --purge "$@"
-  # shellcheck disable=2086
-  sudo apt dist-upgrade --purge ${EXTRA_OPTS} "$@"
-  # shellcheck disable=2086
-  sudo apt build-dep neovim ${EXTRA_OPTS} "$@"
-  # shellcheck disable=2086
-  sudo apt install --purge "${APT_PACKAGES[@]}" ${EXTRA_OPTS} "${@}"
-  sudo flatpak update
-  sudo flatpak uninstall --unused
-  sudo apt autoremove --purge
-  sudo apt clean
+  (
+    EXTRA_OPTS="-t unstable"
+    sudo apt update --list-cleanup
+    sudo apt dist-upgrade --purge "$@"
+    # shellcheck disable=2086
+    sudo apt dist-upgrade --purge ${EXTRA_OPTS} "$@"
+    # shellcheck disable=2086
+    sudo apt build-dep neovim ${EXTRA_OPTS} "$@"
+    # shellcheck disable=2086
+    sudo apt install --purge "${APT_PACKAGES[@]}" ${EXTRA_OPTS} "${@}"
+    sudo flatpak update
+    sudo flatpak uninstall --unused
+    sudo apt autoremove --purge
+    sudo apt clean
+  ) || true
 }
 
 function _patches {
@@ -152,69 +138,62 @@ function _symlinks {
   done
 }
 
+function _rtx {
+  info "installing rtx"
+  RTX_BINARY="${HOME}/.local/share/rtx/bin/rtx"
+  if [ ! -f "${RTX_BINARY}" ]; then
+    curl https://rtx.pub/install.sh | sh
+  fi
+
+  "${HOME}/.local/share/rtx/bin/rtx" self-update
+  "${HOME}/.local/share/rtx/bin/rtx" plugins update -a --install-missing
+  "${HOME}/.local/share/rtx/bin/rtx" install -a
+  "${HOME}/.local/share/rtx/bin/rtx" prune
+
+  mkdir -p "${HOME}/.local/share/zsh/site-functions"
+  "${HOME}/.local/share/rtx/bin/rtx" complete -s zsh  > "${HOME}/.local/share/zsh/site-functions/_rtx"
+}
+
 function _fonts {
   info "installing fonts"
-  curl -4 -sSL -o- \
-    https://github.com/microsoft/vscode-codicons/blob/main/dist/codicon.ttf?raw=true \
-    >"${FONTS_DIR}/codicon.ttf"
-  curl -4 -sSL -o- \
-    https://github.com/ryanoasis/nerd-fonts/blob/master/patched-fonts/Hack/Regular/complete/Hack%20Regular%20Nerd%20Font%20Complete.ttf?raw=true \
-    >"${FONTS_DIR}/Hack Regular Nerd Font Complete.ttf"
-  curl -4 -sSL -o- \
-    https://github.com/ryanoasis/nerd-fonts/blob/master/patched-fonts/Inconsolata/complete/Inconsolata%20Nerd%20Font%20Complete.otf?raw=true \
-    >"${FONTS_DIR}/Inconsolata Nerd Font Complete.otf"
-  curl -4 -sSL -o- \
-    https://github.com/ryanoasis/nerd-fonts/blob/master/patched-fonts/FiraCode/Regular/complete/Fira%20Code%20Regular%20Nerd%20Font%20Complete.ttf?raw=true \
-    >"${FONTS_DIR}/Fira Code Regular Nerd Font Complete.ttf"
-  # FIXME: This is crashing my terminal sometimes...
-  # fc-cache -fv
-  gsettings set org.gnome.desktop.interface monospace-font-name 'Hack Regular 10'
+
+  download_file \
+    "${FONTS_DIR}/codicon.ttf" \
+    https://github.com/microsoft/vscode-codicons/blob/main/dist/codicon.ttf?raw=true
+  download_file \
+    "${FONTS_DIR}/Hack Regular Nerd Font Complete.ttf" \
+    https://github.com/ryanoasis/nerd-fonts/blob/master/patched-fonts/Hack/Regular/complete/Hack%20Regular%20Nerd%20Font%20Complete.ttf?raw=true
+  download_file \
+    "${FONTS_DIR}/Inconsolata Nerd Font Complete.otf" \
+    https://github.com/ryanoasis/nerd-fonts/blob/master/patched-fonts/Inconsolata/complete/Inconsolata%20Nerd%20Font%20Complete.otf?raw=true
+  download_file \
+    "${FONTS_DIR}/Fira Code Regular Nerd Font Complete.ttf" \
+    https://github.com/ryanoasis/nerd-fonts/blob/master/patched-fonts/FiraCode/Regular/complete/Fira%20Code%20Regular%20Nerd%20Font%20Complete.ttf?raw=true
+
+  if [ "$(gsettings get org.gnome.desktop.interface monospace-font-name)" != "'Hack Regular 10'" ]; then
+    gsettings set org.gnome.desktop.interface monospace-font-name 'Hack Regular 10'
+  fi
 }
 
 function _zsh {
   info "installing zsh plugins"
-  zsh -i -c "antigen cleanup"
-  zsh -i -c "antigen update"
-}
-
-function _poetry {
-  info "installing poetry"
-  if [ ! -f "${HOME}/.poetry/bin/poetry" ]; then
-    curl -4 -sSL -o- https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python3 -
-    poetry config virtualenvs.create true
-    poetry config virtualenvs.in-project true
+  if which antigen >/dev/null 2>&1; then
+    antigen cleanup
+    antigen update
+    antigen cache-gen
+  else
+    zsh -i -c "antigen cleanup"
+    zsh -i -c "antigen update"
+    zsh -i -c "antigen cache-gen"
   fi
-  poetry self update
-}
-
-function _pyenv {
-  info "installing pyenv"
-  if [ ! -f "${HOME}/.pyenv/bin/pyenv" ]; then
-    curl -4 -sSL -o- https://pyenv.run | bash
-  fi
-  zsh -i -c "pyenv update"
-}
-
-function _nvm {
-  info "installing nvm"
-  if [ ! -f "${HOME}/.nvm/nvm.sh" ]; then
-    curl -4 -ssL -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
-    nvm install 16
-    nvm use 16
-    nvm alias default 16
-  fi
-  zsh -i -c "nvm upgrade"
 }
 
 function _neovim {
   info "installing neovim"
-  git_clone_or_pull "${LOCAL_BUILD_DIR}/neovim" https://github.com/neovim/neovim master
-  (
-    cd "${LOCAL_BUILD_DIR}/neovim"
-    # shellcheck disable=2015
-    make CMAKE_INSTALL_PREFIX="${HOME}/.neovim" CMAKE_BUILD_TYPE=Release -j4 -Wno-dev &&
-      make CMAKE_INSTALL_PREFIX="${HOME}/.neovim" CMAKE_BUILD_TYPE=Release install || true
-  )
+  download_executable \
+    "${LOCAL_BIN_DIR}/nvim" \
+    https://github.com/neovim/neovim/releases/download/nightly/nvim.appimage
+
   info "installing vim-spell"
   if [ ! -f "${NVIM_CONFIG}/spell/.done" ]; then
     (
@@ -237,26 +216,9 @@ function _language-servers {
   ) || true
 }
 
-function _utils {
-  info "installing utils"
-  # kubectl
-  download_executable \
-    "${LOCAL_BIN_DIR}/kubectl" \
-    "https://dl.k8s.io/release/$(curl -4 -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
-  # argocd
-  download_executable \
-    "${LOCAL_BIN_DIR}/argocd" \
-    https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64
-}
-
 function _rust-libs {
   info "installing rust libs"
-  if [ ! -f "${HOME}/.cargo/bin/rustup" ]; then
-    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-  fi
-  "${HOME}/.cargo/bin/rustup" update
   cargo install cargo-update
-  cargo install stylua
   cargo install --features lsp taplo-cli
   cargo install-update -a
 }
@@ -268,23 +230,18 @@ function _python-libs {
     pipx install "${P}"
   done
   pipx upgrade-all -f
+
+  info "installing debugpy latest version"
   if [ ! -f "${HOME}/.debugpy/bin/poetry" ]; then
     python3 -m venv "${HOME}/.debugpy"
   fi
+  "${HOME}/.debugpy/bin/pip" install -U pip
   "${HOME}/.debugpy/bin/pip" install -U git+https://github.com/microsoft/debugpy.git@main
 }
 
 function _gem-libs {
   info "installing gem libs"
   gem install --user-install -u neovim
-}
-
-function _go-libs {
-  info "installing go libs"
-  go install github.com/jesseduffield/lazygit@latest
-  go install github.com/mattn/efm-langserver@latest
-  go install github.com/rhysd/actionlint/cmd/actionlint@latest
-  go install mvdan.cc/sh/v3/cmd/shfmt@latest
 }
 
 function _node-libs {
@@ -322,18 +279,14 @@ function _ {
   _system "$@"
   _patches "$@"
   _symlinks "$@"
+  _rtx "$@"
   _fonts "$@"
   _zsh "$@"
-  _poetry "$@"
-  _pyenv "$@"
-  _nvm "$@"
   _neovim "$@"
   _language-servers "$@"
-  _utils "$@"
   _python-libs "$@"
   _rust-libs "$@"
   _gem-libs "$@"
-  _go-libs "$@"
   _node-libs "$@"
 }
 

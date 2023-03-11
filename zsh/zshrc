@@ -30,7 +30,6 @@ antigen bundle fzf
 antigen bundle gitfast
 antigen bundle kubectl
 antigen bundle kubectx
-antigen bundle lukechilds/zsh-nvm
 antigen bundle npm
 antigen bundle pip
 antigen bundle python
@@ -59,8 +58,9 @@ alias p="showmarks"
 alias vi="nvim"
 alias vim="nvim"
 alias lg="lazygit"
+alias luamake=/home/bellini/.local_build/lua-ls/3rd/luamake/luamake
 
 autoload -U compinit && compinit
 
-[[ ! -f ${DOTFILES_DIR}/zsh/p10k.zsh ]] || source ${DOTFILES_DIR}/zsh/p10k.zsh
-alias luamake=/home/bellini/.local_build/lua-ls/3rd/luamake/luamake
+[[ ! -f "${HOME}/.local/share/rtx/bin/rtx"  ]] || eval "$(${HOME}/.local/share/rtx/bin/rtx activate -s zsh)"
+[[ ! -f "${DOTFILES_DIR}/zsh/p10k.zsh" ]] || source "${DOTFILES_DIR}/zsh/p10k.zsh"
