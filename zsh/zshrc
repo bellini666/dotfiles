@@ -19,7 +19,6 @@ DISABLE_VENV_CD=1
 antigen use oh-my-zsh
 
 # oh-my-zsh
-antigen bundle celery
 antigen bundle colored-man-pages
 antigen bundle colorize
 antigen bundle common-aliases
@@ -58,7 +57,6 @@ alias p="showmarks"
 alias vi="nvim"
 alias vim="nvim"
 alias lg="lazygit"
-alias luamake=/home/bellini/.local_build/lua-ls/3rd/luamake/luamake
 
 autoload -U compinit && compinit
 

@@ -1,2 +1,3 @@
 [plugins]
+lua-language-server = 'https://github.com/bellini666/asdf-lua-language-server.git'
 mykubeseal = 'https://github.com/bellini666/asdf-kubeseal.git'

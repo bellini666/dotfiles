@@ -32,12 +32,11 @@ APT_PACKAGES=(
   pipx
   pre-commit
   python3-debugpy
+  python3-dev
   python3-numpy
   python3-pandas
   python3-pip
   python3-pynvim
-  ruby
-  ruby-dev
   sqlformat
   universal-ctags
   wamerican
@@ -54,7 +53,9 @@ PYTHON_LIBS=(
   flake8
   ipython
   isort
+  mypy
   pipx
+  pre-commit
   ruff
   ruff-lsp
   textLSP
@@ -91,12 +92,10 @@ SYMLINKS=(
   "${BASE_DIR}/git/gitattributes ${HOME}/.gitattributes"
   "${BASE_DIR}/git/gitconfig ${HOME}/.gitconfig"
   "${BASE_DIR}/git/gitignore ${HOME}/.gitignore"
-  "${BASE_DIR}/git/gitignore ${HOME}/.gitignore"
   "${BASE_DIR}/rtx/rtxtool-versions ${HOME}/.tool-versions"
   "${BASE_DIR}/rtx/config.toml ${HOME}/.config/rtx/config.toml"
   "${BASE_DIR}/tmux/tmux.conf ${HOME}/.tmux.conf"
   "${BASE_DIR}/vim ${HOME}/.config/nvim"
-  "${BASE_DIR}/zsh/zshrc ${HOME}/.zshrc"
   "${BASE_DIR}/zsh/zshrc ${HOME}/.zshrc"
 )
 
@@ -209,17 +208,6 @@ function _neovim {
   fi
 }
 
-function _language-servers {
-  # lua-ls
-  info "installing lua-ls"
-  git_clone_or_pull \
-    "${LOCAL_BUILD_DIR}/lua-ls" https://github.com/LuaLS/lua-language-server.git master
-  (
-    cd "${LOCAL_BUILD_DIR}/lua-ls"
-    ./make.sh
-  ) || true
-}
-
 function _rust-libs {
   info "installing rust libs"
   cargo install cargo-update
@@ -241,11 +229,6 @@ function _python-libs {
   fi
   "${HOME}/.debugpy/bin/pip" install -U pip
   "${HOME}/.debugpy/bin/pip" install -U git+https://github.com/microsoft/debugpy.git@main
-}
-
-function _gem-libs {
-  info "installing gem libs"
-  gem install --user-install -u neovim
 }
 
 function _node-libs {
@@ -287,10 +270,8 @@ function _ {
   _fonts "$@"
   _zsh "$@"
   _neovim "$@"
-  _language-servers "$@"
   _python-libs "$@"
   _rust-libs "$@"
-  _gem-libs "$@"
   _node-libs "$@"
 }
 
