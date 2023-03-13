@@ -19,6 +19,7 @@ RTX_CONFIG="${HOME}/.config/rtx/"
 APT_PACKAGES=(
   build-essential
   cpanminus
+  curl
   fonts-hack-ttf
   fonts-inconsolata
   fonts-open-sans
@@ -26,7 +27,16 @@ APT_PACKAGES=(
   git
   htop
   kubetail
+  libbz2-dev
+  libffi-dev
+  liblzma-dev
+  libncursesw5-dev
+  libreadline-dev
+  libsqlite3-dev
+  libssl-dev
   libtool-bin
+  libxml2-dev
+  libxmlsec1-dev
   ncdu
   ninja-build
   pipx
@@ -38,10 +48,13 @@ APT_PACKAGES=(
   python3-pip
   python3-pynvim
   sqlformat
+  tk-dev
   universal-ctags
   wamerican
   watchman
   wbrazilian
+  xz-utils
+  zlib1g-dev
   zsh
   zsh-antigen
 )
@@ -55,11 +68,15 @@ PYTHON_LIBS=(
   isort
   mypy
   pipx
+  poetry
   pre-commit
   ruff
   ruff-lsp
   textLSP
   yamllint
+)
+PYTHON_INJECTIONS=(
+  "poetry poetry-plugin-up"
 )
 NODE_LIBS=(
   bash-language-server
@@ -92,7 +109,6 @@ SYMLINKS=(
   "${BASE_DIR}/git/gitattributes ${HOME}/.gitattributes"
   "${BASE_DIR}/git/gitconfig ${HOME}/.gitconfig"
   "${BASE_DIR}/git/gitignore ${HOME}/.gitignore"
-  "${BASE_DIR}/rtx/rtxtool-versions ${HOME}/.tool-versions"
   "${BASE_DIR}/rtx/config.toml ${HOME}/.config/rtx/config.toml"
   "${BASE_DIR}/tmux/tmux.conf ${HOME}/.tmux.conf"
   "${BASE_DIR}/vim ${HOME}/.config/nvim"
@@ -221,7 +237,13 @@ function _python-libs {
   for P in ${PP}; do
     pipx install "${P}"
   done
-  pipx upgrade-all -f
+
+  for P in "${PYTHON_INJECTIONS[@]}"; do
+    # shellcheck disable=2086
+    pipx inject ${P}
+  done
+
+  pipx upgrade-all -f --include-injected
 
   info "installing debugpy latest version"
   if [ ! -f "${HOME}/.debugpy/bin/poetry" ]; then

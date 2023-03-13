@@ -6,15 +6,6 @@ fi
 
 export DOTFILES_DIR="${HOME}/.dotfiles"
 
-export EDITOR=nvim
-export GIT_SSH=ssh
-export PIP_REQUIRE_VIRTUALENV=true
-export PERL_LOCAL_LIB_ROOT=$HOME/.local/perl
-
-[[ ":$PATH:" != *":$HOME/.local/bin:"* ]] && PATH="$HOME/.local/bin:${PATH}"
-[[ ":$PATH:" != *":$HOME/bin:"* ]] && PATH="$HOME/bin:${PATH}"
-export PATH
-
 function bootstrap() { (
   set -e
   cd "${DOTFILES_DIR}"

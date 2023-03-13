@@ -1,3 +1,44 @@
+[env]
+EDITOR = 'nvim'
+GIT_SSH = 'ssh'
+PERL_LOCAL_LIB_ROOT = '~/.local/perl'
+PYTHON_CONFIGURE_OPTS = '--enable-shared --enable-optimizations --with-lto --enable-loadable-sqlite-extensions'
+PYTHON_CFLAGS = '-march=native -mtune=native'
+PIP_REQUIRE_VIRTUALENV = 'true'
+PATH = ["~/.local/bin", "~/bin", "$PATH"]
+
+[tools]
+actionlint = 'latest'
+argocd = 'latest'
+bat = 'latest'
+doctl = 'latest'
+duf = 'latest'
+exa = 'latest'
+fd = 'latest'
+fzf = 'latest'
+github-cli = 'latest'
+golang = 'latest'
+helm = 'latest'
+jq = 'latest'
+kubectl = 'latest'
+kubectx = 'latest'
+kustomize = 'latest'
+lazygit = 'latest'
+lua-language-server = 'latest'
+minikube = 'latest'
+mykubeseal = 'latest'
+nodejs = 'latest'
+python = '3.11'
+ripgrep = 'latest'
+rust = 'latest'
+shellcheck = 'latest'
+shfmt = 'latest'
+stylua = 'latest'
+yarn = 'latest'
+
 [plugins]
 lua-language-server = 'https://github.com/bellini666/asdf-lua-language-server.git'
 mykubeseal = 'https://github.com/bellini666/asdf-kubeseal.git'
+
+[settings]
+experimental = true
