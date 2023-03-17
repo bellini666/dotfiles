@@ -10,6 +10,7 @@ if [ -f "${HOME}/.secret_env.sh" ]; then
   source "${HOME}/.secret_env.sh"
 fi
 
+BIN_DIR="${HOME}/bin"
 LOCAL_DIR="${HOME}/.local"
 LOCAL_BIN_DIR="${LOCAL_DIR}/bin"
 LOCAL_BUILD_DIR="${HOME}/.local_build"
@@ -116,6 +117,7 @@ SYMLINKS=(
 )
 
 [ -d "${BASE_DIR}" ] || exit 1
+mkdir -p "${BIN_DIR}"
 mkdir -p "${LOCAL_BIN_DIR}"
 mkdir -p "${LOCAL_BUILD_DIR}"
 mkdir -p "${FONTS_DIR}"
@@ -210,7 +212,7 @@ function _zsh {
 function _neovim {
   info "installing neovim"
   download_executable \
-    "${LOCAL_BIN_DIR}/nvim" \
+    "${BIN_DIR}/nvim" \
     https://github.com/neovim/neovim/releases/download/nightly/nvim.appimage
 
   info "installing vim-spell"
