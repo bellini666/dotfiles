@@ -383,6 +383,12 @@ return {
     cmd = "FTerm",
   },
 
+  -- Language specifics
+  {
+    "Vimjas/vim-python-pep8-indent",
+    ft = "python",
+  },
+
   -- Text editing
   {
     "tpope/vim-repeat",
