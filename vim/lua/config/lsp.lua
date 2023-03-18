@@ -30,8 +30,6 @@ local on_attach = function(client, bufnr)
       group = augroup,
     })
   end
-
-  require("mappings").setup_lsp(client, bufnr)
 end
 
 local _util_open_floating_preview = vim.lsp.util.open_floating_preview

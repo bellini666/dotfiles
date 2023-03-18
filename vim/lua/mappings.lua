@@ -1,8 +1,6 @@
 local map = vim.keymap.set
 local utils = require("utils")
 
-local M = {}
-
 -- Global copy/paste helpers
 map("v", "<C-C>", '"+y')
 map({ "i", "v", "c", "n" }, "<C-S-V>", '"+p')
@@ -103,39 +101,40 @@ map("n", "N", "Nzz", { noremap = true, silent = true })
 -- Terminal toggle
 map({ "n", "t" }, "<F9>", utils.lazy("FTerm", "toggle"), { silent = true })
 
-M.setup_lsp = function(client, bufnr)
-  local opts = { buffer = true, silent = true }
+-- Diagnostics
+map("n", "[d", vim.diagnostic.goto_prev, { buffer = true, silent = true })
+map("n", "]d", vim.diagnostic.goto_next, { buffer = true, silent = true })
+map("n", "<leader>e", vim.diagnostic.open_float, { buffer = true, silent = true })
+map("n", "ge", "<cmd>TroubleToggle document_diagnostics<cr>")
+map("n", "gE", "<cmd>TroubleToggle workspace_diagnostics<cr>")
 
-  -- omnifunc
-  vim.opt_local.omnifunc = "v:lua.vim.lsp.omnifunc"
+vim.api.nvim_create_autocmd("LspAttach", {
+  group = vim.api.nvim_create_augroup("UserLspConfig", {}),
+  callback = function(ev)
+    local opts = { buffer = ev.buf, silent = true }
 
-  -- diagnostic
-  map("n", "[d", vim.diagnostic.goto_prev, opts)
-  map("n", "]d", vim.diagnostic.goto_next, opts)
-  map("n", "<leader>e", vim.diagnostic.open_float, opts)
-  map("n", "ge", "<cmd>TroubleToggle document_diagnostics<cr>")
-  map("n", "gE", "<cmd>TroubleToggle workspace_diagnostics<cr>")
+    -- omnifunc
+    vim.bo[ev.buf].omnifunc = "v:lua.vim.lsp.omnifunc"
 
-  -- lsp
-  map("n", "K", vim.lsp.buf.hover, opts)
-  map("n", "<C-K>", vim.lsp.buf.signature_help, opts)
-  map("n", "gD", vim.lsp.buf.declaration, opts)
-  map("n", "<C-LeftMouse>", vim.lsp.buf.definition, opts)
-  map("n", "gd", vim.lsp.buf.definition, opts)
-  map("n", "gI", vim.lsp.buf.implementation, opts)
-  map("n", "gci", vim.lsp.buf.incoming_calls, opts)
-  map("n", "gco", vim.lsp.buf.outgoing_calls, opts)
-  map("n", "gr", vim.lsp.buf.references, opts)
-  map("n", "gs", vim.lsp.buf.document_symbol, opts)
-  map("n", "gS", vim.lsp.buf.workspace_symbol, opts)
-  map("n", "<leader>D", vim.lsp.buf.type_definition, opts)
-  map("n", "<leader>ca", vim.lsp.buf.code_action, opts)
-  map("n", "<leader>rn", vim.lsp.buf.rename, opts)
-  map("n", "<leader>wa", vim.lsp.buf.add_workspace_folder, opts)
-  map("n", "<leader>wr", vim.lsp.buf.remove_workspace_folder, opts)
-  map("n", "<leader>wl", function()
-    vim.pretty_print(vim.lsp.buf.list_workspace_folders())
-  end, opts)
-end
-
-return M
+    -- lsp
+    map("n", "K", vim.lsp.buf.hover, opts)
+    map("n", "<C-K>", vim.lsp.buf.signature_help, opts)
+    map("n", "gD", vim.lsp.buf.declaration, opts)
+    map("n", "<C-LeftMouse>", vim.lsp.buf.definition, opts)
+    map("n", "gd", vim.lsp.buf.definition, opts)
+    map("n", "gI", vim.lsp.buf.implementation, opts)
+    map("n", "gci", vim.lsp.buf.incoming_calls, opts)
+    map("n", "gco", vim.lsp.buf.outgoing_calls, opts)
+    map("n", "gr", vim.lsp.buf.references, opts)
+    map("n", "gs", vim.lsp.buf.document_symbol, opts)
+    map("n", "gS", vim.lsp.buf.workspace_symbol, opts)
+    map("n", "<leader>D", vim.lsp.buf.type_definition, opts)
+    map("n", "<leader>ca", vim.lsp.buf.code_action, opts)
+    map("n", "<leader>rn", vim.lsp.buf.rename, opts)
+    map("n", "<leader>wa", vim.lsp.buf.add_workspace_folder, opts)
+    map("n", "<leader>wr", vim.lsp.buf.remove_workspace_folder, opts)
+    map("n", "<leader>wl", function()
+      vim.pretty_print(vim.lsp.buf.list_workspace_folders())
+    end, opts)
+  end,
+})
