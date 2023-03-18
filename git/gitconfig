@@ -9,7 +9,6 @@
     editor = nvim
     excludesfile = ~/.gitignore
     attributesfile = ~/.gitattributes
-    pager = diff-so-fancy | less --tabs=4 -RFX
 
 [color]
     ui = always
@@ -46,6 +45,3 @@
     rm-stale-force = "!f(){\
         git branch --color=never | grep -v "master" | grep -v ^* | xargs git branch -D;\
     }; f"
-
-[interactive]
-    diffFilter = diff-so-fancy --patch

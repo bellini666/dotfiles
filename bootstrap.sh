@@ -41,11 +41,7 @@ APT_PACKAGES=(
   ncdu
   ninja-build
   pipx
-  pre-commit
-  python3-debugpy
   python3-dev
-  python3-numpy
-  python3-pandas
   python3-pip
   python3-pynvim
   sqlformat
@@ -78,39 +74,15 @@ PYTHON_LIBS=(
 )
 PYTHON_INJECTIONS=(
   "poetry poetry-plugin-up"
-)
-NODE_LIBS=(
-  bash-language-server
-  cloc
-  corepack
-  cspell
-  diff-so-fancy
-  dockerfile-language-server-nodejs
-  eslint
-  eslint_d
-  fixjson
-  graphql
-  graphql-language-service-cli
-  markdownlint-cli
-  neovim
-  npm
-  opencollective
-  patch-package
-  prettier
-  pyright
-  stylelint
-  tree-sitter-cli
-  ts-server
-  typescript
-  typescript-language-server
-  vscode-langservers-extracted
-  yaml-language-server
+  "ipython numpy pandas requests httpx"
 )
 SYMLINKS=(
   "${BASE_DIR}/git/gitattributes ${HOME}/.gitattributes"
   "${BASE_DIR}/git/gitconfig ${HOME}/.gitconfig"
   "${BASE_DIR}/git/gitignore ${HOME}/.gitignore"
   "${BASE_DIR}/rtx/config.toml ${HOME}/.config/rtx/config.toml"
+  "${BASE_DIR}/rtx/node-packages ${HOME}/.default-npm-packages"
+  "${BASE_DIR}/rtx/rust-packages ${HOME}/.default-cargo-crates"
   "${BASE_DIR}/tmux/tmux.conf ${HOME}/.tmux.conf"
   "${BASE_DIR}/vim ${HOME}/.config/nvim"
   "${BASE_DIR}/zsh/zshrc ${HOME}/.zshrc"
@@ -131,8 +103,6 @@ function _system {
     sudo apt dist-upgrade --purge "$@"
     # shellcheck disable=2086
     sudo apt dist-upgrade --purge ${EXTRA_OPTS} "$@"
-    # shellcheck disable=2086
-    sudo apt build-dep neovim ${EXTRA_OPTS} "$@"
     # shellcheck disable=2086
     sudo apt install --purge "${APT_PACKAGES[@]}" ${EXTRA_OPTS} "${@}"
     sudo flatpak update
@@ -166,6 +136,7 @@ function _rtx {
     curl https://rtx.pub/install.sh | sh
   fi
 
+  eval "$("${HOME}/.local/share/rtx/bin/rtx" activate bash)"
   "${HOME}/.local/share/rtx/bin/rtx" self-update
   "${HOME}/.local/share/rtx/bin/rtx" plugins update -a --install-missing
   "${HOME}/.local/share/rtx/bin/rtx" install -a
@@ -227,14 +198,12 @@ function _neovim {
 }
 
 function _rust-libs {
-  info "installing rust libs"
-  cargo install cargo-update
-  cargo install --features lsp taplo-cli
+  info "installing/updating rust libs"
   cargo install-update -a
 }
 
 function _python-libs {
-  info "installing python libs"
+  info "installing/updating python libs"
   PP="${PYTHON_LIBS[*]}"
   for P in ${PP}; do
     pipx install "${P}"
@@ -256,47 +225,24 @@ function _python-libs {
 }
 
 function _node-libs {
-  info "installing node libs"
-  set +x
-  NODE_INSTALLED=$(
-    npm list -g --depth=0 --parseable |
-      grep node_modules | grep -v npm | sed 's/.*\/node_modules\///' | sort
-  )
-  NP="${NODE_LIBS[*]}"
-  for P in ${NP}; do
-    if [ "${P}" = "npm" ]; then
-      continue
-    fi
-    if [[ "$NODE_INSTALLED" != *"$P"* ]]; then
-      set -x
-      debug "${P} is missing, installing it..."
-      npm -g i "$P"
-      set +x
-    fi
-  done
-  for I in $NODE_INSTALLED; do
-    if [[ "${NP}" != *"$I"* ]]; then
-      set -x
-      debug "${I} should not be installed, uninstalling it..."
-      npm -g uninstall "$I"
-      set +x
-    fi
-  done
-  set -x
+  info "updating/updating node libs"
   npm update -g
 }
 
 function _ {
-  _system "$@"
-  _patches "$@"
-  _symlinks "$@"
-  _rtx "$@"
-  _fonts "$@"
-  _zsh "$@"
-  _neovim "$@"
-  _python-libs "$@"
-  _rust-libs "$@"
-  _node-libs "$@"
+  (
+    cd "${HOME}"
+    _system "$@"
+    _patches "$@"
+    _neovim "$@"
+    _symlinks "$@"
+    _fonts "$@"
+    _zsh "$@"
+    _rtx "$@"
+    _python-libs "$@"
+    _rust-libs "$@"
+    _node-libs "$@"
+  )
 }
 
 echo
