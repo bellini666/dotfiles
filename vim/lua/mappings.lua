@@ -102,9 +102,9 @@ map("n", "N", "Nzz", { noremap = true, silent = true })
 map({ "n", "t" }, "<F9>", utils.lazy("FTerm", "toggle"), { silent = true })
 
 -- Diagnostics
-map("n", "[d", vim.diagnostic.goto_prev, { buffer = true, silent = true })
-map("n", "]d", vim.diagnostic.goto_next, { buffer = true, silent = true })
-map("n", "<leader>e", vim.diagnostic.open_float, { buffer = true, silent = true })
+map("n", "[d", vim.diagnostic.goto_prev, { silent = true })
+map("n", "]d", vim.diagnostic.goto_next, { silent = true })
+map("n", "<leader>e", vim.diagnostic.open_float, { silent = true })
 map("n", "ge", "<cmd>TroubleToggle document_diagnostics<cr>")
 map("n", "gE", "<cmd>TroubleToggle workspace_diagnostics<cr>")
 
