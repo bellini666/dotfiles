@@ -83,10 +83,10 @@ map({ "n", "x", "o" }, "n", "'Nn'[v:searchforward]", { expr = true })
 map({ "n", "x", "o" }, "N", "'nN'[v:searchforward]", { expr = true })
 
 -- Move Lines
-map({ "n", "i" }, "<A-Down>", "<Plug>(unimpaired-move-down)")
-map("v", "<A-Down>", "<Plug>(unimpaired-move-selection-down)gv")
-map({ "n", "i" }, "<A-Up>", "<Plug>(unimpaired-move-up)")
-map("v", "<A-Up>", "<Plug>(unimpaired-move-selection-up)gv")
+map({ "n", "i" }, "<A-Up>", utils.lazy("moveline", "up"))
+map({ "n", "i" }, "<A-Down>", utils.lazy("moveline", "down"))
+map("v", "<A-Up>", utils.lazy("moveline", "block_up"))
+map("v", "<A-Down>", utils.lazy("moveline", "block_down"))
 
 -- Apply last change to next search result
 map("n", "g.", '/\\V<C-r>"<CR>cgn<C-a><Esc>')

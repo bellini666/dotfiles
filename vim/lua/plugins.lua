@@ -404,6 +404,11 @@ return {
 
   -- Text editing
   {
+    "willothy/moveline.nvim",
+    build = "make",
+    lazy = true,
+  },
+  {
     "tpope/vim-repeat",
     keys = { "." },
   },
@@ -421,12 +426,7 @@ return {
   },
   {
     "monaqa/dial.nvim",
-    keys = {
-      { "<C-a>" },
-      { "<C-x>" },
-      { "<C-a>", mode = "v" },
-      { "<C-x>", mode = "v" },
-    },
+    lazy = true,
   },
   {
     "wakatime/vim-wakatime",
