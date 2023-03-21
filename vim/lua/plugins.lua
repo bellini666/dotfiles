@@ -45,6 +45,7 @@ return {
   -- LSP
   {
     "neovim/nvim-lspconfig",
+    event = "BufReadPost",
     dependencies = {
       "jose-elias-alvarez/null-ls.nvim",
       "b0o/schemastore.nvim",
@@ -150,6 +151,7 @@ return {
   -- Testing
   {
     "mfussenegger/nvim-dap",
+    event = "BufReadPost",
     config = function()
       require("config.dap")
     end,
@@ -208,6 +210,7 @@ return {
   },
   {
     "utilyre/barbecue.nvim",
+    event = "VeryLazy",
     dependencies = {
       "SmiteshP/nvim-navic",
       "nvim-tree/nvim-web-devicons",
@@ -309,6 +312,7 @@ return {
   -- File browsing
   {
     "nvim-telescope/telescope.nvim",
+    lazy = true,
     dependencies = {
       "nvim-lua/plenary.nvim",
       "nvim-treesitter/nvim-treesitter",
