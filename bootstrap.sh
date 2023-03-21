@@ -104,6 +104,8 @@ function _system {
     # shellcheck disable=2086
     sudo apt dist-upgrade --purge ${EXTRA_OPTS} "$@"
     # shellcheck disable=2086
+    sudo apt build-dep python3 ${EXTRA_OPTS} "$@"
+    # shellcheck disable=2086
     sudo apt install --purge "${APT_PACKAGES[@]}" ${EXTRA_OPTS} "${@}"
     sudo flatpak update
     sudo flatpak uninstall --unused
