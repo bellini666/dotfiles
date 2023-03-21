@@ -320,12 +320,6 @@ return {
           require("telescope").load_extension("fzf")
         end,
       },
-      {
-        "nvim-telescope/telescope-file-browser.nvim",
-        config = function()
-          require("telescope").load_extension("file_browser")
-        end,
-      },
     },
     config = function()
       local actions = require("telescope.actions")
@@ -368,6 +362,25 @@ return {
         },
       })
     end,
+  },
+  {
+    "nvim-neo-tree/neo-tree.nvim",
+    branch = "v2.x",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-tree/nvim-web-devicons",
+      "MunifTanjim/nui.nvim",
+    },
+    cmd = "Neotree",
+    init = function()
+      vim.g.neo_tree_remove_legacy_commands = 1
+    end,
+    opts = {
+      close_if_last_window = true,
+      filesystem = {
+        follow_current_file = true,
+      },
+    },
   },
 
   -- Terminal integration
