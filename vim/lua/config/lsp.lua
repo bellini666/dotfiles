@@ -2,7 +2,12 @@ local nvim_lsp = require("lspconfig")
 local utils = require("utils")
 
 local capabilities = require("cmp_nvim_lsp").default_capabilities()
-local augroup = vim.api.nvim_create_augroup("LspAutocmds", {})
+local augroup_formatting = vim.api.nvim_create_augroup("LspFormatting", {})
+local augroup_codelens = vim.api.nvim_create_augroup("LspCodelens", {})
+
+local excluded_paths = {
+  "lib/python%d.%d+/site%-packages/",
+}
 
 local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
 for type, icon in pairs(signs) do
@@ -16,18 +21,22 @@ local on_attach = function(client, bufnr)
   end
 
   if client.server_capabilities.documentFormattingProvider then
+    vim.api.nvim_clear_autocmds({ group = augroup_formatting, buffer = bufnr })
     vim.api.nvim_create_autocmd("BufWritePre", {
       buffer = bufnr,
-      callback = require("utils").lsp_format,
-      group = augroup,
+      callback = function()
+        require("utils").lsp_format({ bufnr = bufnr })
+      end,
+      group = augroup_formatting,
     })
   end
 
   if client.server_capabilities.codeLensProvider then
+    vim.api.nvim_clear_autocmds({ group = augroup_codelens, buffer = bufnr })
     vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "InsertLeave" }, {
       buffer = bufnr,
       callback = vim.lsp.codelens.refresh,
-      group = augroup,
+      group = augroup_codelens,
     })
   end
 end
@@ -42,6 +51,12 @@ end
 
 local handlers = {
   ["textDocument/publishDiagnostics"] = vim.lsp.with(function(_, result, ...)
+    for _, path in pairs(excluded_paths) do
+      if result.uri:match(path) ~= nil then
+        return
+      end
+    end
+
     local min = vim.diagnostic.severity.INFO
     result.diagnostics = vim.tbl_filter(function(t)
       return t.severity <= min
@@ -132,7 +147,14 @@ nvim_lsp.pyright.setup({
     config.settings.python.pythonPath = p
   end,
   settings = {
-    disableOrganizeImports = true,
+    python = {
+      analysis = {
+        autoSearchPaths = true,
+        diagnosticMode = "workspace",
+        useLibraryCodeForTypes = true,
+        disableOrganizeImports = true,
+      },
+    },
   },
 })
 
@@ -303,10 +325,14 @@ null_ls.setup({
           "pyrightconfig.json"
         )(params.bufname)
       end),
-      runtime_condition = nhelpers.cache.by_bufnr(function(params)
-        if utils.find_file(".flake8") then
-          return true
+      runtime_condition = nhelpers.cache.by_bufnr(function()
+        local bufname = vim.api.nvim_buf_get_name(0)
+        for _, path in pairs(excluded_paths) do
+          if bufname:match(path) ~= nil then
+            return false
+          end
         end
+
         local pyproject = utils.find_file("pyproject.toml")
         if pyproject then
           local file = assert(io.open(pyproject, "r"))
@@ -332,10 +358,14 @@ null_ls.setup({
         )(params.bufname)
       end),
       extra_args = { "--profile", "black" },
-      runtime_condition = nhelpers.cache.by_bufnr(function(params)
-        if utils.find_file(".isort.cfg") then
-          return true
+      runtime_condition = nhelpers.cache.by_bufnr(function()
+        local bufname = vim.api.nvim_buf_get_name(0)
+        for _, path in pairs(excluded_paths) do
+          if bufname:match(path) ~= nil then
+            return false
+          end
         end
+
         local pyproject = utils.find_file("pyproject.toml")
         if pyproject then
           local file = assert(io.open(pyproject, "r"))
@@ -360,6 +390,16 @@ null_ls.setup({
         )(params.bufname)
       end),
       extra_args = { "--fast" },
+      runtime_condition = nhelpers.cache.by_bufnr(function()
+        local bufname = vim.api.nvim_buf_get_name(0)
+        for _, path in pairs(excluded_paths) do
+          if bufname:match(path) ~= nil then
+            return false
+          end
+        end
+
+        return true
+      end),
     }),
     diagnostics.ruff.with({
       diagnostics_format = diagnostics_format,
@@ -374,7 +414,14 @@ null_ls.setup({
           "pyrightconfig.json"
         )(params.bufname)
       end),
-      runtime_condition = nhelpers.cache.by_bufnr(function(params)
+      runtime_condition = nhelpers.cache.by_bufnr(function()
+        local bufname = vim.api.nvim_buf_get_name(0)
+        for _, path in pairs(excluded_paths) do
+          if bufname:match(path) ~= nil then
+            return false
+          end
+        end
+
         local pyproject = utils.find_file("pyproject.toml")
         if pyproject then
           local file = assert(io.open(pyproject, "r"))
@@ -398,7 +445,7 @@ null_ls.setup({
           "pyrightconfig.json"
         )(params.bufname)
       end),
-      runtime_condition = nhelpers.cache.by_bufnr(function(params)
+      runtime_condition = nhelpers.cache.by_bufnr(function()
         local pyproject = utils.find_file("pyproject.toml")
         if pyproject then
           local file = assert(io.open(pyproject, "r"))

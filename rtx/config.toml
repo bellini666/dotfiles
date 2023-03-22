@@ -1,3 +1,5 @@
+env_path = ["~/.local/bin", "~/bin"]
+
 [env]
 EDITOR = 'nvim'
 GIT_SSH = 'ssh'
@@ -5,7 +7,6 @@ PERL_LOCAL_LIB_ROOT = '~/.local/perl'
 PYTHON_CONFIGURE_OPTS = '--enable-shared --enable-optimizations --with-lto --enable-loadable-sqlite-extensions'
 PYTHON_CFLAGS = '-march=native -mtune=native'
 PIP_REQUIRE_VIRTUALENV = 'true'
-PATH = ["~/.local/bin", "~/bin", "$PATH"]
 
 [tools]
 actionlint = 'latest'

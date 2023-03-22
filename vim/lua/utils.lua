@@ -50,15 +50,16 @@ M.lsp_format = function(opts)
   if format_enabled or opts.force then
     vim.lsp.buf.format({
       filter = function(client)
-        local name = client.name
-        for _, v in ipairs({ "pyright", "sumneko_lua", "html", "tsserver", "jsonls" }) do
-          if name == v then
-            return false
-          end
-        end
-        return true
+        local excluded = {
+          copilot = true,
+          html = true,
+          jsonls = true,
+          pyright = true,
+          sumneko_lua = true,
+          tsserver = true,
+        }
+        return not excluded[client.name]
       end,
-      timeout_ms = 1500,
     })
   end
 end
