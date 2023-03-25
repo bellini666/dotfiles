@@ -1,6 +1,5 @@
 local dap = require("dap")
 local utils = require("utils")
-require("dap")
 local dap_python = require("dap-python")
 
 local M = {}

@@ -26,7 +26,7 @@ map("n", "<C-P>", utils.find_files)
 map("n", "<C-G>", utils.grep)
 
 -- Tasks
-map("n", "<F10>", function()
+map("n", "<F3>", function()
   require("telescope").extensions.vstask.tasks()
 end)
 
@@ -37,7 +37,10 @@ map("n", "<F6>", utils.lazy("dap", "step_over"))
 map("n", "<F7>", utils.lazy("dap", "sep_into"))
 map("n", "<F8>", utils.lazy("dap", "step_out"))
 map({ "n", "v" }, "gK", utils.lazy("dap.ui.widgets", "hover"))
-map("n", "<F11>", utils.lazy("dapui", "toggle"))
+map("n", "<F10>", utils.lazy("dapui", "toggle"))
+map("n", "<F11>", function()
+  require("neotest").output_panel.toggle()
+end)
 map("n", "<F12>", function()
   require("neotest").summary.toggle()
 end)
@@ -83,10 +86,10 @@ map({ "n", "x", "o" }, "n", "'Nn'[v:searchforward]", { expr = true })
 map({ "n", "x", "o" }, "N", "'nN'[v:searchforward]", { expr = true })
 
 -- Move Lines
-map({ "n", "i" }, "<A-Up>", utils.lazy("moveline", "up"))
-map({ "n", "i" }, "<A-Down>", utils.lazy("moveline", "down"))
-map("v", "<A-Up>", utils.lazy("moveline", "block_up"))
-map("v", "<A-Down>", utils.lazy("moveline", "block_down"))
+map({ "n", "i" }, "<A-Up>", utils.lazy("moveline", "up"), { silent = true })
+map({ "n", "i" }, "<A-Down>", utils.lazy("moveline", "down"), { silent = true })
+map("v", "<A-Up>", utils.lazy("moveline", "block_up"), { silent = true })
+map("v", "<A-Down>", utils.lazy("moveline", "block_down"), { silent = true })
 
 -- Apply last change to next search result
 map("n", "g.", '/\\V<C-r>"<CR>cgn<C-a><Esc>')
@@ -134,7 +137,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
     map("n", "<leader>wa", vim.lsp.buf.add_workspace_folder, opts)
     map("n", "<leader>wr", vim.lsp.buf.remove_workspace_folder, opts)
     map("n", "<leader>wl", function()
-      vim.pretty_print(vim.lsp.buf.list_workspace_folders())
+      vim.print(vim.lsp.buf.list_workspace_folders())
     end, opts)
   end,
 })

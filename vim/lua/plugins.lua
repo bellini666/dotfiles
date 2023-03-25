@@ -165,13 +165,6 @@ return {
         "rcarriga/nvim-dap-ui",
         config = true,
       },
-      {
-        "theHamsta/nvim-dap-virtual-text",
-        config = true,
-        dependencies = {
-          "nvim-treesitter/nvim-treesitter",
-        },
-      },
     },
   },
   {
@@ -186,12 +179,21 @@ return {
       require("neotest").setup({
         adapters = {
           require("neotest-python")({
-            args = { "-vvv", "--no-cov" },
+            args = { "-vvv", "--no-cov", "--disable-warnings" },
           }),
         },
         quickfix = {
           enabled = false,
           open = false,
+        },
+        output = {
+          enabled = true,
+          open_on_run = false,
+        },
+        status = {
+          enabled = true,
+          signs = true,
+          virtual_text = true,
         },
       })
     end,
