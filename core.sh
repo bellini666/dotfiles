@@ -6,6 +6,10 @@ fi
 
 export RTX_USE_TOML=1
 export DOTFILES_DIR="${HOME}/.dotfiles"
+if [ -f "${HOME}/.secret_env.sh" ]; then
+  # shellcheck source=/home/bellini/.secret_env.sh
+  source "${HOME}/.secret_env.sh"
+fi
 
 function bootstrap() { (
   set -e
