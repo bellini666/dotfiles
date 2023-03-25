@@ -105,9 +105,10 @@ return {
     dependencies = {
       "hrsh7th/cmp-nvim-lsp",
       "hrsh7th/cmp-buffer",
-      "hrsh7th/cmp-path",
       "hrsh7th/cmp-cmdline",
       "hrsh7th/cmp-nvim-lua",
+      "FelipeLema/cmp-async-path",
+      "lukas-reineke/cmp-under-comparator",
       {
         "zbirenbaum/copilot-cmp",
         dependencies = {
@@ -138,7 +139,7 @@ return {
               Copilot = "",
             },
           })
-          vim.api.nvim_set_hl(0, "CmpItemKindCopilot", { fg = "#6CC644" })
+          vim.api.nvim_set_hl(0, "CmpItemKindCopilot", { fg = "#69ae6a" })
         end,
       },
     },
@@ -266,7 +267,7 @@ return {
       local notify = require("notify")
       notify.setup({
         background_colour = "#000000",
-        timeout = 1500,
+        timeout = 2000,
       })
       vim.notify = notify
     end,
@@ -400,12 +401,6 @@ return {
     cmd = "FTerm",
   },
 
-  -- Language specifics
-  {
-    "Vimjas/vim-python-pep8-indent",
-    ft = "python",
-  },
-
   -- Text editing
   {
     "willothy/moveline.nvim",
@@ -430,7 +425,7 @@ return {
   },
   {
     "monaqa/dial.nvim",
-    lazy = true,
+    event = "BufReadPost",
   },
   {
     "wakatime/vim-wakatime",
@@ -462,7 +457,7 @@ return {
     "ethanholz/nvim-lastplace",
     opts = {
       lastplace_ignore_buftype = { "quickfix", "nofile", "help", "Trouble" },
-      lastplace_ignore_filetype = { "gitcommit", "gitrebase", "neo-tree" },
+      lastplace_ignore_filetype = { "gitcommit", "gitrebase", "neo-tree", "neotest-summary" },
     },
   },
   {

@@ -9,26 +9,21 @@ local has_words_before = function()
     and vim.api.nvim_buf_get_text(0, line - 1, 0, line - 1, col, {})[1]:match("^%s*$") == nil
 end
 
-local get_comparators = function()
-  local cmps = require("cmp.config.default")().sorting.comparators
-  table.insert(cmps, 1, require("copilot_cmp.comparators").score)
-  table.insert(cmps, 1, require("copilot_cmp.comparators").prioritize)
-  return cmps
-end
+local default_format = require("lspkind").cmp_format({ with_text = false })
 
----@diagnostic disable-next-line
 cmp.setup({
   sources = cmp.config.sources({
     { name = "copilot" },
     { name = "nvim_lsp" },
-    { name = "nvim_lua" },
     { name = "luasnip" },
-    { name = "path" },
+  }, {
+    { name = "nvim_lua" },
+    { name = "async_path" },
     { name = "buffer" },
   }),
   formatting = {
     format = function(entry, vim_item)
-      if vim.tbl_contains({ "path" }, entry.source.name) then
+      if vim.tbl_contains({ "path", "async_path" }, entry.source.name) then
         local icon, hl_group =
           require("nvim-web-devicons").get_icon(entry:get_completion_item().label)
         if icon then
@@ -37,7 +32,7 @@ cmp.setup({
           return vim_item
         end
       end
-      return require("lspkind").cmp_format({ with_text = false })(entry, vim_item)
+      return default_format(entry, vim_item)
     end,
   },
   mapping = cmp.mapping.preset.insert({
@@ -58,7 +53,7 @@ cmp.setup({
     end, { "i", "s" }),
     ["<Tab>"] = cmp.mapping(function(fallback)
       if cmp.visible() then
-        cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
+        cmp.select_next_item()
       elseif require("luasnip").expand_or_jumpable() then
         require("luasnip").expand_or_jump()
       elseif has_words_before() then
@@ -81,7 +76,20 @@ cmp.setup({
   }),
   sorting = {
     priority_weight = 2,
-    comparators = get_comparators(),
+    comparators = {
+      cmp.config.compare.offset,
+      -- cmp.config.compare.scopes,
+      cmp.config.compare.exact,
+      require("copilot_cmp.comparators").prioritize,
+      cmp.config.compare.score,
+      require("cmp-under-comparator").under,
+      cmp.config.compare.recently_used,
+      cmp.config.compare.locality,
+      cmp.config.compare.kind,
+      -- cmp.config.compare.sort_text,
+      cmp.config.compare.length,
+      cmp.config.compare.order,
+    },
   },
   snippet = {
     expand = function(args)
