@@ -148,6 +148,20 @@ return {
       require("config.completion")
     end,
   },
+  {
+    "jackMort/ChatGPT.nvim",
+    dependencies = {
+      "MunifTanjim/nui.nvim",
+      "nvim-lua/plenary.nvim",
+      "nvim-telescope/telescope.nvim",
+    },
+    opts = {
+      keymaps = {
+        submit = { "<C-Enter>", "<C-Space>" },
+      },
+    },
+    cmd = { "ChatGPT", "ChatGPTActAs", "ChatGPTEditWithInstructions" },
+  },
 
   -- Testing
   {
