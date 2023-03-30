@@ -45,5 +45,7 @@ require("lualine").setup({
     "toggleterm",
     "nvim-dap-ui",
     "mundo",
+    "trouble",
+    "lazy",
   },
 })
