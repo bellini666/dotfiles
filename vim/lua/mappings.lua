@@ -77,6 +77,7 @@ map("n", "]Q", utils.lazy("trouble", "last", { { skip_groups = true, jump = true
 -- Winshift
 map("n", "<C-w>m", "<cmd>WinShift<cr>")
 map("n", "<C-w>x", "<cmd>WinShift swap<cr><C-w><C-w>")
+map("n", "<C-w>r", utils.lazy("smart-splits", "start_resize_mode"))
 
 -- Fix spell with telescope
 map("n", "z=", utils.spell_suggest)

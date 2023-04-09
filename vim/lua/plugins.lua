@@ -293,6 +293,16 @@ return {
     event = "BufReadPost",
   },
   {
+    "mrjones2014/smart-splits.nvim",
+    event = "BufReadPost",
+    opts = {
+      resize_mode = {
+        quit_key = "<ESC>",
+        resize_keys = { "<Left>", "<Down>", "<Up>", "<Right>" },
+      },
+    },
+  },
+  {
     "SmiteshP/nvim-navic",
     lazy = true,
     dependencies = {
