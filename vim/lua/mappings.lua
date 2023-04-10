@@ -133,7 +133,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
     map("n", "gs", vim.lsp.buf.document_symbol, opts)
     map("n", "gS", vim.lsp.buf.workspace_symbol, opts)
     map("n", "<leader>D", vim.lsp.buf.type_definition, opts)
-    map("n", "<leader>ca", vim.lsp.buf.code_action, opts)
+    map({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts)
     map("n", "<leader>rn", vim.lsp.buf.rename, opts)
     map("n", "<leader>wa", vim.lsp.buf.add_workspace_folder, opts)
     map("n", "<leader>wr", vim.lsp.buf.remove_workspace_folder, opts)
