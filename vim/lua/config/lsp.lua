@@ -223,10 +223,10 @@ nvim_lsp.yamlls.setup({
     yaml = {
       validate = true,
       completion = true,
+      hover = true,
       schemas = require("schemastore").yaml.schemas(),
       format = {
-        printWidth = 100,
-        proseWrap = "Preserve",
+        enable = false,
       },
     },
   },
@@ -498,7 +498,9 @@ null_ls.setup({
       diagnostics_format = diagnostics_format,
     }),
     formatting.shfmt.with({
-      extra_args = { "-i", "2" },
+      extra_args = function(params)
+        return { "-i", tostring(vim.opt_local.shiftwidth:get()) }
+      end,
     }),
     -- lua
     formatting.stylua.with({
@@ -511,7 +513,23 @@ null_ls.setup({
     -- yaml
     diagnostics.yamllint.with({
       diagnostics_format = diagnostics_format,
-      extra_args = { "-d", "{extends: default, rules: {line-length: {max: 100}}}" },
+      extra_args = function(params)
+        return {
+          "-d",
+          string.format(
+            "{extends: default, rules: {line-length: {max: %d}}}",
+            vim.opt_local.textwidth:get() + 1
+          ),
+        }
+      end,
+    }),
+    formatting.yamlfix.with({
+      env = function(params)
+        return {
+          YAMLFIX_LINE_LENGTH = tostring(vim.opt_local.shiftwidth:get()),
+          YAMLFIX_SECTION_WHITELINES = "1",
+        }
+      end,
     }),
     -- markdown
     diagnostics.markdownlint.with({

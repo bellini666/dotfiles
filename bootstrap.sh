@@ -71,6 +71,7 @@ PYTHON_LIBS=(
   ruff-lsp
   textLSP
   yamllint
+  yamlfix
 )
 PYTHON_INJECTIONS=(
   "poetry poetry-plugin-up"
