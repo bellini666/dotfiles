@@ -82,7 +82,7 @@ SYMLINKS=(
   "${BASE_DIR}/git/gitconfig ${HOME}/.gitconfig"
   "${BASE_DIR}/git/gitignore ${HOME}/.gitignore"
   "${BASE_DIR}/rtx/config.toml ${HOME}/.config/rtx/config.toml"
-  "${BASE_DIR}/rtx/node-packages ${HOME}/.default-npm-packages"
+  "${BASE_DIR}/rtx/node-packages ${HOME}/.default-nodejs-packages"
   "${BASE_DIR}/rtx/rust-packages ${HOME}/.default-cargo-crates"
   "${BASE_DIR}/tmux/tmux.conf ${HOME}/.tmux.conf"
   "${BASE_DIR}/vim ${HOME}/.config/nvim"
