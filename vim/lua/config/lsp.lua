@@ -526,8 +526,10 @@ null_ls.setup({
     formatting.yamlfix.with({
       env = function(params)
         return {
-          YAMLFIX_LINE_LENGTH = tostring(vim.opt_local.shiftwidth:get()),
+          YAMLFIX_LINE_LENGTH = tostring(vim.opt_local.textwidth:get() + 1),
           YAMLFIX_SECTION_WHITELINES = "1",
+          YAMLFIX_quote_representation = '"',
+          YAMLFIX_SEQUENCE_STYLE = "block_style",
         }
       end,
     }),

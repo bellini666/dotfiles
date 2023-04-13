@@ -15,7 +15,6 @@ map("n", "<leader>tl", "<cmd>set list!<cr>:set list?<CR>")
 map("n", "<leader>tn", "<cmd>set number!<cr>:set number?<CR>")
 map("n", "<leader>tp", "<cmd>set paste!<cr>:set paste?<CR>")
 map("n", "<leader>ts", "<cmd>set spell!<cr>:set spell?<CR>")
-map("n", "<leader>td", '<cmd>lua require("dapui").toggle()<cr>')
 map("n", "<F2>", "<cmd>UndotreeToggle<cr>")
 map("n", "<F4>", "<cmd>Neotree reveal toggle<cr>")
 
@@ -58,6 +57,9 @@ map("n", "<C-_>", "gcc", { remap = true })
 map("v", "<C-_>", "gc", { remap = true })
 map("n", "<C-/>", "gcc", { remap = true })
 map("v", "<C-/>", "gc", { remap = true })
+
+-- Navigation
+map("n", "<C-e>", utils.lazy("nvim-navbuddy", "open"))
 
 -- dial.nvim
 map("n", "<C-a>", utils.lazy("dial.map", "inc_normal"), { noremap = true })
