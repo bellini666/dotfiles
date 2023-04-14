@@ -466,6 +466,13 @@ return {
     cmd = "FTerm",
   },
 
+  -- Language specific
+  {
+    "toppair/peek.nvim",
+    build = "deno task --quiet build:fast",
+    ft = "markdown",
+  },
+
   -- Text editing
   {
     "willothy/moveline.nvim",

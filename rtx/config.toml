@@ -37,6 +37,7 @@ stylua = 'latest'
 yarn = 'latest'
 # langs
 nodejs = 'latest'
+deno = 'latest'
 python = 'latest'
 golang = 'latest'
 

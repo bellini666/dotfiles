@@ -36,6 +36,7 @@ APT_PACKAGES=(
   libsqlite3-dev
   libssl-dev
   libtool-bin
+  libwebkit2gtk-4.0-dev
   libxml2-dev
   libxmlsec1-dev
   ncdu
