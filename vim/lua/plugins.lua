@@ -488,8 +488,15 @@ return {
     event = "BufReadPost",
   },
   {
-    "tpope/vim-fugitive",
+    "lewis6991/gitsigns.nvim",
     event = "BufReadPost",
+    opts = {
+      signcolumn = false,
+      current_line_blame = true,
+      current_line_blame_opts = {
+        delay = 500,
+      },
+    },
   },
   {
     "mbbill/undotree",
