@@ -36,7 +36,7 @@ shfmt = 'latest'
 stylua = 'latest'
 yarn = 'latest'
 # langs
-nodejs = 'latest'
+node = 'latest'
 deno = 'latest'
 python = 'latest'
 golang = 'latest'
