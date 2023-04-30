@@ -233,6 +233,11 @@ function _node-libs {
   npm update -g
 }
 
+function _rtx-reshim {
+  info "reshimming rtx"
+  "${HOME}/.local/share/rtx/bin/rtx" reshim
+}
+
 function _ {
   (
     cd "${HOME}"
@@ -246,6 +251,7 @@ function _ {
     _python-libs "$@"
     _rust-libs "$@"
     _node-libs "$@"
+    _rtx-reshim "$@"
   )
 }
 
