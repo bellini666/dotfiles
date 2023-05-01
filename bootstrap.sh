@@ -21,8 +21,6 @@ APT_PACKAGES=(
   build-essential
   cpanminus
   curl
-  fonts-hack-ttf
-  fonts-inconsolata
   fonts-open-sans
   fonts-wine
   git
@@ -158,16 +156,16 @@ function _fonts {
     https://github.com/microsoft/vscode-codicons/blob/main/dist/codicon.ttf?raw=true
   download_file \
     "${FONTS_DIR}/Hack Regular Nerd Font Complete.ttf" \
-    https://github.com/ryanoasis/nerd-fonts/blob/master/patched-fonts/Hack/Regular/complete/Hack%20Regular%20Nerd%20Font%20Complete.ttf?raw=true
+    https://github.com/ryanoasis/nerd-fonts/blob/master/patched-fonts/Hack/Regular/HackNerdFont-Regular.ttf?raw=true
   download_file \
     "${FONTS_DIR}/Inconsolata Nerd Font Complete.otf" \
-    https://github.com/ryanoasis/nerd-fonts/blob/master/patched-fonts/Inconsolata/complete/Inconsolata%20Nerd%20Font%20Complete.otf?raw=true
+    https://github.com/ryanoasis/nerd-fonts/blob/master/patched-fonts/Inconsolata/InconsolataNerdFont-Regular.ttf?raw=true
   download_file \
     "${FONTS_DIR}/Fira Code Regular Nerd Font Complete.ttf" \
-    https://github.com/ryanoasis/nerd-fonts/blob/master/patched-fonts/FiraCode/Regular/complete/Fira%20Code%20Regular%20Nerd%20Font%20Complete.ttf?raw=true
+    https://github.com/ryanoasis/nerd-fonts/blob/master/patched-fonts/FiraCode/Regular/FiraCodeNerdFont-Regular.ttf?raw=true
 
-  if [ "$(gsettings get org.gnome.desktop.interface monospace-font-name)" != "'Hack Regular 10'" ]; then
-    gsettings set org.gnome.desktop.interface monospace-font-name 'Hack Regular 10'
+  if [ "$(gsettings get org.gnome.desktop.interface monospace-font-name)" != "'Hack Nerd Font 10'" ]; then
+    gsettings set org.gnome.desktop.interface monospace-font-name 'Hack Nerd Font 10'
   fi
 }
 
