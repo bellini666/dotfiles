@@ -9,6 +9,15 @@ local excluded_paths = {
   "lib/python%d.%d+/site%-packages/",
 }
 
+-- Workaround stutter issues until https://github.com/neovim/neovim/issues/23291 is fixed
+if capabilities.workspace == nil then
+  capabilities.workspace = {}
+end
+if capabilities.workspace.didChangeWatchedFiles == nil then
+  capabilities.workspace.didChangeWatchedFiles = {}
+end
+capabilities.workspace.didChangeWatchedFiles.dynamicRegistration = false
+
 local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
 for type, icon in pairs(signs) do
   local hl = "DiagnosticSign" .. type
