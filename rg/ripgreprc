@@ -1,0 +1,10 @@
+# Follow symlinks
+--follow
+
+# Search hidden files / directories (e.g. dotfiles) by default
+--hidden
+
+# Ignore .git by default
+--glob=!*/.git/*
+--glob=!*/.yarn/*
+--glob=!*/.venv/*
