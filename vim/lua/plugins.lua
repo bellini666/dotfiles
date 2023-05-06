@@ -303,13 +303,18 @@ return {
             separator = true,
             padding = 1,
           },
+          {
+            filetype = "undotree",
+            text = "Undo Tree",
+            separator = true,
+            padding = 1,
+          },
         },
       },
     },
   },
   {
     "stevearc/dressing.nvim",
-    event = "VeryLazy",
     opts = {
       input = {
         insert_only = true,
@@ -475,9 +480,22 @@ return {
 
   -- Text editing
   {
+    "folke/which-key.nvim",
+    config = function()
+      vim.o.timeout = true
+      vim.o.timeoutlen = 500
+      require("which-key").setup({
+        plugins = {
+          spelling = {
+            enabled = false,
+          },
+        },
+      })
+    end,
+  },
+  {
     "willothy/moveline.nvim",
     build = "make",
-    lazy = true,
   },
   {
     "tpope/vim-repeat",
@@ -501,6 +519,9 @@ return {
   {
     "mbbill/undotree",
     cmd = "UndotreeToggle",
+    init = function()
+      vim.g.undotree_CursorLine = 0
+    end,
   },
   {
     "monaqa/dial.nvim",
@@ -536,7 +557,13 @@ return {
     "ethanholz/nvim-lastplace",
     opts = {
       lastplace_ignore_buftype = { "quickfix", "nofile", "help", "Trouble" },
-      lastplace_ignore_filetype = { "gitcommit", "gitrebase", "neo-tree", "neotest-summary" },
+      lastplace_ignore_filetype = {
+        "gitcommit",
+        "gitrebase",
+        "neo-tree",
+        "neotest-summary",
+        "undotree",
+      },
     },
   },
   {
