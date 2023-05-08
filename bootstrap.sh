@@ -18,6 +18,7 @@ FONTS_DIR="${HOME}/.local/share/fonts"
 NVIM_CONFIG="${HOME}/.config/nvim"
 RTX_CONFIG="${HOME}/.config/rtx/"
 APT_PACKAGES=(
+  btop
   build-essential
   cpanminus
   curl
