@@ -12,7 +12,7 @@ wk.register({
   ["z="] = { utils.spell_suggest, "Spell suggest" },
   n = { "'Nn'[v:searchforward]", "Next result", expr = true, mode = { "n", "x", "o" } },
   N = { "'nN'[v:searchforward]", "Previous result", expr = true, mode = { "n", "x", "o" } },
-  p = { '"_dP', "Paste", noremap = true, silent = true },
+  p = { '"_dP', "Paste", noremap = true, silent = true, mode = "v" },
   ["<leader>"] = {
     e = { vim.diagnostic.open_float, "Open diagnostic float", silent = true },
     t = {
