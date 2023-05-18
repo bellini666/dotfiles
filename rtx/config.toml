@@ -39,8 +39,8 @@ yarn = 'latest'
 # langs
 node = 'latest'
 deno = 'latest'
-python = 'latest'
 golang = 'latest'
+python = ['latest', 'latest!-0.1', 'latest!-0.2', 'latest!-0.3', 'latest!-0.4']
 
 [plugins]
 mykubeseal = 'https://github.com/bellini666/asdf-kubeseal.git'

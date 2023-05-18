@@ -70,8 +70,9 @@ PYTHON_LIBS=(
   ruff
   ruff-lsp
   textLSP
-  yamllint
+  tox
   yamlfix
+  yamllint
 )
 PYTHON_INJECTIONS=(
   "poetry poetry-plugin-up"
