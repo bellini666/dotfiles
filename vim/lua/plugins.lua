@@ -481,17 +481,18 @@ return {
   -- Text editing
   {
     "folke/which-key.nvim",
-    config = function()
+    event = "VeryLazy",
+    init = function()
       vim.o.timeout = true
       vim.o.timeoutlen = 500
-      require("which-key").setup({
-        plugins = {
-          spelling = {
-            enabled = false,
-          },
-        },
-      })
     end,
+    opts = {
+      plugins = {
+        spelling = {
+          enabled = false,
+        },
+      },
+    },
   },
   {
     "willothy/moveline.nvim",
