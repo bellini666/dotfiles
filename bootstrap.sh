@@ -26,6 +26,7 @@ APT_PACKAGES=(
   fonts-wine
   git
   htop
+  jq
   kubetail
   libbz2-dev
   libffi-dev
