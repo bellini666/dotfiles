@@ -57,45 +57,6 @@ return {
           toggle_key = "<C-K>",
         },
       },
-      {
-        "SmiteshP/nvim-navbuddy",
-        dependencies = {
-          "SmiteshP/nvim-navic",
-          "MunifTanjim/nui.nvim",
-          "numToStr/Comment.nvim",
-          "nvim-telescope/telescope.nvim",
-        },
-        config = function()
-          local navbuddy = require("nvim-navbuddy")
-          local actions = require("nvim-navbuddy.actions")
-          navbuddy.setup({
-            lsp = {
-              auto_attach = true,
-              preference = {
-                "pyright",
-                "tsserver",
-                "graphql",
-                "cssls",
-                "html",
-                "bashls",
-                "dockerls",
-                "yamlls",
-                "jsonls",
-                "taplo",
-                "lua_ls",
-              },
-            },
-            mappings = {
-              ["<Left>"] = require("nvim-navbuddy.actions").parent,
-              ["<Right>"] = require("nvim-navbuddy.actions").children,
-              ["<Up>"] = require("nvim-navbuddy.actions").previous_sibling,
-              ["<Down>"] = require("nvim-navbuddy.actions").next_sibling,
-              ["<C-Up>"] = require("nvim-navbuddy.actions").move_up,
-              ["<C-Down>"] = require("nvim-navbuddy.actions").move_down,
-            },
-          })
-        end,
-      },
     },
     config = function()
       require("config.lsp")
@@ -253,6 +214,14 @@ return {
   },
 
   -- UI
+  {
+    "Bekaboo/dropbar.nvim",
+    dependencies = {
+      "nvim-treesitter/nvim-treesitter",
+      "neovim/nvim-lspconfig",
+      "nvim-tree/nvim-web-devicons",
+    },
+  },
   {
     "nvim-lualine/lualine.nvim",
     dependencies = {

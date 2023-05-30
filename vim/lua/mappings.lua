@@ -24,7 +24,7 @@ wk.register({
       s = { "<cmd>set spell!<cr>:set spell?<CR>", "Toggle spell" },
     },
   },
-  ["<C-e>"] = { utils.lazy("nvim-navbuddy", "open"), "NavBuddy" },
+  ["<C-e>"] = { utils.lazy("dropbar.api", "pick"), "Dropbar" },
   ["<C-p>"] = { utils.find_files, "Find files" },
   ["<C-f>"] = { utils.lazy("telescope.builtin", "live_grep"), "Live grep" },
   ["<C-b>"] = { utils.lazy("telescope.builtin", "buffers"), "Find buffers" },
