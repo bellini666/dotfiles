@@ -86,7 +86,7 @@ local handlers = {
       local fname
       local old = vim.fn.expand("<cword>")
       local new = "<unknown>"
-      local root = vim.loop.cwd()
+      local root = vim.uv.cwd()
       for _, c in pairs(result.documentChanges) do
         new = c.edits[1].newText
         fname = "." .. c.textDocument.uri:gsub("file://" .. root, "")

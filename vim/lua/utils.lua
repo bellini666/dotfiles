@@ -21,7 +21,7 @@ M.find_files = function(opts)
   if opts == nil then
     opts = {}
   end
-  opts.cwd = opts.cwd and vim.fn.expand(opts.cwd) or vim.loop.cwd()
+  opts.cwd = opts.cwd and vim.fn.expand(opts.cwd) or vim.uv.cwd()
 
   local cmd
   if lsp_util.find_git_ancestor(opts.cwd) then
