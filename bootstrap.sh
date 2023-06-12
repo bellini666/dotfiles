@@ -77,7 +77,7 @@ PYTHON_LIBS=(
 )
 PYTHON_INJECTIONS=(
   "poetry poetry-plugin-up"
-  "ipython numpy pandas requests httpx"
+  "ipython numpy pandas requests httpx openpyxl xlsxwriter"
 )
 SYMLINKS=(
   "${BASE_DIR}/git/gitattributes ${HOME}/.gitattributes"

@@ -29,6 +29,7 @@ lazygit = 'latest'
 lua-language-server = 'latest'
 minikube = 'latest'
 mykubeseal = 'latest'
+pre-commit = 'latest'
 ripgrep = 'latest'
 rust = 'latest'
 shellcheck = 'latest'
@@ -36,9 +37,9 @@ shfmt = 'latest'
 stylua = 'latest'
 yarn = 'latest'
 # langs
-node = 'latest'
 deno = 'latest'
 golang = 'latest'
+node = 'latest'
 python = ['latest', 'latest!-0.1', 'latest!-0.2', 'latest!-0.3', 'latest!-0.4']
 
 [plugins]
