@@ -465,7 +465,7 @@ null_ls.setup({
         end
         return false
       end),
-      extra_args = { "--unfixable", "T20,ERA001" },
+      extra_args = { "--unfixable", "T20,ERA001,F841" },
     }),
     -- djlint
     formatting.djlint.with({

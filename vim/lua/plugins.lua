@@ -79,7 +79,7 @@ return {
   -- Completion
   {
     "windwp/nvim-autopairs",
-    event = "BufReadPost",
+    event = "InsertEnter",
     opts = {
       disable_in_macro = true,
       check_ts = true,
