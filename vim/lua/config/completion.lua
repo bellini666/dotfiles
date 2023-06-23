@@ -13,7 +13,6 @@ local default_format = require("lspkind").cmp_format({ with_text = false })
 
 cmp.setup({
   sources = cmp.config.sources({
-    { name = "copilot" },
     { name = "nvim_lsp" },
     { name = "luasnip" },
   }, {
@@ -36,7 +35,30 @@ cmp.setup({
     end,
   },
   mapping = cmp.mapping.preset.insert({
-    ["<C-Space>"] = cmp.mapping.complete(),
+    ["<C-Space>"] = cmp.mapping(function(fallback)
+      if cmp.visible() then
+        cmp.core:reset()
+      end
+
+      if
+        not require("cmp").complete({
+          config = {
+            sources = {
+              { name = "copilot" },
+              { name = "nvim_lsp" },
+              { name = "luasnip" },
+            },
+            {
+              { name = "nvim_lua" },
+              { name = "async_path" },
+              { name = "buffer" },
+            },
+          },
+        })
+      then
+        fallback()
+      end
+    end, { "i", "n" }),
     ["<C-e>"] = cmp.mapping.close(),
     ["<CR>"] = cmp.mapping(function(fallback)
       local selected = cmp.get_selected_entry()
