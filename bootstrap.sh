@@ -103,13 +103,13 @@ function _system {
   (
     EXTRA_OPTS="-t unstable"
     sudo apt update --list-cleanup
-    sudo apt dist-upgrade --purge "$@"
+    sudo apt dist-upgrade --purge
     # shellcheck disable=2086
-    sudo apt dist-upgrade --purge ${EXTRA_OPTS} "$@"
+    sudo apt dist-upgrade --purge ${EXTRA_OPTS}
     # shellcheck disable=2086
-    sudo apt build-dep python3 ${EXTRA_OPTS} "$@"
+    sudo apt build-dep python3 ${EXTRA_OPTS}
     # shellcheck disable=2086
-    sudo apt install --purge "${APT_PACKAGES[@]}" ${EXTRA_OPTS} "${@}"
+    sudo apt install --purge "${APT_PACKAGES[@]}" ${EXTRA_OPTS}
     sudo flatpak update
     sudo flatpak uninstall --unused
     sudo apt autoremove --purge
@@ -242,17 +242,17 @@ function _rtx-reshim {
 function _ {
   (
     cd "${HOME}"
-    _system "$@"
-    _patches "$@"
-    _neovim "$@"
-    _symlinks "$@"
-    _fonts "$@"
-    _zsh "$@"
-    _rtx "$@"
-    _python-libs "$@"
-    _rust-libs "$@"
-    _node-libs "$@"
-    _rtx-reshim "$@"
+    _system
+    _patches
+    _neovim
+    _symlinks
+    _fonts
+    _zsh
+    _rtx
+    _python-libs
+    _rust-libs
+    _node-libs
+    _rtx-reshim
   )
 }
 
