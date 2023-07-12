@@ -71,6 +71,7 @@ PYTHON_LIBS=(
   ruff
   ruff-lsp
   textLSP
+  ipdb
   tox
   yamlfix
   yamllint
