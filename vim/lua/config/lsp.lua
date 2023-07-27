@@ -233,6 +233,10 @@ nvim_lsp.yamlls.setup({
       validate = true,
       completion = true,
       hover = true,
+      schemaStore = {
+        enable = false,
+        url = "",
+      },
       schemas = require("schemastore").yaml.schemas(),
       format = {
         enable = false,
