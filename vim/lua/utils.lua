@@ -2,13 +2,6 @@ local M = {}
 
 local format_enabled = true
 
-M.lazy = function(mod, func, ...)
-  local arg = ... or {}
-  return function()
-    return require(mod)[func](unpack(arg))
-  end
-end
-
 M.trim = function(s)
   return s:gsub("^%s*(.-)%s*$", "%1")
 end

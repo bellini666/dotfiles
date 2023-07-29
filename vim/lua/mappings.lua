@@ -24,13 +24,38 @@ wk.register({
       s = { "<cmd>set spell!<cr>:set spell?<CR>", "Toggle spell" },
     },
   },
-  ["<C-e>"] = { utils.lazy("dropbar.api", "pick"), "Dropbar" },
+  ["<C-e>"] = {
+    function()
+      require("dropbar.api").pick()
+    end,
+    "Dropbar",
+  },
   ["<C-p>"] = { utils.find_files, "Find files" },
-  ["<C-f>"] = { utils.lazy("telescope.builtin", "live_grep"), "Live grep" },
-  ["<C-b>"] = { utils.lazy("telescope.builtin", "buffers"), "Find buffers" },
+  ["<C-f>"] = {
+    function()
+      require("telescope.builtin").live_grep()
+    end,
+    "Live grep",
+  },
+  ["<C-b>"] = {
+    function()
+      require("telescope.builtin").buffers()
+    end,
+    "Find buffers",
+  },
   ["<C-g>"] = { utils.grep, "Custom grep" },
-  ["<C-d>"] = { utils.lazy("config.dap", "run"), "Run tests" },
-  ["<F1>"] = { utils.lazy("dap", "toggle_breakpoint"), "Toggle breakpoint" },
+  ["<C-d>"] = {
+    function()
+      require("config.dap").run()
+    end,
+    "Run tests",
+  },
+  ["<F1>"] = {
+    function()
+      require("dap").toggle_breakpoint()
+    end,
+    "Toggle breakpoint",
+  },
   ["<F2>"] = { "<cmd>UndotreeToggle<cr>", "Toggle Undotree" },
   ["<F3>"] = {
     function()
@@ -39,12 +64,42 @@ wk.register({
     "Tasks",
   },
   ["<F4>"] = { "<cmd>Neotree reveal toggle<cr>", "Toggle Neotree" },
-  ["<F5>"] = { utils.lazy("dap", "continue"), "DAP continue" },
-  ["<F6>"] = { utils.lazy("dap", "step_over"), "DAP step over" },
-  ["<F7>"] = { utils.lazy("dap", "sep_into"), "DAP step into" },
-  ["<F8>"] = { utils.lazy("dap", "step_out"), "DAP step out" },
-  ["<F9>"] = { utils.lazy("FTerm", "toggle"), "Toggle terminal" },
-  ["<F10>"] = { utils.lazy("dapui", "toggle"), "Toggle DAP UI" },
+  ["<F5>"] = {
+    function()
+      require("dap").continue()
+    end,
+    "DAP continue",
+  },
+  ["<F6>"] = {
+    function()
+      require("dap").step_over()
+    end,
+    "DAP step over",
+  },
+  ["<F7>"] = {
+    function()
+      require("dap").sep_into()
+    end,
+    "DAP step into",
+  },
+  ["<F8>"] = {
+    function()
+      require("dap").step_out()
+    end,
+    "DAP step out",
+  },
+  ["<F9>"] = {
+    function()
+      require("FTerm").toggle()
+    end,
+    "Toggle terminal",
+  },
+  ["<F10>"] = {
+    function()
+      require("dapui").toggle()
+    end,
+    "Toggle DAP UI",
+  },
   ["<F11>"] = {
     function()
       require("neotest").output_panel.toggle()
@@ -58,7 +113,13 @@ wk.register({
     "Toggle DAP summary",
   },
   g = {
-    K = { utils.lazy("dap.ui.widgets", "hover"), "DAP hover", mode = { "n", "v" } },
+    K = {
+      function()
+        require("dap.ui.widgets").hover()
+      end,
+      "DAP hover",
+      mode = { "n", "v" },
+    },
     e = { "<cmd>TroubleToggle document_diagnostics<cr>", "Document diagnostics" },
     E = { "<cmd>TroubleToggle workspace_diagnostics<cr>", "Workspace diagnostics" },
   },
@@ -70,11 +131,15 @@ wk.register({
       silent = true,
     },
     q = {
-      utils.lazy("trouble", "previous", { { skip_groups = true, jump = true } }),
+      function()
+        require("trouble").previous({ skip_groups = true, jump = true })
+      end,
       "Previous trouble result",
     },
     Q = {
-      utils.lazy("trouble", "first", { { skip_groups = true, jump = true } }),
+      function()
+        require("trouble").first({ skip_groups = true, jump = true })
+      end,
       "First trouble result",
     },
   },
@@ -85,18 +150,27 @@ wk.register({
       silent = true,
     },
     q = {
-      utils.lazy("trouble", "next", { { skip_groups = true, jump = true } }),
-      "Next trouble result}",
+      function()
+        require("trouble").next({ skip_groups = true, jump = true })
+      end,
+      "Next trouble result",
     },
     Q = {
-      utils.lazy("trouble", "last", { { skip_groups = true, jump = true } }),
+      function()
+        require("trouble").last({ skip_groups = true, jump = true })
+      end,
       "Last trouble result",
     },
   },
   ["<C-w>"] = {
     m = { "<cmd>WinShift<cr>", "WinShift mode" },
     x = { "<cmd>WinShift swap<cr><C-w><C-w>", "Swap splits" },
-    r = { utils.lazy("smart-splits", "start_resize_mode"), "Smart resize" },
+    r = {
+      function()
+        require("smart-splits").start_resize_mode()
+      end,
+      "Smart resize",
+    },
   },
   ["<C-a>"] = {
     function()
