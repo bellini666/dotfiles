@@ -44,7 +44,6 @@ M.lsp_format = function(opts)
     vim.lsp.buf.format({
       filter = function(client)
         local excluded = {
-          copilot = true,
           html = true,
           jsonls = true,
           pyright = true,

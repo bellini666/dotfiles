@@ -40,22 +40,7 @@ cmp.setup({
         cmp.core:reset()
       end
 
-      if
-        not require("cmp").complete({
-          config = {
-            sources = {
-              { name = "copilot" },
-              { name = "nvim_lsp" },
-              { name = "luasnip" },
-            },
-            {
-              { name = "nvim_lua" },
-              { name = "async_path" },
-              { name = "buffer" },
-            },
-          },
-        })
-      then
+      if not require("cmp").complete() then
         fallback()
       end
     end, { "i", "n" }),
@@ -67,9 +52,7 @@ cmp.setup({
         return
       end
 
-      local behavior = selected.source.name == "copilot" and cmp.ConfirmBehavior.Replace
-        or cmp.ConfirmBehavior.Select
-      if not cmp.confirm({ behavior = behavior, select = false }) then
+      if not cmp.confirm({ behavior = cmp.ConfirmBehavior.Select, select = false }) then
         fallback()
       end
     end, { "i", "s" }),
@@ -102,7 +85,6 @@ cmp.setup({
       cmp.config.compare.offset,
       -- cmp.config.compare.scopes,
       cmp.config.compare.exact,
-      require("copilot_cmp.comparators").prioritize,
       cmp.config.compare.score,
       require("cmp-under-comparator").under,
       cmp.config.compare.recently_used,

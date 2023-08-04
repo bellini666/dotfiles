@@ -58,7 +58,5 @@ autoload -U compinit && compinit
 
 [[ ! -f "${HOME}/.local/share/rtx/bin/rtx"  ]] || \
   eval "$(${HOME}/.local/share/rtx/bin/rtx activate -s zsh)"
-[[ ! -f "${HOME}/.local/share/rtx/shims/github-copilot-cli"  ]] || \
-  eval "$(${HOME}/.local/share/rtx/shims/github-copilot-cli alias -- "$0")"
 [[ ! -f "${DOTFILES_DIR}/zsh/p10k.zsh" ]] || \
   source "${DOTFILES_DIR}/zsh/p10k.zsh"
