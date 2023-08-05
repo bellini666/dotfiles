@@ -110,6 +110,16 @@ return {
         dependencies = {
           "nvim-treesitter/nvim-treesitter",
         },
+        config = function()
+          require("lspkind").init({
+            symbol_map = {
+              Copilot = "",
+              Codeium = "",
+            },
+          })
+          vim.api.nvim_set_hl(0, "CmpItemKindCopilot", { fg = "#69ae6a" })
+          vim.api.nvim_set_hl(0, "CmpItemKindCodeium", { fg = "#69ae6a" })
+        end,
       },
     },
     event = "InsertEnter",
@@ -130,6 +140,20 @@ return {
       },
     },
     cmd = { "ChatGPT", "ChatGPTActAs", "ChatGPTEditWithInstructions" },
+  },
+  {
+    "jcdickinson/codeium.nvim",
+    dependencies = {
+      {
+        "jcdickinson/http.nvim",
+        build = "cargo build --workspace --release",
+      },
+      "nvim-lua/plenary.nvim",
+      "hrsh7th/nvim-cmp",
+    },
+    config = function()
+      require("codeium").setup({})
+    end,
   },
 
   -- Testing

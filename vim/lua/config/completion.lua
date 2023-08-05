@@ -13,6 +13,7 @@ local default_format = require("lspkind").cmp_format({ with_text = false })
 
 cmp.setup({
   sources = cmp.config.sources({
+    { name = "codeium" },
     { name = "nvim_lsp" },
     { name = "luasnip" },
   }, {
