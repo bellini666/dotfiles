@@ -168,8 +168,8 @@ function _fonts {
     "${FONTS_DIR}/Fira Code Regular Nerd Font Complete.ttf" \
     https://github.com/ryanoasis/nerd-fonts/blob/master/patched-fonts/FiraCode/Regular/FiraCodeNerdFont-Regular.ttf?raw=true
 
-  if [ "$(gsettings get org.gnome.desktop.interface monospace-font-name)" != "'Hack Nerd Font 10'" ]; then
-    gsettings set org.gnome.desktop.interface monospace-font-name 'Hack Nerd Font 10'
+  if [ "$(gsettings get org.gnome.desktop.interface monospace-font-name)" != "'Hack Nerd Font 11'" ]; then
+    gsettings set org.gnome.desktop.interface monospace-font-name 'Hack Nerd Font 11'
   fi
 }
 
