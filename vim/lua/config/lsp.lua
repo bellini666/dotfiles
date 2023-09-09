@@ -1,22 +1,23 @@
 local nvim_lsp = require("lspconfig")
 local utils = require("utils")
 
-local capabilities = require("cmp_nvim_lsp").default_capabilities()
 local augroup_formatting = vim.api.nvim_create_augroup("LspFormatting", {})
 local augroup_codelens = vim.api.nvim_create_augroup("LspCodelens", {})
 
 local excluded_paths = {
-  "lib/python%d.%d+/site%-packages/",
+  "lib/python%d.%d+/site-packages/",
 }
 
--- Workaround stutter issues until https://github.com/neovim/neovim/issues/23291 is fixed
-if capabilities.workspace == nil then
-  capabilities.workspace = {}
+local lsp_capabilities = function()
+  local capabilities = vim.lsp.protocol.make_client_capabilities()
+  capabilities = vim.tbl_deep_extend(
+    "force",
+    capabilities,
+    require("cmp_nvim_lsp").default_capabilities(capabilities)
+  )
+  capabilities.workspace.didChangeWatchedFiles.dynamicRegistration = false
+  return capabilities
 end
-if capabilities.workspace.didChangeWatchedFiles == nil then
-  capabilities.workspace.didChangeWatchedFiles = {}
-end
-capabilities.workspace.didChangeWatchedFiles.dynamicRegistration = false
 
 local signs = { Error = "", Warn = "", Hint = "", Info = "" }
 for type, icon in pairs(signs) do
@@ -143,7 +144,7 @@ local handlers = {
 
 -- https://github.com/microsoft/pyright
 nvim_lsp.pyright.setup({
-  capabilities = capabilities,
+  capabilities = lsp_capabilities(),
   handlers = handlers,
   on_attach = on_attach,
   before_init = function(_, config)
@@ -169,14 +170,14 @@ nvim_lsp.pyright.setup({
 
 -- https://github.com/theia-ide/typescript-language-server
 nvim_lsp.tsserver.setup({
-  capabilities = capabilities,
+  capabilities = lsp_capabilities(),
   handlers = handlers,
   on_attach = on_attach,
 })
 
 -- https://github.com/graphql/graphiql/tree/main/packages/graphql-language-service-cli
 nvim_lsp.graphql.setup({
-  capabilities = capabilities,
+  capabilities = lsp_capabilities(),
   handlers = handlers,
   on_attach = on_attach,
 })
@@ -184,49 +185,49 @@ nvim_lsp.graphql.setup({
 -- https://github.com/hrsh7th/vscode-langservers-extracted
 nvim_lsp.eslint.setup({
   handlers = handlers,
-  capabilities = capabilities,
+  capabilities = lsp_capabilities(),
   on_attach = on_attach,
 })
 
 -- https://github.com/iamcco/vim-language-server
 nvim_lsp.vimls.setup({
   handlers = handlers,
-  capabilities = capabilities,
+  capabilities = lsp_capabilities(),
   on_attach = on_attach,
 })
 
 -- https://github.com/hrsh7th/vscode-langservers-extracted
 nvim_lsp.cssls.setup({
   handlers = handlers,
-  capabilities = capabilities,
+  capabilities = lsp_capabilities(),
   on_attach = on_attach,
 })
 
 -- https://github.com/hrsh7th/vscode-langservers-extracted
 nvim_lsp.html.setup({
   handlers = handlers,
-  capabilities = capabilities,
+  capabilities = lsp_capabilities(),
   on_attach = on_attach,
 })
 
 -- https://github.com/bash-lsp/bash-language-server
 nvim_lsp.bashls.setup({
   handlers = handlers,
-  capabilities = capabilities,
+  capabilities = lsp_capabilities(),
   on_attach = on_attach,
 })
 
 -- https://github.com/rcjsuen/dockerfile-language-server-nodejs
 nvim_lsp.dockerls.setup({
   handlers = handlers,
-  capabilities = capabilities,
+  capabilities = lsp_capabilities(),
   on_attach = on_attach,
 })
 
 -- https://github.com/redhat-developer/yaml-language-server
 nvim_lsp.yamlls.setup({
   handlers = handlers,
-  capabilities = capabilities,
+  capabilities = lsp_capabilities(),
   on_attach = on_attach,
   settings = {
     yaml = {
@@ -248,7 +249,7 @@ nvim_lsp.yamlls.setup({
 -- https://github.com/hrsh7th/vscode-langservers-extracted
 nvim_lsp.jsonls.setup({
   handlers = handlers,
-  capabilities = capabilities,
+  capabilities = lsp_capabilities(),
   on_attach = on_attach,
   init_options = {
     provideFormatter = false,
@@ -264,20 +265,20 @@ nvim_lsp.jsonls.setup({
 -- https://github.com/hangyav/textLSP
 nvim_lsp.textlsp.setup({
   handlers = handlers,
-  capabilities = capabilities,
+  capabilities = lsp_capabilities(),
   on_attach = on_attach,
 })
 
 -- https://taplo.tamasfe.dev/cli/usage/language-server.html
 nvim_lsp.taplo.setup({
   handlers = handlers,
-  capabilities = capabilities,
+  capabilities = lsp_capabilities(),
   on_attach = on_attach,
 })
 
 -- https://github.com/LuaLS/lua-language-server
 nvim_lsp.lua_ls.setup({
-  capabilities = capabilities,
+  capabilities = lsp_capabilities(),
   on_attach = on_attach,
   handlers = handlers,
   settings = {
@@ -309,7 +310,7 @@ local diagnostics = null_ls.builtins.diagnostics
 local code_actions = null_ls.builtins.code_actions
 null_ls.setup({
   handlers = handlers,
-  capabilities = capabilities,
+  capabilities = lsp_capabilities(),
   on_attach = on_attach,
   sources = {
     -- gitrebase code_actions,

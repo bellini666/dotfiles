@@ -215,6 +215,7 @@ return {
       "neovim/nvim-lspconfig",
       "nvim-tree/nvim-web-devicons",
     },
+    event = "BufReadPost",
     opts = {
       menu = {
         keymaps = {
