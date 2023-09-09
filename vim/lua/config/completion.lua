@@ -53,7 +53,9 @@ cmp.setup({
         return
       end
 
-      if not cmp.confirm({ behavior = cmp.ConfirmBehavior.Select, select = false }) then
+      local is_ai = selected.source.name == "codeium" or selected.source.name == "copilot"
+      local behavior = is_ai and cmp.ConfirmBehavior.Replace or cmp.ConfirmBehavior.Select
+      if not cmp.confirm({ behavior = behavior, select = false }) then
         fallback()
       end
     end, { "i", "s" }),
