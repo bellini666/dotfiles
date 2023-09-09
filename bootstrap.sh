@@ -62,16 +62,17 @@ PYTHON_LIBS=(
   djlint
   docker-compose
   flake8
+  ipdb
   ipython
   isort
   mypy
+  pdm
   pipx
   poetry
   pre-commit
   ruff
   ruff-lsp
   textLSP
-  ipdb
   tox
   yamlfix
   yamllint
@@ -223,7 +224,7 @@ function _python-libs {
   pipx upgrade-all -f --include-injected
 
   info "installing debugpy latest version"
-  if [ ! -f "${HOME}/.debugpy/bin/poetry" ]; then
+  if [ ! -f "${HOME}/.debugpy/bin/python3" ]; then
     python3 -m venv "${HOME}/.debugpy"
   fi
   "${HOME}/.debugpy/bin/pip" install -U pip

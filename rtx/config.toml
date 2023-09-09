@@ -14,6 +14,7 @@ RIPGREP_CONFIG_PATH = '/home/bellini/.dotfiles/rg/ripgreprc'
 # tools
 actionlint = 'latest'
 argocd = 'latest'
+awscli = 'latest'
 bat = 'latest'
 doctl = 'latest'
 duf = 'latest'
@@ -30,18 +31,22 @@ lazygit = 'latest'
 lua-language-server = 'latest'
 minikube = 'latest'
 mykubeseal = 'latest'
+pdm = 'latest'
+pnpm = 'latest'
 pre-commit = 'latest'
 ripgrep = 'latest'
-rust = 'latest'
 shellcheck = 'latest'
 shfmt = 'latest'
 stylua = 'latest'
+yamlfmt = 'latest'
 yarn = 'latest'
 # langs
+bun = ['latest']
 deno = 'latest'
-golang = 'latest'
+go = 'latest'
 node = 'latest'
 python = ['3.8', '3.9', '3.10', '3.11', '3.12.0rc2']
+rust = 'latest'
 
 [plugins]
 mykubeseal = 'https://github.com/bellini666/asdf-kubeseal.git'
