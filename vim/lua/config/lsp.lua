@@ -577,8 +577,6 @@ null_ls.setup({
     diagnostics.markdownlint.with({
       diagnostics_format = diagnostics_format,
     }),
-    -- sql
-    formatting.sqlformat,
     -- toml
     formatting.taplo,
   },

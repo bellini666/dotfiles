@@ -10,13 +10,29 @@ if [ -f "${HOME}/.secret_env.sh" ]; then
   source "${HOME}/.secret_env.sh"
 fi
 
+UNAME_OUTPUT="$(uname -s)"
+case "${UNAME_OUTPUT}" in
+Linux*) MACHINE_OS=Linux ;;
+Darwin*) MACHINE_OS=MacOS ;;
+*)
+  echo "Unknown OS: ${UNAME_OUTPUT}"
+  exit 1
+  ;;
+esac
+
 BIN_DIR="${HOME}/bin"
 LOCAL_DIR="${HOME}/.local"
 LOCAL_BIN_DIR="${LOCAL_DIR}/bin"
-LOCAL_BUILD_DIR="${HOME}/.local_build"
-FONTS_DIR="${HOME}/.local/share/fonts"
-NVIM_CONFIG="${HOME}/.config/nvim"
-RTX_CONFIG="${HOME}/.config/rtx/"
+if [ ${MACHINE_OS} = "MacOS" ]; then
+  FONTS_DIR="${HOME}/Library/Fonts"
+elif [ ${MACHINE_OS} = "Linux" ]; then
+  FONTS_DIR="${HOME}/.local/share/fonts"
+else
+  echo "Unknown OS: ${UNAME_OUTPUT}"
+  exit 1
+fi
+NVIM_CONFIG_DIR="${HOME}/.config/nvim"
+RTX_CONFIG_DIR="${HOME}/.config/rtx"
 APT_PACKAGES=(
   btop
   build-essential
@@ -40,12 +56,12 @@ APT_PACKAGES=(
   libxml2-dev
   libxmlsec1-dev
   ncdu
+  neovim
   ninja-build
   pipx
   python3-dev
   python3-pip
   python3-pynvim
-  sqlformat
   tk-dev
   universal-ctags
   wamerican
@@ -55,6 +71,32 @@ APT_PACKAGES=(
   zlib1g-dev
   zsh
   zsh-antigen
+)
+BREW_PACKAGES=(
+  antigen
+  btop
+  cpanminus
+  curl
+  docker
+  docker-buildx
+  git
+  htop
+  jq
+  libffi
+  libtool
+  neovim
+  ninja
+  openssl
+  pipx
+  readline
+  rtx
+  sqlite
+  universal-ctags
+  watchman
+  xmlsectool
+  xz
+  zlib
+  zsh
 )
 PYTHON_LIBS=(
   black
@@ -96,35 +138,57 @@ SYMLINKS=(
 [ -d "${BASE_DIR}" ] || exit 1
 mkdir -p "${BIN_DIR}"
 mkdir -p "${LOCAL_BIN_DIR}"
-mkdir -p "${LOCAL_BUILD_DIR}"
 mkdir -p "${FONTS_DIR}"
-mkdir -p "${RTX_CONFIG}"
+mkdir -p "${RTX_CONFIG_DIR}"
 
 function _system {
   info "updating the system"
-  (
-    EXTRA_OPTS="-t unstable"
-    sudo apt update --list-cleanup
-    sudo apt dist-upgrade --purge
-    # shellcheck disable=2086
-    sudo apt dist-upgrade --purge ${EXTRA_OPTS}
-    # shellcheck disable=2086
-    sudo apt build-dep python3 ${EXTRA_OPTS}
-    # shellcheck disable=2086
-    sudo apt install --purge "${APT_PACKAGES[@]}" ${EXTRA_OPTS}
-    sudo flatpak update
-    sudo flatpak uninstall --unused
-    sudo apt autoremove --purge
-    sudo apt clean
-  ) || true
+  if [ ${MACHINE_OS} = "MacOS" ]; then
+    if ! which brew >/dev/null 2>&1; then
+      echo "brew not found"
+      exit 1
+    fi
+
+    brew install "${BREW_PACKAGES[@]}"
+    brew update
+    brew upgrade
+    brew autoremove
+    brew cleanup
+  elif [ ${MACHINE_OS} = "Linux" ]; then
+    (
+      EXTRA_OPTS="-t unstable"
+      sudo apt update --list-cleanup
+      sudo apt dist-upgrade --purge
+      # shellcheck disable=2086
+      sudo apt dist-upgrade --purge ${EXTRA_OPTS}
+      # shellcheck disable=2086
+      sudo apt build-dep python3 ${EXTRA_OPTS}
+      # shellcheck disable=2086
+      sudo apt install --purge "${APT_PACKAGES[@]}" ${EXTRA_OPTS}
+      sudo flatpak update
+      sudo flatpak uninstall --unused
+      sudo apt autoremove --purge
+      sudo apt clean
+    ) || true
+  else
+    echo "Unknown OS: ${UNAME_OUTPUT}"
+    exit 1
+  fi
 }
 
 function _patches {
   info "patching files"
-  if ! grep "force-dark-mode" /usr/share/applications/google-chrome.desktop; then
-    sudo sed -i \
-      's;/usr/bin/google-chrome-stable;/usr/bin/google-chrome-stable --force-dark-mode;g' \
-      /usr/share/applications/google-chrome.desktop
+  if [ ${MACHINE_OS} = "MacOS" ]; then
+    :
+  elif [ ${MACHINE_OS} = "Linux" ]; then
+    if ! grep "force-dark-mode" /usr/share/applications/google-chrome.desktop; then
+      sudo sed -i \
+        's;/usr/bin/google-chrome-stable;/usr/bin/google-chrome-stable --force-dark-mode;g' \
+        /usr/share/applications/google-chrome.desktop
+    fi
+  else
+    echo "Unknown OS: ${UNAME_OUTPUT}"
+    exit 1
   fi
 }
 
@@ -169,8 +233,10 @@ function _fonts {
     "${FONTS_DIR}/Fira Code Regular Nerd Font Complete.ttf" \
     https://github.com/ryanoasis/nerd-fonts/blob/master/patched-fonts/FiraCode/Regular/FiraCodeNerdFont-Regular.ttf?raw=true
 
-  if [ "$(gsettings get org.gnome.desktop.interface monospace-font-name)" != "'Hack Nerd Font 11'" ]; then
-    gsettings set org.gnome.desktop.interface monospace-font-name 'Hack Nerd Font 11'
+  if [ ${MACHINE_OS} = "Linux" ]; then
+    if [ "$(gsettings get org.gnome.desktop.interface monospace-font-name)" != "'Hack Nerd Font 11'" ]; then
+      gsettings set org.gnome.desktop.interface monospace-font-name 'Hack Nerd Font 11'
+    fi
   fi
 }
 
@@ -189,14 +255,22 @@ function _zsh {
 
 function _neovim {
   info "installing neovim"
-  download_executable \
-    "${BIN_DIR}/nvim" \
-    https://github.com/neovim/neovim/releases/download/nightly/nvim.appimage
+
+  if [ ${MACHINE_OS} = "MacOS" ]; then
+    : # already installed by brew
+  elif [ ${MACHINE_OS} = "Linux" ]; then
+    download_executable \
+      "${BIN_DIR}/nvim" \
+      https://github.com/neovim/neovim/releases/download/nightly/nvim.appimage
+  else
+    echo "Unknown OS: ${UNAME_OUTPUT}"
+    exit 1
+  fi
 
   info "installing vim-spell"
-  if [ ! -f "${NVIM_CONFIG}/spell/.done" ]; then
+  if [ ! -f "${NVIM_CONFIG_DIR}/spell/.done" ]; then
     (
-      cd "${NVIM_CONFIG}/spell"
+      cd "${NVIM_CONFIG_DIR}/spell"
       wget -N -nv ftp://ftp.vim.org/pub/vim/runtime/spell/en.* --timeout=5 || exit 1
       wget -N -nv ftp://ftp.vim.org/pub/vim/runtime/spell/pt.* --timeout=5 || exit 1
       touch .done
