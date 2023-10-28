@@ -8,3 +8,4 @@
 --glob=!*/.git/*
 --glob=!*/.yarn/*
 --glob=!*/.venv/*
+--glob=!*/node_modules/*
