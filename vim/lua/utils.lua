@@ -48,6 +48,8 @@ M.lsp_format = function(opts)
           jsonls = true,
           pyright = true,
           sumneko_lua = true,
+          lua_ls = true,
+          taplo = true,
           tsserver = true,
         }
         return not excluded[client.name]
