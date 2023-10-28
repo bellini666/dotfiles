@@ -412,6 +412,14 @@ null_ls.setup({
           end
         end
 
+        local pyproject = utils.find_file("pyproject.toml")
+        if pyproject then
+          local file = assert(io.open(pyproject, "r"))
+          local content = file:read("*all")
+          if string.find(content, "tool.ruff.format") then
+            return false
+          end
+        end
         return true
       end),
     }),
@@ -471,6 +479,30 @@ null_ls.setup({
         return false
       end),
       extra_args = { "--unfixable", "T20,ERA001,F841" },
+    }),
+    formatting.ruff_format.with({
+      prefer_local = ".venv/bin",
+      cwd = nhelpers.cache.by_bufnr(function(params)
+        return require("null-ls.utils").root_pattern(
+          "pyproject.toml",
+          "setup.py",
+          "setup.cfg",
+          "requirements.txt",
+          "Pipfile",
+          "pyrightconfig.json"
+        )(params.bufname)
+      end),
+      runtime_condition = nhelpers.cache.by_bufnr(function()
+        local pyproject = utils.find_file("pyproject.toml")
+        if pyproject then
+          local file = assert(io.open(pyproject, "r"))
+          local content = file:read("*all")
+          if string.find(content, "tool.ruff.format") then
+            return true
+          end
+        end
+        return false
+      end),
     }),
     -- djlint
     formatting.djlint.with({
