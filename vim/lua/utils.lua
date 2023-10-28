@@ -229,4 +229,24 @@ M.find_cmd = function(cmd, prefixes, start_from, stop_at)
   return found or cmd
 end
 
+M.find_python = function()
+  local p
+  if vim.env.VIRTUAL_ENV then
+    p = require("null-ls.utils").path.join(vim.env.VIRTUAL_ENV, "bin", "python3")
+  else
+    local env_info = nil
+    if M.find_file("poetry.lock") then
+      env_info =
+        vim.fn.system({ "poetry", "env", "info", "--path", "-C", vim.api.nvim_buf_get_name(0) })
+    end
+
+    if env_info ~= nil and string.find(env_info, "could not find") == nil then
+      p = require("null-ls.utils").path.join(p, "bin", "python3")
+    else
+      p = M.find_cmd("python3", ".venv/bin")
+    end
+  end
+  return p
+end
+
 return M
