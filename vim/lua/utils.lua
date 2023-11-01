@@ -241,7 +241,7 @@ M.find_python = function()
     end
 
     if env_info ~= nil and string.find(env_info, "could not find") == nil then
-      p = require("null-ls.utils").path.join(p, "bin", "python3")
+      p = require("null-ls.utils").path.join(env_info:gsub("\n", ""), "bin", "python3")
     else
       p = M.find_cmd("python3", ".venv/bin")
     end
