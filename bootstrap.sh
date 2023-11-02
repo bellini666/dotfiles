@@ -34,12 +34,16 @@ fi
 NVIM_CONFIG_DIR="${HOME}/.config/nvim"
 RTX_CONFIG_DIR="${HOME}/.config/rtx"
 APT_PACKAGES=(
+  bat
   btop
   build-essential
   cpanminus
   curl
+  docker-compose
+  exa
   fonts-open-sans
   fonts-wine
+  fzf
   git
   htop
   jq
@@ -74,17 +78,21 @@ APT_PACKAGES=(
 )
 BREW_PACKAGES=(
   antigen
+  bat
   btop
   cpanminus
   curl
   docker
   docker-buildx
+  docker-compose
+  exa
+  fzf
   git
   htop
   jq
   libffi
   libtool
-  neovim
+  md5sha1sum
   ninja
   openssl
   pipx
@@ -93,6 +101,7 @@ BREW_PACKAGES=(
   sqlite
   universal-ctags
   watchman
+  wget
   xmlsectool
   xz
   zlib
@@ -102,7 +111,6 @@ PYTHON_LIBS=(
   black
   codespell
   djlint
-  docker-compose
   flake8
   ipdb
   ipython
@@ -114,7 +122,6 @@ PYTHON_LIBS=(
   pre-commit
   ruff
   ruff-lsp
-  textLSP
   tox
   yamlfix
   yamllint
@@ -257,7 +264,7 @@ function _neovim {
   info "installing neovim"
 
   if [ ${MACHINE_OS} = "MacOS" ]; then
-    : # already installed by brew
+    brew install --HEAD neovim
   elif [ ${MACHINE_OS} = "Linux" ]; then
     download_executable \
       "${BIN_DIR}/nvim" \

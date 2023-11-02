@@ -256,13 +256,6 @@ nvim_lsp.jsonls.setup({
   },
 })
 
--- https://github.com/hangyav/textLSP
-nvim_lsp.textlsp.setup({
-  handlers = handlers,
-  capabilities = lsp_capabilities(),
-  on_attach = on_attach,
-})
-
 -- https://taplo.tamasfe.dev/cli/usage/language-server.html
 nvim_lsp.taplo.setup({
   handlers = handlers,

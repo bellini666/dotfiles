@@ -4,6 +4,10 @@ if [ "${_DEFAULTS_SOURCED}" = "1" ]; then
   return
 fi
 
+if [ -d "/opt/homebrew/bin" ]; then
+  export PATH=/opt/homebrew/bin:${PATH}
+fi
+
 export RTX_USE_TOML=1
 export DOTFILES_DIR="${HOME}/.dotfiles"
 if [ -f "${HOME}/.secret_env.sh" ]; then

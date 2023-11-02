@@ -1,8 +1,17 @@
-source /usr/share/zsh-antigen/antigen.zsh
+if [ -f "/opt/homebrew/share/antigen/antigen.zsh" ]; then
+  source /opt/homebrew/share/antigen/antigen.zsh
+fi
+
+if [ -f "/usr/share/zsh-antigen/antigen.zsh" ]; then
+  source /usr/share/zsh-antigen/antigen.zsh
+fi
 
 if [ -f "$HOME/.dotfiles/core.sh" ]; then
   source "$HOME/.dotfiles/core.sh"
 fi
+
+[[ ! -f "${HOME}/.local/share/rtx/bin/rtx"  ]] || \
+  eval "$(${HOME}/.local/share/rtx/bin/rtx activate -s zsh)"
 
 # oh-my-zsh config
 CASE_SENSITIVE="true"
@@ -59,7 +68,5 @@ alias lg="lazygit"
 
 autoload -U compinit && compinit
 
-[[ ! -f "${HOME}/.local/share/rtx/bin/rtx"  ]] || \
-  eval "$(${HOME}/.local/share/rtx/bin/rtx activate -s zsh)"
 [[ ! -f "${DOTFILES_DIR}/zsh/p10k.zsh" ]] || \
   source "${DOTFILES_DIR}/zsh/p10k.zsh"
