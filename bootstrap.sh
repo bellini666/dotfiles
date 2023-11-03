@@ -265,6 +265,7 @@ function _neovim {
 
   if [ ${MACHINE_OS} = "MacOS" ]; then
     brew install --HEAD neovim
+    brew upgrade neovim --fetch-HEAD
   elif [ ${MACHINE_OS} = "Linux" ]; then
     download_executable \
       "${BIN_DIR}/nvim" \
