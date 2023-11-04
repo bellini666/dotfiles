@@ -87,6 +87,7 @@ local handlers = {
       local fname
       local old = vim.fn.expand("<cword>")
       local new = "<unknown>"
+      ---@diagnostic disable-next-line: undefined-field
       local root = vim.uv.cwd()
       for _, c in pairs(result.documentChanges) do
         new = c.edits[1].newText
@@ -532,6 +533,7 @@ null_ls.setup({
     }),
     formatting.shfmt.with({
       extra_args = function(params)
+        ---@diagnostic disable-next-line: undefined-field
         return { "-i", tostring(vim.opt_local.shiftwidth:get()) }
       end,
     }),

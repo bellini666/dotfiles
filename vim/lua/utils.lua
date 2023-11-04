@@ -14,6 +14,7 @@ M.find_files = function(opts)
   if opts == nil then
     opts = {}
   end
+  ---@diagnostic disable-next-line: param-type-mismatch,undefined-field
   opts.cwd = opts.cwd and vim.fn.expand(opts.cwd) or vim.uv.cwd()
 
   local cmd

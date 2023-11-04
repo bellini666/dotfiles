@@ -52,6 +52,7 @@ wk.register({
   },
   ["<F1>"] = {
     function()
+      ---@diagnostic disable-next-line: different-requires
       require("dap").toggle_breakpoint()
     end,
     "Toggle breakpoint",
@@ -66,41 +67,39 @@ wk.register({
   ["<F4>"] = { "<cmd>Neotree reveal toggle<cr>", "Toggle Neotree" },
   ["<F5>"] = {
     function()
+      ---@diagnostic disable-next-line: different-requires
       require("dap").continue()
     end,
     "DAP continue",
   },
   ["<F6>"] = {
     function()
+      ---@diagnostic disable-next-line: different-requires
       require("dap").step_over()
     end,
     "DAP step over",
   },
   ["<F7>"] = {
     function()
+      ---@diagnostic disable-next-line: different-requires
       require("dap").sep_into()
     end,
     "DAP step into",
   },
   ["<F8>"] = {
     function()
+      ---@diagnostic disable-next-line: different-requires
       require("dap").step_out()
     end,
     "DAP step out",
   },
   ["<F9>"] = {
     function()
-      require("FTerm").toggle()
-    end,
-    "Toggle terminal",
-  },
-  ["<F10>"] = {
-    function()
       require("dapui").toggle()
     end,
     "Toggle DAP UI",
   },
-  ["<F11>"] = {
+  ["<F10>"] = {
     function()
       require("neotest").output_panel.toggle()
     end,
@@ -222,6 +221,7 @@ wk.register({
   },
   ["<C-_>"] = "Toggle comment",
   ["<C-/>"] = "Toggle comment",
+  ["<A-/>"] = "Toggle comment",
 })
 
 -- FIXME: Those mappings are not working on which-key
@@ -229,6 +229,8 @@ vim.keymap.set("n", "<C-_>", "gcc", { remap = true })
 vim.keymap.set("v", "<C-_>", "gc", { remap = true })
 vim.keymap.set("n", "<C-/>", "gcc", { remap = true })
 vim.keymap.set("v", "<C-/>", "gc", { remap = true })
+vim.keymap.set("n", "<A-/>", "gcc", { remap = true })
+vim.keymap.set("v", "<A-/>", "gc", { remap = true })
 
 vim.api.nvim_create_autocmd("LspAttach", {
   group = vim.api.nvim_create_augroup("UserLspConfig", {}),
