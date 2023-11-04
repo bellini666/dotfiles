@@ -77,3 +77,6 @@ autoload -U compinit && compinit
 
 [[ ! -f "${DOTFILES_DIR}/zsh/p10k.zsh" ]] || \
   source "${DOTFILES_DIR}/zsh/p10k.zsh"
+
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+
