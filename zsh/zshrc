@@ -17,8 +17,17 @@ if [ -f "$HOME/.dotfiles/core.sh" ]; then
   source "$HOME/.dotfiles/core.sh"
 fi
 
-[[ ! -f "${HOME}/.local/share/rtx/bin/rtx"  ]] || \
+if [ -f "${HOME}/.iterm2_shell_integration.zsh" ]; then
+  source "${HOME}/.iterm2_shell_integration.zsh"
+fi
+
+if [ -f "${DOTFILES_DIR}/zsh/p10k.zsh"  ]; then
+  source "${DOTFILES_DIR}/zsh/p10k.zsh"
+fi
+
+if [ -f "${HOME}/.local/share/rtx/bin/rtx"  ]; then
   eval "$(${HOME}/.local/share/rtx/bin/rtx activate -s zsh)"
+fi
 
 # oh-my-zsh config
 CASE_SENSITIVE="true"
@@ -74,9 +83,3 @@ alias vim="nvim"
 alias lg="lazygit"
 
 autoload -U compinit && compinit
-
-[[ ! -f "${DOTFILES_DIR}/zsh/p10k.zsh" ]] || \
-  source "${DOTFILES_DIR}/zsh/p10k.zsh"
-
-test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
-

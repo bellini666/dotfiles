@@ -8,6 +8,10 @@ if [ -d "/opt/homebrew/bin" ]; then
   export PATH=/opt/homebrew/bin:${PATH}
 fi
 
+if [ -d "/opt/homebrew/sbin" ]; then
+  export PATH=/opt/homebrew/sbin:${PATH}
+fi
+
 export RTX_USE_TOML=1
 export DOTFILES_DIR="${HOME}/.dotfiles"
 if [ -f "${HOME}/.secret_env.sh" ]; then
