@@ -88,6 +88,7 @@ BREW_PACKAGES=(
   exa
   fzf
   git
+  gnu-sed
   htop
   jq
   libffi
