@@ -22,6 +22,7 @@ wk.register({
       n = { "<cmd>set number!<cr>:set number?<CR>", "Toggle number" },
       p = { "<cmd>set paste!<cr>:set paste?<CR>", "Toggle paste" },
       s = { "<cmd>set spell!<cr>:set spell?<CR>", "Toggle spell" },
+      d = { utils.toggle_diagnostics, "Toggle spell" },
     },
   },
   ["<C-e>"] = {

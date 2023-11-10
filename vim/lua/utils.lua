@@ -1,6 +1,7 @@
 local M = {}
 
 local format_enabled = true
+local diagnostics_enabled = true
 
 M.trim = function(s)
   return s:gsub("^%s*(.-)%s*$", "%1")
@@ -37,6 +38,15 @@ M.toggle_format = function()
   -- Mimic :set <option>?
   format_enabled = not format_enabled
   print((format_enabled and "  " or "no") .. "format")
+end
+
+M.toggle_diagnostics = function()
+  if diagnostics_enabled then
+    vim.diagnostic.disable()
+  else
+    vim.diagnostic.enable()
+  end
+  diagnostics_enabled = not diagnostics_enabled
 end
 
 M.lsp_format = function(opts)
