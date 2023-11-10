@@ -3,10 +3,9 @@
 set -e
 
 BASE_DIR=$(dirname "${0}")
-# shellcheck source=/home/bellini/.dotfiles/utils.sh
 source "${BASE_DIR}/utils.sh"
 if [ -f "${HOME}/.secret_env.sh" ]; then
-  # shellcheck source=/home/bellini/.secret_env.sh
+  # shellcheck disable=1091
   source "${HOME}/.secret_env.sh"
 fi
 
@@ -240,6 +239,9 @@ function _fonts {
   download_file \
     "${FONTS_DIR}/Fira Code Regular Nerd Font Complete.ttf" \
     https://github.com/ryanoasis/nerd-fonts/blob/master/patched-fonts/FiraCode/Regular/FiraCodeNerdFont-Regular.ttf?raw=true
+  download_file \
+    "${FONTS_DIR}/JetBrains Mono Nerd Font Complete.ttf" \
+    https://github.com/ryanoasis/nerd-fonts/blob/master/patched-fonts/JetBrainsMono/NoLigatures/Regular/JetBrainsMonoNLNerdFont-Regular.ttf?raw=true
 
   if [ ${MACHINE_OS} = "Linux" ]; then
     if [ "$(gsettings get org.gnome.desktop.interface monospace-font-name)" != "'Hack Nerd Font 11'" ]; then
