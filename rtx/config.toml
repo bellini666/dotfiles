@@ -36,7 +36,6 @@ shellcheck = 'latest'
 shfmt = 'latest'
 stylua = 'latest'
 yamlfmt = 'latest'
-yarn = 'latest'
 # langs
 bun = ['latest']
 deno = 'latest'
