@@ -12,10 +12,11 @@ if [ -d "/opt/homebrew/sbin" ]; then
   export PATH=/opt/homebrew/sbin:${PATH}
 fi
 
+export LANG=en_US.UTF-8
 export RTX_USE_TOML=1
 export DOTFILES_DIR="${HOME}/.dotfiles"
 if [ -f "${HOME}/.secret_env.sh" ]; then
-  # shellcheck source=/home/bellini/.secret_env.sh
+  # shellcheck disable=1091
   source "${HOME}/.secret_env.sh"
 fi
 
