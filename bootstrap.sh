@@ -137,6 +137,7 @@ SYMLINKS=(
   "${BASE_DIR}/rtx/config.toml ${HOME}/.config/rtx/config.toml"
   "${BASE_DIR}/rtx/node-packages ${HOME}/.default-nodejs-packages"
   "${BASE_DIR}/rtx/rust-packages ${HOME}/.default-cargo-crates"
+  "${BASE_DIR}/rtx/gcloud-components ${HOME}/.default-cloud-sdk-components"
   "${BASE_DIR}/tmux/tmux.conf ${HOME}/.tmux.conf"
   "${BASE_DIR}/vim ${HOME}/.config/nvim"
   "${BASE_DIR}/zsh/zshrc ${HOME}/.zshrc"
