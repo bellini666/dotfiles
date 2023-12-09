@@ -1,3 +1,5 @@
+require("neodev").setup({})
+
 local nvim_lsp = require("lspconfig")
 local utils = require("utils")
 
@@ -52,12 +54,12 @@ local on_attach = function(client, bufnr)
 end
 
 local _util_open_floating_preview = vim.lsp.util.open_floating_preview
----@diagnostic disable-next-line
-function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
+local function _my_open_floating_preview(contents, syntax, opts, ...)
   opts = opts or {}
   opts.border = opts.border or "rounded"
   return _util_open_floating_preview(contents, syntax, opts, ...)
 end
+vim.lsp.util.open_floating_preview = _my_open_floating_preview
 
 local handlers = {
   ["textDocument/publishDiagnostics"] = vim.lsp.with(function(_, result, ...)
@@ -87,7 +89,6 @@ local handlers = {
       local fname
       local old = vim.fn.expand("<cword>")
       local new = "<unknown>"
-      ---@diagnostic disable-next-line: undefined-field
       local root = vim.uv.cwd()
       for _, c in pairs(result.documentChanges) do
         new = c.edits[1].newText
@@ -271,20 +272,23 @@ nvim_lsp.lua_ls.setup({
   handlers = handlers,
   settings = {
     Lua = {
-      runtime = {
-        version = "LuaJIT",
+      completion = {
+        callSnippet = "Replace",
       },
-      diagnostics = {
-        globals = { "vim" },
-      },
-      workspace = {
-        library = { vim.env.VIMRUNTIME },
-        maxPreload = 10000,
-        preloadFileSize = 1000,
-      },
-      telemetry = {
-        enable = false,
-      },
+      -- runtime = {
+      --   version = "LuaJIT",
+      -- },
+      -- diagnostics = {
+      --   globals = { "vim" },
+      -- },
+      -- workspace = {
+      --   library = { vim.env.VIMRUNTIME },
+      --   maxPreload = 10000,
+      --   preloadFileSize = 1000,
+      -- },
+      -- telemetry = {
+      --   enable = false,
+      -- },
     },
   },
 })
@@ -533,7 +537,6 @@ null_ls.setup({
     }),
     formatting.shfmt.with({
       extra_args = function(params)
-        ---@diagnostic disable-next-line: undefined-field
         return { "-i", tostring(vim.opt_local.shiftwidth:get()) }
       end,
     }),

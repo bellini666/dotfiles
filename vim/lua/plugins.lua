@@ -47,6 +47,10 @@ return {
     "neovim/nvim-lspconfig",
     event = "BufReadPost",
     dependencies = {
+      {
+        "folke/neodev.nvim",
+        opts = {},
+      },
       "nvimtools/none-ls.nvim",
       "b0o/schemastore.nvim",
       "SmiteshP/nvim-navic",

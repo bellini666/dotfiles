@@ -15,8 +15,8 @@ M.find_files = function(opts)
   if opts == nil then
     opts = {}
   end
-  ---@diagnostic disable-next-line: param-type-mismatch,undefined-field
-  opts.cwd = opts.cwd and vim.fn.expand(opts.cwd) or vim.uv.cwd()
+  local cwd = opts.cwd
+  opts.cwd = cwd and vim.fn.expand(cwd) or vim.uv.cwd()
 
   local cmd
   if lsp_util.find_git_ancestor(opts.cwd) then

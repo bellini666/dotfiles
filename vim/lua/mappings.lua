@@ -53,7 +53,6 @@ wk.register({
   },
   ["<F1>"] = {
     function()
-      ---@diagnostic disable-next-line: different-requires
       require("dap").toggle_breakpoint()
     end,
     "Toggle breakpoint",
@@ -68,28 +67,24 @@ wk.register({
   ["<F4>"] = { "<cmd>Neotree reveal toggle<cr>", "Toggle Neotree" },
   ["<F5>"] = {
     function()
-      ---@diagnostic disable-next-line: different-requires
       require("dap").continue()
     end,
     "DAP continue",
   },
   ["<F6>"] = {
     function()
-      ---@diagnostic disable-next-line: different-requires
       require("dap").step_over()
     end,
     "DAP step over",
   },
   ["<F7>"] = {
     function()
-      ---@diagnostic disable-next-line: different-requires
       require("dap").sep_into()
     end,
     "DAP step into",
   },
   ["<F8>"] = {
     function()
-      ---@diagnostic disable-next-line: different-requires
       require("dap").step_out()
     end,
     "DAP step out",
