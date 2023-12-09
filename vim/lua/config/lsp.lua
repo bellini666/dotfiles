@@ -275,20 +275,6 @@ nvim_lsp.lua_ls.setup({
       completion = {
         callSnippet = "Replace",
       },
-      -- runtime = {
-      --   version = "LuaJIT",
-      -- },
-      -- diagnostics = {
-      --   globals = { "vim" },
-      -- },
-      -- workspace = {
-      --   library = { vim.env.VIMRUNTIME },
-      --   maxPreload = 10000,
-      --   preloadFileSize = 1000,
-      -- },
-      -- telemetry = {
-      --   enable = false,
-      -- },
     },
   },
 })
