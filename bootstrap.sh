@@ -81,9 +81,6 @@ BREW_PACKAGES=(
   btop
   cpanminus
   curl
-  docker
-  docker-buildx
-  docker-compose
   exa
   fzf
   git
@@ -95,6 +92,7 @@ BREW_PACKAGES=(
   md5sha1sum
   ninja
   openssl
+  orbstack
   pipx
   readline
   rtx
