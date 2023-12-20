@@ -290,6 +290,9 @@ null_ls.setup({
   handlers = handlers,
   capabilities = lsp_capabilities(),
   on_attach = on_attach,
+  should_attach = function(bufnr)
+    return os.getenv("DISABLE_NULL_LS") ~= "1"
+  end,
   sources = {
     -- gitrebase code_actions,
     code_actions.gitrebase,
