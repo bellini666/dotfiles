@@ -215,7 +215,7 @@ function _rtx {
 
   eval "$("${HOME}/.local/share/rtx/bin/rtx" activate bash)"
   "${HOME}/.local/share/rtx/bin/rtx" self-update || true
-  "${HOME}/.local/share/rtx/bin/rtx" plugins update -y
+  "${HOME}/.local/share/rtx/bin/rtx" plugins update -y || true
   "${HOME}/.local/share/rtx/bin/rtx" install
   "${HOME}/.local/share/rtx/bin/rtx" prune
 
