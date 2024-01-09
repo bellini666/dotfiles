@@ -323,7 +323,7 @@ function _node-libs {
 
 function _mise-reshim {
   info "reshimming mise"
-  "${HOME}/.local/share/mise/bin/mise" reshim
+  "${HOME}/.local/bin/mise" reshim
 }
 
 function _ {
