@@ -31,7 +31,7 @@ else
   exit 1
 fi
 NVIM_CONFIG_DIR="${HOME}/.config/nvim"
-RTX_CONFIG_DIR="${HOME}/.config/rtx"
+MISE_CONFIG_DIR="${HOME}/.config/mise"
 APT_PACKAGES=(
   bat
   btop
@@ -95,7 +95,7 @@ BREW_PACKAGES=(
   orbstack
   pipx
   readline
-  rtx
+  mise
   sqlite
   universal-ctags
   watchman
@@ -132,10 +132,11 @@ SYMLINKS=(
   "${BASE_DIR}/git/gitattributes ${HOME}/.gitattributes"
   "${BASE_DIR}/git/gitconfig ${HOME}/.gitconfig"
   "${BASE_DIR}/git/gitignore ${HOME}/.gitignore"
-  "${BASE_DIR}/rtx/config.toml ${HOME}/.config/rtx/config.toml"
-  "${BASE_DIR}/rtx/node-packages ${HOME}/.default-nodejs-packages"
-  "${BASE_DIR}/rtx/rust-packages ${HOME}/.default-cargo-crates"
-  "${BASE_DIR}/rtx/gcloud-components ${HOME}/.default-cloud-sdk-components"
+  "${BASE_DIR}/mise/config.toml ${HOME}/.config/mise/config.toml"
+  "${BASE_DIR}/mise/settings.toml ${HOME}/.config/mise/settings.toml"
+  "${BASE_DIR}/mise/node-packages ${HOME}/.default-nodejs-packages"
+  "${BASE_DIR}/mise/rust-packages ${HOME}/.default-cargo-crates"
+  "${BASE_DIR}/mise/gcloud-components ${HOME}/.default-cloud-sdk-components"
   "${BASE_DIR}/tmux/tmux.conf ${HOME}/.tmux.conf"
   "${BASE_DIR}/vim ${HOME}/.config/nvim"
   "${BASE_DIR}/zsh/zshrc ${HOME}/.zshrc"
@@ -145,7 +146,7 @@ SYMLINKS=(
 mkdir -p "${BIN_DIR}"
 mkdir -p "${LOCAL_BIN_DIR}"
 mkdir -p "${FONTS_DIR}"
-mkdir -p "${RTX_CONFIG_DIR}"
+mkdir -p "${MISE_CONFIG_DIR}"
 
 function _system {
   info "updating the system"
@@ -206,21 +207,21 @@ function _symlinks {
   done
 }
 
-function _rtx {
-  info "installing rtx"
-  RTX_BINARY="${HOME}/.local/share/rtx/bin/rtx"
-  if [ ! -f "${RTX_BINARY}" ]; then
-    curl https://rtx.pub/install.sh | sh
+function _mise {
+  info "installing mise"
+  MISE_BINARY="${HOME}/.local/bin/mise"
+  if [ ! -f "${MISE_BINARY}" ]; then
+    curl https://mise.jdx.dev/install.sh | sh
   fi
 
-  eval "$("${HOME}/.local/share/rtx/bin/rtx" activate bash)"
-  "${HOME}/.local/share/rtx/bin/rtx" self-update || true
-  "${HOME}/.local/share/rtx/bin/rtx" plugins update -y || true
-  "${HOME}/.local/share/rtx/bin/rtx" install
-  "${HOME}/.local/share/rtx/bin/rtx" prune
+  eval "$("${MISE_BINARY}" activate bash)"
+  "${MISE_BINARY}" self-update || true
+  "${MISE_BINARY}" plugins update -y || true
+  "${MISE_BINARY}" install
+  "${MISE_BINARY}" prune
 
   mkdir -p "${HOME}/.local/share/zsh/site-functions"
-  "${HOME}/.local/share/rtx/bin/rtx" complete -s zsh >"${HOME}/.local/share/zsh/site-functions/_rtx"
+  "${MISE_BINARY}" complete -s zsh >"${HOME}/.local/share/zsh/site-functions/_mise"
 }
 
 function _fonts {
@@ -320,9 +321,9 @@ function _node-libs {
   npm update -g
 }
 
-function _rtx-reshim {
-  info "reshimming rtx"
-  "${HOME}/.local/share/rtx/bin/rtx" reshim
+function _mise-reshim {
+  info "reshimming mise"
+  "${HOME}/.local/share/mise/bin/mise" reshim
 }
 
 function _ {
@@ -334,11 +335,11 @@ function _ {
     _symlinks
     _fonts
     _zsh
-    _rtx
+    _mise
     _python-libs
     _rust-libs
     _node-libs
-    _rtx-reshim
+    _mise-reshim
   )
 }
 

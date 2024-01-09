@@ -30,7 +30,6 @@ kustomize = 'latest'
 lazygit = 'latest'
 lua-language-server = 'latest'
 minikube = 'latest'
-pdm = 'latest'
 pre-commit = 'latest'
 ripgrep = 'latest'
 shellcheck = 'latest'
@@ -45,6 +44,3 @@ go = 'latest'
 node = 'latest'
 python = ['3.12', '3.11', '3.10', '3.9']
 rust = 'latest'
-
-[settings]
-experimental = true

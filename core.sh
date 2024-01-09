@@ -13,7 +13,7 @@ if [ -d "/opt/homebrew/sbin" ]; then
 fi
 
 export LANG=en_US.UTF-8
-export RTX_USE_TOML=1
+export MISE_USE_TOML=1
 export DOTFILES_DIR="${HOME}/.dotfiles"
 if [ -f "${HOME}/.secret_env.sh" ]; then
   # shellcheck disable=1091
