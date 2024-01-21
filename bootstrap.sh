@@ -52,6 +52,7 @@ APT_PACKAGES=(
   liblzma-dev
   libncurses-dev
   libreadline-dev
+  libsox-fmt-mp3
   libsqlite3-dev
   libssl-dev
   libtool-bin
@@ -90,12 +91,13 @@ BREW_PACKAGES=(
   libffi
   libtool
   md5sha1sum
+  mise
   ninja
   openssl
   orbstack
   pipx
   readline
-  mise
+  sox
   sqlite
   universal-ctags
   watchman
