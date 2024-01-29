@@ -79,6 +79,7 @@ APT_PACKAGES=(
 BREW_PACKAGES=(
   antigen
   bat
+  broot
   btop
   cpanminus
   curl

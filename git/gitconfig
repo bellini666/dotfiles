@@ -9,12 +9,25 @@
     editor = nvim
     excludesfile = ~/.gitignore
     attributesfile = ~/.gitattributes
+    pager = delta
+
+[interactive]
+    diffFilter = delta --color-only
+
+[delta]
+    navigate = true
+    light = false
+    true-color = always
 
 [color]
     ui = always
 
 [diff]
     noprefix = true
+    colorMoved = default
+
+[merge]
+    conflictstyle = diff3
 
 [pull]
     ff = only

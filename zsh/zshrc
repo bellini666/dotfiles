@@ -31,6 +31,10 @@ elif [ -f "/opt/homebrew/bin/mise"  ]; then
   eval "/opt/homebrew/bin/mise activate -q zsh"
 fi
 
+if [ -f "$HOME/.config/broot/launcher/bash/br" ]; then
+  source "$HOME/.config/broot/launcher/bash/br"
+fi
+
 # oh-my-zsh config
 CASE_SENSITIVE="true"
 COMPLETION_WAITING_DOTS="true"
