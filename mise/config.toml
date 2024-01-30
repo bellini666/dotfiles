@@ -39,7 +39,6 @@ ripgrep = 'latest'
 shellcheck = 'latest'
 shfmt = 'latest'
 stylua = 'latest'
-terraform = 'latest'
 yamlfmt = 'latest'
 # langs
 bun = ['latest']

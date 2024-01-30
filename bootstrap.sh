@@ -100,6 +100,8 @@ BREW_PACKAGES=(
   readline
   sox
   sqlite
+  terraform
+  terraform-ls
   universal-ctags
   watchman
   wget

@@ -221,6 +221,13 @@ nvim_lsp.dockerls.setup({
   on_attach = on_attach,
 })
 
+-- https://github.com/hashicorp/terraform-ls
+nvim_lsp.terraformls.setup({
+  handlers = handlers,
+  capabilities = lsp_capabilities(),
+  on_attach = on_attach,
+})
+
 -- https://github.com/redhat-developer/yaml-language-server
 nvim_lsp.yamlls.setup({
   handlers = handlers,
