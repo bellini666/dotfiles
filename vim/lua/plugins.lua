@@ -227,34 +227,6 @@ return {
 
   -- UI
   {
-    "Bekaboo/dropbar.nvim",
-    dependencies = {
-      "nvim-treesitter/nvim-treesitter",
-      "neovim/nvim-lspconfig",
-      "nvim-tree/nvim-web-devicons",
-    },
-    event = "BufReadPost",
-    opts = {
-      menu = {
-        keymaps = {
-          ["<Esc>"] = "<C-w>q",
-          ["<Left>"] = "<C-w>c",
-          ["<Right>"] = function()
-            local menu = require("dropbar.api").get_current_dropbar_menu()
-            if not menu then
-              return
-            end
-            local cursor = vim.api.nvim_win_get_cursor(menu.win)
-            local component = menu.entries[cursor[1]]:first_clickable(cursor[2])
-            if component then
-              menu:click_on(component, nil, 1, "l")
-            end
-          end,
-        },
-      },
-    },
-  },
-  {
     "nvim-lualine/lualine.nvim",
     dependencies = {
       "nvim-tree/nvim-web-devicons",

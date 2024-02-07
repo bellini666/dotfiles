@@ -25,12 +25,6 @@ wk.register({
       d = { utils.toggle_diagnostics, "Toggle diagnostics" },
     },
   },
-  ["<C-e>"] = {
-    function()
-      require("dropbar.api").pick()
-    end,
-    "Dropbar",
-  },
   ["<C-p>"] = { utils.find_files, "Find files" },
   ["<C-f>"] = {
     function()
