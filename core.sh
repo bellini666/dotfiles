@@ -4,6 +4,10 @@ if [ "${_DEFAULTS_SOURCED}" = "1" ]; then
   return
 fi
 
+export LANG=en_US.UTF-8
+
+export DOTFILES_DIR="${HOME}/.dotfiles"
+
 if [ -d "/opt/homebrew/bin" ]; then
   export PATH=/opt/homebrew/bin:${PATH}
 fi
@@ -12,13 +16,13 @@ if [ -d "/opt/homebrew/sbin" ]; then
   export PATH=/opt/homebrew/sbin:${PATH}
 fi
 
-export LANG=en_US.UTF-8
-export MISE_USE_TOML=1
-export DOTFILES_DIR="${HOME}/.dotfiles"
 if [ -f "${HOME}/.secret_env.sh" ]; then
   # shellcheck disable=1091
   source "${HOME}/.secret_env.sh"
 fi
+
+export MISE_USE_TOML=1
+export MISE_EXPERIMENTAL=1
 
 function bootstrap() { (
   set -e

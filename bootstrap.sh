@@ -32,6 +32,7 @@ else
 fi
 NVIM_CONFIG_DIR="${HOME}/.config/nvim"
 MISE_CONFIG_DIR="${HOME}/.config/mise"
+
 APT_PACKAGES=(
   bat
   btop
@@ -76,6 +77,7 @@ APT_PACKAGES=(
   zsh
   zsh-antigen
 )
+
 BREW_PACKAGES=(
   antigen
   bat
@@ -110,6 +112,7 @@ BREW_PACKAGES=(
   zlib
   zsh
 )
+
 PYTHON_LIBS=(
   black
   codespell
@@ -122,7 +125,6 @@ PYTHON_LIBS=(
   pdm
   pipx
   poetry
-  pre-commit
   ruff
   ruff-lsp
   tox
@@ -133,12 +135,12 @@ PYTHON_INJECTIONS=(
   "poetry poetry-plugin-up"
   "ipython numpy pandas requests httpx openpyxl xlsxwriter"
 )
+
 SYMLINKS=(
   "${BASE_DIR}/git/gitattributes ${HOME}/.gitattributes"
   "${BASE_DIR}/git/gitconfig ${HOME}/.gitconfig"
   "${BASE_DIR}/git/gitignore ${HOME}/.gitignore"
   "${BASE_DIR}/mise/config.toml ${HOME}/.config/mise/config.toml"
-  "${BASE_DIR}/mise/settings.toml ${HOME}/.config/mise/settings.toml"
   "${BASE_DIR}/mise/node-packages ${HOME}/.default-nodejs-packages"
   "${BASE_DIR}/mise/rust-packages ${HOME}/.default-cargo-crates"
   "${BASE_DIR}/mise/gcloud-components ${HOME}/.default-cloud-sdk-components"
@@ -321,11 +323,6 @@ function _python-libs {
   "${HOME}/.debugpy/bin/pip" install -U git+https://github.com/microsoft/debugpy.git@main
 }
 
-function _node-libs {
-  info "updating/updating node libs"
-  npm update -g
-}
-
 function _mise-reshim {
   info "reshimming mise"
   "${HOME}/.local/bin/mise" reshim
@@ -343,7 +340,6 @@ function _ {
     _mise
     _python-libs
     _rust-libs
-    _node-libs
     _mise-reshim
   )
 }

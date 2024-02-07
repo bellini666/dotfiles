@@ -1,14 +1,17 @@
-env_path = ["~/.local/bin", "~/bin"]
+[settings]
+experimental = true
 
 [env]
+_.path = ["~/.local/bin", "~/bin"]
 EDITOR = 'nvim'
 GIT_SSH = 'ssh'
 PERL_LOCAL_LIB_ROOT = '{{env.HOME}}/.local/perl'
 PIP_REQUIRE_VIRTUALENV = 'true'
 PYTHONBREAKPOINT = 'ipdb.set_trace'
+RIPGREP_CONFIG_PATH = '{{env.HOME}}/.dotfiles/rg/ripgreprc'
+# python build settings
 PYTHON_CFLAGS = '-march=native -mtune=native'
 PYTHON_CONFIGURE_OPTS = '--enable-shared --enable-optimizations --with-lto --enable-loadable-sqlite-extensions'
-RIPGREP_CONFIG_PATH = '{{env.HOME}}/.dotfiles/rg/ripgreprc'
 
 [tools]
 # tools
@@ -40,10 +43,32 @@ shellcheck = 'latest'
 shfmt = 'latest'
 stylua = 'latest'
 yamlfmt = 'latest'
+# npm tools
+"npm:bash-language-server" = "latest"
+"npm:cloc" = "latest"
+"npm:cspell" = "latest"
+"npm:dockerfile-language-server-nodejs" = "latest"
+"npm:eslint" = "latest"
+"npm:eslint_d" = "latest"
+"npm:fixjson" = "latest"
+"npm:graphql" = "latest"
+"npm:graphql-language-service-cli" = "latest"
+"npm:markdownlint-cli" = "latest"
+"npm:opencollective" = "latest"
+"npm:patch-package" = "latest"
+"npm:prettier" = "latest"
+"npm:pyright" = "latest"
+"npm:stylelint" = "latest"
+"npm:tree-sitter-cli" = "latest"
+"npm:ts-server" = "latest"
+"npm:typescript" = "latest"
+"npm:typescript-language-server" = "latest"
+"npm:vscode-langservers-extracted" = "latest"
+"npm:yaml-language-server" = "latest"
 # langs
-bun = ['latest']
+bun = 'latest'
 deno = 'latest'
 go = 'latest'
 node = 'latest'
-python = ['3.12', '3.11', '3.10', '3.9']
+python = ['latest', 'sub-0.1:latest', 'sub-0.2:latest', 'sub-0.3:latest']
 rust = 'latest'
