@@ -7,9 +7,7 @@ fi
 
 if [ -f "/opt/homebrew/share/antigen/antigen.zsh" ]; then
   source /opt/homebrew/share/antigen/antigen.zsh
-fi
-
-if [ -f "/usr/share/zsh-antigen/antigen.zsh" ]; then
+elif [ -f "/usr/share/zsh-antigen/antigen.zsh" ]; then
   source /usr/share/zsh-antigen/antigen.zsh
 fi
 
@@ -17,18 +15,8 @@ if [ -f "$HOME/.dotfiles/core.sh" ]; then
   source "$HOME/.dotfiles/core.sh"
 fi
 
-if [ -f "${HOME}/.iterm2_shell_integration.zsh" ]; then
-  source "${HOME}/.iterm2_shell_integration.zsh"
-fi
-
 if [ -f "${DOTFILES_DIR}/zsh/p10k.zsh"  ]; then
   source "${DOTFILES_DIR}/zsh/p10k.zsh"
-fi
-
-if [ -f "${HOME}/.local/bin/mise"  ]; then
-  eval "$(${HOME}/.local/bin/mise activate -q zsh)"
-elif [ -f "/opt/homebrew/bin/mise"  ]; then
-  eval "/opt/homebrew/bin/mise activate -q zsh"
 fi
 
 if [ -f "$HOME/.config/broot/launcher/bash/br" ]; then
@@ -54,10 +42,13 @@ antigen bundle doctl
 antigen bundle encode64
 antigen bundle extract
 antigen bundle fzf
+antigen bundle gh
 antigen bundle gitfast
 antigen bundle httpie
+antigen bundle iterm2
 antigen bundle kubectl
 antigen bundle kubectx
+antigen bundle mise
 antigen bundle npm
 antigen bundle pip
 antigen bundle poetry
