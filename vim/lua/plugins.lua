@@ -80,13 +80,6 @@ return {
       "nvimtools/none-ls.nvim",
       "b0o/schemastore.nvim",
       "SmiteshP/nvim-navic",
-      {
-        "ray-x/lsp_signature.nvim",
-        opts = {
-          hint_enable = false,
-          toggle_key = "<C-K>",
-        },
-      },
     },
     config = function()
       require("config.lsp")
@@ -234,6 +227,33 @@ return {
 
   -- UI
   {
+    "folke/noice.nvim",
+    event = "VeryLazy",
+    opts = {
+      lsp = {
+        progress = {
+          enabled = false,
+        },
+        override = {
+          ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
+          ["vim.lsp.util.stylize_markdown"] = true,
+          ["cmp.entry.get_documentation"] = true,
+        },
+      },
+      presets = {
+        bottom_search = true,
+        command_palette = true,
+        long_message_to_split = true,
+        inc_rename = false,
+        lsp_doc_border = true,
+      },
+    },
+    dependencies = {
+      "MunifTanjim/nui.nvim",
+      "rcarriga/nvim-notify",
+    },
+  },
+  {
     "nvim-lualine/lualine.nvim",
     dependencies = {
       "nvim-tree/nvim-web-devicons",
@@ -303,6 +323,7 @@ return {
   },
   {
     "rcarriga/nvim-notify",
+    dev = true,
     config = function()
       local notify = require("notify")
       notify.setup({
