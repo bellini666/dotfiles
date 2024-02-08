@@ -392,9 +392,11 @@ return {
             i = {
               ["<Esc>"] = actions.close,
               ["<c-q>"] = require("trouble.providers.telescope").open_with_trouble,
+              ["<c-s>"] = require("trouble.providers.telescope").open_selected_with_trouble,
             },
             n = {
               ["<C-q>"] = require("trouble.providers.telescope").open_with_trouble,
+              ["<C-s>"] = require("trouble.providers.telescope").open_selected_with_trouble,
             },
           },
         },
