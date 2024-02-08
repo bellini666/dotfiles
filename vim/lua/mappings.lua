@@ -113,6 +113,14 @@ wk.register({
   },
   ["<C-q>"] = { "<cmd>TroubleToggle<cr>", "Toggle trouble" },
   ["["] = {
+    b = {
+      function()
+        require("goto-breakpoints").prev()
+      end,
+      "Go to previous breakpoint",
+      silent = true,
+      mode = "n",
+    },
     d = {
       vim.diagnostic.goto_prev,
       "Go to previous diagnostic",
@@ -132,6 +140,22 @@ wk.register({
     },
   },
   ["]"] = {
+    b = {
+      function()
+        require("goto-breakpoints").next()
+      end,
+      "Go to next breakpoint",
+      silent = true,
+      mode = "n",
+    },
+    S = {
+      function()
+        require("goto-breakpoints").stopped()
+      end,
+      "Go to next breakpoint",
+      silent = true,
+      mode = "n",
+    },
     d = {
       vim.diagnostic.goto_next,
       "Go to next diagnostic",

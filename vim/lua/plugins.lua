@@ -183,6 +183,7 @@ return {
       require("config.dap")
     end,
     dependencies = {
+      { "ofirgall/goto-breakpoints.nvim" },
       {
         "mfussenegger/nvim-dap-python",
         config = false,
