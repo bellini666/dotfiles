@@ -92,13 +92,13 @@ wk.register({
     function()
       require("neotest").output_panel.toggle()
     end,
-    "Toggle DAP output",
+    "Toggle neotest output",
   },
   ["<F12>"] = {
     function()
       require("neotest").summary.toggle()
     end,
-    "Toggle DAP summary",
+    "Toggle neotest summary",
   },
   g = {
     K = {
