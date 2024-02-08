@@ -185,6 +185,12 @@ return {
     dependencies = {
       { "ofirgall/goto-breakpoints.nvim" },
       {
+        "theHamsta/nvim-dap-virtual-text",
+        opts = {
+          all_frames = true,
+        },
+      },
+      {
         "mfussenegger/nvim-dap-python",
         config = false,
       },
