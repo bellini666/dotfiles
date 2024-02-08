@@ -441,6 +441,16 @@ vim.api.nvim_create_autocmd("LspAttach", {
           mode = { "n", "v" },
         },
         rn = { vim.lsp.buf.rename, "LSP rename", buffer = ev.buf, silent = true },
+        v = {
+          b = {
+            function()
+              require("gitsigns").blame_line({ full = true })
+            end,
+            "Blame current line",
+            buffer = ev.buf,
+            silent = true,
+          },
+        },
         w = {
           name = "workspace",
           l = {
