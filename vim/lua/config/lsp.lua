@@ -328,24 +328,9 @@ null_ls.setup({
           "pyrightconfig.json"
         )(params.bufname)
       end),
-      runtime_condition = nhelpers.cache.by_bufnr(function()
-        local bufname = vim.api.nvim_buf_get_name(0)
-        for _, path in pairs(excluded_paths) do
-          if bufname:match(path) ~= nil then
-            return false
-          end
-        end
-
-        local pyproject = utils.find_file("pyproject.toml")
-        if pyproject then
-          local file = assert(io.open(pyproject, "r"))
-          local content = file:read("*all")
-          if string.find(content, "tool.ruff") then
-            return false
-          end
-        end
-        return true
-      end),
+      condition = function(utils)
+        return os.getenv("USE_RUFF") == "0"
+      end,
     }),
     formatting.isort.with({
       prefer_local = ".venv/bin",
@@ -361,24 +346,9 @@ null_ls.setup({
         )(params.bufname)
       end),
       extra_args = { "--profile", "black" },
-      runtime_condition = nhelpers.cache.by_bufnr(function()
-        local bufname = vim.api.nvim_buf_get_name(0)
-        for _, path in pairs(excluded_paths) do
-          if bufname:match(path) ~= nil then
-            return false
-          end
-        end
-
-        local pyproject = utils.find_file("pyproject.toml")
-        if pyproject then
-          local file = assert(io.open(pyproject, "r"))
-          local content = file:read("*all")
-          if string.find(content, "tool.ruff.isort") then
-            return false
-          end
-        end
-        return true
-      end),
+      condition = function(utils)
+        return os.getenv("USE_RUFF") == "0"
+      end,
     }),
     formatting.black.with({
       prefer_local = ".venv/bin",
@@ -393,24 +363,9 @@ null_ls.setup({
         )(params.bufname)
       end),
       extra_args = { "--fast" },
-      runtime_condition = nhelpers.cache.by_bufnr(function()
-        local bufname = vim.api.nvim_buf_get_name(0)
-        for _, path in pairs(excluded_paths) do
-          if bufname:match(path) ~= nil then
-            return false
-          end
-        end
-
-        local pyproject = utils.find_file("pyproject.toml")
-        if pyproject then
-          local file = assert(io.open(pyproject, "r"))
-          local content = file:read("*all")
-          if string.find(content, "tool.ruff.format") then
-            return false
-          end
-        end
-        return true
-      end),
+      condition = function(utils)
+        return os.getenv("USE_RUFF") == "0"
+      end,
     }),
     diagnostics.ruff.with({
       diagnostics_format = diagnostics_format,
@@ -425,24 +380,10 @@ null_ls.setup({
           "pyrightconfig.json"
         )(params.bufname)
       end),
-      runtime_condition = nhelpers.cache.by_bufnr(function()
-        local bufname = vim.api.nvim_buf_get_name(0)
-        for _, path in pairs(excluded_paths) do
-          if bufname:match(path) ~= nil then
-            return false
-          end
-        end
-
-        local pyproject = utils.find_file("pyproject.toml")
-        if pyproject then
-          local file = assert(io.open(pyproject, "r"))
-          local content = file:read("*all")
-          if string.find(content, "tool.ruff") then
-            return true
-          end
-        end
-        return false
-      end),
+      condition = function(utils)
+        local use_ruff = os.getenv("USE_RUFF")
+        return use_ruff == nil or use_ruff == "1"
+      end,
     }),
     formatting.ruff.with({
       prefer_local = ".venv/bin",
@@ -456,18 +397,11 @@ null_ls.setup({
           "pyrightconfig.json"
         )(params.bufname)
       end),
-      runtime_condition = nhelpers.cache.by_bufnr(function()
-        local pyproject = utils.find_file("pyproject.toml")
-        if pyproject then
-          local file = assert(io.open(pyproject, "r"))
-          local content = file:read("*all")
-          if string.find(content, "tool.ruff") then
-            return true
-          end
-        end
-        return false
-      end),
       extra_args = { "--unfixable", "T20,ERA001,F841" },
+      condition = function(utils)
+        local use_ruff = os.getenv("USE_RUFF")
+        return use_ruff == nil or use_ruff == "1"
+      end,
     }),
     formatting.ruff_format.with({
       prefer_local = ".venv/bin",
@@ -481,17 +415,10 @@ null_ls.setup({
           "pyrightconfig.json"
         )(params.bufname)
       end),
-      runtime_condition = nhelpers.cache.by_bufnr(function()
-        local pyproject = utils.find_file("pyproject.toml")
-        if pyproject then
-          local file = assert(io.open(pyproject, "r"))
-          local content = file:read("*all")
-          if string.find(content, "tool.ruff.format") then
-            return true
-          end
-        end
-        return false
-      end),
+      condition = function(utils)
+        local use_ruff = os.getenv("USE_RUFF")
+        return use_ruff == nil or use_ruff == "1"
+      end,
     }),
     -- djlint
     formatting.djlint.with({
