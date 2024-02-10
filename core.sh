@@ -16,6 +16,14 @@ if [ -d "/opt/homebrew/sbin" ]; then
   export PATH=/opt/homebrew/sbin:${PATH}
 fi
 
+if [ -d "${HOME}/.local/bin" ]; then
+  export PATH=${HOME}/.local/bin:${PATH}
+fi
+
+if [ -d "${HOME}/.bin" ]; then
+  export PATH=${HOME}/.bin:${PATH}
+fi
+
 if [ -f "${HOME}/.secret_env.sh" ]; then
   # shellcheck disable=1091
   source "${HOME}/.secret_env.sh"
