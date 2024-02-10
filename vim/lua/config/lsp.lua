@@ -108,40 +108,6 @@ local handlers = {
 
     return ret
   end,
-  ["textDocument/definition"] = utils.lsp_locs_handler("LSP Definitions", "definitions"),
-  ["textDocument/references"] = utils.lsp_locs_handler(
-    "LSP References",
-    "references",
-    { jump_type = "never" }
-  ),
-  ["textDocument/typeDefinition"] = utils.lsp_locs_handler(
-    "LSP Type Definitions",
-    "typeDefinitions"
-  ),
-  ["textDocument/implementation"] = utils.lsp_locs_handler(
-    "LSP Implementations",
-    "implementations"
-  ),
-  ["workspace/symbol"] = utils.lsp_symbols_handler(
-    "LSP Workspace Symbols",
-    "symbols",
-    { ignore_filename = false }
-  ),
-  ["textDocument/documentSymbol"] = utils.lsp_symbols_handler(
-    "LSP Document Symbols",
-    "document symbols",
-    { ignore_filename = true }
-  ),
-  ["callHierarchy/incomingCalls"] = utils.lsp_calls_handler(
-    "from",
-    "LSP Incoming Calls",
-    "incoming calls"
-  ),
-  ["callHierarchy/outgoingCalls"] = utils.lsp_calls_handler(
-    "to",
-    "LSP Outgoing Calls",
-    "outgoing calls"
-  ),
 }
 
 -- https://github.com/microsoft/pyright

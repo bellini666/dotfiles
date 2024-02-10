@@ -24,6 +24,15 @@ wk.register({
       s = { "<cmd>set spell!<cr>:set spell?<CR>", "Toggle spell" },
       d = { utils.toggle_diagnostics, "Toggle diagnostics" },
     },
+    v = {
+      b = {
+        function()
+          require("gitsigns").blame_line({ full = true })
+        end,
+        "Blame current line",
+        silent = true,
+      },
+    },
   },
   ["<C-p>"] = { utils.find_files, "Find files" },
   ["<C-f>"] = {
@@ -407,32 +416,85 @@ vim.api.nvim_create_autocmd("LspAttach", {
         buffer = ev.buf,
         silent = true,
       },
-      ["<C-LeftMouse>"] = { vim.lsp.buf.definition, "LSP hover", buffer = ev.buf, silent = true },
+      ["<C-LeftMouse>"] = {
+        function()
+          require("telescope.builtin").lsp_definitions()
+        end,
+        "LSP hover",
+        buffer = ev.buf,
+        silent = true,
+      },
       g = {
-        d = { vim.lsp.buf.definition, "LSP go to definition", buffer = ev.buf, silent = true },
+        d = {
+          function()
+            require("telescope.builtin").lsp_definitions()
+          end,
+          "LSP go to definition",
+          buffer = ev.buf,
+          silent = true,
+        },
         D = { vim.lsp.buf.declaration, "LSP go to declaration", buffer = ev.buf, silent = true },
         I = {
-          vim.lsp.buf.implementation,
+          function()
+            require("telescope.builtin").lsp_implementations()
+          end,
           "LSP go to implementation",
           buffer = ev.buf,
           silent = true,
         },
         c = {
           name = "callhierarchy",
-          i = { vim.lsp.buf.incoming_calls, "LSP incoming calls", buffer = ev.buf, silent = true },
-          o = { vim.lsp.buf.outgoing_calls, "LSP outgoing calls", buffer = ev.buf, silent = true },
+          i = {
+            function()
+              require("telescope.builtin").lsp_incoming_calls()
+            end,
+            "LSP incoming calls",
+            buffer = ev.buf,
+            silent = true,
+          },
+          o = {
+            function()
+              require("telescope.builtin").lsp_outgoing_calls()
+            end,
+            "LSP outgoing calls",
+            buffer = ev.buf,
+            silent = true,
+          },
         },
-        r = { vim.lsp.buf.references, "LSP references", buffer = ev.buf, silent = true },
-        s = { vim.lsp.buf.document_symbol, "LSP document symbols", buffer = ev.buf, silent = true },
+        r = {
+          function()
+            require("telescope.builtin").lsp_references({ jump_type = "never" })
+          end,
+          "LSP references",
+          buffer = ev.buf,
+          silent = true,
+        },
+        s = {
+          function()
+            require("telescope.builtin").lsp_document_symbols()
+          end,
+          "LSP document symbols",
+          buffer = ev.buf,
+          silent = true,
+        },
         S = {
-          vim.lsp.buf.workspace_symbol,
+          function()
+            require("telescope.builtin").lsp_workspace_symbols()
+          end,
           "LSP workspace symbols",
           buffer = ev.buf,
           silent = true,
         },
       },
       ["<leader>"] = {
-        D = { vim.lsp.buf.type_definition, "LSP type definition", buffer = ev.buf, silent = true },
+        D = {
+          function()
+            require("telescope.builtin").lsp_type_definitions()
+          end,
+          "LSP type definition",
+          buffer = ev.buf,
+          silent = true,
+        },
         ca = {
           vim.lsp.buf.code_action,
           "LSP code action",
@@ -441,16 +503,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
           mode = { "n", "v" },
         },
         rn = { vim.lsp.buf.rename, "LSP rename", buffer = ev.buf, silent = true },
-        v = {
-          b = {
-            function()
-              require("gitsigns").blame_line({ full = true })
-            end,
-            "Blame current line",
-            buffer = ev.buf,
-            silent = true,
-          },
-        },
         w = {
           name = "workspace",
           l = {
