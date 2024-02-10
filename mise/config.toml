@@ -44,6 +44,7 @@ shfmt = 'latest'
 stylua = 'latest'
 yamlfmt = 'latest'
 # npm tools
+"npm:@astrojs/language-server" = "latest"
 "npm:bash-language-server" = "latest"
 "npm:cloc" = "latest"
 "npm:cspell" = "latest"

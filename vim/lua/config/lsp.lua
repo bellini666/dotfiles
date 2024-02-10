@@ -165,6 +165,13 @@ nvim_lsp.pyright.setup({
   },
 })
 
+-- https://github.com/withastro/language-tools/tree/main/packages/language-server
+nvim_lsp.astro.setup({
+  capabilities = lsp_capabilities(),
+  handlers = handlers,
+  on_attach = on_attach,
+})
+
 -- https://github.com/theia-ide/typescript-language-server
 nvim_lsp.tsserver.setup({
   capabilities = lsp_capabilities(),
