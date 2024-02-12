@@ -96,6 +96,7 @@ return {
       padding = false,
       auto_preview = false,
       use_diagnostic_signs = true,
+      cycle_results = false,
     },
   },
 
