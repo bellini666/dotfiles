@@ -250,7 +250,6 @@ return {
     },
     dependencies = {
       "MunifTanjim/nui.nvim",
-      "rcarriga/nvim-notify",
     },
   },
   {
@@ -322,7 +321,10 @@ return {
     },
   },
   {
-    "rcarriga/nvim-notify",
+    -- FIXME: https://github.com/rcarriga/nvim-notify/pull/253
+    -- "rcarriga/nvim-notify",
+    "ls-devs/nvim-notify",
+    branch = "fix/fix_index_value",
     config = function()
       local notify = require("notify")
       notify.setup({
