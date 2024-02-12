@@ -99,7 +99,10 @@ BREW_PACKAGES=(
   openssl
   orbstack
   pipx
+  postgis
+  postgresql
   readline
+  redis
   sox
   sqlite
   terraform
