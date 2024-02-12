@@ -73,3 +73,11 @@ go = 'latest'
 node = 'latest'
 python = ['latest', 'sub-0.1:latest', 'sub-0.2:latest', 'sub-0.3:latest']
 rust = 'latest'
+
+[tasks."docker:prune"]
+description = 'Docker clean'
+run = """
+sh -c "docker stop $(docker ps -a -q) || true"
+docker system prune -f
+docker volume prune -a -f
+"""
