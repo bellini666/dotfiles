@@ -337,11 +337,11 @@ return {
   },
   {
     "sindrets/winshift.nvim",
-    event = "BufReadPost",
+    cmd = "WinShift",
   },
   {
     "mrjones2014/smart-splits.nvim",
-    event = "BufReadPost",
+    lazy = true,
     opts = {
       resize_mode = {
         quit_key = "<ESC>",
