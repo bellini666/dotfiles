@@ -87,6 +87,7 @@ BREW_PACKAGES=(
   curl
   exa
   fzf
+  gdal
   git
   gnu-sed
   htop
