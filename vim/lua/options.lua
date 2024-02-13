@@ -9,10 +9,6 @@ local function extend(opt, list)
   return opt + list
 end
 
--- Set python3 host path
-vim.g.python_host_prog = "/usr/bin/python"
-vim.g.python3_host_prog = "/usr/bin/python3"
-
 -- Set leader to ,
 vim.g.mapleader = ","
 
@@ -24,6 +20,7 @@ vim.opt.mouse = "nv"
 vim.opt.linebreak = true
 vim.opt.swapfile = false
 vim.opt.updatetime = 500
+vim.opt.clipboard = extend(vim.opt.clipboard, { "unnamed", "unnamedplus" })
 
 -- Ui
 vim.opt.number = true

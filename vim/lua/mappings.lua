@@ -3,8 +3,6 @@ local wk = require("which-key")
 
 wk.register({
   ["<esc>"] = { "<cmd>noh<cr><esc>", "Clear", mode = { "i", "n" } },
-  ["<C-C>"] = { '"+y', "Copy to global register", mode = "v" },
-  ["<C-S-V>"] = { '"+y', "Paste from global register", mode = { "i", "v", "c", "n" } },
   ["<"] = { "<gv", "Continuous visual indenting", mode = "v" },
   [">"] = { ">gv", "Continuous visual indenting", mode = "v" },
   ["<A-Left>"] = { "gT", "Previous tab" },
