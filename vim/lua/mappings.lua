@@ -182,6 +182,7 @@ wk.register({
     },
   },
   ["<C-w>"] = {
+    t = { "<cmd>tab split<cr>", "Duplicate tab" },
     m = { "<cmd>WinShift<cr>", "WinShift mode" },
     x = { "<cmd>WinShift swap<cr><C-w><C-w>", "Swap splits" },
     r = {
