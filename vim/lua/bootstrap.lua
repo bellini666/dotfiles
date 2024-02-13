@@ -15,6 +15,6 @@ require("lazy").setup("plugins", {
   install = { colorscheme = { "kanagawa", "default" } },
   checker = { enabled = true },
   dev = {
-    path = "~/dev",
+    path = os.getenv("HOME") .. "/dev",
   },
 })
