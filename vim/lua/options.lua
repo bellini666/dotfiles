@@ -20,7 +20,6 @@ vim.opt.mouse = "nv"
 vim.opt.linebreak = true
 vim.opt.swapfile = false
 vim.opt.updatetime = 500
-vim.opt.clipboard = extend(vim.opt.clipboard, { "unnamed", "unnamedplus" })
 
 -- Ui
 vim.opt.number = true
