@@ -77,6 +77,8 @@ alias d="deletemark"
 alias p="showmarks"
 alias vi="nvim"
 alias vim="nvim"
-alias lg="lazygit"
+alias ls="exa"
+alias ll="exa -lah"
+alias tree="exa --tree"
 
 autoload -U compinit && compinit
