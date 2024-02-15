@@ -296,10 +296,7 @@ return {
     },
   },
   {
-    -- FIXME: https://github.com/rcarriga/nvim-notify/pull/253
-    -- "rcarriga/nvim-notify",
-    "ls-devs/nvim-notify",
-    branch = "fix/fix_index_value",
+    "rcarriga/nvim-notify",
     config = function()
       local notify = require("notify")
       notify.setup({
