@@ -228,8 +228,9 @@ function _mise {
   eval "$("${MISE_BINARY}" activate bash)"
   "${MISE_BINARY}" self-update || true
   "${MISE_BINARY}" plugins update -y || true
-  "${MISE_BINARY}" install
-  "${MISE_BINARY}" prune
+  "${MISE_BINARY}" install -y
+  "${MISE_BINARY}" upgrade -y
+  "${MISE_BINARY}" prune -y
 
   mkdir -p "${HOME}/.local/share/zsh/site-functions"
   "${MISE_BINARY}" complete -s zsh >"${HOME}/.local/share/zsh/site-functions/_mise"
