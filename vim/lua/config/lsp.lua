@@ -116,8 +116,11 @@ nvim_lsp.pyright.setup({
   autostart = os.getenv("DISABLE_PYRIGHT") ~= "1",
   handlers = handlers,
   on_attach = on_attach,
-  before_init = function(_, config)
-    config.settings.python.pythonPath = utils.find_python()
+  before_init = function(initialize_params, config)
+    local python_path = utils.find_python()
+    config.settings.python.pythonPath = python_path
+    utils.ensure_tables(initialize_params.initializationOptions, "settings", "python")
+    initialize_params.initializationOptions.settings.python.pythonPath = python_path
   end,
   settings = {
     python = {
@@ -129,6 +132,24 @@ nvim_lsp.pyright.setup({
       },
     },
   },
+})
+
+nvim_lsp.ruff_lsp.setup({
+  capabilities = lsp_capabilities(),
+  autostart = os.getenv("USE_RUFF") == "1" or os.getenv("USE_RUFF") == nil,
+  handlers = handlers,
+  on_attach = function(client, bufnr)
+    client.server_capabilities.hoverProvider = false
+    on_attach(client, bufnr)
+  end,
+  before_init = function(initialize_params, config)
+    local ruff_path = utils.find_python_cmd("ruff")
+    if ruff_path then
+      config.settings.path = { ruff_path }
+      utils.ensure_tables(initialize_params.initializationOptions, "settings")
+      initialize_params.initializationOptions.settings.path = { ruff_path }
+    end
+  end,
 })
 
 -- https://github.com/withastro/language-tools/tree/main/packages/language-server
@@ -338,59 +359,6 @@ null_ls.setup({
       extra_args = { "--fast" },
       condition = function(utils)
         return os.getenv("USE_RUFF") == "0"
-      end,
-    }),
-    diagnostics.ruff.with({
-      diagnostics_format = diagnostics_format,
-      prefer_local = ".venv/bin",
-      cwd = nhelpers.cache.by_bufnr(function(params)
-        return require("null-ls.utils").root_pattern(
-          "pyproject.toml",
-          "setup.py",
-          "setup.cfg",
-          "requirements.txt",
-          "Pipfile",
-          "pyrightconfig.json"
-        )(params.bufname)
-      end),
-      condition = function(utils)
-        local use_ruff = os.getenv("USE_RUFF")
-        return use_ruff == nil or use_ruff == "1"
-      end,
-    }),
-    formatting.ruff.with({
-      prefer_local = ".venv/bin",
-      cwd = nhelpers.cache.by_bufnr(function(params)
-        return require("null-ls.utils").root_pattern(
-          "pyproject.toml",
-          "setup.py",
-          "setup.cfg",
-          "requirements.txt",
-          "Pipfile",
-          "pyrightconfig.json"
-        )(params.bufname)
-      end),
-      extra_args = { "--unfixable", "T20,ERA001,F841" },
-      condition = function(utils)
-        local use_ruff = os.getenv("USE_RUFF")
-        return use_ruff == nil or use_ruff == "1"
-      end,
-    }),
-    formatting.ruff_format.with({
-      prefer_local = ".venv/bin",
-      cwd = nhelpers.cache.by_bufnr(function(params)
-        return require("null-ls.utils").root_pattern(
-          "pyproject.toml",
-          "setup.py",
-          "setup.cfg",
-          "requirements.txt",
-          "Pipfile",
-          "pyrightconfig.json"
-        )(params.bufname)
-      end),
-      condition = function(utils)
-        local use_ruff = os.getenv("USE_RUFF")
-        return use_ruff == nil or use_ruff == "1"
       end,
     }),
     -- djlint

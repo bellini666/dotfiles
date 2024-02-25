@@ -17,6 +17,13 @@ M.trim = function(s)
   return s:gsub("^%s*(.-)%s*$", "%1")
 end
 
+M.ensure_tables = function(obj, ...)
+  for _, sub in ipairs({ ... }) do
+    obj[sub] = obj[sub] or {}
+    obj = obj[sub]
+  end
+end
+
 M.find_files = function(opts)
   local lsp_util = require("lspconfig.util")
   local t_builtin = require("telescope.builtin")
@@ -159,7 +166,14 @@ M.find_cmd = function(cmd, prefixes, start_from, stop_at)
   return found or cmd
 end
 
+local python_path = nil
+local python_cmds = {}
+
 M.find_python = function()
+  if python_path ~= nil then
+    return python_path
+  end
+
   local p
   if vim.env.VIRTUAL_ENV then
     p = require("null-ls.utils").path.join(vim.env.VIRTUAL_ENV, "bin", "python3")
@@ -176,7 +190,28 @@ M.find_python = function()
       p = M.find_cmd("python3", ".venv/bin")
     end
   end
+
+  python_path = p
+
   return p
+end
+
+M.find_python_cmd = function(cmd)
+  if python_cmds[cmd] ~= nil then
+    return python_cmds[cmd]
+  end
+
+  local python_bin = M.find_python()
+  local python_dir = python_bin:match("(.*/)")
+
+  local maybe_executable = require("null-ls.utils").path.join(python_dir, cmd)
+  if vim.fn.filereadable(maybe_executable) == 1 then
+    python_cmds[cmd] = maybe_executable
+    return maybe_executable
+  end
+
+  python_cmds[cmd] = cmd
+  return cmd
 end
 
 return M
