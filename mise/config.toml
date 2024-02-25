@@ -57,6 +57,7 @@ yamlfmt = 'latest'
 "npm:markdownlint-cli" = "latest"
 "npm:opencollective" = "latest"
 "npm:patch-package" = "latest"
+"npm:pnpm" = "latest"
 "npm:prettier" = "latest"
 "npm:pyright" = "latest"
 "npm:stylelint" = "latest"
