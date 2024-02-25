@@ -250,7 +250,7 @@ nvim_lsp.jsonls.setup({
   capabilities = lsp_capabilities(),
   on_attach = on_attach,
   init_options = {
-    provideFormatter = false,
+    provideFormatter = true,
   },
   settings = {
     json = {
@@ -307,60 +307,6 @@ null_ls.setup({
         return utils.root_has_file({ "cspell.json", "cspell.config.yaml", "cspell.config.cjs" })
       end,
     }),
-    -- python
-    diagnostics.flake8.with({
-      diagnostics_format = diagnostics_format,
-      prefer_local = ".venv/bin",
-      cwd = nhelpers.cache.by_bufnr(function(params)
-        return require("null-ls.utils").root_pattern(
-          ".flake8",
-          "pyproject.toml",
-          "setup.py",
-          "setup.cfg",
-          "requirements.txt",
-          "Pipfile",
-          "pyrightconfig.json"
-        )(params.bufname)
-      end),
-      condition = function(utils)
-        return os.getenv("USE_RUFF") == "0"
-      end,
-    }),
-    formatting.isort.with({
-      prefer_local = ".venv/bin",
-      cwd = nhelpers.cache.by_bufnr(function(params)
-        return require("null-ls.utils").root_pattern(
-          ".isort.cfg",
-          "pyproject.toml",
-          "setup.py",
-          "setup.cfg",
-          "requirements.txt",
-          "Pipfile",
-          "pyrightconfig.json"
-        )(params.bufname)
-      end),
-      extra_args = { "--profile", "black" },
-      condition = function(utils)
-        return os.getenv("USE_RUFF") == "0"
-      end,
-    }),
-    formatting.black.with({
-      prefer_local = ".venv/bin",
-      cwd = nhelpers.cache.by_bufnr(function(params)
-        return require("null-ls.utils").root_pattern(
-          "pyproject.toml",
-          "setup.py",
-          "setup.cfg",
-          "requirements.txt",
-          "Pipfile",
-          "pyrightconfig.json"
-        )(params.bufname)
-      end),
-      extra_args = { "--fast" },
-      condition = function(utils)
-        return os.getenv("USE_RUFF") == "0"
-      end,
-    }),
     -- djlint
     formatting.djlint.with({
       prefer_local = ".venv/bin",
@@ -396,10 +342,6 @@ null_ls.setup({
       prefer_local = "node_modules/.bin",
     }),
     -- sh/bash
-    code_actions.shellcheck,
-    diagnostics.shellcheck.with({
-      diagnostics_format = diagnostics_format,
-    }),
     formatting.shfmt.with({
       extra_args = function(params)
         return { "-i", tostring(vim.opt_local.shiftwidth:get()) }
@@ -411,8 +353,6 @@ null_ls.setup({
         return utils.root_has_file({ "stylua.toml", ".stylua.toml" })
       end,
     }),
-    -- json
-    formatting.fixjson,
     -- yaml
     diagnostics.yamllint.with({
       diagnostics_format = diagnostics_format,
@@ -440,7 +380,5 @@ null_ls.setup({
     diagnostics.markdownlint.with({
       diagnostics_format = diagnostics_format,
     }),
-    -- toml
-    formatting.taplo,
   },
 })
