@@ -300,13 +300,6 @@ null_ls.setup({
     code_actions.gitrebase,
     -- github actioins
     diagnostics.actionlint,
-    -- cspell
-    diagnostics.cspell.with({
-      diagnostics_format = diagnostics_format,
-      condition = function(utils)
-        return utils.root_has_file({ "cspell.json", "cspell.config.yaml", "cspell.config.cjs" })
-      end,
-    }),
     -- djlint
     formatting.djlint.with({
       prefer_local = ".venv/bin",
