@@ -63,6 +63,7 @@ APT_PACKAGES=(
   ncdu
   neovim
   ninja-build
+  pgcli
   pipx
   python3-dev
   python3-pip
@@ -99,6 +100,7 @@ BREW_PACKAGES=(
   ninja
   openssl
   orbstack
+  pgcli
   pipx
   postgis
   postgresql
