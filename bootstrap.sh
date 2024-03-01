@@ -105,6 +105,7 @@ BREW_PACKAGES=(
   postgis
   postgresql
   readline
+  rectangle
   redis
   sox
   sqlite
