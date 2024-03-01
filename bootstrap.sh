@@ -111,8 +111,10 @@ BREW_PACKAGES=(
   terraform
   terraform-ls
   universal-ctags
+  warp
   watchman
   wget
+  whatsapp
   xmlsectool
   xz
   zlib
