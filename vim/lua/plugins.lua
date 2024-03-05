@@ -126,12 +126,6 @@ return {
     end,
   },
   {
-    "robitx/gp.nvim",
-    config = function()
-      require("gp").setup()
-    end,
-  },
-  {
     "Exafunction/codeium.nvim",
     dependencies = {
       "nvim-lua/plenary.nvim",
