@@ -75,6 +75,7 @@ local handlers = {
     end, result.diagnostics)
     return vim.lsp.handlers["textDocument/publishDiagnostics"](_, result, ...)
   end, {
+    virtual_text = false,
     underline = {
       severity = {
         min = vim.diagnostic.severity.WARN,
