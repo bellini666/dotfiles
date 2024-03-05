@@ -13,6 +13,41 @@ wk.register({
   ["#"] = { "*", "Search highlighted word forward", mode = { "n", "x", "o" } },
   ["*"] = { "#", "Search highlighted word backward", mode = { "n", "x", "o" } },
   p = { '"_dP', "Paste", noremap = true, silent = true, mode = "v" },
+  s = {
+    function()
+      require("flash").jump()
+    end,
+    "Flash",
+    mode = { "n", "x", "o" },
+  },
+  S = {
+    function()
+      require("flash").treesitter()
+    end,
+    "Flash Treesitter",
+    mode = { "n", "x", "o" },
+  },
+  r = {
+    function()
+      require("flash").remote()
+    end,
+    "Remote Flash",
+    mode = "o",
+  },
+  R = {
+    function()
+      require("flash").treesitter_search()
+    end,
+    "Treesitter Search",
+    mode = { "o", "x" },
+  },
+  ["<C-s>"] = {
+    function()
+      require("flash").toggle()
+    end,
+    "Toggle Flash Search",
+    mode = { "c" },
+  },
   ["<leader>"] = {
     e = { vim.diagnostic.open_float, "Open diagnostic float", silent = true },
     t = {

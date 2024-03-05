@@ -129,7 +129,6 @@ return {
     "Exafunction/codeium.nvim",
     dependencies = {
       "nvim-lua/plenary.nvim",
-      "hrsh7th/nvim-cmp",
     },
     event = "VeryLazy",
     config = function()
@@ -485,10 +484,6 @@ return {
     keys = { "." },
   },
   {
-    "tpope/vim-unimpaired",
-    event = "BufReadPost",
-  },
-  {
     "lewis6991/gitsigns.nvim",
     event = "BufReadPost",
     opts = {
@@ -515,16 +510,9 @@ return {
     event = "VeryLazy",
   },
   {
-    "kylechui/nvim-surround",
-    event = "BufReadPost",
+    "folke/flash.nvim",
+    event = "VeryLazy",
     config = true,
-  },
-  {
-    "ggandor/leap.nvim",
-    event = "BufReadPost",
-    config = function()
-      require("leap").set_default_keymaps()
-    end,
   },
   {
     "mg979/vim-visual-multi",
