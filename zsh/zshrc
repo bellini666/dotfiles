@@ -80,5 +80,6 @@ alias vim="nvim"
 alias ls="exa"
 alias ll="exa -lah"
 alias tree="exa --tree"
+alias "?"="gh copilot suggest -t shell"
 
 autoload -U compinit && compinit

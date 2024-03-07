@@ -267,6 +267,11 @@ function _fonts {
   fi
 }
 
+function _gh {
+  gh extension install github/gh-copilot
+  gh extension upgrade --all
+}
+
 function _zsh {
   info "installing zsh plugins"
   if which antigen >/dev/null 2>&1; then
@@ -348,6 +353,7 @@ function _ {
     _fonts
     _zsh
     _mise
+    _gh
     _python-libs
     _rust-libs
     _mise-reshim
