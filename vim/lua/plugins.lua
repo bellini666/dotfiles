@@ -119,6 +119,12 @@ return {
           vim.api.nvim_set_hl(0, "CmpItemKindCodeium", { fg = "#69ae6a" })
         end,
       },
+      {
+        "zbirenbaum/copilot-cmp",
+        config = function()
+          require("copilot_cmp").setup()
+        end,
+      },
     },
     event = "InsertEnter",
     config = function()
@@ -127,27 +133,11 @@ return {
   },
   {
     "zbirenbaum/copilot.lua",
-    dependencies = {
-      "hrsh7th/nvim-cmp",
-    },
-    cmd = "Copilot",
     build = ":Copilot auth",
-    event = "InsertEnter",
+    event = "VeryLazy",
     opts = {
-      panel = {
-        enabled = false,
-      },
-      suggestion = {
-        enabled = true,
-        auto_trigger = true,
-        accept = false,
-        keymap = {
-          accept = "<C-.>",
-          next = "<C-]>",
-          prev = "<C-[>",
-          dismiss = "<C-,>",
-        },
-      },
+      suggestion = { enabled = false },
+      panel = { enabled = false },
       filetypes = {
         ["*"] = true,
       },

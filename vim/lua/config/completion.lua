@@ -9,10 +9,8 @@ end
 local default_format = require("lspkind").cmp_format({ with_text = false })
 
 cmp.setup({
-  completion = {
-    autocomplete = false,
-  },
   sources = cmp.config.sources({
+    { name = "copilot" },
     { name = "nvim_lsp" },
     { name = "luasnip" },
   }, {
@@ -84,6 +82,7 @@ cmp.setup({
   sorting = {
     priority_weight = 2,
     comparators = {
+      require("copilot_cmp.comparators").prioritize,
       cmp.config.compare.offset,
       cmp.config.compare.exact,
       -- cmp.config.compare.scopes,
