@@ -126,14 +126,32 @@ return {
     end,
   },
   {
-    "Exafunction/codeium.nvim",
+    "zbirenbaum/copilot.lua",
     dependencies = {
-      "nvim-lua/plenary.nvim",
+      "hrsh7th/nvim-cmp",
     },
-    event = "VeryLazy",
-    config = function()
-      require("codeium").setup({})
-    end,
+    cmd = "Copilot",
+    build = ":Copilot auth",
+    event = "InsertEnter",
+    opts = {
+      panel = {
+        enabled = false,
+      },
+      suggestion = {
+        enabled = true,
+        auto_trigger = true,
+        accept = false,
+        keymap = {
+          accept = "<C-CR>",
+          next = "<C-]>",
+          prev = "<C-[>",
+          dismiss = "<C-.>",
+        },
+      },
+      filetypes = {
+        ["*"] = true,
+      },
+    },
   },
 
   -- Testing

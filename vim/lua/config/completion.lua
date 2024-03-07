@@ -9,8 +9,10 @@ end
 local default_format = require("lspkind").cmp_format({ with_text = false })
 
 cmp.setup({
+  completion = {
+    autocomplete = false,
+  },
   sources = cmp.config.sources({
-    { name = "codeium" },
     { name = "nvim_lsp" },
     { name = "luasnip" },
   }, {
@@ -83,8 +85,8 @@ cmp.setup({
     priority_weight = 2,
     comparators = {
       cmp.config.compare.offset,
-      -- cmp.config.compare.scopes,
       cmp.config.compare.exact,
+      -- cmp.config.compare.scopes,
       cmp.config.compare.score,
       require("cmp-under-comparator").under,
       cmp.config.compare.recently_used,
@@ -112,3 +114,11 @@ cmp.setup({
 })
 
 cmp.event:on("confirm_done", require("nvim-autopairs.completion.cmp").on_confirm_done())
+
+cmp.event:on("menu_opened", function()
+  vim.b.copilot_suggestion_hidden = true
+end)
+
+cmp.event:on("menu_closed", function()
+  vim.b.copilot_suggestion_hidden = false
+end)
