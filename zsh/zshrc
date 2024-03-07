@@ -23,6 +23,10 @@ if [ -f "$HOME/.config/broot/launcher/bash/br" ]; then
   source "$HOME/.config/broot/launcher/bash/br"
 fi
 
+if [ -f "$HOME/.config/op/plugins.sh" ]; then
+  source "$HOME/.config/op/plugins.sh"
+fi
+
 # oh-my-zsh config
 CASE_SENSITIVE="true"
 COMPLETION_WAITING_DOTS="true"
@@ -34,6 +38,7 @@ DISABLE_VENV_CD=1
 antigen use oh-my-zsh
 
 # oh-my-zsh
+antigen bundle 1password
 antigen bundle colored-man-pages
 antigen bundle colorize
 antigen bundle common-aliases

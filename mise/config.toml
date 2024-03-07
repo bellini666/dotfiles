@@ -15,6 +15,7 @@ PYTHON_CONFIGURE_OPTS = '--enable-shared --enable-optimizations --with-lto --ena
 
 [tools]
 # tools
+1password-cli = 'latest'
 actionlint = 'latest'
 argocd = 'latest'
 awscli = 'latest'
