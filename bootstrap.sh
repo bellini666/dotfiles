@@ -231,6 +231,22 @@ function _mise {
   fi
 
   eval "$("${MISE_BINARY}" activate bash)"
+
+  today=$(date +%Y-%m-%d)
+  marker_file="${HOME}/.cache/mise-last-cache-clear"
+  if [ -f "$marker_file" ]; then
+    last_run_date=$(cat "$marker_file")
+    if [ "$last_run_date" == "$today" ]; then
+      echo "Mise cache already cleared today. Skipping..."
+    else
+      "${MISE_BINARY}" cache clear
+      echo "$today" >"$marker_file"
+    fi
+  else
+    "${MISE_BINARY}" cache clear
+    echo "$today" >"$marker_file"
+  fi
+
   "${MISE_BINARY}" self-update || true
   "${MISE_BINARY}" plugins update -y || true
   "${MISE_BINARY}" install -y
