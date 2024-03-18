@@ -180,6 +180,9 @@ return {
       },
       {
         "rcarriga/nvim-dap-ui",
+        dependencies = {
+          "nvim-neotest/nvim-nio",
+        },
         config = true,
       },
     },
@@ -190,6 +193,7 @@ return {
     dependencies = {
       "nvim-lua/plenary.nvim",
       "nvim-treesitter/nvim-treesitter",
+      "nvim-neotest/nvim-nio",
       "nvim-neotest/neotest-python",
     },
     config = function()
