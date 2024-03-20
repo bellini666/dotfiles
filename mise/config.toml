@@ -73,7 +73,7 @@ bun = 'latest'
 deno = 'latest'
 go = 'latest'
 node = 'latest'
-python = ['latest', 'sub-0.1:latest', 'sub-0.2:latest', 'sub-0.3:latest']
+python = ['latest', 'sub-0.1:latest', 'sub-0.2:latest']
 rust = 'latest'
 
 [tasks."docker:prune"]
