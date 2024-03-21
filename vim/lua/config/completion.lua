@@ -59,8 +59,8 @@ cmp.setup({
     ["<Tab>"] = cmp.mapping(function(fallback)
       if cmp.visible() then
         cmp.select_next_item()
-      elseif require("luasnip").expand_or_jumpable() then
-        require("luasnip").expand_or_jump()
+      elseif vim.snippet.jumpable(1) then
+        vim.snippet.jump(1)
       elseif has_words_before() then
         cmp.complete()
       else
@@ -70,8 +70,8 @@ cmp.setup({
     ["<S-Tab>"] = cmp.mapping(function(fallback)
       if cmp.visible() then
         cmp.select_prev_item()
-      elseif require("luasnip").jumpable(-1) then
-        require("luasnip").jump(-1)
+      elseif vim.snippet.jumpable(-1) then
+        vim.snippet.jump(-1)
       elseif has_words_before() then
         cmp.complete()
       else
@@ -95,11 +95,6 @@ cmp.setup({
       cmp.config.compare.length,
       cmp.config.compare.order,
     },
-  },
-  snippet = {
-    expand = function(args)
-      require("luasnip").lsp_expand(args.body)
-    end,
   },
   window = {
     completion = cmp.config.window.bordered({}),
