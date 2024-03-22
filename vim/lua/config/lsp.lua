@@ -135,7 +135,8 @@ nvim_lsp.pyright.setup({
   },
 })
 
-nvim_lsp.ruff_lsp.setup({
+local ruff_lsp = os.getenv("USE_RUFF_LSP") == "1" and nvim_lsp.ruff_lsp or nvim_lsp.ruff
+ruff_lsp.setup({
   capabilities = lsp_capabilities(),
   autostart = os.getenv("USE_RUFF") == "1" or os.getenv("USE_RUFF") == nil,
   handlers = handlers,
