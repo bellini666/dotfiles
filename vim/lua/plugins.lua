@@ -577,4 +577,12 @@ return {
     "nvim-pack/nvim-spectre",
     cmd = "Spectre",
   },
+  {
+    "Wansmer/treesj",
+    dependencies = { "nvim-treesitter/nvim-treesitter" },
+    keys = { "<leader>sj" },
+    config = function()
+      require("treesj").setup()
+    end,
+  },
 }

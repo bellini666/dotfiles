@@ -68,6 +68,15 @@ wk.register({
         silent = true,
       },
     },
+    s = {
+      j = {
+        function()
+          require("treesj").toggle()
+        end,
+        "Treesj Toggle",
+        mode = { "n" },
+      },
+    },
   },
   ["<C-p>"] = { utils.find_files, "Find files" },
   ["<C-f>"] = {
