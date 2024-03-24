@@ -53,6 +53,8 @@ require("nvim-treesitter.configs").setup({
         ["]a"] = "@parameter.outer",
         ["]b"] = "@block.outer",
         ["]l"] = "@loop.outer",
+        ["]/"] = "@comment.outer",
+        ["]="] = "@assignment.outer",
       },
       goto_next_end = {
         ["]["] = "@class.outer",
@@ -67,6 +69,8 @@ require("nvim-treesitter.configs").setup({
         ["[a"] = "@parameter.outer",
         ["[b"] = "@block.outer",
         ["[l"] = "@loop.outer",
+        ["[/"] = "@comment.outer",
+        ["[="] = "@assignment.outer",
       },
       goto_previous_end = {
         ["[]"] = "@class.outer",
