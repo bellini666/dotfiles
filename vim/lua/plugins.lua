@@ -539,7 +539,13 @@ return {
   {
     "folke/flash.nvim",
     event = "VeryLazy",
-    config = true,
+    opts = {
+      modes = {
+        search = {
+          enabled = false,
+        },
+      },
+    },
   },
   {
     "mg979/vim-visual-multi",
