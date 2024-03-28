@@ -92,6 +92,7 @@ BREW_PACKAGES=(
   git
   gnu-sed
   htop
+  hyperkey
   jq
   libffi
   libtool
