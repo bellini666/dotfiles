@@ -86,6 +86,10 @@ BREW_PACKAGES=(
   btop
   cpanminus
   curl
+  docker
+  docker-buildx
+  docker-compose
+  docker-credential-helper
   exa
   fzf
   gdal
@@ -100,7 +104,6 @@ BREW_PACKAGES=(
   mise
   ninja
   openssl
-  orbstack
   pgcli
   pipx
   postgis
