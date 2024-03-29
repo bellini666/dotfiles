@@ -339,26 +339,6 @@ return {
     },
   },
 
-  -- Tasks
-  {
-    "EthanJWright/vs-tasks.nvim",
-    name = "vstask",
-    dependencies = {
-      "nvim-lua/popup.nvim",
-      "nvim-lua/plenary.nvim",
-      "nvim-telescope/telescope.nvim",
-    },
-    lazy = true,
-    opts = {
-      telescope_keys = {
-        split = "<CR>",
-        vertical = "<C-v>",
-        tab = "<C-t>",
-        current = "<C-c>",
-      },
-    },
-  },
-
   -- File browsing
   {
     "nvim-telescope/telescope.nvim",
