@@ -61,16 +61,26 @@ return {
   },
   {
     "folke/trouble.nvim",
+    branch = "dev",
     dependencies = {
       "nvim-tree/nvim-web-devicons",
     },
-    cmd = { "TroubleToggle", "Trouble" },
+    cmd = { "Trouble" },
     opts = {
-      close = "<C-q>",
-      padding = false,
-      auto_preview = false,
-      use_diagnostic_signs = true,
-      cycle_results = false,
+      modes = {
+        diagnostics = {
+          sort = { "severity", "pos", "filename", "message" },
+        },
+        telescope = {
+          sort = { "pos", "filename", "severity", "message" },
+        },
+        quickfix = {
+          sort = { "pos", "filename", "severity", "message" },
+        },
+        loclist = {
+          sort = { "pos", "filename", "severity", "message" },
+        },
+      },
     },
   },
 
@@ -357,6 +367,8 @@ return {
     },
     config = function()
       local actions = require("telescope.actions")
+      local open_with_trouble = require("trouble.sources.telescope").open
+      local add_to_trouble = require("trouble.sources.telescope").add
       require("telescope").setup({
         defaults = {
           layout_strategy = "horizontal",
@@ -370,12 +382,12 @@ return {
           mappings = {
             i = {
               ["<Esc>"] = actions.close,
-              ["<c-q>"] = require("trouble.providers.telescope").open_with_trouble,
-              ["<c-s>"] = require("trouble.providers.telescope").open_selected_with_trouble,
+              ["<c-q>"] = open_with_trouble,
+              ["<c-s>"] = add_to_trouble,
             },
             n = {
-              ["<C-q>"] = require("trouble.providers.telescope").open_with_trouble,
-              ["<C-s>"] = require("trouble.providers.telescope").open_selected_with_trouble,
+              ["<c-q>"] = open_with_trouble,
+              ["<c-s>"] = add_to_trouble,
             },
           },
         },

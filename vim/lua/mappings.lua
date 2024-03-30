@@ -161,10 +161,25 @@ wk.register({
       "DAP hover",
       mode = { "n", "v" },
     },
-    e = { "<cmd>TroubleToggle document_diagnostics<cr>", "Document diagnostics" },
-    E = { "<cmd>TroubleToggle workspace_diagnostics<cr>", "Workspace diagnostics" },
+    e = {
+      function()
+        require("trouble").toggle({ mode = "diagnostics", focus = false, filter = { buf = 0 } })
+      end,
+      "Document diagnostics",
+    },
+    E = {
+      function()
+        require("trouble").toggle({ mode = "diagnostics", focus = false })
+      end,
+      "Document diagnostics",
+    },
   },
-  ["<C-q>"] = { "<cmd>TroubleToggle<cr>", "Toggle trouble" },
+  ["<C-q>"] = {
+    function()
+      require("trouble").toggle({ mode = "diagnostics", focus = false })
+    end,
+    "Toggle trouble",
+  },
   ["["] = {
     b = {
       function()
@@ -181,13 +196,13 @@ wk.register({
     },
     q = {
       function()
-        require("trouble").previous({ skip_groups = true, jump = true })
+        require("trouble").prev({ jump = true })
       end,
       "Previous trouble result",
     },
     Q = {
       function()
-        require("trouble").first({ skip_groups = true, jump = true })
+        require("trouble").first({ jump = true })
       end,
       "First trouble result",
     },
@@ -216,13 +231,13 @@ wk.register({
     },
     q = {
       function()
-        require("trouble").next({ skip_groups = true, jump = true })
+        require("trouble").next({ jump = true })
       end,
       "Next trouble result",
     },
     Q = {
       function()
-        require("trouble").last({ skip_groups = true, jump = true })
+        require("trouble").last({ jump = true })
       end,
       "Last trouble result",
     },
