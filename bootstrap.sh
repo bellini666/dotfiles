@@ -229,9 +229,17 @@ function _symlinks {
 
 function _mise {
   info "installing mise"
-  MISE_BINARY="${HOME}/.local/bin/mise"
-  if [ ! -f "${MISE_BINARY}" ]; then
-    curl https://mise.jdx.dev/install.sh | sh
+
+  if [ ${MACHINE_OS} = "MacOS" ]; then
+    MISE_BINARY="/opt/homebrew/bin/mise"
+  elif [ ${MACHINE_OS} = "Linux" ]; then
+    MISE_BINARY="${HOME}/.local/bin/mise"
+    if [ ! -f "${MISE_BINARY}" ]; then
+      curl https://mise.jdx.dev/install.sh | sh
+    fi
+  else
+    echo "Unknown OS: ${UNAME_OUTPUT}"
+    exit 1
   fi
 
   eval "$("${MISE_BINARY}" activate bash)"
@@ -360,7 +368,17 @@ function _python-libs {
 
 function _mise-reshim {
   info "reshimming mise"
-  "${HOME}/.local/bin/mise" reshim
+
+  if [ ${MACHINE_OS} = "MacOS" ]; then
+    MISE_BINARY="/opt/homebrew/bin/mise"
+  elif [ ${MACHINE_OS} = "Linux" ]; then
+    MISE_BINARY="${HOME}/.local/bin/mise"
+  else
+    echo "Unknown OS: ${UNAME_OUTPUT}"
+    exit 1
+  fi
+
+  "${MISE_BINARY}" reshim
 }
 
 function _ {
