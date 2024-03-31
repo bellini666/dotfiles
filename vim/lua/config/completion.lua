@@ -97,6 +97,7 @@ cmp.setup({
     },
   },
   window = {
+    follow_cursor = true,
     completion = cmp.config.window.bordered({}),
     documentation = cmp.config.window.bordered({}),
   },
