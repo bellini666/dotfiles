@@ -95,6 +95,7 @@ BREW_PACKAGES=(
   gdal
   git
   gnu-sed
+  hiddenbar
   htop
   hyperkey
   jq
