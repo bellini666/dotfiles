@@ -535,11 +535,6 @@ return {
     },
   },
   {
-    "numToStr/Comment.nvim",
-    config = true,
-    keys = { { "gcc" }, { "gc", mode = "v" } },
-  },
-  {
     "andymass/vim-matchup",
     event = "BufReadPost",
   },
