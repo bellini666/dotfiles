@@ -67,6 +67,7 @@ return {
     },
     cmd = { "Trouble" },
     opts = {
+      auto_preview = false,
       modes = {
         diagnostics = {
           sort = { "severity", "pos", "filename", "message" },
