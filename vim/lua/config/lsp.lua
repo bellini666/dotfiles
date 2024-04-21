@@ -127,7 +127,8 @@ nvim_lsp.pyright.setup({
     python = {
       analysis = {
         autoSearchPaths = true,
-        diagnosticMode = "workspace",
+        diagnosticMode = os.getenv("PYRIGHT_DIAGNOSTIC_MODE") or "workspace",
+        typeCheckingMode = os.getenv("PYRIGHT_TYPE_CHECKING_MODE") or "standard",
         useLibraryCodeForTypes = true,
         disableOrganizeImports = true,
       },
@@ -140,7 +141,7 @@ nvim_lsp.pyright.setup({
 local ruff_lsp = nvim_lsp.ruff_lsp
 ruff_lsp.setup({
   capabilities = lsp_capabilities(),
-  autostart = os.getenv("USE_RUFF") == "1" or os.getenv("USE_RUFF") == nil,
+  autostart = os.getenv("DISABLE_RUFF") ~= "1",
   handlers = handlers,
   on_attach = function(client, bufnr)
     client.server_capabilities.hoverProvider = false
