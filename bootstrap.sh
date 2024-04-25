@@ -319,7 +319,8 @@ function _neovim {
 
 function _rust-libs {
   info "installing/updating rust libs"
-  cargo install-update -a
+  # FIXME: Move to mise/config.toml once it allows extra arguments to install
+  cargo install taplo-cli --features lsp --locked
 }
 
 function _python-libs {

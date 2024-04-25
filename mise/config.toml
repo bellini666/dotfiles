@@ -14,6 +14,12 @@ PYTHON_CFLAGS = '-march=native -mtune=native'
 PYTHON_CONFIGURE_OPTS = '--enable-shared --enable-optimizations --with-lto --enable-loadable-sqlite-extensions'
 
 [tools]
+bun = 'latest'
+deno = 'latest'
+go = 'latest'
+node = 'latest'
+python = ['latest', 'sub-0.1:latest', 'sub-0.2:latest', 'sub-0.3:latest']
+rust = 'latest'
 # tools
 1password-cli = 'latest'
 actionlint = 'latest'
@@ -85,13 +91,9 @@ yamlfmt = 'latest'
 "pipx:tox" = "latest"
 "pipx:yamlfix" = "latest"
 "pipx:yamllint" = "latest"
-# langs
-bun = 'latest'
-deno = 'latest'
-go = 'latest'
-node = 'latest'
-python = ['latest', 'sub-0.1:latest', 'sub-0.2:latest', 'sub-0.3:latest']
-rust = 'latest'
+# rust tools
+"cargo:choose" = "latest"
+"cargo:sd" = "latest"
 
 [tasks."docker:prune"]
 description = 'Docker clean'

@@ -1,4 +1,0 @@
-cargo-update
-choose
-sd
-taplo-cli --features lsp --locked
