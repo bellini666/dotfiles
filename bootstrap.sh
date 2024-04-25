@@ -127,29 +127,6 @@ BREW_PACKAGES=(
   zsh
 )
 
-PYTHON_LIBS=(
-  black
-  codespell
-  djlint
-  flake8
-  ipdb
-  ipython
-  isort
-  mypy
-  pdm
-  pipx
-  poetry
-  ruff
-  ruff-lsp
-  tox
-  yamlfix
-  yamllint
-)
-PYTHON_INJECTIONS=(
-  "poetry poetry-plugin-up"
-  "ipython numpy pandas requests httpx openpyxl xlsxwriter"
-)
-
 SYMLINKS=(
   "${BASE_DIR}/git/gitattributes ${HOME}/.gitattributes"
   "${BASE_DIR}/git/gitconfig ${HOME}/.gitconfig"
@@ -346,19 +323,6 @@ function _rust-libs {
 }
 
 function _python-libs {
-  info "installing/updating python libs"
-  PP="${PYTHON_LIBS[*]}"
-  for P in ${PP}; do
-    pipx install "${P}"
-  done
-
-  for P in "${PYTHON_INJECTIONS[@]}"; do
-    # shellcheck disable=2086
-    pipx inject ${P}
-  done
-
-  pipx upgrade-all -f --include-injected
-
   info "installing debugpy latest version"
   if [ ! -f "${HOME}/.debugpy/bin/python3" ]; then
     python3 -m venv "${HOME}/.debugpy"

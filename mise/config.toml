@@ -68,6 +68,23 @@ yamlfmt = 'latest'
 "npm:typescript-language-server" = "latest"
 "npm:vscode-langservers-extracted" = "latest"
 "npm:yaml-language-server" = "latest"
+# pipx tools
+"pipx:black" = "latest"
+"pipx:codespell" = "latest"
+"pipx:djlint" = "latest"
+"pipx:flake8" = "latest"
+"pipx:ipdb" = "latest"
+"pipx:ipython" = "latest"
+"pipx:isort" = "latest"
+"pipx:mypy" = "latest"
+"pipx:pdm" = "latest"
+"pipx:pipx" = "latest"
+"pipx:poetry" = "latest"
+"pipx:ruff" = "latest"
+"pipx:ruff-lsp" = "latest"
+"pipx:tox" = "latest"
+"pipx:yamlfix" = "latest"
+"pipx:yamllint" = "latest"
 # langs
 bun = 'latest'
 deno = 'latest'
