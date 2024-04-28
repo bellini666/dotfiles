@@ -1,7 +1,6 @@
 local M = {}
 
 local format_enabled = true
-local diagnostics_enabled = true
 local inside_git_dir = {}
 local lsp_excluded = {
   html = true,
@@ -62,12 +61,7 @@ M.toggle_format = function()
 end
 
 M.toggle_diagnostics = function()
-  if diagnostics_enabled then
-    vim.diagnostic.disable()
-  else
-    vim.diagnostic.enable()
-  end
-  diagnostics_enabled = not diagnostics_enabled
+  vim.diagnostic.enable(not vim.diagnostic.is_enabled())
 end
 
 M.lsp_format = function(opts)

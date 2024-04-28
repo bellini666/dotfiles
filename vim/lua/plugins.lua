@@ -147,7 +147,7 @@ return {
     build = ":Copilot auth",
     event = "VeryLazy",
     opts = {
-      suggestion = { enabled = false },
+      suggestion = { enabled = true, auto_trigger = true },
       panel = { enabled = false },
       filetypes = {
         ["*"] = true,
@@ -193,6 +193,7 @@ return {
       "nvim-neotest/neotest-python",
     },
     config = function()
+      ---@diagnostic disable-next-line: missing-fields
       require("neotest").setup({
         adapters = {
           require("neotest-python")({
@@ -315,6 +316,7 @@ return {
     "rcarriga/nvim-notify",
     config = function()
       local notify = require("notify")
+      ---@diagnostic disable-next-line: missing-fields
       notify.setup({
         background_colour = "#000000",
         timeout = 2000,
