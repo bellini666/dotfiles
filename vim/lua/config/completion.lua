@@ -62,7 +62,7 @@ cmp.setup({
     ["<Tab>"] = cmp.mapping(function(fallback)
       if cmp.visible() then
         cmp.select_next_item()
-      elseif vim.snippet.jumpable(1) then
+      elseif vim.snippet.active({ direction = 1 }) then
         vim.snippet.jump(1)
       elseif require("copilot.suggestion").is_visible() then
         require("copilot.suggestion").accept()
@@ -75,7 +75,7 @@ cmp.setup({
     ["<S-Tab>"] = cmp.mapping(function(fallback)
       if cmp.visible() then
         cmp.select_prev_item()
-      elseif vim.snippet.jumpable(-1) then
+      elseif vim.snippet.active({ direction = -1 }) then
         vim.snippet.jump(-1)
       elseif has_words_before() then
         cmp.complete()
