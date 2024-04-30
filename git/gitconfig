@@ -17,9 +17,6 @@
     noprefix = true
     colorMoved = default
 
-[merge]
-    conflictstyle = diff3
-
 [pull]
     ff = only
 
