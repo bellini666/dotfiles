@@ -3,8 +3,8 @@ local wk = require("which-key")
 
 wk.register({
   ["<esc>"] = { "<cmd>noh<cr><esc>", "Clear", mode = { "i", "n" } },
-  ["<C-Up>"] = { "3<C-Y>", "Clear", mode = { "i", "n" } },
-  ["<C-Down>"] = { "3<C-E>", "Clear", mode = { "i", "n" } },
+  ["<C-Up>"] = { "<PageUp>", "Up 1 page", mode = { "i", "n" } },
+  ["<C-Down>"] = { "<PageDown>", "Down 1 page", mode = { "i", "n" } },
   ["<"] = { "<gv", "Continuous visual indenting", mode = "v" },
   [">"] = { ">gv", "Continuous visual indenting", mode = "v" },
   ["<A-Left>"] = { "gT", "Previous tab" },
