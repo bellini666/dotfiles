@@ -317,9 +317,6 @@ vim.keymap.set("v", "<A-/>", "gc", { remap = true })
 vim.api.nvim_create_autocmd("LspAttach", {
   group = vim.api.nvim_create_augroup("UserLspConfig", {}),
   callback = function(ev)
-    -- omnifunc
-    vim.bo[ev.buf].omnifunc = "v:lua.vim.lsp.omnifunc"
-
     -- lsp
     wk.register({
       K = { vim.lsp.buf.hover, "LSP hover", buffer = ev.buf, silent = true },
