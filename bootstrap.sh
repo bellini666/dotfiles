@@ -22,6 +22,7 @@ esac
 BIN_DIR="${HOME}/bin"
 LOCAL_DIR="${HOME}/.local"
 LOCAL_BIN_DIR="${LOCAL_DIR}/bin"
+
 if [ ${MACHINE_OS} = "MacOS" ]; then
   FONTS_DIR="${HOME}/Library/Fonts"
 elif [ ${MACHINE_OS} = "Linux" ]; then
@@ -30,110 +31,16 @@ else
   echo "Unknown OS: ${UNAME_OUTPUT}"
   exit 1
 fi
+
 NVIM_CONFIG_DIR="${HOME}/.config/nvim"
+
 MISE_CONFIG_DIR="${HOME}/.config/mise"
-
-APT_PACKAGES=(
-  bat
-  btop
-  build-essential
-  cpanminus
-  curl
-  docker-compose
-  exa
-  fonts-open-sans
-  fonts-wine
-  fzf
-  git
-  htop
-  jq
-  kubetail
-  libbz2-dev
-  libffi-dev
-  liblzma-dev
-  libncurses-dev
-  libreadline-dev
-  libsox-fmt-mp3
-  libsqlite3-dev
-  libssl-dev
-  libtool-bin
-  libwebkit2gtk-4.0-dev
-  libxml2-dev
-  libxmlsec1-dev
-  ncdu
-  neovim
-  ninja-build
-  pgcli
-  pipx
-  python3-dev
-  python3-pip
-  python3-pynvim
-  tk-dev
-  universal-ctags
-  wamerican
-  watchman
-  wbrazilian
-  xz-utils
-  zlib1g-dev
-  zsh
-  zsh-antigen
-)
-
-BREW_PACKAGES=(
-  antigen
-  bat
-  broot
-  btop
-  cpanminus
-  curl
-  docker
-  docker-buildx
-  docker-compose
-  docker-credential-helper
-  exa
-  fzf
-  gdal
-  git
-  gnu-sed
-  haproxy
-  hiddenbar
-  htop
-  hyperkey
-  jq
-  libffi
-  libtool
-  md5sha1sum
-  mise
-  ninja
-  openssl
-  pgcli
-  pipx
-  readline
-  rectangle
-  redis
-  sox
-  sqlite
-  terraform
-  terraform-ls
-  universal-ctags
-  warp
-  watchman
-  wget
-  whatsapp
-  xmlsectool
-  xz
-  zlib
-  zsh
-)
 
 SYMLINKS=(
   "${BASE_DIR}/git/gitattributes ${HOME}/.gitattributes"
   "${BASE_DIR}/git/gitconfig ${HOME}/.gitconfig"
   "${BASE_DIR}/git/gitignore ${HOME}/.gitignore"
   "${BASE_DIR}/mise/config.toml ${HOME}/.config/mise/config.toml"
-  "${BASE_DIR}/mise/node-packages ${HOME}/.default-nodejs-packages"
-  "${BASE_DIR}/mise/rust-packages ${HOME}/.default-cargo-crates"
-  "${BASE_DIR}/mise/gcloud-components ${HOME}/.default-cloud-sdk-components"
   "${BASE_DIR}/tmux/tmux.conf ${HOME}/.tmux.conf"
   "${BASE_DIR}/vim ${HOME}/.config/nvim"
   "${BASE_DIR}/zsh/zshrc ${HOME}/.zshrc"
@@ -153,13 +60,16 @@ function _system {
       exit 1
     fi
 
-    brew install "${BREW_PACKAGES[@]}"
+    BREW_PACKAGES=$(tr '\n' ' ' <"${BASE_DIR}/packages/brew-packages")
+    # shellcheck disable=2086
+    brew install ${BREW_PACKAGES}
     brew update
     brew upgrade
     brew autoremove
     brew cleanup
   elif [ ${MACHINE_OS} = "Linux" ]; then
     (
+      APT_PACKAGES=$(tr '\n' ' ' <"${BASE_DIR}/packages/apt-packages")
       EXTRA_OPTS="-t unstable"
       sudo apt update --list-cleanup
       sudo apt dist-upgrade --purge
@@ -168,7 +78,7 @@ function _system {
       # shellcheck disable=2086
       sudo apt build-dep python3 ${EXTRA_OPTS}
       # shellcheck disable=2086
-      sudo apt install --purge "${APT_PACKAGES[@]}" ${EXTRA_OPTS}
+      sudo apt install --purge ${EXTRA_OPTS} ${APT_PACKAGES}
       sudo flatpak update
       sudo flatpak uninstall --unused
       sudo apt autoremove --purge
@@ -316,12 +226,6 @@ function _neovim {
   fi
 }
 
-function _rust-libs {
-  info "installing/updating rust libs"
-  # FIXME: Move to mise/config.toml once it allows extra arguments to install
-  cargo install taplo-cli --features lsp --locked
-}
-
 function _python-libs {
   info "installing debugpy latest version"
   if [ ! -f "${HOME}/.debugpy/bin/python3" ]; then
@@ -358,7 +262,6 @@ function _ {
     _mise
     _gh
     _python-libs
-    _rust-libs
     _mise-reshim
   )
 }

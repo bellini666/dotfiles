@@ -14,12 +14,6 @@ PYTHON_CFLAGS = '-march=native -mtune=native'
 PYTHON_CONFIGURE_OPTS = '--enable-shared --enable-optimizations --with-lto --enable-loadable-sqlite-extensions'
 
 [tools]
-bun = 'latest'
-deno = 'latest'
-go = 'latest'
-node = 'latest'
-python = ['latest', 'sub-0.1:latest', 'sub-0.2:latest', 'sub-0.3:latest']
-rust = 'latest'
 # tools
 1password-cli = 'latest'
 actionlint = 'latest'
@@ -27,16 +21,13 @@ argocd = 'latest'
 awscli = 'latest'
 bottom = 'latest'
 cheat = 'latest'
-cloud-sql-proxy = 'latest'
 delta = 'latest'
 doctl = 'latest'
 duf = 'latest'
 fd = 'latest'
 fzf = 'latest'
-gcloud = 'latest'
 github-cli = 'latest'
 helm = 'latest'
-kube-score = 'latest'
 kubectl = 'latest'
 kubectx = 'latest'
 kubeseal = 'latest'
@@ -52,6 +43,7 @@ stylua = 'latest'
 yamlfmt = 'latest'
 # npm tools
 "npm:@astrojs/language-server" = "latest"
+"npm:@biomejs/biome" = "latest"
 "npm:bash-language-server" = "latest"
 "npm:cloc" = "latest"
 "npm:cspell" = "latest"
@@ -75,6 +67,7 @@ yamlfmt = 'latest'
 "npm:vscode-langservers-extracted" = "latest"
 "npm:yaml-language-server" = "latest"
 # pipx tools
+"pipx:basedpyright" = "latest"
 "pipx:black" = "latest"
 "pipx:codespell" = "latest"
 "pipx:djlint" = "latest"
@@ -91,9 +84,12 @@ yamlfmt = 'latest'
 "pipx:tox" = "latest"
 "pipx:yamlfix" = "latest"
 "pipx:yamllint" = "latest"
-# rust tools
-"cargo:choose" = "latest"
-"cargo:sd" = "latest"
+# runtimes (needs to be last)
+deno = 'latest'
+go = 'latest'
+node = 'latest'
+python = ['latest', 'sub-0.1:latest', 'sub-0.2:latest', 'sub-0.3:latest']
+rust = 'latest'
 
 [tasks."docker:prune"]
 description = 'Docker clean'
