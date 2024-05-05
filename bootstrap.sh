@@ -108,8 +108,6 @@ BREW_PACKAGES=(
   openssl
   pgcli
   pipx
-  postgis
-  postgresql
   readline
   rectangle
   redis

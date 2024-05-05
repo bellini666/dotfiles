@@ -2,7 +2,7 @@
 experimental = true
 
 [env]
-_.path = ["~/.local/bin", "~/bin"]
+_.path = ["~/.local/bin", "~/bin", "/Applications/Postgres.app/Contents/Versions/latest/bin/"]
 EDITOR = 'nvim'
 GIT_SSH = 'ssh'
 PERL_LOCAL_LIB_ROOT = '{{env.HOME}}/.local/perl'
