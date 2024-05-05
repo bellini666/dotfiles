@@ -136,10 +136,8 @@ nvim_lsp.pyright.setup({
   },
 })
 
--- FIXME: ruff is not working properly yet, so sticking to ruff_lsp
--- local ruff_lsp = os.getenv("USE_RUFF_LSP") == "1" and nvim_lsp.ruff_lsp or nvim_lsp.ruff
-local ruff_lsp = nvim_lsp.ruff_lsp
-ruff_lsp.setup({
+-- https://github.com/astral-sh/ruff
+nvim_lsp.ruff.setup({
   capabilities = lsp_capabilities(),
   autostart = os.getenv("DISABLE_RUFF") ~= "1",
   handlers = handlers,
@@ -147,14 +145,11 @@ ruff_lsp.setup({
     client.server_capabilities.hoverProvider = false
     on_attach(client, bufnr)
   end,
-  before_init = function(initialize_params, config)
-    local ruff_path = utils.find_python_cmd("ruff")
-    if ruff_path then
-      config.settings.path = { ruff_path }
-      utils.ensure_tables(initialize_params.initializationOptions, "settings")
-      initialize_params.initializationOptions.settings.path = { ruff_path }
-    end
-  end,
+  settings = {
+    prioritizeFileConfiguration = true,
+    fixAll = true,
+    organizeImports = true,
+  },
 })
 
 -- https://github.com/withastro/language-tools/tree/main/packages/language-server
