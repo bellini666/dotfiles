@@ -166,6 +166,13 @@ nvim_lsp.tsserver.setup({
   on_attach = on_attach,
 })
 
+-- https://github.com/biomejs/biome
+nvim_lsp.biome.setup({
+  capabilities = lsp_capabilities(),
+  handlers = handlers,
+  on_attach = on_attach,
+})
+
 -- https://github.com/graphql/graphiql/tree/main/packages/graphql-language-service-cli
 nvim_lsp.graphql.setup({
   capabilities = lsp_capabilities(),
@@ -333,6 +340,9 @@ null_ls.setup({
     -- javascript/typescript
     formatting.prettier.with({
       prefer_local = "node_modules/.bin",
+      condition = function(utils)
+        return not utils.root_has_file({ "biome.json", "biome.jsonc" })
+      end,
     }),
     -- sh/bash
     formatting.shfmt.with({
