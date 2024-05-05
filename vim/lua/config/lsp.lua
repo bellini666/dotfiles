@@ -307,36 +307,6 @@ null_ls.setup({
     code_actions.gitrebase,
     -- github actioins
     diagnostics.actionlint,
-    -- djlint
-    formatting.djlint.with({
-      prefer_local = ".venv/bin",
-      cwd = nhelpers.cache.by_bufnr(function(params)
-        return require("null-ls.utils").root_pattern(
-          ".djlintrc",
-          "pyproject.toml",
-          "setup.py",
-          "setup.cfg",
-          "requirements.txt",
-          "Pipfile",
-          "pyrightconfig.json"
-        )(params.bufname)
-      end),
-    }),
-    diagnostics.djlint.with({
-      prefer_local = ".venv/bin",
-      cwd = nhelpers.cache.by_bufnr(function(params)
-        return require("null-ls.utils").root_pattern(
-          ".djlintrc",
-          "pyproject.toml",
-          "setup.py",
-          "setup.cfg",
-          "requirements.txt",
-          "Pipfile",
-          "pyrightconfig.json"
-        )(params.bufname)
-      end),
-      diagnostics_format = diagnostics_format,
-    }),
     -- javascript/typescript
     formatting.prettier.with({
       prefer_local = "node_modules/.bin",
