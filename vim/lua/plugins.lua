@@ -441,6 +441,24 @@ return {
     cmd = "Oil",
   },
 
+  -- AI
+  {
+    "jackMort/ChatGPT.nvim",
+    cmd = { "ChatGPT", "ChatGPTRun", "ChatGPTEditWithInstruction" },
+    config = function()
+      local openai_key = vim.fs.joinpath(vim.fn.expand("$HOME"), ".openai_key")
+      require("chatgpt").setup({
+        api_key_cmd = "cat " .. openai_key,
+      })
+    end,
+    dependencies = {
+      "MunifTanjim/nui.nvim",
+      "nvim-lua/plenary.nvim",
+      "folke/trouble.nvim",
+      "nvim-telescope/telescope.nvim",
+    },
+  },
+
   -- Language specific
   {
     "toppair/peek.nvim",
