@@ -49,6 +49,8 @@ wk.register({
     mode = { "c" },
   },
   ["<leader>"] = {
+    y = { '"+y', "Copy to clipboard", silent = true, mode = "v" },
+    p = { '"+p', "Copy to clipboard", silent = true, mode = { "n", "v" } },
     e = { vim.diagnostic.open_float, "Open diagnostic float", silent = true },
     t = {
       name = "toggle",
