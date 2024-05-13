@@ -79,7 +79,6 @@ yamlfmt = 'latest'
 "pipx:poetry" = "latest"
 "pipx:ruff" = "latest"
 "pipx:tox" = "latest"
-"pipx:uv" = "latest"
 "pipx:yamlfix" = "latest"
 "pipx:yamllint" = "latest"
 # runtimes (needs to be last)
