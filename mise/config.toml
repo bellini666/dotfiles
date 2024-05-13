@@ -7,7 +7,6 @@ EDITOR = 'nvim'
 GIT_SSH = 'ssh'
 PERL_LOCAL_LIB_ROOT = '{{env.HOME}}/.local/perl'
 PIP_REQUIRE_VIRTUALENV = 'true'
-PYTHONBREAKPOINT = 'ipdb.set_trace'
 RIPGREP_CONFIG_PATH = '{{env.HOME}}/.dotfiles/rg/ripgreprc'
 # python build settings
 PYTHON_CFLAGS = '-march=native -mtune=native'
@@ -72,7 +71,6 @@ yamlfmt = 'latest'
 "pipx:codespell" = "latest"
 "pipx:djlint" = "latest"
 "pipx:flake8" = "latest"
-"pipx:ipdb" = "latest"
 "pipx:ipython" = "latest"
 "pipx:isort" = "latest"
 "pipx:mypy" = "latest"
@@ -80,7 +78,6 @@ yamlfmt = 'latest'
 "pipx:pipx" = "latest"
 "pipx:poetry" = "latest"
 "pipx:ruff" = "latest"
-"pipx:ruff-lsp" = "latest"
 "pipx:tox" = "latest"
 "pipx:yamlfix" = "latest"
 "pipx:yamllint" = "latest"
