@@ -319,6 +319,14 @@ vim.keymap.set("v", "<A-/>", "gc", { remap = true })
 vim.api.nvim_create_autocmd("LspAttach", {
   group = vim.api.nvim_create_augroup("UserLspConfig", {}),
   callback = function(ev)
+    local client = assert(vim.lsp.get_client_by_id(ev.data.client_id))
+    if client.server_capabilities.completionProvider then
+      vim.bo[ev.buf].omnifunc = "v:lua.vim.lsp.omnifunc"
+    end
+    if client.server_capabilities.definitionProvider then
+      vim.bo[ev.buf].tagfunc = "v:lua.vim.lsp.tagfunc"
+    end
+
     -- lsp
     wk.register({
       K = { vim.lsp.buf.hover, "LSP hover", buffer = ev.buf, silent = true },
