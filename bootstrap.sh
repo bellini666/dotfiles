@@ -122,7 +122,7 @@ function _mise {
   elif [ ${MACHINE_OS} = "Linux" ]; then
     MISE_BINARY="${HOME}/.local/bin/mise"
     if [ ! -f "${MISE_BINARY}" ]; then
-      curl https://mise.jdx.dev/install.sh | sh
+      curl https://mise.run | sh
     fi
   else
     echo "Unknown OS: ${UNAME_OUTPUT}"
