@@ -146,7 +146,10 @@ function _mise {
     echo "$today" >"$marker_file"
   fi
 
-  "${MISE_BINARY}" self-update || true
+  if [ ${MACHINE_OS} = "Linux" ]; then
+    "${MISE_BINARY}" self-update || true
+  fi
+
   "${MISE_BINARY}" plugins update -y || true
   "${MISE_BINARY}" install -y
   "${MISE_BINARY}" upgrade -y
