@@ -155,4 +155,44 @@ M.find_python_cmd = function(cmd)
   return cmd
 end
 
+local hast_last_run = false
+
+M.run_tests = function()
+  local opts = {
+    "Test Last Run",
+    "Test Last Run (debug)",
+    "Test Closest",
+    "Test Closest (debug)",
+    "Test File",
+    "Test Failed",
+  }
+  if not hast_last_run then
+    table.remove(opts, 1)
+    table.remove(opts, 1)
+  end
+  vim.ui.select(opts, {
+    prompt = "What to run:",
+  }, function(choice)
+    if choice == "Test File" then
+      require("neotest").run.run(vim.fn.expand("%"))
+      hast_last_run = true
+    elseif choice == "Test Closest" then
+      require("neotest").run.run()
+      hast_last_run = true
+    elseif choice == "Test Closest (debug)" then
+      require("neotest").run.run({ strategy = "dap" })
+      hast_last_run = true
+    elseif choice == "Test Last Run" then
+      require("neotest").run.run_last()
+      hast_last_run = true
+    elseif choice == "Test Last Run (debug)" then
+      require("neotest").run.run_last({ strategy = "dap" })
+      hast_last_run = true
+    elseif choice == "Test Failed" then
+      require("neotest").run.run({ status = "failed" })
+      hast_last_run = true
+    end
+  end)
+end
+
 return M

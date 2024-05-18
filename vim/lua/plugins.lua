@@ -152,7 +152,7 @@ return {
   -- Testing
   {
     "mfussenegger/nvim-dap",
-    event = "BufReadPost",
+    lazy = true,
     config = function()
       require("config.dap")
     end,
@@ -179,7 +179,7 @@ return {
   },
   {
     "nvim-neotest/neotest",
-    event = "BufReadPost",
+    lazy = true,
     dependencies = {
       "nvim-lua/plenary.nvim",
       "nvim-treesitter/nvim-treesitter",
@@ -187,27 +187,7 @@ return {
       "nvim-neotest/neotest-python",
     },
     config = function()
-      ---@diagnostic disable-next-line: missing-fields
-      require("neotest").setup({
-        adapters = {
-          require("neotest-python")({
-            args = { "-vvv", "--no-cov", "--disable-warnings" },
-          }),
-        },
-        quickfix = {
-          enabled = false,
-          open = false,
-        },
-        output = {
-          enabled = true,
-          open_on_run = false,
-        },
-        status = {
-          enabled = true,
-          signs = true,
-          virtual_text = true,
-        },
-      })
+      require("config.neotest")
     end,
   },
 

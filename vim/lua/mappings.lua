@@ -120,9 +120,7 @@ wk.register({
     "Find buffers",
   },
   ["<C-d>"] = {
-    function()
-      require("config.dap").run()
-    end,
+    utils.run_tests,
     "Run tests",
   },
   ["<F1>"] = {
