@@ -130,12 +130,6 @@ return {
           vim.api.nvim_set_hl(0, "CmpItemKindCodeium", { fg = "#69ae6a" })
         end,
       },
-      {
-        "zbirenbaum/copilot-cmp",
-        config = function()
-          require("copilot_cmp").setup()
-        end,
-      },
     },
     event = "InsertEnter",
     config = function()
