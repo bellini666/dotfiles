@@ -3,6 +3,7 @@ bat
 broot
 btop
 cloud-sql-proxy
+cmake
 cpanminus
 curl
 docker
@@ -22,6 +23,7 @@ hyperkey
 jq
 libffi
 libtool
+make
 md5sha1sum
 mise
 ninja

@@ -362,7 +362,7 @@ return {
       "nvim-tree/nvim-web-devicons",
       {
         "nvim-telescope/telescope-fzf-native.nvim",
-        build = "make",
+        build = "gmake",
         config = function()
           require("telescope").load_extension("fzf")
         end,
