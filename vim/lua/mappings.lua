@@ -255,30 +255,6 @@ wk.register({
       "Smart resize",
     },
   },
-  ["<C-a>"] = {
-    function()
-      if vim.api.nvim_get_mode().mode:lower() == "v" then
-        require("dial.map").inc_visual()
-      else
-        require("dial.map").inc_normal()
-      end
-    end,
-    "Dial increment",
-    noremap = true,
-    mode = { "n", "v" },
-  },
-  ["<C-x>"] = {
-    function()
-      if vim.api.nvim_get_mode().mode:lower() == "v" then
-        require("dial.map").dec_visual()
-      else
-        require("dial.map").dec_normal()
-      end
-    end,
-    "Dial increment",
-    noremap = true,
-    mode = { "n", "v" },
-  },
   ["<A-Up>"] = {
     function()
       if vim.api.nvim_get_mode().mode:lower() == "v" then

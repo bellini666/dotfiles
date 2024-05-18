@@ -508,10 +508,6 @@ return {
     end,
   },
   {
-    "monaqa/dial.nvim",
-    event = "BufReadPost",
-  },
-  {
     "wakatime/vim-wakatime",
     event = "VeryLazy",
   },
