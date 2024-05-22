@@ -41,6 +41,7 @@ SYMLINKS=(
   "${BASE_DIR}/git/gitconfig ${HOME}/.gitconfig"
   "${BASE_DIR}/git/gitignore ${HOME}/.gitignore"
   "${BASE_DIR}/mise/config.toml ${HOME}/.config/mise/config.toml"
+  "${BASE_DIR}/python/pdbrc.py ${HOME}/.pdbrc.py"
   "${BASE_DIR}/tmux/tmux.conf ${HOME}/.tmux.conf"
   "${BASE_DIR}/vim ${HOME}/.config/nvim"
   "${BASE_DIR}/zsh/zshrc ${HOME}/.zshrc"
