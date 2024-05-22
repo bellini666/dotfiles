@@ -31,7 +31,6 @@ openssl
 pgcli
 pipx
 readline
-rectangle
 redis
 sd
 sox
