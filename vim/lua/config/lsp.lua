@@ -319,12 +319,16 @@ null_ls.setup({
       prefer_local = "node_modules/.bin",
       condition = function(utils)
         return not utils.root_has_file({ "biome.json", "biome.jsonc" })
+          and os.getenv("DISABLE_PRETTIER") ~= "1"
       end,
     }),
     -- sh/bash
     formatting.shfmt.with({
       extra_args = function(params)
         return { "-i", tostring(vim.opt_local.shiftwidth:get()) }
+      end,
+      condition = function(utils)
+        return os.getenv("DISABLE_SHFMT") ~= "1"
       end,
     }),
     -- lua
@@ -334,18 +338,6 @@ null_ls.setup({
       end,
     }),
     -- yaml
-    diagnostics.yamllint.with({
-      diagnostics_format = diagnostics_format,
-      extra_args = function(params)
-        return {
-          "-d",
-          string.format(
-            "{extends: default, rules: {line-length: {max: %d}}}",
-            vim.opt_local.textwidth:get() + 1
-          ),
-        }
-      end,
-    }),
     formatting.yamlfix.with({
       env = function(params)
         return {
@@ -354,6 +346,9 @@ null_ls.setup({
           YAMLFIX_quote_representation = '"',
           YAMLFIX_SEQUENCE_STYLE = "block_style",
         }
+      end,
+      condition = function(utils)
+        return os.getenv("DISABLE_YAMLFIX") ~= "1"
       end,
     }),
     -- markdown
