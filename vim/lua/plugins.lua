@@ -313,6 +313,19 @@ return {
     },
   },
   {
+    "nvim-focus/focus.nvim",
+    opts = {
+      autoresize = {
+        width = 105,
+      },
+      ui = {
+        number = true,
+        cursorline = false,
+        signcolumn = false,
+      },
+    },
+  },
+  {
     "SmiteshP/nvim-navic",
     lazy = true,
     dependencies = {
