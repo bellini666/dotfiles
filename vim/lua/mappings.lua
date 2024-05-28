@@ -216,7 +216,11 @@ wk.register({
       mode = "n",
     },
     d = {
-      vim.diagnostic.goto_prev,
+      function()
+        vim.diagnostic.jump({
+          count = -1,
+        })
+      end,
       "Go to previous diagnostic",
       silent = true,
     },
@@ -251,7 +255,11 @@ wk.register({
       mode = "n",
     },
     d = {
-      vim.diagnostic.goto_next,
+      function()
+        vim.diagnostic.jump({
+          count = 1,
+        })
+      end,
       "Go to next diagnostic",
       silent = true,
     },
