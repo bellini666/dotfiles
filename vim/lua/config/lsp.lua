@@ -325,6 +325,7 @@ null_ls.setup({
     -- sh/bash
     formatting.shfmt.with({
       extra_args = function(params)
+        ---@diagnostic disable-next-line: undefined-field
         return { "-i", tostring(vim.opt_local.shiftwidth:get()) }
       end,
       condition = function(utils)

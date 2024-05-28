@@ -226,12 +226,14 @@ wk.register({
     },
     q = {
       function()
+        ---@diagnostic disable-next-line: missing-parameter, missing-fields
         require("trouble").prev({ jump = true })
       end,
       "Previous trouble result",
     },
     Q = {
       function()
+        ---@diagnostic disable-next-line: missing-parameter, missing-fields
         require("trouble").first({ jump = true })
       end,
       "First trouble result",
@@ -265,12 +267,14 @@ wk.register({
     },
     q = {
       function()
+        ---@diagnostic disable-next-line: missing-parameter, missing-fields
         require("trouble").next({ jump = true })
       end,
       "Next trouble result",
     },
     Q = {
       function()
+        ---@diagnostic disable-next-line: missing-parameter, missing-fields
         require("trouble").last({ jump = true })
       end,
       "Last trouble result",

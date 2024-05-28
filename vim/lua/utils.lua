@@ -180,16 +180,16 @@ M.run_tests = function()
       require("neotest").run.run()
       hast_last_run = true
     elseif choice == "Test Closest (debug)" then
-      require("neotest").run.run({ strategy = "dap" })
+      require("neotest").run.run({ strategy = "dap", suite = false })
       hast_last_run = true
     elseif choice == "Test Last Run" then
       require("neotest").run.run_last()
       hast_last_run = true
     elseif choice == "Test Last Run (debug)" then
-      require("neotest").run.run_last({ strategy = "dap" })
+      require("neotest").run.run_last({ strategy = "dap", suite = false })
       hast_last_run = true
     elseif choice == "Test Failed" then
-      require("neotest").run.run({ status = "failed" })
+      require("neotest").run.run({ status = "failed", suite = false })
       hast_last_run = true
     end
   end)
