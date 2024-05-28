@@ -215,15 +215,6 @@ wk.register({
       silent = true,
       mode = "n",
     },
-    d = {
-      function()
-        vim.diagnostic.jump({
-          count = -1,
-        })
-      end,
-      "Go to previous diagnostic",
-      silent = true,
-    },
     q = {
       function()
         ---@diagnostic disable-next-line: missing-parameter, missing-fields
@@ -255,15 +246,6 @@ wk.register({
       "Go to next breakpoint",
       silent = true,
       mode = "n",
-    },
-    d = {
-      function()
-        vim.diagnostic.jump({
-          count = 1,
-        })
-      end,
-      "Go to next diagnostic",
-      silent = true,
     },
     q = {
       function()
