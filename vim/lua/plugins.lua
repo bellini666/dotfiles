@@ -47,10 +47,6 @@ return {
     "neovim/nvim-lspconfig",
     event = "BufReadPost",
     dependencies = {
-      {
-        "folke/neodev.nvim",
-        opts = {},
-      },
       "nvimtools/none-ls.nvim",
       "b0o/schemastore.nvim",
       "SmiteshP/nvim-navic",
@@ -58,6 +54,25 @@ return {
     config = function()
       require("config.lsp")
     end,
+  },
+  {
+    "folke/lazydev.nvim",
+    ft = "lua",
+    init = function()
+      vim.g.lazydev_enabled = true
+    end,
+    opts = {
+      library = {
+        vim.env.LAZY .. "/luvit-meta/library",
+      },
+    },
+    dependencies = {
+      "neovim/nvim-lspconfig",
+    },
+  },
+  {
+    "Bilal2453/luvit-meta",
+    lazy = true,
   },
   {
     "folke/trouble.nvim",

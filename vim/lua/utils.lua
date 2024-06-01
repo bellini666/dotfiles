@@ -12,6 +12,12 @@ local lsp_excluded = {
   tsserver = true,
 }
 
+M.get_root_path = function()
+  local info = debug.getinfo(1, "S")
+  local source = info.source:sub(2) -- Remove the '@' character from the beginning
+  return source:match("(.*[/\\])")
+end
+
 M.trim = function(s)
   return s:gsub("^%s*(.-)%s*$", "%1")
 end
