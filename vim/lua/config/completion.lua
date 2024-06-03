@@ -16,6 +16,11 @@ cmp.setup({
     { name = "nvim_lua" },
     { name = "async_path" },
     { name = "buffer" },
+  }, {
+    {
+      name = "lazydev",
+      group_index = 0, -- set group index to 0 to skip loading LuaLS completions
+    },
   }),
   completion = {
     autocomplete = false,
