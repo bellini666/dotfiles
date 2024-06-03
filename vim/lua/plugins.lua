@@ -79,7 +79,7 @@ return {
     dependencies = {
       "nvim-tree/nvim-web-devicons",
     },
-    cmd = { "Trouble" },
+    lazy = true,
     opts = {
       auto_preview = false,
       modes = {
