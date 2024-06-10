@@ -40,7 +40,6 @@ terraform
 terraform-ls
 universal-ctags
 uv
-warp
 watchman
 wget
 xmlsectool
