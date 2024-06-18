@@ -7,12 +7,12 @@ vim.g.loaded_python_provider = 0
 vim.g.loaded_ruby_provider = 0
 
 require("options")
+require("autocmds")
 require("bootstrap")
 
 vim.api.nvim_create_autocmd("User", {
   pattern = "VeryLazy",
   callback = function()
-    require("autocmds")
     require("cmds")
     require("mappings")
   end,
