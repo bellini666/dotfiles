@@ -41,3 +41,11 @@ vim.api.nvim_create_autocmd({ "BufWritePre" }, {
     vim.fn.mkdir(vim.fn.fnamemodify(file, ":p:h"), "p")
   end,
 })
+
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "*",
+  group = augroup("file_type"),
+  callback = function(...)
+    require("options").setup_ft(...)
+  end,
+})
