@@ -422,12 +422,6 @@ return {
       },
     },
   },
-  {
-    "stevearc/oil.nvim",
-    opts = {},
-    dependencies = { "nvim-tree/nvim-web-devicons" },
-    cmd = "Oil",
-  },
 
   -- AI
   {
@@ -546,14 +540,6 @@ return {
   {
     "nvim-pack/nvim-spectre",
     cmd = "Spectre",
-  },
-  {
-    "Wansmer/treesj",
-    dependencies = { "nvim-treesitter/nvim-treesitter" },
-    keys = { "<leader>sj" },
-    config = function()
-      require("treesj").setup()
-    end,
   },
   {
     "kylechui/nvim-surround",
