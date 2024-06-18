@@ -31,6 +31,7 @@ ninja
 openssl
 pgcli
 pipx
+postman
 readline
 redis
 sd
