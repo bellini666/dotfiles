@@ -37,15 +37,26 @@ vim.api.nvim_create_autocmd({ "BufWritePre" }, {
     if event.match:match("^%w%w+:[\\/][\\/]") then
       return
     end
+    ---@diagnostic disable-next-line: undefined-field
     local file = vim.uv.fs_realpath(event.match) or event.match
     vim.fn.mkdir(vim.fn.fnamemodify(file, ":p:h"), "p")
   end,
 })
 
+-- Setup file type options
 vim.api.nvim_create_autocmd("FileType", {
   pattern = "*",
   group = augroup("file_type"),
-  callback = function(...)
-    require("options").setup_ft(...)
+  callback = function()
+    require("options").setup_ft()
+  end,
+})
+
+-- Setup LSP mappings
+vim.api.nvim_create_autocmd("LspAttach", {
+  group = augroup("lsp_attach"),
+  pattern = "*",
+  callback = function(ev)
+    require("mappings").setup_lsp(ev)
   end,
 })

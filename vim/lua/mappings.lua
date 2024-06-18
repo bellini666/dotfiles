@@ -1,3 +1,5 @@
+local M = {}
+
 local utils = require("utils")
 local wk = require("which-key")
 
@@ -49,8 +51,6 @@ wk.register({
     mode = { "c" },
   },
   ["<leader>"] = {
-    y = { '"+y', "Copy to clipboard", silent = true, mode = "v" },
-    p = { '"+p', "Copy to clipboard", silent = true, mode = { "n", "v" } },
     e = { vim.diagnostic.open_float, "Open diagnostic float", silent = true },
     t = {
       name = "toggle",
@@ -239,14 +239,6 @@ wk.register({
       silent = true,
       mode = "n",
     },
-    S = {
-      function()
-        require("goto-breakpoints").stopped()
-      end,
-      "Go to next breakpoint",
-      silent = true,
-      mode = "n",
-    },
     q = {
       function()
         ---@diagnostic disable-next-line: missing-parameter, missing-fields
@@ -310,137 +302,138 @@ vim.keymap.set("v", "<C-/>", "gc", { remap = true })
 vim.keymap.set("n", "<A-/>", "gcc", { remap = true })
 vim.keymap.set("v", "<A-/>", "gc", { remap = true })
 
-vim.api.nvim_create_autocmd("LspAttach", {
-  group = vim.api.nvim_create_augroup("UserLspConfig", {}),
-  callback = function(ev)
-    local client = assert(vim.lsp.get_client_by_id(ev.data.client_id))
-    if client.server_capabilities.completionProvider then
-      vim.bo[ev.buf].omnifunc = "v:lua.vim.lsp.omnifunc"
-    end
-    if client.server_capabilities.definitionProvider then
-      vim.bo[ev.buf].tagfunc = "v:lua.vim.lsp.tagfunc"
-    end
+M.setup_lsp = function(ev)
+  local client = assert(vim.lsp.get_client_by_id(ev.data.client_id))
 
-    -- lsp
-    wk.register({
-      K = { vim.lsp.buf.hover, "LSP hover", buffer = ev.buf, silent = true },
-      ["<C-K>"] = {
-        vim.lsp.buf.signature_help,
-        "LSP signature help",
-        buffer = ev.buf,
-        silent = true,
-      },
-      ["<C-LeftMouse>"] = {
+  if client.server_capabilities.completionProvider then
+    vim.bo[ev.buf].omnifunc = "v:lua.vim.lsp.omnifunc"
+  end
+  if client.server_capabilities.definitionProvider then
+    vim.bo[ev.buf].tagfunc = "v:lua.vim.lsp.tagfunc"
+  end
+
+  -- lsp
+  wk.register({
+    K = { vim.lsp.buf.hover, "LSP hover", buffer = ev.buf, silent = true },
+    ["<C-K>"] = {
+      vim.lsp.buf.signature_help,
+      "LSP signature help",
+      buffer = ev.buf,
+      silent = true,
+      mode = { "i", "n" },
+    },
+    ["<C-LeftMouse>"] = {
+      function()
+        require("telescope.builtin").lsp_definitions()
+      end,
+      "LSP hover",
+      buffer = ev.buf,
+      silent = true,
+    },
+    g = {
+      d = {
         function()
           require("telescope.builtin").lsp_definitions()
         end,
-        "LSP hover",
+        "LSP go to definition",
         buffer = ev.buf,
         silent = true,
       },
-      g = {
-        d = {
+      D = { vim.lsp.buf.declaration, "LSP go to declaration", buffer = ev.buf, silent = true },
+      I = {
+        function()
+          require("telescope.builtin").lsp_implementations()
+        end,
+        "LSP go to implementation",
+        buffer = ev.buf,
+        silent = true,
+      },
+      c = {
+        name = "callhierarchy",
+        i = {
           function()
-            require("telescope.builtin").lsp_definitions()
+            require("telescope.builtin").lsp_incoming_calls()
           end,
-          "LSP go to definition",
+          "LSP incoming calls",
           buffer = ev.buf,
           silent = true,
         },
-        D = { vim.lsp.buf.declaration, "LSP go to declaration", buffer = ev.buf, silent = true },
-        I = {
+        o = {
           function()
-            require("telescope.builtin").lsp_implementations()
+            require("telescope.builtin").lsp_outgoing_calls()
           end,
-          "LSP go to implementation",
+          "LSP outgoing calls",
           buffer = ev.buf,
           silent = true,
         },
-        c = {
-          name = "callhierarchy",
-          i = {
-            function()
-              require("telescope.builtin").lsp_incoming_calls()
-            end,
-            "LSP incoming calls",
-            buffer = ev.buf,
-            silent = true,
-          },
-          o = {
-            function()
-              require("telescope.builtin").lsp_outgoing_calls()
-            end,
-            "LSP outgoing calls",
-            buffer = ev.buf,
-            silent = true,
-          },
+      },
+      r = {
+        function()
+          require("telescope.builtin").lsp_references({ jump_type = "never" })
+        end,
+        "LSP references",
+        buffer = ev.buf,
+        silent = true,
+      },
+      s = {
+        function()
+          require("telescope.builtin").lsp_document_symbols()
+        end,
+        "LSP document symbols",
+        buffer = ev.buf,
+        silent = true,
+      },
+      S = {
+        function()
+          require("telescope.builtin").lsp_workspace_symbols()
+        end,
+        "LSP workspace symbols",
+        buffer = ev.buf,
+        silent = true,
+      },
+    },
+    ["<leader>"] = {
+      D = {
+        function()
+          require("telescope.builtin").lsp_type_definitions()
+        end,
+        "LSP type definition",
+        buffer = ev.buf,
+        silent = true,
+      },
+      ca = {
+        vim.lsp.buf.code_action,
+        "LSP code action",
+        buffer = ev.buf,
+        silent = true,
+        mode = { "n", "v" },
+      },
+      rn = { vim.lsp.buf.rename, "LSP rename", buffer = ev.buf, silent = true },
+      w = {
+        name = "workspace",
+        l = {
+          function()
+            vim.print(vim.lsp.buf.list_workspace_folders())
+          end,
+          "LSP list workspace",
+          buffer = ev.buf,
+          silent = true,
+        },
+        a = {
+          vim.lsp.buf.add_workspace_folder,
+          "LSP add workspace folder",
+          buffer = ev.buf,
+          silent = true,
         },
         r = {
-          function()
-            require("telescope.builtin").lsp_references({ jump_type = "never" })
-          end,
-          "LSP references",
-          buffer = ev.buf,
-          silent = true,
-        },
-        s = {
-          function()
-            require("telescope.builtin").lsp_document_symbols()
-          end,
-          "LSP document symbols",
-          buffer = ev.buf,
-          silent = true,
-        },
-        S = {
-          function()
-            require("telescope.builtin").lsp_workspace_symbols()
-          end,
-          "LSP workspace symbols",
+          vim.lsp.buf.add_workspace_folder,
+          "LSP remove workspace folder",
           buffer = ev.buf,
           silent = true,
         },
       },
-      ["<leader>"] = {
-        D = {
-          function()
-            require("telescope.builtin").lsp_type_definitions()
-          end,
-          "LSP type definition",
-          buffer = ev.buf,
-          silent = true,
-        },
-        ca = {
-          vim.lsp.buf.code_action,
-          "LSP code action",
-          buffer = ev.buf,
-          silent = true,
-          mode = { "n", "v" },
-        },
-        rn = { vim.lsp.buf.rename, "LSP rename", buffer = ev.buf, silent = true },
-        w = {
-          name = "workspace",
-          l = {
-            function()
-              vim.print(vim.lsp.buf.list_workspace_folders())
-            end,
-            "LSP list workspace",
-            buffer = ev.buf,
-            silent = true,
-          },
-          a = {
-            vim.lsp.buf.add_workspace_folder,
-            "LSP add workspace folder",
-            buffer = ev.buf,
-            silent = true,
-          },
-          r = {
-            vim.lsp.buf.add_workspace_folder,
-            "LSP remove workspace folder",
-            buffer = ev.buf,
-            silent = true,
-          },
-        },
-      },
-    })
-  end,
-})
+    },
+  })
+end
+
+return M
