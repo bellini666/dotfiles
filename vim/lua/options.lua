@@ -81,6 +81,10 @@ vim.opt.ignorecase = true
 vim.opt.smartcase = true
 vim.opt.wildmode = { "list:longest", "full" }
 
+-- Persistent undo
+vim.opt.undofile = true
+vim.opt.undolevels = 10000
+
 -- FT Configs
 local ft_configs = {
   bash = { indent = 2 },
