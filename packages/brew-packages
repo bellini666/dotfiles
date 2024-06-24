@@ -24,6 +24,7 @@ jq
 karabiner-elements
 libffi
 libtool
+luarocks
 make
 md5sha1sum
 mise
