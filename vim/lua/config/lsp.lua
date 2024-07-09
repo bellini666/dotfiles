@@ -20,6 +20,9 @@ local lsp_capabilities = function()
 end
 
 vim.diagnostic.config({
+  jump = {
+    float = true,
+  },
   signs = {
     text = {
       [vim.diagnostic.severity.ERROR] = "",
