@@ -3,281 +3,12 @@ local M = {}
 local utils = require("utils")
 local wk = require("which-key")
 
-wk.register({
-  ["<esc>"] = { "<cmd>noh<cr><esc>", "Clear", mode = { "i", "n" } },
-  ["<C-Up>"] = { "15<C-y>", "Up 1 page", mode = { "i", "n" } },
-  ["<C-Down>"] = { "15<C-e>", "Down 1 page", mode = { "i", "n" } },
-  ["<"] = { "<gv", "Continuous visual indenting", mode = "v" },
-  [">"] = { ">gv", "Continuous visual indenting", mode = "v" },
-  ["<A-Left>"] = { "gT", "Previous tab" },
-  ["<A-Right>"] = { "gt", "Next tab" },
-  ["z="] = { utils.spell_suggest, "Spell suggest" },
-  ["#"] = { "*", "Search highlighted word forward", mode = { "n", "x", "o" } },
-  ["*"] = { "#", "Search highlighted word backward", mode = { "n", "x", "o" } },
-  p = { '"_dP', "Paste", noremap = true, silent = true, mode = "v" },
-  s = {
-    function()
-      require("flash").jump()
-    end,
-    "Flash",
-    mode = { "n", "x", "o" },
-  },
-  S = {
-    function()
-      require("flash").treesitter()
-    end,
-    "Flash Treesitter",
-    mode = { "n", "x", "o" },
-  },
-  r = {
-    function()
-      require("flash").remote()
-    end,
-    "Remote Flash",
-    mode = "o",
-  },
-  R = {
-    function()
-      require("flash").treesitter_search()
-    end,
-    "Treesitter Search",
-    mode = { "o", "x" },
-  },
-  ["<C-s>"] = {
-    function()
-      require("flash").toggle()
-    end,
-    "Toggle Flash Search",
-    mode = { "c" },
-  },
-  ["<leader>"] = {
-    e = { vim.diagnostic.open_float, "Open diagnostic float", silent = true },
-    t = {
-      name = "toggle",
-      f = { utils.toggle_format, "Toggle format" },
-      l = { "<cmd>set list!<cr>:set list?<CR>", "Toggle list" },
-      n = { "<cmd>set number!<cr>:set number?<CR>", "Toggle number" },
-      p = { "<cmd>set paste!<cr>:set paste?<CR>", "Toggle paste" },
-      s = { "<cmd>set spell!<cr>:set spell?<CR>", "Toggle spell" },
-      d = { utils.toggle_diagnostics, "Toggle diagnostics" },
-    },
-    v = {
-      b = {
-        function()
-          require("gitsigns").blame_line({ full = true })
-        end,
-        "Blame current line",
-        silent = true,
-      },
-    },
-    s = {
-      j = {
-        function()
-          require("treesj").toggle()
-        end,
-        "Treesj Toggle",
-        mode = { "n" },
-      },
-    },
-    c = {
-      name = "ChatGPT",
-      c = { "<cmd>ChatGPT<CR>", "ChatGPT" },
-      e = {
-        "<cmd>ChatGPTEditWithInstruction<CR>",
-        "Edit with instruction",
-        mode = { "n", "v" },
-      },
-      g = {
-        "<cmd>ChatGPTRun grammar_correction<CR>",
-        "Grammar Correction",
-        mode = { "n", "v" },
-      },
-      t = { "<cmd>ChatGPTRun translate<CR>", "Translate", mode = { "n", "v" } },
-      d = { "<cmd>ChatGPTRun docstring<CR>", "Docstring", mode = { "n", "v" } },
-      w = { "<cmd>ChatGPTRun add_tests<CR>", "Add Tests", mode = { "n", "v" } },
-      o = { "<cmd>ChatGPTRun optimize_code<CR>", "Optimize Code", mode = { "n", "v" } },
-      s = { "<cmd>ChatGPTRun summarize<CR>", "Summarize", mode = { "n", "v" } },
-      f = { "<cmd>ChatGPTRun fix_bugs<CR>", "Fix Bugs", mode = { "n", "v" } },
-      x = { "<cmd>ChatGPTRun explain_code<CR>", "Explain Code", mode = { "n", "v" } },
-      l = {
-        "<cmd>ChatGPTRun code_readability_analysis<CR>",
-        "Code Readability Analysis",
-        mode = { "n", "v" },
-      },
-    },
-  },
-  ["<C-p>"] = { utils.find_files, "Find files" },
-  ["<C-f>"] = {
-    function()
-      require("telescope.builtin").live_grep()
-    end,
-    "Live grep",
-  },
-  ["<C-b>"] = {
-    function()
-      require("telescope.builtin").buffers()
-    end,
-    "Find buffers",
-  },
-  ["<C-d>"] = {
-    utils.run_tests,
-    "Run tests",
-  },
-  ["<F1>"] = {
-    function()
-      require("dap").toggle_breakpoint()
-    end,
-    "Toggle breakpoint",
-  },
-  ["<F2>"] = { "<cmd>UndotreeToggle<cr>", "Toggle Undotree" },
-  ["<F3>"] = {
-    function()
-      require("telescope").extensions.vstask.tasks()
-    end,
-    "Tasks",
-  },
-  ["<F4>"] = { "<cmd>Neotree reveal toggle<cr>", "Toggle Neotree" },
-  ["<F5>"] = {
-    function()
-      require("dap").continue()
-    end,
-    "DAP continue",
-  },
-  ["<F6>"] = {
-    function()
-      require("dap").step_over()
-    end,
-    "DAP step over",
-  },
-  ["<F7>"] = {
-    function()
-      require("dap").sep_into()
-    end,
-    "DAP step into",
-  },
-  ["<F8>"] = {
-    function()
-      require("dap").step_out()
-    end,
-    "DAP step out",
-  },
-  ["<F9>"] = {
-    function()
-      require("dapui").toggle()
-    end,
-    "Toggle DAP UI",
-  },
-  ["<F10>"] = {
-    function()
-      require("neotest").output_panel.toggle()
-    end,
-    "Toggle neotest output",
-  },
-  ["<F12>"] = {
-    function()
-      require("neotest").summary.toggle()
-    end,
-    "Toggle neotest summary",
-  },
-  g = {
-    K = {
-      function()
-        require("dap.ui.widgets").hover()
-      end,
-      "DAP hover",
-      mode = { "n", "v" },
-    },
-    e = {
-      function()
-        require("trouble").toggle({ mode = "diagnostics", focus = false, filter = { buf = 0 } })
-      end,
-      "Document diagnostics",
-    },
-    E = {
-      function()
-        require("trouble").toggle({ mode = "diagnostics", focus = false })
-      end,
-      "Document diagnostics",
-    },
-  },
-  ["<C-q>"] = {
-    function()
-      require("trouble").toggle({ mode = "diagnostics", focus = false })
-    end,
-    "Toggle trouble",
-  },
-  ["["] = {
-    b = {
-      function()
-        require("goto-breakpoints").prev()
-      end,
-      "Go to previous breakpoint",
-      silent = true,
-      mode = "n",
-    },
-    q = {
-      function()
-        ---@diagnostic disable-next-line: missing-parameter, missing-fields
-        require("trouble").prev({ jump = true })
-      end,
-      "Previous trouble result",
-    },
-    Q = {
-      function()
-        ---@diagnostic disable-next-line: missing-parameter, missing-fields
-        require("trouble").first({ jump = true })
-      end,
-      "First trouble result",
-    },
-  },
-  ["]"] = {
-    b = {
-      function()
-        require("goto-breakpoints").next()
-      end,
-      "Go to next breakpoint",
-      silent = true,
-      mode = "n",
-    },
-    q = {
-      function()
-        ---@diagnostic disable-next-line: missing-parameter, missing-fields
-        require("trouble").next({ jump = true })
-      end,
-      "Next trouble result",
-    },
-    Q = {
-      function()
-        ---@diagnostic disable-next-line: missing-parameter, missing-fields
-        require("trouble").last({ jump = true })
-      end,
-      "Last trouble result",
-    },
-  },
-  ["<C-w>"] = {
-    t = { "<cmd>tab split<cr>", "Duplicate tab" },
-    m = { "<cmd>WinShift<cr>", "WinShift mode" },
-    x = { "<cmd>WinShift swap<cr><C-w><C-w>", "Swap splits" },
-    r = {
-      function()
-        require("smart-splits").start_resize_mode()
-      end,
-      "Smart resize",
-    },
-  },
-  ["<A-Up>"] = {
-    function()
-      if vim.api.nvim_get_mode().mode:lower() == "v" then
-        require("moveline").block_up()
-      else
-        require("moveline").up()
-      end
-    end,
-    "Move line up",
-    silent = true,
-    mode = { "n", "v", "i" },
-  },
-  ["<A-Down>"] = {
+wk.add({
+  { "<A-/>", desc = "Toggle comment" },
+  { "<A-Left>", "gT", desc = "Previous tab" },
+  { "<A-Right>", "gt", desc = "Next tab" },
+  {
+    "<A-Down>",
     function()
       if vim.api.nvim_get_mode().mode:lower() == "v" then
         require("moveline").block_down()
@@ -285,22 +16,260 @@ wk.register({
         require("moveline").down()
       end
     end,
-    "Move line down",
-    silent = true,
-    mode = { "n", "v", "i" },
+    desc = "Move line down",
+    mode = { "i", "n", "v" },
   },
-  ["<C-_>"] = "Toggle comment",
-  ["<C-/>"] = "Toggle comment",
-  ["<A-/>"] = "Toggle comment",
+  {
+    "<A-Up>",
+    function()
+      if vim.api.nvim_get_mode().mode:lower() == "v" then
+        require("moveline").block_up()
+      else
+        require("moveline").up()
+      end
+    end,
+    desc = "Move line up",
+    mode = { "i", "n", "v" },
+  },
+  {
+    "<C-b>",
+    function()
+      require("telescope.builtin").buffers()
+    end,
+    desc = "Find buffers",
+  },
+  { "<C-d>", utils.run_tests, desc = "Run tests" },
+  {
+    "<C-f>",
+    function()
+      require("telescope.builtin").live_grep()
+    end,
+    desc = "Live grep",
+  },
+  { "<C-p>", utils.find_files, desc = "Find files" },
+  {
+    "<C-q>",
+    function()
+      require("trouble").toggle({ mode = "diagnostics", focus = false })
+    end,
+    desc = "Toggle trouble",
+  },
+  { "<C-w>m", "<cmd>WinShift<cr>", desc = "WinShift mode" },
+  {
+    "<C-w>r",
+    function()
+      require("smart-splits").start_resize_mode()
+    end,
+    desc = "Smart resize",
+  },
+  { "<C-w>t", "<cmd>tab split<cr>", desc = "Duplicate tab" },
+  { "<C-w>x", "<cmd>WinShift swap<cr><C-w><C-w>", desc = "Swap splits" },
+  {
+    "<F1>",
+    function()
+      require("dap").toggle_breakpoint()
+    end,
+    desc = "Toggle breakpoint",
+  },
+  { "<F2>", "<cmd>UndotreeToggle<cr>", desc = "Toggle Undotree" },
+  {
+    "<F3>",
+    function()
+      require("telescope").extensions.vstask.tasks()
+    end,
+    desc = "Tasks",
+  },
+  { "<F4>", "<cmd>Neotree reveal toggle<cr>", desc = "Toggle Neotree" },
+  {
+    "<F5>",
+    function()
+      require("dap").continue()
+    end,
+    desc = "DAP continue",
+  },
+  {
+    "<F6>",
+    function()
+      require("dap").step_over()
+    end,
+    desc = "DAP step over",
+  },
+  {
+    "<F7>",
+    function()
+      require("dap").sep_into()
+    end,
+    desc = "DAP step into",
+  },
+  {
+    "<F8>",
+    function()
+      require("dap").step_out()
+    end,
+    desc = "DAP step out",
+  },
+  {
+    "<F9>",
+    function()
+      require("dapui").toggle()
+    end,
+    desc = "Toggle DAP UI",
+  },
+  {
+    "<F10>",
+    function()
+      require("neotest").output_panel.toggle()
+    end,
+    desc = "Toggle neotest output",
+  },
+  {
+    "<F12>",
+    function()
+      require("neotest").summary.toggle()
+    end,
+    desc = "Toggle neotest summary",
+  },
+  {
+    "gK",
+    function()
+      require("dap.ui.widgets").hover()
+    end,
+    desc = "DAP hover",
+  },
+  { "<leader>e", vim.diagnostic.open_float, desc = "Open diagnostic float" },
+  {
+    group = "toggle",
+    { "<leader>td", utils.toggle_diagnostics, desc = "Toggle diagnostics" },
+    { "<leader>tf", utils.toggle_format, desc = "Toggle format" },
+    { "<leader>tl", "<cmd>set list!<cr>:set list?<CR>", desc = "Toggle list" },
+    { "<leader>tn", "<cmd>set number!<cr>:set number?<CR>", desc = "Toggle number" },
+    { "<leader>tp", "<cmd>set paste!<cr>:set paste?<CR>", desc = "Toggle paste" },
+    { "<leader>ts", "<cmd>set spell!<cr>:set spell?<CR>", desc = "Toggle spell" },
+  },
+  {
+    "<leader>vb",
+    function()
+      require("gitsigns").blame_line({ full = true })
+    end,
+    desc = "Blame current line",
+  },
+  {
+    "[Q",
+    function()
+      ---@diagnostic disable-next-line: missing-parameter, missing-fields
+      require("trouble").first({ jump = true })
+    end,
+    desc = "First trouble result",
+  },
+  {
+    "[b",
+    function()
+      require("goto-breakpoints").next()
+    end,
+    desc = "Go to previous breakpoint",
+  },
+  {
+    "[q",
+    function()
+      ---@diagnostic disable-next-line: missing-parameter, missing-fields
+      require("trouble").prev({ jump = true })
+    end,
+    desc = "Previous trouble result",
+  },
+  {
+    "]Q",
+    function()
+      ---@diagnostic disable-next-line: missing-parameter, missing-fields
+      require("trouble").last({ jump = true })
+    end,
+    desc = "Last trouble result",
+  },
+  {
+    "]b",
+    function()
+      require("goto-breakpoints").next()
+    end,
+    desc = "Go to next breakpoint",
+  },
+  {
+    "]q",
+    function()
+      ---@diagnostic disable-next-line: missing-parameter, missing-fields
+      require("trouble").next({ jump = true })
+    end,
+    desc = "Next trouble result",
+  },
+  {
+    "gE",
+    function()
+      require("trouble").toggle({ mode = "diagnostics", focus = false, filter = { buf = 0 } })
+    end,
+    desc = "Document diagnostics",
+  },
+  {
+    "ge",
+    function()
+      require("trouble").toggle({ mode = "diagnostics", focus = false })
+    end,
+    desc = "Workspace diagnostics",
+  },
+  { "z=", utils.spell_suggest, desc = "Spell suggest" },
+  {
+    mode = { "n", "o", "x" },
+    { "#", "*", desc = "Search highlighted word forward" },
+    { "*", "#", desc = "Search highlighted word backward" },
+    {
+      "S",
+      function()
+        require("flash").treesitter()
+      end,
+      desc = "Flash Treesitter",
+    },
+    {
+      "s",
+      function()
+        require("flash").jump()
+      end,
+      desc = "Flash",
+    },
+  },
+  {
+    mode = { "n", "v" },
+    group = "ChatGPT",
+    { "<leader>cc", "<cmd>ChatGPT<CR>", desc = "ChatGPT" },
+    { "<leader>cd", "<cmd>ChatGPTRun docstring<CR>", desc = "Docstring" },
+    { "<leader>ce", "<cmd>ChatGPTEditWithInstruction<CR>", desc = "Edit with instruction" },
+    { "<leader>cf", "<cmd>ChatGPTRun fix_bugs<CR>", desc = "Fix Bugs" },
+    { "<leader>cg", "<cmd>ChatGPTRun grammar_correction<CR>", desc = "Grammar Correction" },
+    {
+      "<leader>cl",
+      "<cmd>ChatGPTRun code_readability_analysis<CR>",
+      desc = "Code Readability Analysis",
+    },
+    { "<leader>co", "<cmd>ChatGPTRun optimize_code<CR>", desc = "Optimize Code" },
+    { "<leader>cs", "<cmd>ChatGPTRun summarize<CR>", desc = "Summarize" },
+    { "<leader>ct", "<cmd>ChatGPTRun translate<CR>", desc = "Translate" },
+    { "<leader>cw", "<cmd>ChatGPTRun add_tests<CR>", desc = "Add Tests" },
+    { "<leader>cx", "<cmd>ChatGPTRun explain_code<CR>", desc = "Explain Code" },
+  },
+  {
+    mode = { "v" },
+    { "<", "<gv", desc = "Continuous visual indenting" },
+    { ">", ">gv", desc = "Continuous visual indenting" },
+    { "p", '"_dP', desc = "Paste", remap = false },
+    { "<C-/>", "gc", desc = "Toggle comment", remap = true },
+  },
+  {
+    mode = { "n" },
+    { "<C-/>", "gcc", desc = "Toggle comment", remap = true },
+  },
+  {
+    mode = { "i", "n" },
+    { "<C-Down>", "15<C-e>", desc = "Down 1 page" },
+    { "<C-Up>", "15<C-y>", desc = "Up 1 page" },
+    { "<esc>", "<cmd>noh<cr><esc>", desc = "Clear" },
+  },
 })
-
--- FIXME: Those mappings are not working on which-key
-vim.keymap.set("n", "<C-_>", "gcc", { remap = true })
-vim.keymap.set("v", "<C-_>", "gc", { remap = true })
-vim.keymap.set("n", "<C-/>", "gcc", { remap = true })
-vim.keymap.set("v", "<C-/>", "gc", { remap = true })
-vim.keymap.set("n", "<A-/>", "gcc", { remap = true })
-vim.keymap.set("v", "<A-/>", "gc", { remap = true })
 
 M.setup_lsp = function(ev)
   local client = assert(vim.lsp.get_client_by_id(ev.data.client_id))
@@ -312,125 +281,136 @@ M.setup_lsp = function(ev)
     vim.bo[ev.buf].tagfunc = "v:lua.vim.lsp.tagfunc"
   end
 
-  -- lsp
-  wk.register({
-    K = { vim.lsp.buf.hover, "LSP hover", buffer = ev.buf, silent = true },
-    ["<C-K>"] = {
-      vim.lsp.buf.signature_help,
-      "LSP signature help",
-      buffer = ev.buf,
-      silent = true,
+  -- lsp mappings
+  wk.add({
+    {
+      mode = { "n", "v" },
+      {
+        "<leader>ca",
+        vim.lsp.buf.code_action,
+        buffer = ev.buf,
+        desc = "LSP code action",
+        group = "LSP Actions",
+      },
+    },
+    {
       mode = { "i", "n" },
+      {
+        "<C-K>",
+        vim.lsp.buf.signature_help,
+        buffer = ev.buf,
+        desc = "LSP signature help",
+        group = "LSP Actions",
+      },
     },
-    ["<C-LeftMouse>"] = {
-      function()
-        require("telescope.builtin").lsp_definitions()
-      end,
-      "LSP hover",
+    {
+      "<leader>rn",
+      vim.lsp.buf.rename,
       buffer = ev.buf,
-      silent = true,
+      desc = "LSP rename",
+      group = "LSP Actions",
     },
-    g = {
-      d = {
+    {
+      group = "workspace",
+      {
+        "<leader>wa",
+        vim.lsp.buf.add_workspace_folder,
+        buffer = ev.buf,
+        desc = "LSP add workspace folder",
+      },
+      {
+        "<leader>wl",
+        function()
+          vim.print(vim.lsp.buf.list_workspace_folders())
+        end,
+        buffer = ev.buf,
+        desc = "LSP list workspace",
+      },
+      {
+        "<leader>wr",
+        vim.lsp.buf.remove_workspace_folder,
+        buffer = ev.buf,
+        desc = "LSP remove workspace folder",
+      },
+    },
+    { "K", vim.lsp.buf.hover, buffer = ev.buf, desc = "LSP hover", group = "LSP Actions" },
+    {
+      group = "callhierarchy",
+      {
+        "gic",
+        function()
+          require("telescope.builtin").lsp_incoming_calls()
+        end,
+        buffer = ev.buf,
+        desc = "LSP incoming calls",
+      },
+      {
+        "goc",
+        function()
+          require("telescope.builtin").lsp_outgoing_calls()
+        end,
+        buffer = ev.buf,
+        desc = "LSP outgoing calls",
+      },
+    },
+    {
+      group = "LSP Navigation",
+      {
+        "<C-LeftMouse>",
         function()
           require("telescope.builtin").lsp_definitions()
         end,
-        "LSP go to definition",
         buffer = ev.buf,
-        silent = true,
+        desc = "LSP hover",
       },
-      D = { vim.lsp.buf.declaration, "LSP go to declaration", buffer = ev.buf, silent = true },
-      I = {
+      {
+        "gd",
         function()
-          require("telescope.builtin").lsp_implementations()
+          require("telescope.builtin").lsp_definitions()
         end,
-        "LSP go to implementation",
         buffer = ev.buf,
-        silent = true,
+        desc = "LSP go to definition",
       },
-      c = {
-        name = "callhierarchy",
-        i = {
-          function()
-            require("telescope.builtin").lsp_incoming_calls()
-          end,
-          "LSP incoming calls",
-          buffer = ev.buf,
-          silent = true,
-        },
-        o = {
-          function()
-            require("telescope.builtin").lsp_outgoing_calls()
-          end,
-          "LSP outgoing calls",
-          buffer = ev.buf,
-          silent = true,
-        },
-      },
-      r = {
+      { "gD", vim.lsp.buf.declaration, buffer = ev.buf, desc = "LSP go to declaration" },
+      {
+        "grr",
         function()
           require("telescope.builtin").lsp_references({ jump_type = "never" })
         end,
-        "LSP references",
         buffer = ev.buf,
-        silent = true,
+        desc = "LSP references",
       },
-      s = {
-        function()
-          require("telescope.builtin").lsp_document_symbols()
-        end,
-        "LSP document symbols",
-        buffer = ev.buf,
-        silent = true,
-      },
-      S = {
-        function()
-          require("telescope.builtin").lsp_workspace_symbols()
-        end,
-        "LSP workspace symbols",
-        buffer = ev.buf,
-        silent = true,
-      },
-    },
-    ["<leader>"] = {
-      D = {
+      {
+        "<leader>D",
         function()
           require("telescope.builtin").lsp_type_definitions()
         end,
-        "LSP type definition",
         buffer = ev.buf,
-        silent = true,
+        desc = "LSP type definition",
       },
-      ca = {
-        vim.lsp.buf.code_action,
-        "LSP code action",
+      {
+        "gs",
+        function()
+          require("telescope.builtin").lsp_document_symbols()
+        end,
         buffer = ev.buf,
-        silent = true,
-        mode = { "n", "v" },
+        desc = "LSP document symbols",
       },
-      rn = { vim.lsp.buf.rename, "LSP rename", buffer = ev.buf, silent = true },
-      w = {
-        name = "workspace",
-        l = {
-          function()
-            vim.print(vim.lsp.buf.list_workspace_folders())
-          end,
-          "LSP list workspace",
-          buffer = ev.buf,
-          silent = true,
-        },
-        a = {
-          vim.lsp.buf.add_workspace_folder,
-          "LSP add workspace folder",
-          buffer = ev.buf,
-          silent = true,
-        },
-        r = {
-          vim.lsp.buf.add_workspace_folder,
-          "LSP remove workspace folder",
-          buffer = ev.buf,
-          silent = true,
-        },
+      {
+        "gI",
+        function()
+          require("telescope.builtin").lsp_implementations()
+        end,
+        buffer = ev.buf,
+        desc = "LSP go to implementation",
+      },
+      {
+        "gS",
+        function()
+          require("telescope.builtin").lsp_workspace_symbols()
+        end,
+        buffer = ev.buf,
+        desc = "LSP workspace symbols",
       },
     },
   })

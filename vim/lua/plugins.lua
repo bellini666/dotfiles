@@ -545,7 +545,14 @@ return {
     "kylechui/nvim-surround",
     event = "VeryLazy",
     config = function()
-      require("nvim-surround").setup({})
+      require("nvim-surround").setup({
+        keymaps = {
+          -- disable conflicting keymaps
+          normal_cur = false,
+          normal_line = false,
+          normal_cur_line = false,
+        },
+      })
     end,
   },
 }
