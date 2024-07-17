@@ -82,9 +82,9 @@ alias d="deletemark"
 alias p="showmarks"
 alias vi="nvim"
 alias vim="nvim"
-alias ls="exa"
-alias ll="exa -lah"
-alias tree="exa --tree"
+alias ls="eza"
+alias ll="eza -lah"
+alias tree="eza --tree"
 alias "?"="gh copilot suggest -t shell"
 
 autoload -U compinit && compinit

@@ -10,7 +10,7 @@ docker
 docker-buildx
 docker-compose
 docker-credential-helper
-exa
+eza
 fd
 ffmpegthumbnailer
 font-symbols-only-nerd-font

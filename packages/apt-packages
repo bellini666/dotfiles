@@ -4,7 +4,7 @@ build-essential
 cpanminus
 curl
 docker-compose
-exa
+eza
 fonts-open-sans
 fonts-wine
 fzf
