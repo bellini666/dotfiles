@@ -287,10 +287,14 @@ M.setup_lsp = function(ev)
       mode = { "n", "v" },
       {
         "<leader>ca",
-        vim.lsp.buf.code_action,
+        function()
+          require("tiny-code-action").code_action()
+        end,
         buffer = ev.buf,
         desc = "LSP code action",
         group = "LSP Actions",
+        noremap = true,
+        silent = true,
       },
     },
     {
