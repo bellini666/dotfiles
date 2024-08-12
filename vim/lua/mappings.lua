@@ -200,14 +200,14 @@ wk.add({
     desc = "Next trouble result",
   },
   {
-    "gE",
+    "ge",
     function()
       require("trouble").toggle({ mode = "diagnostics", focus = false, filter = { buf = 0 } })
     end,
     desc = "Document diagnostics",
   },
   {
-    "ge",
+    "gE",
     function()
       require("trouble").toggle({ mode = "diagnostics", focus = false })
     end,
