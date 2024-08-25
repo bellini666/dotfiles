@@ -73,6 +73,7 @@ yamlfmt = 'latest'
 "pipx:ipython" = "latest"
 "pipx:isort" = "latest"
 "pipx:mypy" = "latest"
+"pipx:nox" = "latest"
 "pipx:pdm" = "latest"
 "pipx:pipx" = "latest"
 "pipx:poetry" = "latest"
