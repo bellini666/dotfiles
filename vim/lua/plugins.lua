@@ -436,20 +436,28 @@ return {
 
   -- AI
   {
-    "jackMort/ChatGPT.nvim",
-    cmd = { "ChatGPT", "ChatGPTRun", "ChatGPTEditWithInstruction" },
+    "olimorris/codecompanion.nvim",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-treesitter/nvim-treesitter",
+      "nvim-telescope/telescope.nvim",
+      "stevearc/dressing.nvim",
+    },
     config = function()
-      local openai_key = vim.fs.joinpath(vim.fn.expand("$HOME"), ".openai_key")
-      require("chatgpt").setup({
-        api_key_cmd = "cat " .. openai_key,
+      require("codecompanion").setup({
+        strategies = {
+          chat = {
+            adapter = "copilot",
+          },
+          inline = {
+            adapter = "copilot",
+          },
+          agent = {
+            adapter = "copilot",
+          },
+        },
       })
     end,
-    dependencies = {
-      "MunifTanjim/nui.nvim",
-      "nvim-lua/plenary.nvim",
-      "folke/trouble.nvim",
-      "nvim-telescope/telescope.nvim",
-    },
   },
 
   -- Language specific
