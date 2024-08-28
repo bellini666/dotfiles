@@ -464,6 +464,15 @@ return {
     end,
   },
 
+  -- Utils
+  {
+    "almo7aya/openingh.nvim",
+    cmd = {
+      "OpenInGHFile",
+      "OpenInGHFileLines",
+    },
+  },
+
   -- Text editing
   {
     "folke/which-key.nvim",
