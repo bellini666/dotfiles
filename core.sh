@@ -24,13 +24,39 @@ if [ -d "${HOME}/.bin" ]; then
   export PATH=${HOME}/.bin:${PATH}
 fi
 
+if [ -d "${HOME}/bin" ]; then
+  export PATH=${HOME}/bin:${PATH}
+fi
+
+if [ -d "/Applications/Postgres.app/Contents/Versions/latest/bin/" ]; then
+  export PATH=/Applications/Postgres.app/Contents/Versions/latest/bin/:${PATH}
+fi
+
 if [ -f "${HOME}/.secret_env.sh" ]; then
   # shellcheck disable=1091
   source "${HOME}/.secret_env.sh"
 fi
 
+export EDITOR=nvim
+export GIT_SSH=ssh
+
+# mise
 export MISE_USE_TOML=1
 export MISE_EXPERIMENTAL=1
+export MISE_PIPX_UVX=1
+
+# perl
+export PERL_LOCAL_LIB_ROOT="${HOME}/.local/perl"
+
+# pip
+export PIP_REQUIRE_VIRTUALENV=true
+
+# riggrep
+export RIPGREP_CONFIG_PATH="${HOME}/.dotfiles/rg/ripgreprc"
+
+# python
+export PYTHON_CFLAGS="-march=native -mtune=native"
+export PYTHON_CONFIGURE_OPTS="--enable-shared --enable-optimizations --with-lto --enable-loadable-sqlite-extensions"
 
 function bootstrap() { (
   set -e

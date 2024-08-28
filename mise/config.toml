@@ -1,17 +1,6 @@
 [settings]
 experimental = true
 
-[env]
-_.path = ["~/.local/bin", "~/bin", "/Applications/Postgres.app/Contents/Versions/latest/bin/"]
-EDITOR = 'nvim'
-GIT_SSH = 'ssh'
-PERL_LOCAL_LIB_ROOT = '{{env.HOME}}/.local/perl'
-PIP_REQUIRE_VIRTUALENV = 'true'
-RIPGREP_CONFIG_PATH = '{{env.HOME}}/.dotfiles/rg/ripgreprc'
-# python build settings
-PYTHON_CFLAGS = '-march=native -mtune=native'
-PYTHON_CONFIGURE_OPTS = '--enable-shared --enable-optimizations --with-lto --enable-loadable-sqlite-extensions'
-
 [tools]
 # tools
 1password-cli = 'latest'
@@ -38,7 +27,9 @@ ripgrep = 'latest'
 shellcheck = 'latest'
 shfmt = 'latest'
 stylua = 'latest'
+uv = 'latest'
 yamlfmt = 'latest'
+
 # npm tools
 "npm:@astrojs/language-server" = "latest"
 "npm:@biomejs/biome" = "latest"
@@ -64,6 +55,7 @@ yamlfmt = 'latest'
 "npm:typescript-language-server" = "latest"
 "npm:vscode-langservers-extracted" = "latest"
 "npm:yaml-language-server" = "latest"
+
 # pipx tools
 "pipx:basedpyright" = "latest"
 "pipx:black" = "latest"
@@ -81,11 +73,12 @@ yamlfmt = 'latest'
 "pipx:tox" = "latest"
 "pipx:yamlfix" = "latest"
 "pipx:yamllint" = "latest"
+
 # runtimes (needs to be last)
 deno = 'latest'
 go = 'latest'
 node = 'latest'
-python = ['latest', 'sub-0.1:latest', 'sub-0.2:latest', 'sub-0.3:latest', 'sub-0.4:latest']
+python = ['latest', 'sub-0.1:latest', 'sub-0.2:latest', 'sub-0.3:latest']
 rust = 'latest'
 
 [tasks."docker:prune"]
