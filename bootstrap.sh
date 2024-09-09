@@ -208,6 +208,8 @@ function _neovim {
   info "installing neovim"
 
   if [ ${MACHINE_OS} = "MacOS" ]; then
+    brew install --HEAD utf8proc
+    brew upgrade utf8proc --fetch-HEAD
     brew install --HEAD neovim
     brew upgrade neovim --fetch-HEAD
   elif [ ${MACHINE_OS} = "Linux" ]; then
