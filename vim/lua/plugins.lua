@@ -82,7 +82,7 @@ return {
     },
     event = "LspAttach",
     config = function()
-      require("tiny-code-action").setup()
+      require("tiny-code-action").setup({})
     end,
   },
   {
@@ -120,7 +120,9 @@ return {
     },
   },
   {
-    "hrsh7th/nvim-cmp",
+    -- "hrsh7th/nvim-cmp",
+    "iguanacucumber/magazine.nvim",
+    name = "nvim-cmp",
     dependencies = {
       "hrsh7th/cmp-nvim-lsp",
       "hrsh7th/cmp-buffer",
