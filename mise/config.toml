@@ -1,6 +1,9 @@
 [settings]
 experimental = true
 
+[settings.pipx]
+uvx = true
+
 [tools]
 # tools
 1password-cli = 'latest'
