@@ -10,7 +10,8 @@ local function split(inputstr)
 end
 
 local runner = os.getenv("NEOTEST_PYTHON_RUNNER") or "pytest"
-local args = split(os.getenv("NEOTEST_PYTHON_ARGS") or "-vvv --no-cov --disable-warnings")
+local args =
+  split(os.getenv("NEOTEST_PYTHON_ARGS") or "-vvv --no-cov --disable-warnings --color=no")
 
 ---@diagnostic disable-next-line: missing-fields
 require("neotest").setup({
