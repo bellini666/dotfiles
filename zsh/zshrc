@@ -85,6 +85,7 @@ alias vim="nvim"
 alias ls="eza"
 alias ll="eza -lah"
 alias tree="eza --tree"
+alias mr="mise run --"
 alias "?"="gh copilot suggest -t shell"
 
 autoload -U compinit && compinit
