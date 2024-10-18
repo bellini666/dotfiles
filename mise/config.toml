@@ -84,7 +84,7 @@ node = 'latest'
 python = ['3.12', '3.11', '3.10', '3.9']
 rust = 'latest'
 
-[tasks."docker:prune"]
+[tasks."prune:docker"]
 description = 'Docker clean'
 run = """
 sh -c "docker stop $(docker ps -a -q) || true"
