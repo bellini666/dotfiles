@@ -8,7 +8,6 @@ local lsp_excluded = {
   pyright = true,
   sumneko_lua = true,
   lua_ls = true,
-  taplo = true,
   tsserver = true,
 }
 
