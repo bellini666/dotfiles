@@ -179,23 +179,26 @@ M.run_tests = function()
   vim.ui.select(opts, {
     prompt = "What to run:",
   }, function(choice)
+    require("neotest")
+    local cwd = require("config.neotest").get_cwd()
+
     if choice == "Test File" then
-      require("neotest").run.run(vim.fn.expand("%"))
+      require("neotest").run.run({ vim.fn.expand("%"), cwd = cwd, suite = false })
       hast_last_run = true
     elseif choice == "Test Closest" then
-      require("neotest").run.run()
+      require("neotest").run.run({ cwd = cwd, suite = false })
       hast_last_run = true
     elseif choice == "Test Closest (debug)" then
-      require("neotest").run.run({ strategy = "dap", suite = false })
+      require("neotest").run.run({ strategy = "dap", cwd = cwd, suite = false })
       hast_last_run = true
     elseif choice == "Test Last Run" then
       require("neotest").run.run_last()
       hast_last_run = true
     elseif choice == "Test Last Run (debug)" then
-      require("neotest").run.run_last({ strategy = "dap", suite = false })
+      require("neotest").run.run_last({ strategy = "dap", cwd = cwd, suite = false })
       hast_last_run = true
     elseif choice == "Test Failed" then
-      require("neotest").run.run({ status = "failed", suite = false })
+      require("neotest").run.run({ status = "failed", cwd = cwd, suite = false })
       hast_last_run = true
     end
   end)
