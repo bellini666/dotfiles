@@ -32,6 +32,10 @@ if [ -d "/Applications/Postgres.app/Contents/Versions/latest/bin/" ]; then
   export PATH=/Applications/Postgres.app/Contents/Versions/latest/bin/:${PATH}
 fi
 
+if [ -d "${HOME}/.rd/bin/" ]; then
+  export PATH=${HOME}/.rd/bin/:${PATH}
+fi
+
 if [ -f "${HOME}/.secret_env.sh" ]; then
   # shellcheck disable=1091
   source "${HOME}/.secret_env.sh"
@@ -56,7 +60,7 @@ export RIPGREP_CONFIG_PATH="${HOME}/.dotfiles/rg/ripgreprc"
 
 # python
 export PYTHON_CFLAGS="-march=native -mtune=native"
-export PYTHON_CONFIGURE_OPTS="--enable-shared --enable-optimizations --with-lto --enable-loadable-sqlite-extensions"
+export PYTHON_CONFIGURE_OPTS="--enable-shared --enable-optimizations --with-lto"
 
 function bootstrap() { (
   set -e

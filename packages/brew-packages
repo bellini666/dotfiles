@@ -1,8 +1,9 @@
 antigen
+aws-sso-cli
+awscli
 bat
 broot
 btop
-cloud-sql-proxy
 cmake
 cpanminus
 curl
@@ -10,6 +11,7 @@ docker
 docker-buildx
 docker-compose
 docker-credential-helper
+docker-credential-helper-ecr
 eza
 fd
 ffmpegthumbnailer
@@ -19,7 +21,7 @@ gdal
 gimp
 git
 gnu-sed
-google-cloud-sdk
+go-task
 haproxy
 hiddenbar
 htop
