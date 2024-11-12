@@ -49,7 +49,7 @@ vim.opt.termguicolors = true
 vim.opt.background = "dark"
 
 -- Dev
-vim.opt.textwidth = 99
+vim.opt.textwidth = vim.env.NEOVIM_TEXTWIDTH and (tonumber(vim.env.NEOVIM_TEXTWIDTH) - 1) or 99
 vim.opt.colorcolumn = "+1"
 vim.opt.showmatch = true
 vim.opt.matchpairs = extend(vim.opt.matchpairs, { "<:>" })
