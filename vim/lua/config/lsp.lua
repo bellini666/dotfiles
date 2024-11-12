@@ -352,6 +352,60 @@ null_ls.setup({
         return os.getenv("DISABLE_SHFMT") ~= "1"
       end,
     }),
+    -- python
+    require("none-ls.diagnostics.flake8").with({
+      diagnostics_format = diagnostics_format,
+      prefer_local = ".venv/bin",
+      cwd = nhelpers.cache.by_bufnr(function(params)
+        return require("null-ls.utils").root_pattern(
+          ".flake8",
+          "pyproject.toml",
+          "setup.py",
+          "setup.cfg",
+          "requirements.txt",
+          "Pipfile",
+          "pyrightconfig.json"
+        )(params.bufname)
+      end),
+      condition = function(utils)
+        return os.getenv("DISABLE_RUFF") == "1"
+      end,
+    }),
+    formatting.isort.with({
+      prefer_local = ".venv/bin",
+      cwd = nhelpers.cache.by_bufnr(function(params)
+        return require("null-ls.utils").root_pattern(
+          ".isort.cfg",
+          "pyproject.toml",
+          "setup.py",
+          "setup.cfg",
+          "requirements.txt",
+          "Pipfile",
+          "pyrightconfig.json"
+        )(params.bufname)
+      end),
+      extra_args = { "--profile", "black" },
+      condition = function(utils)
+        return os.getenv("DISABLE_RUFF") == "1"
+      end,
+    }),
+    formatting.black.with({
+      prefer_local = ".venv/bin",
+      cwd = nhelpers.cache.by_bufnr(function(params)
+        return require("null-ls.utils").root_pattern(
+          "pyproject.toml",
+          "setup.py",
+          "setup.cfg",
+          "requirements.txt",
+          "Pipfile",
+          "pyrightconfig.json"
+        )(params.bufname)
+      end),
+      extra_args = { "--fast" },
+      condition = function(utils)
+        return os.getenv("DISABLE_RUFF") == "1"
+      end,
+    }),
     -- lua
     formatting.stylua.with({
       condition = function(utils)
