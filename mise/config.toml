@@ -88,7 +88,7 @@ rust = 'latest'
 [tasks."prune:docker"]
 description = 'Docker clean'
 run = """
-sh -c "docker stop $(docker ps -a -q) || true"
+docker stop $(docker ps -a -q) || true
 docker system prune -f
 docker volume prune -a -f
 """
