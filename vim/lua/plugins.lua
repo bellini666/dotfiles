@@ -478,20 +478,6 @@ return {
       vim.api.nvim_create_user_command("PeekClose", require("peek").close, {})
     end,
   },
-  {
-    "alexpasmantier/pymple.nvim",
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-      "MunifTanjim/nui.nvim",
-      "stevearc/dressing.nvim",
-      "nvim-tree/nvim-web-devicons",
-    },
-    build = ":PympleBuild",
-    config = function()
-      ---@diagnostic disable-next-line: missing-parameter
-      require("pymple").setup()
-    end,
-  },
 
   -- Utils
   {
