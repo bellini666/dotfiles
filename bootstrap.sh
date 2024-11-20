@@ -152,8 +152,8 @@ function _mise {
   fi
 
   "${MISE_BINARY}" plugins update -y || true
-  "${MISE_BINARY}" install -y
-  "${MISE_BINARY}" upgrade -y
+  "${MISE_BINARY}" install -y || true
+  "${MISE_BINARY}" upgrade -y || true
   "${MISE_BINARY}" prune -y
 
   mkdir -p "${HOME}/.local/share/zsh/site-functions"
