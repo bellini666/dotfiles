@@ -50,7 +50,7 @@ antigen bundle fzf
 antigen bundle gh
 antigen bundle gitfast
 antigen bundle httpie
-antigen bundle iterm2
+antigen bundle kitty
 antigen bundle kubectl
 antigen bundle kubectx
 antigen bundle mise
