@@ -27,6 +27,7 @@ hiddenbar
 htop
 jq
 karabiner-elements
+kitty
 libffi
 libtool
 luarocks
@@ -39,7 +40,6 @@ openssl
 pgcli
 pipx
 poppler
-postman
 readline
 redis
 ripgrep
