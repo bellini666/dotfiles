@@ -76,6 +76,7 @@ M.lsp_format = function(opts)
       filter = function(client)
         return not lsp_excluded[client.name]
       end,
+      bufnr = opts.bufnr or 0,
     })
   end
 end
