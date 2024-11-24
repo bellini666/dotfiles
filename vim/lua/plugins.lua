@@ -335,6 +335,25 @@ return {
     cmd = "WinShift",
   },
   {
+    "nvim-focus/focus.nvim",
+    config = function()
+      require("focus").setup({
+        enable = true,
+        autoresize = {
+          enable = true,
+          width = vim.env.NEOVIM_TEXTWIDTH and (tonumber(vim.env.NEOVIM_TEXTWIDTH) - 1) or 99,
+        },
+        ui = {
+          number = true,
+          relativenumber = false,
+          hybridnumber = false,
+          absolutenumber_unfocussed = false,
+          cursorline = false,
+        },
+      })
+    end,
+  },
+  {
     "mrjones2014/smart-splits.nvim",
     lazy = true,
     opts = {
