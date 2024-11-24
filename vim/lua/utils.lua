@@ -117,10 +117,17 @@ M.find_python = function()
 
     local poetry_root = vim.fs.root(0, { "poetry.lock" })
     if poetry_root then
-      env_info = vim.fn.system({ "poetry", "env", "info", "--path", "-C", poetry_root })
+      local poetry_output = vim.fn.system({ "poetry", "env", "info", "--path", "-C", poetry_root })
+      for line in poetry_output:gmatch("[^\r\n]+") do
+        local stat = vim.loop.fs_stat(line)
+        if stat and stat.type == "directory" then
+          env_info = line
+          break
+        end
+      end
     end
 
-    if env_info ~= nil and string.find(env_info, "could not find") == nil then
+    if env_info ~= nil then
       p = vim.fs.joinpath(env_info:gsub("\n", ""), "bin", "python3")
     else
       local venv_dir = vim.fs.find(".venv", {
