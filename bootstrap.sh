@@ -44,6 +44,7 @@ SYMLINKS=(
   "${BASE_DIR}/python/pdbrc.py ${HOME}/.pdbrc.py"
   "${BASE_DIR}/tmux/tmux.conf ${HOME}/.tmux.conf"
   "${BASE_DIR}/vim ${HOME}/.config/nvim"
+  "${BASE_DIR}/kitty ${HOME}/.config/kitty"
   "${BASE_DIR}/zsh/zshrc ${HOME}/.zshrc"
 )
 
