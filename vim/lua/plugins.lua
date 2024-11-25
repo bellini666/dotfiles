@@ -341,7 +341,7 @@ return {
         enable = true,
         autoresize = {
           enable = true,
-          width = vim.env.NEOVIM_TEXTWIDTH and (tonumber(vim.env.NEOVIM_TEXTWIDTH) - 1) or 99,
+          width = (vim.env.NEOVIM_TEXTWIDTH and (tonumber(vim.env.NEOVIM_TEXTWIDTH)) or 100) + 2,
         },
         ui = {
           number = true,
