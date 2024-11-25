@@ -61,6 +61,7 @@ yamlfmt = 'latest'
 "npm:yaml-language-server" = "latest"
 
 # pipx tools
+"pipx:autoflake" = "latest"
 "pipx:basedpyright" = "latest"
 "pipx:black" = "latest"
 "pipx:codespell" = "latest"
