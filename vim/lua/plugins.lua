@@ -335,22 +335,12 @@ return {
     cmd = "WinShift",
   },
   {
-    "nvim-focus/focus.nvim",
+    "anuvyklack/windows.nvim",
+    dependencies = {
+      "anuvyklack/middleclass",
+    },
     config = function()
-      require("focus").setup({
-        enable = true,
-        autoresize = {
-          enable = true,
-          width = (vim.env.NEOVIM_TEXTWIDTH and (tonumber(vim.env.NEOVIM_TEXTWIDTH)) or 100) + 2,
-        },
-        ui = {
-          number = true,
-          relativenumber = false,
-          hybridnumber = false,
-          absolutenumber_unfocussed = false,
-          cursorline = false,
-        },
-      })
+      require("windows").setup()
     end,
   },
   {
