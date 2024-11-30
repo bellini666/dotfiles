@@ -229,11 +229,12 @@ function _neovim {
 
 function _python-libs {
   info "installing debugpy latest version"
-  if [ ! -f "${HOME}/.debugpy/bin/python3" ]; then
-    python3 -m venv "${HOME}/.debugpy"
-  fi
-  "${HOME}/.debugpy/bin/pip" install -U pip
-  "${HOME}/.debugpy/bin/pip" install -U git+https://github.com/microsoft/debugpy.git@main
+  (
+    uv venv "${HOME}/.debugpy" 2>/dev/null
+    source "${HOME}/.debugpy/bin/activate"
+    uv pip install -U git+https://github.com/microsoft/debugpy.git@main || true
+    deactivate
+  )
 }
 
 function _mise-reshim {
