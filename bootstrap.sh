@@ -46,6 +46,7 @@ SYMLINKS=(
   "${BASE_DIR}/vim ${HOME}/.config/nvim"
   "${BASE_DIR}/kitty ${HOME}/.config/kitty"
   "${BASE_DIR}/zsh/zshrc ${HOME}/.zshrc"
+  "${BASE_DIR}/zsh/zsh_plugins.txt ${HOME}/.zsh_plugins.txt"
 )
 
 [ -d "${BASE_DIR}" ] || exit 1
@@ -156,9 +157,6 @@ function _mise {
   "${MISE_BINARY}" install -y || true
   "${MISE_BINARY}" upgrade -y || true
   "${MISE_BINARY}" prune -y
-
-  mkdir -p "${HOME}/.local/share/zsh/site-functions"
-  "${MISE_BINARY}" complete -s zsh >"${HOME}/.local/share/zsh/site-functions/_mise"
 }
 
 function _fonts {
@@ -194,14 +192,10 @@ function _gh {
 
 function _zsh {
   info "installing zsh plugins"
-  if which antigen >/dev/null 2>&1; then
-    antigen cleanup
-    antigen update
-    antigen cache-gen
+  if which antidote >/dev/null 2>&1; then
+    antidote update
   else
-    zsh -i -c "antigen cleanup"
-    zsh -i -c "antigen update"
-    zsh -i -c "antigen cache-gen"
+    zsh -i -c "antidote update"
   fi
 }
 
