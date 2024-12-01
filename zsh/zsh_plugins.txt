@@ -34,7 +34,6 @@ jocelynmallon/zshmarks
 wbingli/zsh-wakatime
 z-shell/zsh-eza
 zdharma-continuum/fast-syntax-highlighting
-zsh-users/zsh-autosuggestions
 
 # theme
 romkatv/powerlevel10k kind:fpath
