@@ -188,11 +188,7 @@ function _gh {
 
 function _zsh {
   info "installing zsh plugins"
-  if which antidote >/dev/null 2>&1; then
-    antidote update
-  else
-    zsh -i -c "antidote update"
-  fi
+  zsh -i -c "antidote update"
 }
 
 function _neovim {
