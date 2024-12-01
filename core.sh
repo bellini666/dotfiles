@@ -28,10 +28,6 @@ if [ -d "${HOME}/bin" ]; then
   export PATH=${HOME}/bin:${PATH}
 fi
 
-if [ -d "/Applications/Postgres.app/Contents/Versions/latest/bin/" ]; then
-  export PATH=/Applications/Postgres.app/Contents/Versions/latest/bin/:${PATH}
-fi
-
 if [ -d "${HOME}/.rd/bin/" ]; then
   export PATH=${HOME}/.rd/bin/:${PATH}
 fi

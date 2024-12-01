@@ -4,10 +4,6 @@ set -e
 
 BASE_DIR=$(dirname "${0}")
 source "${BASE_DIR}/utils.sh"
-if [ -f "${HOME}/.secret_env.sh" ]; then
-  # shellcheck disable=1091
-  source "${HOME}/.secret_env.sh"
-fi
 
 UNAME_OUTPUT="$(uname -s)"
 case "${UNAME_OUTPUT}" in
@@ -227,16 +223,6 @@ function _neovim {
   fi
 }
 
-function _python-libs {
-  info "installing debugpy latest version"
-  (
-    uv venv "${HOME}/.debugpy" 2>/dev/null
-    source "${HOME}/.debugpy/bin/activate"
-    uv pip install -U git+https://github.com/microsoft/debugpy.git@main || true
-    deactivate
-  )
-}
-
 function _mise-reshim {
   info "reshimming mise"
 
@@ -263,7 +249,6 @@ function _ {
     _zsh
     _mise
     _gh
-    _python-libs
     _mise-reshim
   )
 }

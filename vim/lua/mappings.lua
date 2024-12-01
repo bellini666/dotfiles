@@ -64,57 +64,8 @@ wk.add({
   },
   { "<C-w>t", "<cmd>tab split<cr>", desc = "Duplicate tab" },
   { "<C-w>x", "<cmd>WinShift swap<cr><C-w><C-w>", desc = "Swap splits" },
-  {
-    "<F1>",
-    function()
-      require("dap").toggle_breakpoint()
-    end,
-    desc = "Toggle breakpoint",
-  },
   { "<F2>", "<cmd>UndotreeToggle<cr>", desc = "Toggle Undotree" },
-  {
-    "<F3>",
-    function()
-      require("telescope").extensions.vstask.tasks()
-    end,
-    desc = "Tasks",
-  },
   { "<F4>", "<cmd>Neotree reveal toggle<cr>", desc = "Toggle Neotree" },
-  {
-    "<F5>",
-    function()
-      require("dap").continue()
-    end,
-    desc = "DAP continue",
-  },
-  {
-    "<F6>",
-    function()
-      require("dap").step_over()
-    end,
-    desc = "DAP step over",
-  },
-  {
-    "<F7>",
-    function()
-      require("dap").sep_into()
-    end,
-    desc = "DAP step into",
-  },
-  {
-    "<F8>",
-    function()
-      require("dap").step_out()
-    end,
-    desc = "DAP step out",
-  },
-  {
-    "<F9>",
-    function()
-      require("dapui").toggle()
-    end,
-    desc = "Toggle DAP UI",
-  },
   {
     "<F10>",
     function()
@@ -128,13 +79,6 @@ wk.add({
       require("neotest").summary.toggle()
     end,
     desc = "Toggle neotest summary",
-  },
-  {
-    "gK",
-    function()
-      require("dap.ui.widgets").hover()
-    end,
-    desc = "DAP hover",
   },
   { "<leader>e", vim.diagnostic.open_float, desc = "Open diagnostic float" },
   {

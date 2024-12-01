@@ -43,7 +43,6 @@ require("lualine").setup({
     "neo-tree",
     "fugitive",
     "toggleterm",
-    "nvim-dap-ui",
     "mundo",
     "trouble",
     "lazy",

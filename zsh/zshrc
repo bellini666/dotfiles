@@ -1,19 +1,6 @@
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
+# p10k instant prompt
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
-
-if [ -f "/opt/homebrew//opt/antidote/share/antidote/antidote.zsh" ]; then
-  antidote_dir=/opt/homebrew//opt/antidote/share/antidote
-  source ${antidote_dir}/antidote.zsh
-elif [ -f "/usr/share/zsh-antidote/antidote.zsh" ]; then
-  antidote_dir=/usr/share/zsh-antidote
-  source ${antidote_dir}/antidote.zsh
-else
-  antidote_dir=""
-  echo "Antidote not found"
 fi
 
 if [ -f "$HOME/.dotfiles/core.sh" ]; then
@@ -40,22 +27,32 @@ DISABLE_UNTRACKED_FILES_DIRTY="true"
 HIST_STAMPS="yyyy-mm-dd"
 DISABLE_VENV_CD=1
 
-zsh_plugins=${HOME}/.zsh_plugins
-
-# Ensure the .zsh_plugins.txt file exists so you can add plugins.
-[[ -f ${zsh_plugins}.txt ]] || touch ${zsh_plugins}.txt
-
-# Lazy-load antidote from its functions directory.
-fpath=(${antidote_dir}/functions $fpath)
-autoload -Uz antidote
-
-# Generate a new static file whenever .zsh_plugins.txt is updated.
-if [[ ! ${zsh_plugins}.zsh -nt ${zsh_plugins}.txt ]]; then
-  antidote bundle <${zsh_plugins}.txt >|${zsh_plugins}.zsh
+if [ -f "/opt/homebrew//opt/antidote/share/antidote/antidote.zsh" ]; then
+  antidote_dir=/opt/homebrew//opt/antidote/share/antidote
+  source ${antidote_dir}/antidote.zsh
+elif [ -f "/usr/share/zsh-antidote/antidote.zsh" ]; then
+  antidote_dir=/usr/share/zsh-antidote
+  source ${antidote_dir}/antidote.zsh
+else
+  antidote_dir=""
+  echo "Antidote not found"
 fi
 
-# Source your static plugins file.
-source ${zsh_plugins}.zsh
+if [[ "${antidote_dir}" != "" ]]; then
+  zsh_plugins=${HOME}/.zsh_plugins
+
+  [[ -f ${zsh_plugins}.txt ]] || touch ${zsh_plugins}.txt
+
+  fpath=(${antidote_dir}/functions $fpath)
+  autoload -Uz antidote
+
+  # Generate a new static file whenever .zsh_plugins.txt is updated.
+  if [[ ! ${zsh_plugins}.zsh -nt ${zsh_plugins}.txt ]]; then
+    antidote bundle <${zsh_plugins}.txt >|${zsh_plugins}.zsh
+  fi
+
+  source ${zsh_plugins}.zsh
+fi
 
 alias g="jump"
 alias s="bookmark"
