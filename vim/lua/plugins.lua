@@ -47,6 +47,7 @@ return {
     "neovim/nvim-lspconfig",
     event = "BufReadPost",
     dependencies = {
+      "saghen/blink.cmp",
       {
         "nvimtools/none-ls.nvim",
         dependencies = {
@@ -68,7 +69,7 @@ return {
     end,
     opts = {
       library = {
-        "luvit-meta/library",
+        { path = "${3rd}/luv/library", words = { "vim%.uv" } },
       },
     },
     dependencies = {
@@ -125,46 +126,15 @@ return {
     },
   },
   {
-    "hrsh7th/nvim-cmp",
-    name = "nvim-cmp",
+    "saghen/blink.cmp",
     dependencies = {
-      "hrsh7th/cmp-nvim-lsp",
-      "hrsh7th/cmp-buffer",
-      "hrsh7th/cmp-cmdline",
-      "hrsh7th/cmp-nvim-lua",
-      "FelipeLema/cmp-async-path",
-      "lukas-reineke/cmp-under-comparator",
-      {
-        "L3MON4D3/LuaSnip",
-        dependencies = {
-          "saadparwaiz1/cmp_luasnip",
-          "rafamadriz/friendly-snippets",
-        },
-        build = "make install_jsregexp",
-        config = function()
-          require("luasnip.loaders.from_vscode").lazy_load()
-        end,
-      },
-      {
-        "onsails/lspkind-nvim",
-        dependencies = {
-          "nvim-treesitter/nvim-treesitter",
-        },
-        config = function()
-          require("lspkind").init({
-            symbol_map = {
-              Copilot = "",
-              Codeium = "",
-            },
-          })
-          vim.api.nvim_set_hl(0, "CmpItemKindCopilot", { fg = "#69ae6a" })
-          vim.api.nvim_set_hl(0, "CmpItemKindCodeium", { fg = "#69ae6a" })
-        end,
-      },
+      "rafamadriz/friendly-snippets",
+      "mikavilpas/blink-ripgrep.nvim",
     },
     event = "InsertEnter",
+    version = "*",
     config = function()
-      require("config.completion")
+      require("config.blink")
     end,
   },
   {
@@ -202,6 +172,9 @@ return {
     opts = {
       lsp = {
         progress = {
+          enabled = false,
+        },
+        signature = {
           enabled = false,
         },
       },

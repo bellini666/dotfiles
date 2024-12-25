@@ -39,13 +39,6 @@ wk.add({
     desc = "Find buffers",
   },
   { "<C-d>", utils.run_tests, desc = "Run tests" },
-  {
-    "<C-f>",
-    function()
-      require("telescope.builtin").live_grep()
-    end,
-    desc = "Live grep",
-  },
   { "<C-p>", utils.find_files, desc = "Find files" },
   {
     "<C-q>",
@@ -185,8 +178,25 @@ wk.add({
     { "<C-/>", "gc", desc = "Toggle comment", remap = true },
   },
   {
+    mode = { "i" },
+    {
+      "<C-f>",
+      function()
+        require("blink.cmp").show({ sources = { "ripgrep" } })
+      end,
+      desc = "Complete with ripgrep",
+    },
+  },
+  {
     mode = { "n" },
     { "<C-/>", "gcc", desc = "Toggle comment", remap = true },
+    {
+      "<C-f>",
+      function()
+        require("telescope.builtin").live_grep()
+      end,
+      desc = "Live grep",
+    },
   },
   {
     mode = { "i", "n" },
