@@ -1,10 +1,17 @@
 local blink = require("blink.cmp")
 
+local function trigger_copilot()
+  if require("copilot.suggestion").is_visible() then
+    require("copilot.suggestion").accept()
+    return true
+  end
+end
+
 blink.setup({
   keymap = {
     preset = "enter",
-    ["<Tab>"] = { "snippet_forward", "select_next", "fallback" },
-    ["<S-Tab>"] = { "snippet_backward", "select_prev", "fallback" },
+    ["<Tab>"] = { "snippet_forward", "select_next", trigger_copilot, "fallback" },
+    ["<S-Tab>"] = { "snippet_backward", "select_prev", trigger_copilot, "fallback" },
   },
   appearance = {
     use_nvim_cmp_as_default = true,
