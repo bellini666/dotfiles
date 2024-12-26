@@ -40,7 +40,8 @@ M.find_files = function(opts)
   opts.cwd = cwd and vim.fn.expand(cwd) or vim.uv.cwd()
 
   if inside_git_dir[opts.cwd] == nil then
-    inside_git_dir[opts.cwd] = lsp_util.find_git_ancestor(opts.cwd) ~= nil
+    local git_dir = vim.fs.dirname(vim.fs.find(".git", { path = opts.cwd, upward = true })[1])
+    inside_git_dir[opts.cwd] = git_dir ~= nil
   end
 
   local cmd

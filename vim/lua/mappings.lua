@@ -43,6 +43,7 @@ wk.add({
   {
     "<C-q>",
     function()
+      ---@diagnostic disable-next-line: missing-fields
       require("trouble").toggle({ mode = "diagnostics", focus = false })
     end,
     desc = "Toggle trouble",
@@ -139,6 +140,7 @@ wk.add({
   {
     "ge",
     function()
+      ---@diagnostic disable-next-line: missing-fields, missing-fields, missing-fields
       require("trouble").toggle({ mode = "diagnostics", focus = false, filter = { buf = 0 } })
     end,
     desc = "Document diagnostics",
@@ -146,6 +148,7 @@ wk.add({
   {
     "gE",
     function()
+      ---@diagnostic disable-next-line: missing-fields
       require("trouble").toggle({ mode = "diagnostics", focus = false })
     end,
     desc = "Workspace diagnostics",
@@ -223,7 +226,7 @@ M.setup_lsp = function(ev)
       {
         "<leader>ca",
         function()
-          require("tiny-code-action").code_action()
+          require("tiny-code-action").code_action({})
         end,
         buffer = ev.buf,
         desc = "LSP code action",
