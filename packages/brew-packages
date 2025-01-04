@@ -19,6 +19,7 @@ ffmpegthumbnailer
 font-symbols-only-nerd-font
 fzf
 gdal
+ghostty
 gimp
 git
 gnu-sed
@@ -45,6 +46,7 @@ readline
 redis
 ripgrep
 sd
+shellcheck
 sox
 sqlite
 taplo
