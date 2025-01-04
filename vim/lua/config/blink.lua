@@ -30,6 +30,9 @@ blink.setup({
         name = "Ripgrep",
       },
     },
+    -- cmdline = function()
+    --   return {}
+    -- end,
   },
   signature = { enabled = true, window = { border = "single" } },
   completion = {
@@ -43,7 +46,7 @@ blink.setup({
 local augroup = vim.api.nvim_create_augroup("_blink_augroup_", { clear = true })
 
 vim.api.nvim_create_autocmd("User", {
-  pattern = "BlinkCmpCompletionMenuOpen",
+  pattern = "BlinkCmpMenuOpen",
   group = augroup,
   callback = function()
     require("copilot.suggestion").dismiss()
@@ -52,7 +55,7 @@ vim.api.nvim_create_autocmd("User", {
 })
 
 vim.api.nvim_create_autocmd("User", {
-  pattern = "BlinkCmpCompletionMenuClose",
+  pattern = "BlinkCmpMenuClose",
   group = augroup,
   callback = function()
     vim.b.copilot_suggestion_hidden = false
