@@ -43,6 +43,7 @@ vim.opt.splitbelow = true
 vim.opt.scrolloff = 5
 vim.opt.showtabline = 1
 vim.opt.smoothscroll = true
+vim.opt.title = true
 
 -- Theme
 vim.opt.termguicolors = true
