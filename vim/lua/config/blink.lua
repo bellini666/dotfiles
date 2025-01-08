@@ -30,13 +30,9 @@ blink.setup({
         name = "Ripgrep",
       },
     },
-    -- cmdline = function()
-    --   return {}
-    -- end,
   },
   signature = { enabled = true, window = { border = "single" } },
   completion = {
-    list = { selection = "manual" },
     ghost_text = { enabled = true },
     documentation = { auto_show = true },
     menu = { auto_show = false },
