@@ -14,7 +14,6 @@ blink.setup({
     ["<S-Tab>"] = { "snippet_backward", "select_prev", trigger_copilot, "fallback" },
   },
   appearance = {
-    use_nvim_cmp_as_default = true,
     nerd_font_variant = "mono",
   },
   sources = {
