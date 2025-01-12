@@ -141,7 +141,11 @@ wk.add({
     "ge",
     function()
       ---@diagnostic disable-next-line: missing-fields, missing-fields, missing-fields
-      require("trouble").toggle({ mode = "diagnostics", focus = false, filter = { buf = 0 } })
+      require("trouble").toggle({
+        mode = "diagnostics",
+        focus = false,
+        filter = { buf = 0, severity = vim.diagnostic.severity.WARN },
+      })
     end,
     desc = "Document diagnostics",
   },
@@ -149,7 +153,11 @@ wk.add({
     "gE",
     function()
       ---@diagnostic disable-next-line: missing-fields
-      require("trouble").toggle({ mode = "diagnostics", focus = false })
+      require("trouble").toggle({
+        mode = "diagnostics",
+        focus = false,
+        filter = { vim.diagnostic.severity.WARN },
+      })
     end,
     desc = "Workspace diagnostics",
   },
