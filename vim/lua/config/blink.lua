@@ -1,40 +1,28 @@
 local blink = require("blink.cmp")
 
-local kind_icons = require("blink.cmp.config").appearance.kind_icons
-kind_icons["Copilot"] = ""
+local function trigger_copilot()
+  if require("copilot.suggestion").is_visible() then
+    require("copilot.suggestion").accept()
+    return true
+  end
+end
 
 blink.setup({
   keymap = {
     preset = "enter",
-    ["<Tab>"] = { "snippet_forward", "select_next", "fallback" },
-    ["<S-Tab>"] = { "snippet_backward", "select_prev", "fallback" },
+    ["<Tab>"] = { "snippet_forward", "select_next", trigger_copilot, "fallback" },
+    ["<S-Tab>"] = { "snippet_backward", "select_prev", trigger_copilot, "fallback" },
   },
   appearance = {
     nerd_font_variant = "mono",
-    kind_icons = kind_icons,
   },
   sources = {
-    default = { "copilot", "lazydev", "lsp", "path", "snippets", "buffer" },
+    default = { "lazydev", "lsp", "path", "snippets", "buffer" },
     providers = {
       lazydev = {
         name = "LazyDev",
         module = "lazydev.integrations.blink",
         score_offset = 100,
-      },
-      copilot = {
-        name = "copilot",
-        module = "blink-cmp-copilot",
-        score_offset = 200,
-        async = true,
-        transform_items = function(_, items)
-          local CompletionItemKind = require("blink.cmp.types").CompletionItemKind
-          local kind_idx = #CompletionItemKind + 1
-          CompletionItemKind[kind_idx] = "Copilot"
-          for _, item in ipairs(items) do
-            item.kind = kind_idx
-          end
-          return items
-        end,
       },
       ripgrep = {
         module = "blink-ripgrep",
@@ -45,14 +33,29 @@ blink.setup({
   signature = { enabled = true, window = { border = "single" } },
   completion = {
     list = {
-      selection = { preselect = true, auto_insert = true },
+      selection = { preselect = false, auto_insert = true },
     },
     ghost_text = { enabled = true },
     documentation = { auto_show = true },
-    menu = {
-      auto_show = function(ctx)
-        return ctx.mode ~= "cmdline" and not vim.tbl_contains({ "/", "?" }, vim.fn.getcmdtype())
-      end,
-    },
+    menu = { auto_show = false },
   },
+})
+
+local augroup = vim.api.nvim_create_augroup("_blink_augroup_", { clear = true })
+
+vim.api.nvim_create_autocmd("User", {
+  pattern = "BlinkCmpMenuOpen",
+  group = augroup,
+  callback = function()
+    require("copilot.suggestion").dismiss()
+    vim.b.copilot_suggestion_hidden = true
+  end,
+})
+
+vim.api.nvim_create_autocmd("User", {
+  pattern = "BlinkCmpMenuClose",
+  group = augroup,
+  callback = function()
+    vim.b.copilot_suggestion_hidden = false
+  end,
 })

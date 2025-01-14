@@ -131,7 +131,6 @@ return {
     dependencies = {
       "rafamadriz/friendly-snippets",
       "mikavilpas/blink-ripgrep.nvim",
-      "giuxtaposition/blink-cmp-copilot",
     },
     event = "InsertEnter",
     version = "*",
@@ -144,7 +143,7 @@ return {
     build = ":Copilot auth",
     event = "VeryLazy",
     opts = {
-      suggestion = { enabled = false },
+      suggestion = { enabled = true, auto_trigger = true },
       panel = { enabled = false },
       filetypes = {
         ["*"] = true,
