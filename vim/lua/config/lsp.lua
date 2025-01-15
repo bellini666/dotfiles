@@ -126,7 +126,8 @@ local handlers = {
 }
 
 -- https://github.com/microsoft/pyright
-nvim_lsp.pyright.setup({
+local python_lsp = os.getenv("PYTHON_LSP") or "pyright"
+nvim_lsp[python_lsp].setup({
   capabilities = lsp_capabilities(),
   autostart = os.getenv("DISABLE_PYRIGHT") ~= "1",
   handlers = handlers,

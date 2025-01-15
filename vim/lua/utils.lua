@@ -6,6 +6,7 @@ local lsp_excluded = {
   html = true,
   jsonls = true,
   pyright = true,
+  basedpyright = true,
   sumneko_lua = true,
   lua_ls = true,
   tsserver = true,
