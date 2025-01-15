@@ -41,6 +41,7 @@ SYMLINKS=(
   "${BASE_DIR}/tmux/tmux.conf ${HOME}/.tmux.conf"
   "${BASE_DIR}/vim ${HOME}/.config/nvim"
   "${BASE_DIR}/kitty ${HOME}/.config/kitty"
+  "${BASE_DIR}/ghostty ${HOME}/.config/ghostty"
   "${BASE_DIR}/zsh/zshrc ${HOME}/.zshrc"
   "${BASE_DIR}/zsh/zsh_plugins.txt ${HOME}/.zsh_plugins.txt"
 )

@@ -1,0 +1,24 @@
+font-family = "Hack Nerd Font"
+font-size = 14
+adjust-cell-height = 2
+adjust-cell-width = "2%"
+
+background = 1f1f28
+foreground= dcd7ba
+selection-foreground = c8c093
+selection-background = 2d4f67
+cursor-color = c8c093
+
+font-thicken = true
+
+working-directory = home
+window-inherit-working-directory = true
+quit-after-last-window-closed = true
+
+macos-option-as-alt = left
+macos-titlebar-style = tabs
+
+shell-integration = zsh
+
+keybind = alt+right=unbind
+keybind = alt+left=unbind
