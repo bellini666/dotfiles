@@ -138,7 +138,7 @@ nvim_lsp[python_lsp].setup({
     initialize_params.initializationOptions.settings.python.pythonPath = python_path
   end,
   settings = {
-    python = {
+    [python_lsp == "basedpyright" and "basedpyright" or "python"] = {
       analysis = {
         autoSearchPaths = true,
         diagnosticMode = os.getenv("PYRIGHT_DIAGNOSTIC_MODE") or "workspace",
