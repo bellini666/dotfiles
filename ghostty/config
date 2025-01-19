@@ -1,13 +1,9 @@
 font-family = "Hack Nerd Font"
-font-size = 14
+font-size = 13
 adjust-cell-height = 2
 adjust-cell-width = "2%"
 
-background = 1f1f28
-foreground= dcd7ba
-selection-foreground = c8c093
-selection-background = 2d4f67
-cursor-color = c8c093
+theme = "Kanagawa Wave"
 
 font-thicken = true
 
