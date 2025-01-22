@@ -74,6 +74,7 @@ yamlfmt = 'latest'
 "pipx:pdm" = "latest"
 "pipx:pipx" = "latest"
 "pipx:poetry" = "latest"
+"pipx:pytest" = "latest"
 "pipx:ruff" = "latest"
 "pipx:tox" = "latest"
 "pipx:yamlfix" = "latest"
