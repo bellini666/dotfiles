@@ -189,6 +189,12 @@ wk.add({
     { "<C-/>", "gc", desc = "Toggle comment", remap = true },
   },
   {
+    mode = { "n", "v" },
+    { "<C-a>", "<cmd>CodeCompanionActions<cr>", desc = "Code companion actions" },
+    { "<F9>", "<cmd>CodeCompanionChat Toggle<cr>", desc = "Code companion chat" },
+    { "ga", "<cmd>CodeCompanionChat Add<cr>", desc = "Code companion add" },
+  },
+  {
     mode = { "i" },
     {
       "<C-f>",

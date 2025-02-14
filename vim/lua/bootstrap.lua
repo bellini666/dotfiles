@@ -18,7 +18,7 @@ M.setup = function()
     install = { colorscheme = { "kanagawa", "default" } },
     checker = { enabled = true },
     dev = {
-      path = os.getenv("HOME") .. "/dev",
+      path = os.getenv("HOME") .. "/dev/neovim",
     },
   })
 end
