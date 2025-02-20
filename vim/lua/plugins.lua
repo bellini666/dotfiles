@@ -430,6 +430,11 @@ return {
 
   -- Language specific
   {
+    "mrcjkb/rustaceanvim",
+    version = "*",
+    lazy = false,
+  },
+  {
     "toppair/peek.nvim",
     build = "deno task --quiet build:fast",
     ft = "markdown",
