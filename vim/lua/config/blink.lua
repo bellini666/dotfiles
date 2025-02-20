@@ -18,6 +18,12 @@ blink.setup({
   },
   sources = {
     default = { "lazydev", "lsp", "path", "snippets", "buffer" },
+    min_keyword_length = function(ctx)
+      if ctx.mode == "cmdline" and string.find(ctx.line, " ") == nil then
+        return 2
+      end
+      return 0
+    end,
     providers = {
       lazydev = {
         name = "LazyDev",
@@ -37,7 +43,11 @@ blink.setup({
     },
     ghost_text = { enabled = true },
     documentation = { auto_show = true },
-    menu = { auto_show = false },
+    menu = {
+      auto_show = function(ctx)
+        return ctx.mode == "cmdline" and not vim.tbl_contains({ "/", "?" }, vim.fn.getcmdtype())
+      end,
+    },
   },
 })
 
