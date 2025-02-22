@@ -19,6 +19,8 @@ BIN_DIR="${HOME}/bin"
 LOCAL_DIR="${HOME}/.local"
 LOCAL_BIN_DIR="${LOCAL_DIR}/bin"
 
+BUILD_DIR="${HOME}/.build"
+
 if [ ${MACHINE_OS} = "MacOS" ]; then
   FONTS_DIR="${HOME}/Library/Fonts"
 elif [ ${MACHINE_OS} = "Linux" ]; then
@@ -51,6 +53,7 @@ mkdir -p "${BIN_DIR}"
 mkdir -p "${LOCAL_BIN_DIR}"
 mkdir -p "${FONTS_DIR}"
 mkdir -p "${MISE_CONFIG_DIR}"
+mkdir -p "${BUILD_DIR}"
 
 function _system {
   info "updating the system"
@@ -196,10 +199,14 @@ function _neovim {
   info "installing neovim"
 
   if [ ${MACHINE_OS} = "MacOS" ]; then
-    brew install --HEAD utf8proc
-    brew upgrade utf8proc --fetch-HEAD
-    brew install --HEAD neovim
-    brew upgrade neovim --fetch-HEAD
+    local file=${BUILD_DIR}/nvim.tar.gz
+    local url=https://github.com/neovim/neovim/releases/download/nightly/nvim-macos-arm64.tar.gz
+
+    if [ "$(download_file ${file} ${url})" == "1" ]; then
+      rm -rf ${BUILD_DIR}/nvim-macos-arm64
+      tar xzf ${file} -C ${BUILD_DIR}
+      ln -sf ${BUILD_DIR}/nvim-macos-arm64/bin/nvim ${BIN_DIR}/nvim
+    fi
   elif [ ${MACHINE_OS} = "Linux" ]; then
     download_executable \
       "${BIN_DIR}/nvim" \

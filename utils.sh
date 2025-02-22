@@ -51,13 +51,17 @@ function download_file {
   if [ -f "${DEST}" ]; then
     OLD_MD5=$(md5sum "${DEST}" | cut -d ' ' -f 1)
     NEW_MD5=$(md5sum "${TMP}" | cut -d ' ' -f 1)
-    if [ "${OLD_MD5}" != "${NEW_MD5}" ]; then
-      TMP2=$(mktemp)
-      mv "${DEST}" "${TMP2}"
+
+    if [ "${OLD_MD5}" == "${NEW_MD5}" ]; then
+      echo 0
     fi
+
+    TMP2=$(mktemp)
+    mv "${DEST}" "${TMP2}"
   fi
 
   mv "${TMP}" "${DEST}"
+  echo 1
 }
 
 function download_executable {
@@ -73,13 +77,17 @@ function download_executable {
   if [ -f "${DEST}" ]; then
     OLD_MD5=$(md5sum "${DEST}" | cut -d ' ' -f 1)
     NEW_MD5=$(md5sum "${TMP}" | cut -d ' ' -f 1)
-    if [ "${OLD_MD5}" != "${NEW_MD5}" ]; then
-      TMP2=$(mktemp)
-      mv "${DEST}" "${TMP2}"
+
+    if [ "${OLD_MD5}" == "${NEW_MD5}" ]; then
+      echo 0
     fi
+
+    TMP2=$(mktemp)
+    mv "${DEST}" "${TMP2}"
   fi
 
   mv "${TMP}" "${DEST}"
+  echo 1
 }
 
 function create_symlink {
