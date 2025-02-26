@@ -54,6 +54,7 @@ function download_file {
 
     if [ "${OLD_MD5}" == "${NEW_MD5}" ]; then
       echo 0
+      return
     fi
 
     TMP2=$(mktemp)
@@ -80,6 +81,7 @@ function download_executable {
 
     if [ "${OLD_MD5}" == "${NEW_MD5}" ]; then
       echo 0
+      return
     fi
 
     TMP2=$(mktemp)
