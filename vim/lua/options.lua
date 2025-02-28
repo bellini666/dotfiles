@@ -44,6 +44,7 @@ vim.opt.scrolloff = 5
 vim.opt.showtabline = 1
 vim.opt.smoothscroll = true
 vim.opt.title = true
+vim.opt.smoothscroll = true
 
 -- Theme
 vim.opt.termguicolors = true
@@ -58,6 +59,14 @@ vim.opt.formatoptions = extend(vim.opt.formatoptions, { "1", "o" })
 vim.opt.whichwrap = extend(vim.opt.whichwrap, { "<", ">", "[", "]", "~" })
 vim.opt.shortmess = extend(vim.opt.shortmess, { "a" })
 vim.opt.completeopt = { "menu", "menuone", "noselect" }
+vim.opt.fillchars = {
+  foldopen = "",
+  foldclose = "",
+  fold = " ",
+  foldsep = " ",
+  diff = "╱",
+  eob = " ",
+}
 
 -- Folding
 vim.opt.foldmethod = "expr"
