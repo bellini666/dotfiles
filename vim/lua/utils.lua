@@ -30,35 +30,24 @@ M.ensure_tables = function(obj, ...)
 end
 
 M.find_files = function(opts)
-  local lsp_util = require("lspconfig.util")
-  local t_builtin = require("telescope.builtin")
-  local t_themes = require("telescope.themes")
+  local cwd = vim.uv.cwd() or vim.fn.getcwd()
 
-  if opts == nil then
-    opts = {}
-  end
-  local cwd = opts.cwd
-  opts.cwd = cwd and vim.fn.expand(cwd) or vim.uv.cwd()
-
-  if inside_git_dir[opts.cwd] == nil then
-    local git_dir = vim.fs.dirname(vim.fs.find(".git", { path = opts.cwd, upward = true })[1])
-    inside_git_dir[opts.cwd] = git_dir ~= nil
+  if inside_git_dir[cwd] == nil then
+    local git_dir = vim.fs.dirname(vim.fs.find(".git", { path = cwd, upward = true })[1])
+    inside_git_dir[cwd] = git_dir ~= nil
   end
 
   local cmd
-  if inside_git_dir[opts.cwd] then
-    cmd = t_builtin.git_files
+  if inside_git_dir[cwd] then
+    cmd = Snacks.picker.git_files
   else
-    cmd = t_builtin.find_files
+    cmd = Snacks.picker.files
   end
 
-  return cmd(t_themes.get_dropdown(opts))
-end
+  opts = opts or {}
+  opts.cwd = cwd
 
-M.spell_suggest = function(opts)
-  local t_builtin = require("telescope.builtin")
-  local t_themes = require("telescope.themes")
-  return t_builtin.spell_suggest(t_themes.get_cursor(opts))
+  return cmd(opts)
 end
 
 M.toggle_format = function()
@@ -69,6 +58,12 @@ end
 
 M.toggle_diagnostics = function()
   vim.diagnostic.enable(not vim.diagnostic.is_enabled())
+  print((format_enabled and "  " or "no") .. "format")
+end
+
+M.toggle_inlay_hints = function()
+  vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = 0 }), { bufnr = 0 })
+  print((vim.lsp.inlay_hint.is_enabled({ bufnr = 0 }) and "  " or "no") .. "inlay_hints")
 end
 
 M.lsp_format = function(opts)
@@ -81,27 +76,6 @@ M.lsp_format = function(opts)
       bufnr = opts.bufnr or 0,
     })
   end
-end
-
-M.grep = function()
-  vim.ui.input({ prompt = "Directory: ", default = "./", completion = "dir" }, function(dir)
-    dir = vim.trim(dir or "")
-    if dir == "" then
-      return
-    end
-
-    vim.ui.input({ prompt = "File pattern: ", default = "*" }, function(pattern)
-      pattern = vim.trim(pattern or "")
-      if pattern == "" or pattern == "*" then
-        pattern = nil
-      end
-
-      require("telescope.builtin").live_grep({
-        search_dirs = { dir },
-        glob_pattern = pattern,
-      })
-    end)
-  end)
 end
 
 local python_path = nil
