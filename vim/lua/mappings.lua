@@ -45,7 +45,7 @@ wk.add({
     function()
       Snacks.picker.resume()
     end,
-    desc = "Toggle trouble",
+    desc = "Toggle snacks",
   },
   { "<C-w>m", "<cmd>WinShift<cr>", desc = "WinShift mode" },
   {
@@ -151,7 +151,9 @@ wk.add({
       require("trouble").toggle({
         mode = "diagnostics",
         focus = false,
-        filter = { buf = 0, severity = vim.diagnostic.severity.WARN },
+        filter = {
+          ["not"] = { severity = vim.diagnostic.severity.HINT },
+        },
       })
     end,
     desc = "Document diagnostics",
@@ -163,7 +165,9 @@ wk.add({
       require("trouble").toggle({
         mode = "diagnostics",
         focus = false,
-        filter = { vim.diagnostic.severity.WARN },
+        filter = {
+          ["not"] = { severity = vim.diagnostic.severity.HINT },
+        },
       })
     end,
     desc = "Workspace diagnostics",
