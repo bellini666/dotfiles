@@ -561,8 +561,11 @@ return {
     event = "BufReadPost",
   },
   {
-    "nvim-pack/nvim-spectre",
-    cmd = "Spectre",
+    "MagicDuck/grug-far.nvim",
+    keys = { "<leader>rr" },
+    config = function()
+      require("grug-far").setup({})
+    end,
   },
   {
     "kylechui/nvim-surround",

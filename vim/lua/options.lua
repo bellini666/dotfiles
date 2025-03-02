@@ -13,6 +13,7 @@ end
 
 -- Set leader to ,
 vim.g.mapleader = ","
+vim.g.maplocalleader = ","
 
 -- Use lua parser and highlight
 vim.g.ts_highlight_lua = true

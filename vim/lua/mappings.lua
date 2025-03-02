@@ -193,6 +193,13 @@ wk.add({
     { "<C-a>", "<cmd>CodeCompanionActions<cr>", desc = "Code companion actions" },
     { "<F9>", "<cmd>CodeCompanionChat Toggle<cr>", desc = "Code companion chat" },
     { "ga", "<cmd>CodeCompanionChat Add<cr>", desc = "Code companion add" },
+    {
+      "<leader>rr",
+      function()
+        require("grug-far").open({ prefills = { search = vim.fn.expand("<cword>") } })
+      end,
+      desc = "Find & Replace",
+    },
   },
   {
     mode = { "i" },
