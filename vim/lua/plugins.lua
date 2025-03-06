@@ -97,7 +97,6 @@ return {
     opts = function(_, opts)
       return vim.tbl_deep_extend("force", opts or {}, {
         bigfile = { enabled = true },
-        dashboard = { enabled = true },
         explorer = { enabled = true },
         git = { enabled = true },
         gitbrowse = { enabled = true },
