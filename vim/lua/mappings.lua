@@ -327,7 +327,7 @@ M.setup_lsp = function(ev)
       {
         "<C-LeftMouse>",
         function()
-          Snacks.picker.lsp_definitions({ auto_confirm = false })
+          Snacks.picker.lsp_definitions({ auto_confirm = true })
         end,
         buffer = ev.buf,
         desc = "LSP hover",
@@ -335,12 +335,19 @@ M.setup_lsp = function(ev)
       {
         "gd",
         function()
-          Snacks.picker.lsp_definitions({ auto_confirm = false })
+          Snacks.picker.lsp_definitions({ auto_confirm = true })
         end,
         buffer = ev.buf,
         desc = "LSP go to definition",
       },
-      { "gD", vim.lsp.buf.declaration, buffer = ev.buf, desc = "LSP go to declaration" },
+      {
+        "gD",
+        function()
+          Snacks.picker.lsp_declarations({ auto_confirm = true })
+        end,
+        buffer = ev.buf,
+        desc = "LSP go to declarations",
+      },
       {
         "grr",
         function()
@@ -352,7 +359,7 @@ M.setup_lsp = function(ev)
       {
         "<leader>D",
         function()
-          Snacks.picker.lsp_type_definitions({ auto_confirm = false })
+          Snacks.picker.lsp_type_definitions({ auto_confirm = true })
         end,
         buffer = ev.buf,
         desc = "LSP type definition",
