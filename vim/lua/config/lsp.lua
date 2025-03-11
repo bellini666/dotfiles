@@ -127,6 +127,8 @@ local handlers = {
 
 -- https://github.com/microsoft/pyright
 local python_lsp = os.getenv("PYTHON_LSP") or "pyright"
+local python_diagnostic_overrides =
+  vim.json.decode(os.getenv("PYRIGHT_DIAGNOSTIC_OVERRIDES") or "{}")
 nvim_lsp[python_lsp].setup({
   capabilities = lsp_capabilities(),
   autostart = os.getenv("DISABLE_PYRIGHT") ~= "1",
@@ -145,6 +147,7 @@ nvim_lsp[python_lsp].setup({
         typeCheckingMode = os.getenv("PYRIGHT_TYPE_CHECKING_MODE") or "standard",
         useLibraryCodeForTypes = true,
         disableOrganizeImports = true,
+        diagnosticSeverityOverrides = python_diagnostic_overrides,
       },
     },
   },
