@@ -9,7 +9,6 @@ uvx = true
 1password-cli = 'latest'
 actionlint = 'latest'
 argocd = 'latest'
-awscli = 'latest'
 bottom = 'latest'
 cheat = 'latest'
 delta = 'latest'
