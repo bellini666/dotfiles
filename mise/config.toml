@@ -36,6 +36,7 @@ uv = 'latest'
 yamlfmt = 'latest'
 
 # npm tools
+"npm:@ast-grep/cli" = "latest"
 "npm:@astrojs/language-server" = "latest"
 "npm:@biomejs/biome" = "latest"
 "npm:bash-language-server" = "latest"
@@ -63,6 +64,7 @@ yamlfmt = 'latest'
 
 # pipx tools
 "pipx:autoflake" = "latest"
+"pipx:autotools-language-server" = "latest"
 "pipx:basedpyright" = "latest"
 "pipx:black" = "latest"
 "pipx:codespell" = "latest"

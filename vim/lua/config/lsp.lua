@@ -162,6 +162,18 @@ nvim_lsp.ruff.setup({
   },
 })
 
+-- https://ast-grep.github.io/
+nvim_lsp.ast_grep.setup({
+  capabilities = lsp_capabilities(),
+  handlers = handlers,
+})
+
+-- https://github.com/Freed-Wu/autotools-language-server
+nvim_lsp.autotools_ls.setup({
+  capabilities = lsp_capabilities(),
+  handlers = handlers,
+})
+
 -- https://github.com/withastro/language-tools/tree/main/packages/language-server
 nvim_lsp.astro.setup({
   capabilities = lsp_capabilities(),
