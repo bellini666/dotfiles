@@ -27,8 +27,8 @@ DISABLE_UNTRACKED_FILES_DIRTY="true"
 HIST_STAMPS="yyyy-mm-dd"
 DISABLE_VENV_CD=1
 
-if [ -f "/opt/homebrew//opt/antidote/share/antidote/antidote.zsh" ]; then
-  antidote_dir=/opt/homebrew//opt/antidote/share/antidote
+if [ -f "/opt/homebrew/opt/antidote/share/antidote/antidote.zsh" ]; then
+  antidote_dir=/opt/homebrew/opt/antidote/share/antidote
   source ${antidote_dir}/antidote.zsh
 elif [ -f "/usr/share/zsh-antidote/antidote.zsh" ]; then
   antidote_dir=/usr/share/zsh-antidote
