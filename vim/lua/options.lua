@@ -102,6 +102,18 @@ vim.opt.wildmode = { "list:longest", "full" }
 vim.opt.undofile = true
 vim.opt.undolevels = 10000
 
+-- Filetypes
+vim.filetype.add({
+  extension = {
+    gotmpl = "gotmpl",
+  },
+  pattern = {
+    [".*/templates/.*%.tpl"] = "helm",
+    [".*/templates/.*%.ya?ml"] = "helm",
+    ["helmfile.*%.ya?ml"] = "helm",
+  },
+})
+
 -- FT Configs
 local ft_configs = {
   bash = { indent = 2 },
