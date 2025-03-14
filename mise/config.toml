@@ -68,6 +68,7 @@ yamlfmt = 'latest'
 "pipx:basedpyright" = "latest"
 "pipx:black" = "latest"
 "pipx:codespell" = "latest"
+"pipx:copier" = "latest"
 "pipx:djlint" = "latest"
 "pipx:flake8" = "latest"
 "pipx:ipython" = "latest"
