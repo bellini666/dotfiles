@@ -210,7 +210,7 @@ function _neovim {
   elif [ ${MACHINE_OS} = "Linux" ]; then
     download_executable \
       "${BIN_DIR}/nvim" \
-      https://github.com/neovim/neovim/releases/download/nightly/nvim.appimage
+      https://github.com/neovim/neovim/releases/download/nightly/nvim-linux-x86_64.appimage
   else
     echo "Unknown OS: ${UNAME_OUTPUT}"
     exit 1
