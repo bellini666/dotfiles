@@ -28,6 +28,7 @@ gs
 haproxy
 hiddenbar
 htop
+imagemagick
 jq
 karabiner-elements
 kitty
@@ -51,6 +52,7 @@ shellcheck
 sox
 sqlite
 taplo
+tectonic
 terraform
 terraform-ls
 unar

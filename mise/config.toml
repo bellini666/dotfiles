@@ -39,6 +39,7 @@ yamlfmt = 'latest'
 "npm:@ast-grep/cli" = "latest"
 "npm:@astrojs/language-server" = "latest"
 "npm:@biomejs/biome" = "latest"
+"npm:@mermaid-js/mermaid-cli" = "latest"
 "npm:bash-language-server" = "latest"
 "npm:cloc" = "latest"
 "npm:cspell" = "latest"
