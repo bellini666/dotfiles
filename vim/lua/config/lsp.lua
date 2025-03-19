@@ -10,13 +10,7 @@ local excluded_paths = {
 }
 
 local lsp_capabilities = function()
-  return require("blink.cmp").get_lsp_capabilities({
-    workspace = {
-      didChangeConfiguration = {
-        dynamicRegistration = false,
-      },
-    },
-  }, true)
+  return require("blink.cmp").get_lsp_capabilities({}, true)
 end
 
 vim.diagnostic.config({
