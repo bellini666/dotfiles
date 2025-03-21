@@ -194,6 +194,16 @@ return {
       filetypes = {
         ["*"] = true,
       },
+      copilot_model = "gpt-4o-copilot",
+      logger = {
+        log_to_file = true,
+        file = vim.fn.stdpath("log") .. "/copilot-lua.log",
+        file_log_level = vim.log.levels.WARN,
+        print_log = false,
+        print_log_level = vim.log.levels.WARN,
+        trace_lsp = "off", -- "off" | "messages" | "verbose"
+        trace_lsp_progress = false,
+      },
     },
   },
 
