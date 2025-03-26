@@ -4,6 +4,12 @@ local utils = require("utils")
 local wk = require("which-key")
 
 wk.add({
+  {
+    "<C-c>",
+    '"+y',
+    desc = "Copy to clipboard",
+    mode = { "v", "x", "n" },
+  },
   { "<A-/>", desc = "Toggle comment" },
   { "<A-Left>", "gT", desc = "Previous tab" },
   { "<A-Right>", "gt", desc = "Next tab" },
@@ -97,6 +103,22 @@ wk.add({
       Snacks.git.blame_line()
     end,
     desc = "Blame current line",
+  },
+  {
+    "<leader>pf",
+    function()
+      vim.fn.setreg("+", vim.fn.expand("%:t"))
+      vim.notify("File name copied to clipboard", "info")
+    end,
+    desc = "Copy file name to system clipboard",
+  },
+  {
+    "<leader>pp",
+    function()
+      vim.fn.setreg("+", vim.fn.expand("%:p"))
+      vim.notify("File path copied to clipboard", "info")
+    end,
+    desc = "Copy file path to system clipboard",
   },
   {
     "[Q",
