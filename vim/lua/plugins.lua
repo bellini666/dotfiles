@@ -116,6 +116,11 @@ return {
               },
             },
           },
+          formatters = {
+            file = {
+              truncate = 100,
+            },
+          },
         },
       })
     end,

@@ -256,7 +256,7 @@ wk.add({
     {
       "<C-f>",
       function()
-        Snacks.picker.grep()
+        Snacks.picker.grep({ hidden = true, follow = true })
       end,
       desc = "Live grep",
     },
@@ -288,6 +288,8 @@ M.setup_lsp = function(ev)
   if client.server_capabilities.definitionProvider then
     vim.bo[ev.buf].tagfunc = "v:lua.vim.lsp.tagfunc"
   end
+
+  local jump = { tagstack = true, reuse_win = false }
 
   -- lsp mappings
   wk.add({
@@ -349,7 +351,7 @@ M.setup_lsp = function(ev)
       {
         "<C-LeftMouse>",
         function()
-          Snacks.picker.lsp_definitions({ auto_confirm = true })
+          Snacks.picker.lsp_definitions({ auto_confirm = true, jump = jump })
         end,
         buffer = ev.buf,
         desc = "LSP hover",
@@ -357,7 +359,7 @@ M.setup_lsp = function(ev)
       {
         "gd",
         function()
-          Snacks.picker.lsp_definitions({ auto_confirm = true })
+          Snacks.picker.lsp_definitions({ auto_confirm = true, jump = jump })
         end,
         buffer = ev.buf,
         desc = "LSP go to definition",
@@ -365,7 +367,7 @@ M.setup_lsp = function(ev)
       {
         "gD",
         function()
-          Snacks.picker.lsp_declarations({ auto_confirm = true })
+          Snacks.picker.lsp_declarations({ auto_confirm = true, jump = jump })
         end,
         buffer = ev.buf,
         desc = "LSP go to declarations",
@@ -373,7 +375,7 @@ M.setup_lsp = function(ev)
       {
         "grr",
         function()
-          Snacks.picker.lsp_references({ auto_confirm = false })
+          Snacks.picker.lsp_references({ auto_confirm = false, jump = jump })
         end,
         buffer = ev.buf,
         desc = "LSP references",
@@ -381,7 +383,7 @@ M.setup_lsp = function(ev)
       {
         "<leader>D",
         function()
-          Snacks.picker.lsp_type_definitions({ auto_confirm = true })
+          Snacks.picker.lsp_type_definitions({ auto_confirm = true, jump = jump })
         end,
         buffer = ev.buf,
         desc = "LSP type definition",
@@ -389,7 +391,7 @@ M.setup_lsp = function(ev)
       {
         "gs",
         function()
-          Snacks.picker.lsp_symbols({ auto_confirm = false })
+          Snacks.picker.lsp_symbols({ auto_confirm = false, jump = jump })
         end,
         buffer = ev.buf,
         desc = "LSP document symbols",
@@ -397,7 +399,7 @@ M.setup_lsp = function(ev)
       {
         "gI",
         function()
-          Snacks.picker.lsp_implementations({ auto_confirm = false })
+          Snacks.picker.lsp_implementations({ auto_confirm = false, jump = jump })
         end,
         buffer = ev.buf,
         desc = "LSP go to implementation",
@@ -405,7 +407,7 @@ M.setup_lsp = function(ev)
       {
         "gS",
         function()
-          Snacks.picker.lsp_workspace_symbols({ auto_confirm = false })
+          Snacks.picker.lsp_workspace_symbols({ auto_confirm = false, jump = jump })
         end,
         buffer = ev.buf,
         desc = "LSP workspace symbols",
