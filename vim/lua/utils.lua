@@ -10,6 +10,7 @@ local lsp_excluded = {
   sumneko_lua = true,
   lua_ls = true,
   tsserver = true,
+  taplo = os.getenv("DISABLE_TAPLO_FMT") == "1",
 }
 
 M.get_root_path = function()
