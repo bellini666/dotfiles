@@ -153,10 +153,16 @@ function _mise {
     "${MISE_BINARY}" self-update || true
   fi
 
-  "${MISE_BINARY}" plugins update -y || true
-  "${MISE_BINARY}" install -y || true
-  "${MISE_BINARY}" upgrade -y || true
-  "${MISE_BINARY}" prune -y
+  (
+    if [ -f "${HOME}/.mise_secret_env.sh" ]; then
+      # shellcheck disable=1091
+      source "${HOME}/.mise_secret_env.sh"
+    fi
+    "${MISE_BINARY}" plugins update -y || true
+    "${MISE_BINARY}" install -y || true
+    "${MISE_BINARY}" upgrade -y || true
+    "${MISE_BINARY}" prune -y
+  )
 }
 
 function _fonts {
