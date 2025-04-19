@@ -56,12 +56,6 @@ return {
     event = "BufReadPost",
     dependencies = {
       "saghen/blink.cmp",
-      {
-        "nvimtools/none-ls.nvim",
-        dependencies = {
-          "nvimtools/none-ls-extras.nvim",
-        },
-      },
       "b0o/schemastore.nvim",
       "SmiteshP/nvim-navic",
     },
