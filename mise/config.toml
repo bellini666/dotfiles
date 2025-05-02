@@ -1,5 +1,6 @@
 [settings]
 experimental = true
+idiomatic_version_file_enable_tools = ["python"]
 
 [settings.pipx]
 uvx = true
@@ -42,6 +43,7 @@ yamllint = 'latest'
 
 # npm tools
 "npm:@astrojs/language-server" = "latest"
+"npm:@github/copilot-language-server" = "latest"
 "npm:@mermaid-js/mermaid-cli" = "latest"
 "npm:bash-language-server" = "latest"
 "npm:cloc" = "latest"
