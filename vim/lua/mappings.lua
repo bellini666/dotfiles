@@ -229,8 +229,8 @@ wk.add({
   },
   {
     mode = { "n", "v" },
-    { "<C-a>", "<cmd>CodeCompanionActions<cr>", desc = "Code companion actions" },
-    { "<F9>", "<cmd>CodeCompanionChat Toggle<cr>", desc = "Code companion chat" },
+    { "<F9>", "<cmd>CodeCompanionActions<cr>", desc = "Code companion actions" },
+    { "<C-F9>", "<cmd>CodeCompanionChat Toggle<cr>", desc = "Code companion chat" },
     { "ga", "<cmd>CodeCompanionChat Add<cr>", desc = "Code companion add" },
     {
       "<leader>rr",
