@@ -47,6 +47,13 @@ wk.add({
   { "<C-d>", utils.run_tests, desc = "Run tests" },
   { "<C-p>", utils.find_files, desc = "Find files" },
   {
+    "<C-s>",
+    function()
+      require("dropbar.api").pick()
+    end,
+    desc = "Dropbar pick",
+  },
+  {
     "<C-q>",
     function()
       Snacks.picker.resume()

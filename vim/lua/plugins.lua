@@ -269,14 +269,11 @@ return {
     end,
   },
   {
-    "utilyre/barbecue.nvim",
-    event = "VeryLazy",
-    dependencies = {
-      "SmiteshP/nvim-navic",
-      "nvim-tree/nvim-web-devicons",
-    },
+    "Bekaboo/dropbar.nvim",
     opts = {
-      attach_navic = false,
+      menu = {
+        preview = false,
+      },
     },
   },
   {

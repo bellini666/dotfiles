@@ -87,6 +87,7 @@ yamllint = 'latest'
 "pipx:pipx" = "latest"
 "pipx:pytest" = "latest"
 "pipx:tox" = "latest"
+"pipx:ty" = "latest"
 "pipx:yamlfix" = "latest"
 
 # runtimes (needs to be last)
