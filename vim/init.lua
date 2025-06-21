@@ -1,6 +1,6 @@
 -- Disable deprecation warnings for now
 ---@diagnostic disable-next-line: duplicate-set-field
--- vim.deprecate = function() end
+vim.deprecate = function() end
 
 vim.g.loaded_node_provider = 0
 vim.g.loaded_perl_provider = 0

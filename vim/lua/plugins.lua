@@ -193,7 +193,7 @@ return {
       filetypes = {
         ["*"] = true,
       },
-      copilot_model = "gpt-4o-copilot",
+      copilot_model = "claude-3-7-sonnet",
       logger = {
         log_to_file = true,
         file = vim.fn.stdpath("log") .. "/copilot-lua.log",
@@ -387,12 +387,19 @@ return {
       strategies = {
         chat = {
           adapter = "copilot",
+          model = "claude-3-7-sonnet",
         },
         inline = {
           adapter = "copilot",
+          model = "claude-3-7-sonnet",
         },
         agent = {
           adapter = "copilot",
+          model = "claude-3-7-sonnet",
+        },
+        cmd = {
+          adapter = "copilot",
+          model = "claude-3-7-sonnet",
         },
       },
     },
