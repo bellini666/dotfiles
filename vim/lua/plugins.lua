@@ -26,11 +26,15 @@ return {
   -- Treesitter
   {
     "nvim-treesitter/nvim-treesitter",
-    dependencies = {
-      "nvim-treesitter/nvim-treesitter-textobjects",
-      "NvChad/nvim-colorizer.lua",
-    },
+    lazy = false,
+    branch = "main",
     build = ":TSUpdate",
+    dependencies = {
+      {
+        "nvim-treesitter/nvim-treesitter-textobjects",
+        branch = "main",
+      },
+    },
     init = function()
       require("vim.treesitter.query").add_predicate("is-mise?", function(_, _, bufnr, _)
         local filepath = vim.api.nvim_buf_get_name(tonumber(bufnr) or 0)
@@ -41,13 +45,6 @@ return {
     config = function()
       require("config.treesitter")
     end,
-  },
-  {
-    "nvim-treesitter/playground",
-    dependencies = {
-      "nvim-treesitter/nvim-treesitter",
-    },
-    cmd = { "TSPlaygroundToggle", "TSHighlightCapturesUnderCursor" },
   },
 
   -- LSP
@@ -496,7 +493,11 @@ return {
   },
   {
     "andymass/vim-matchup",
-    event = "BufReadPost",
+    opts = {
+      treesitter = {
+        stopline = 500,
+      },
+    },
   },
   {
     "MagicDuck/grug-far.nvim",

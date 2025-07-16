@@ -71,7 +71,7 @@ vim.opt.fillchars = {
 
 -- Folding
 vim.opt.foldmethod = "expr"
-vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
+vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 vim.opt.foldenable = false
 
 -- Tabs
@@ -144,6 +144,10 @@ M.setup_ft = function()
   if config == nil then
     return
   end
+
+  vim.treesitter.start()
+  vim.wo.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+  vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
 
   if config.indent ~= nil then
     vim.opt_local.shiftwidth = config.indent
