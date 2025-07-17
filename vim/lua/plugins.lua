@@ -379,6 +379,18 @@ return {
     dependencies = {
       "nvim-lua/plenary.nvim",
       "nvim-treesitter/nvim-treesitter",
+      {
+        "ravitemer/mcphub.nvim",
+        dependencies = {
+          "nvim-lua/plenary.nvim",
+        },
+        build = "bundled_build.lua",
+        config = function()
+          require("mcphub").setup({
+            use_bundled_binary = true,
+          })
+        end,
+      },
     },
     opts = {
       strategies = {
@@ -399,6 +411,20 @@ return {
           model = "claude-3-7-sonnet",
         },
       },
+      extensions = {
+        mcphub = {
+          callback = "mcphub.extensions.codecompanion",
+          opts = {
+            make_tools = true,
+            show_server_tools_in_chat = true,
+            add_mcp_prefix_to_tool_names = false,
+            show_result_in_chat = true,
+            format_tool = nil,
+            make_vars = true,
+            make_slash_commands = true,
+          },
+        },
+      },
     },
   },
 
@@ -417,6 +443,10 @@ return {
       vim.api.nvim_create_user_command("PeekOpen", require("peek").open, {})
       vim.api.nvim_create_user_command("PeekClose", require("peek").close, {})
     end,
+  },
+  {
+    "MeanderingProgrammer/render-markdown.nvim",
+    ft = { "markdown", "codecompanion" },
   },
 
   -- Text editing

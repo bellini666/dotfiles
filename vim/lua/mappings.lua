@@ -239,7 +239,6 @@ wk.add({
     { "<C-.>", "<cmd>CodeCompanion<cr>", desc = "Code companion prompt" },
     { "<F9>", "<cmd>CodeCompanionActions<cr>", desc = "Code companion actions" },
     { "<C-F9>", "<cmd>CodeCompanionChat Toggle<cr>", desc = "Code companion chat" },
-    { "ga", "<cmd>CodeCompanionChat Add<cr>", desc = "Code companion add" },
     {
       "<leader>rr",
       function()
@@ -247,6 +246,10 @@ wk.add({
       end,
       desc = "Find & Replace",
     },
+  },
+  {
+    mode = { "v" },
+    { "ga", "<cmd>CodeCompanionChat Add<cr>", desc = "Code companion add" },
   },
   {
     mode = { "i" },
