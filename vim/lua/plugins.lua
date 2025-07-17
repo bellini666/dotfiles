@@ -190,7 +190,7 @@ return {
       filetypes = {
         ["*"] = true,
       },
-      copilot_model = "claude-3-7-sonnet",
+      copilot_model = "claude-4-sonnet",
       logger = {
         log_to_file = true,
         file = vim.fn.stdpath("log") .. "/copilot-lua.log",
