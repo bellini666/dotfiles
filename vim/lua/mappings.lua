@@ -61,13 +61,6 @@ wk.add({
     desc = "Toggle snacks",
   },
   { "<C-w>m", "<cmd>WinShift<cr>", desc = "WinShift mode" },
-  {
-    "<C-w>r",
-    function()
-      require("smart-splits").start_resize_mode()
-    end,
-    desc = "Smart resize",
-  },
   { "<C-w>t", "<cmd>tab split<cr>", desc = "Duplicate tab" },
   { "<C-w>x", "<cmd>WinShift swap<cr><C-w><C-w>", desc = "Swap splits" },
   {

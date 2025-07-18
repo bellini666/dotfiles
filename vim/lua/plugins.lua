@@ -88,7 +88,6 @@ return {
     opts = function(_, opts)
       return vim.tbl_deep_extend("force", opts or {}, {
         bigfile = { enabled = true },
-        explorer = { enabled = true },
         git = { enabled = true },
         gitbrowse = { enabled = true },
         image = { enabled = true },
@@ -296,6 +295,12 @@ return {
             padding = 1,
           },
           {
+            filetype = "codecompanion",
+            text = "Code Companion",
+            separator = true,
+            padding = 1,
+          },
+          {
             filetype = "neotest-summary",
             text = "Tests",
             separator = true,
@@ -315,16 +320,6 @@ return {
       "anuvyklack/middleclass",
     },
     config = true,
-  },
-  {
-    "mrjones2014/smart-splits.nvim",
-    lazy = true,
-    opts = {
-      resize_mode = {
-        quit_key = "<ESC>",
-        resize_keys = { "<Left>", "<Down>", "<Up>", "<Right>" },
-      },
-    },
   },
   {
     "SmiteshP/nvim-navic",
@@ -518,6 +513,7 @@ return {
         "gitrebase",
         "neo-tree",
         "neotest-summary",
+        "codecompanion",
       },
     },
   },

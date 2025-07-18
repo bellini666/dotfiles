@@ -45,7 +45,6 @@ vim.opt.scrolloff = 5
 vim.opt.showtabline = 1
 vim.opt.smoothscroll = true
 vim.opt.title = true
-vim.opt.smoothscroll = true
 
 -- Theme
 vim.opt.termguicolors = true
@@ -140,14 +139,15 @@ local ft_configs = {
 }
 
 M.setup_ft = function()
+  if pcall(vim.treesitter.start) then
+    vim.wo.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+    vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+  end
+
   local config = ft_configs[vim.bo.filetype]
   if config == nil then
     return
   end
-
-  vim.treesitter.start()
-  vim.wo.foldexpr = "v:lua.vim.treesitter.foldexpr()"
-  vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
 
   if config.indent ~= nil then
     vim.opt_local.shiftwidth = config.indent

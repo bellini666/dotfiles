@@ -8,6 +8,16 @@ local augroup_codelens = vim.api.nvim_create_augroup("_my_lsp_codelens", {})
 local excluded_paths = {
   "lib/python%d.%d+/site-packages/",
 }
+local lsp_disable_format = {
+  html = true,
+  jsonls = true,
+  pyright = true,
+  basedpyright = true,
+  sumneko_lua = true,
+  lua_ls = true,
+  tsserver = true,
+  taplo = os.getenv("DISABLE_TAPLO_FMT") == "1",
+}
 
 vim.diagnostic.config({
   virtual_text = false,
@@ -45,6 +55,11 @@ vim.api.nvim_create_autocmd("LspAttach", {
     if client.name == "ruff" then
       -- favor pyright over ruff
       client.server_capabilities.hoverProvider = false
+    end
+
+    if lsp_disable_format[client.name] then
+      client.server_capabilities.documentFormattingProvider = false
+      client.server_capabilities.documentRangeFormattingProvider = false
     end
 
     if client.server_capabilities.documentSymbolProvider then
