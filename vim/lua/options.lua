@@ -69,8 +69,6 @@ vim.opt.fillchars = {
 }
 
 -- Folding
-vim.opt.foldmethod = "expr"
-vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 vim.opt.foldenable = false
 
 -- Tabs
@@ -140,7 +138,6 @@ local ft_configs = {
 
 M.setup_ft = function()
   if pcall(vim.treesitter.start) then
-    vim.wo.foldexpr = "v:lua.vim.treesitter.foldexpr()"
     vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
   end
 
