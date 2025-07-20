@@ -182,34 +182,52 @@ local plugins = {
   "marksman",
 }
 for _, plugin in ipairs(plugins) do
-  enable(plugin)
-end
-
--- https://github.com/microsoft/pyright
-local python_lsp = os.getenv("PYTHON_LSP") or "pyright"
-local python_config_key = python_lsp == "basedpyright" and "basedpyright" or "python"
-enable(python_lsp, {
-  before_init = function(initialize_params, config)
-    local python_path = utils.find_python()
-    config.settings.python.pythonPath = python_path
-    utils.ensure_tables(initialize_params, "initializationOptions", "settings", python_config_key)
-    initialize_params.initializationOptions.settings.python.pythonPath = python_path
-  end,
-  settings = {
-    [python_config_key] = {
-      analysis = {
-        autoSearchPaths = true,
-        diagnosticMode = os.getenv("PYRIGHT_DIAGNOSTIC_MODE") or "workspace",
-        typeCheckingMode = os.getenv("PYRIGHT_TYPE_CHECKING_MODE") or "standard",
-        useLibraryCodeForTypes = true,
-        disableOrganizeImports = true,
-        diagnosticSeverityOverrides = vim.json.decode(
-          os.getenv("PYRIGHT_DIAGNOSTIC_OVERRIDES") or "{}"
-        ),
+  enable(plugin, {
+    before_init = function(initialize_params, config)
+      local python_path = utils.find_python()
+      config.settings.type.interpreter = python_path
+      utils.ensure_tables(initialize_params, "initializationOptions", "settings", "ty")
+      initialize_params.initializationOptions.settings.ty.interpreter = python_path
+    end,
+    settings = {
+      ty = {
+        importStrategy = "fromEnvironment",
       },
     },
-  },
-})
+  })
+end
+
+local python_lsp = os.getenv("PYTHON_LSP") or "pyright"
+if python_lsp == "ty" then
+  -- https://github.com/astral-sh/ty
+  enable("ty")
+else
+  -- https://github.com/microsoft/pyright
+  -- https://github.com/DetachHead/basedpyright
+  local python_config_key = python_lsp == "basedpyright" and "basedpyright" or "python"
+  enable(python_lsp, {
+    before_init = function(initialize_params, config)
+      local python_path = utils.find_python()
+      config.settings.python.pythonPath = python_path
+      utils.ensure_tables(initialize_params, "initializationOptions", "settings", python_config_key)
+      initialize_params.initializationOptions.settings.python.pythonPath = python_path
+    end,
+    settings = {
+      [python_config_key] = {
+        analysis = {
+          autoSearchPaths = true,
+          diagnosticMode = os.getenv("PYRIGHT_DIAGNOSTIC_MODE") or "workspace",
+          typeCheckingMode = os.getenv("PYRIGHT_TYPE_CHECKING_MODE") or "standard",
+          useLibraryCodeForTypes = true,
+          disableOrganizeImports = true,
+          diagnosticSeverityOverrides = vim.json.decode(
+            os.getenv("PYRIGHT_DIAGNOSTIC_OVERRIDES") or "{}"
+          ),
+        },
+      },
+    },
+  })
+end
 
 -- https://github.com/astral-sh/ruff
 enable("ruff", {
