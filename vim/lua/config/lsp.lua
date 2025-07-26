@@ -182,7 +182,13 @@ local plugins = {
   "marksman",
 }
 for _, plugin in ipairs(plugins) do
-  enable(plugin, {
+  enable(plugin)
+end
+
+local python_lsp = os.getenv("PYTHON_LSP") or "pyright"
+if python_lsp == "ty" then
+  -- https://github.com/astral-sh/ty
+  enable("ty", {
     before_init = function(initialize_params, config)
       local python_path = utils.find_python()
       config.settings.type.interpreter = python_path
@@ -195,12 +201,6 @@ for _, plugin in ipairs(plugins) do
       },
     },
   })
-end
-
-local python_lsp = os.getenv("PYTHON_LSP") or "pyright"
-if python_lsp == "ty" then
-  -- https://github.com/astral-sh/ty
-  enable("ty")
 else
   -- https://github.com/microsoft/pyright
   -- https://github.com/DetachHead/basedpyright
