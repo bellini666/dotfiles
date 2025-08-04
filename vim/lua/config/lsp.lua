@@ -201,6 +201,21 @@ if python_lsp == "ty" then
       },
     },
   })
+elseif python_lsp == "pylsp" then
+  enable("pylsp", {
+    before_init = function(initialize_params, config)
+      config.settings.pylsp.plugins.autopep8.enabled = false
+      config.settings.pylsp.plugins.black.enabled = false
+      config.settings.pylsp.plugins.flake8.enabled = false
+      config.settings.pylsp.plugins.isort.enabled = false
+      config.settings.pylsp.plugins.mccabe.enabled = false
+      config.settings.pylsp.plugins.pycodestyle.enabled = false
+      config.settings.pylsp.plugins.pydocstyle.enabled = false
+      config.settings.pylsp.plugins.pyflakes.enabled = false
+      config.settings.pylsp.plugins.pylint.enabled = false
+      config.settings.pylsp.plugins.yapf.enabled = false
+    end,
+  })
 else
   -- https://github.com/microsoft/pyright
   -- https://github.com/DetachHead/basedpyright

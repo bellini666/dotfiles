@@ -74,14 +74,11 @@ yamllint = 'latest'
 "npm:yaml-language-server" = "latest"
 
 # pipx tools
-"pipx:autoflake" = "latest"
 "pipx:autotools-language-server" = "latest"
 "pipx:basedpyright" = "latest"
-"pipx:black" = "latest"
 "pipx:codespell" = "latest"
 "pipx:copier" = "latest"
 "pipx:djlint" = "latest"
-"pipx:flake8" = "latest"
 "pipx:ipython" = "latest"
 "pipx:isort" = "latest"
 "pipx:mypy" = "latest"
@@ -89,9 +86,9 @@ yamllint = 'latest'
 "pipx:pdm" = "latest"
 "pipx:pipx" = "latest"
 "pipx:pytest" = "latest"
+"pipx:python-lsp-server" = "latest"
 "pipx:tox" = "latest"
 "pipx:ty" = "latest"
-"pipx:yamlfix" = "latest"
 
 # runtimes (needs to be last)
 deno = 'latest'
