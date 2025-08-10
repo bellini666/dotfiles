@@ -321,7 +321,10 @@ M.setup_lsp = function(ev)
     },
     {
       "<leader>rn",
-      vim.lsp.buf.rename,
+      function()
+        vim.lsp.buf.rename()
+        vim.cmd("silent! wa")
+      end,
       buffer = ev.buf,
       desc = "LSP rename",
       group = "LSP Actions",

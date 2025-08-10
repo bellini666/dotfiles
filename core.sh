@@ -65,4 +65,18 @@ function bootstrap() { (
   bash "${DOTFILES_DIR}/bootstrap.sh" "${@}" || return 1
 ); }
 
+function vi() {
+  if [ -n "${VIRTUAL_ENV}" ] && [ -d "${VIRTUAL_ENV}" ] && [ -f "${VIRTUAL_ENV}/bin/activate" ]; then
+    source "${VIRTUAL_ENV}/bin/activate"
+  fi
+  if command -v poetry &>/dev/null; then
+    local poetry_venv
+    poetry_venv=$(poetry env info --path -C "$(pwd)" 2>/dev/null)
+    if [ -n "${poetry_venv}" ]; then
+      source "${poetry_venv}/bin/activate"
+    fi
+  fi
+  nvim "${@}"
+}
+
 export _DEFAULTS_SOURCED="1"

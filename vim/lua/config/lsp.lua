@@ -100,36 +100,6 @@ local function _my_open_floating_preview(contents, syntax, opts, ...)
 end
 vim.lsp.util.open_floating_preview = _my_open_floating_preview
 
-local handlers = {
-  ["textDocument/rename"] = function(_, result, ...)
-    local title = nil
-    local msg = {}
-
-    if result and result.documentChanges then
-      local fname
-      local old = vim.fn.expand("<cword>")
-      local new = "<unknown>"
-      local root = vim.uv.cwd()
-      for _, c in pairs(result.documentChanges) do
-        new = c.edits[1].newText
-        fname = "." .. c.textDocument.uri:gsub("file://" .. root, "")
-        table.insert(msg, ("%d changes -> %s"):format(#c.edits, fname))
-      end
-      title = ("Rename: %s -> %s"):format(old, new)
-    end
-
-    local ret = vim.lsp.handlers["textDocument/rename"](_, result, ...)
-
-    if not vim.tbl_isempty(msg) then
-      vim.notify(table.concat(msg, "\n"), vim.log.levels.INFO, { title = title })
-      -- Save the modified files after the rename
-      vim.cmd("wall")
-    end
-
-    return ret
-  end,
-}
-
 local lsp_capabilities = function()
   return require("blink.cmp").get_lsp_capabilities({}, true)
 end
@@ -140,7 +110,6 @@ local function enable(name, config)
     vim.tbl_deep_extend("force", {
       capabilities = lsp_capabilities(),
       autostart = os.getenv("DISABLE_" .. name:upper()) ~= "1",
-      handlers = handlers,
     }, config or {})
   )
   vim.lsp.enable(name)
@@ -189,32 +158,34 @@ local python_lsp = os.getenv("PYTHON_LSP") or "pyright"
 if python_lsp == "ty" then
   -- https://github.com/astral-sh/ty
   enable("ty", {
-    before_init = function(initialize_params, config)
-      local python_path = utils.find_python()
-      config.settings.type.interpreter = python_path
-      utils.ensure_tables(initialize_params, "initializationOptions", "settings", "ty")
-      initialize_params.initializationOptions.settings.ty.interpreter = python_path
-    end,
     settings = {
       ty = {
         importStrategy = "fromEnvironment",
+        diagnosticMode = "workspace",
       },
     },
   })
 elseif python_lsp == "pylsp" then
   enable("pylsp", {
-    before_init = function(initialize_params, config)
-      config.settings.pylsp.plugins.autopep8.enabled = false
-      config.settings.pylsp.plugins.black.enabled = false
-      config.settings.pylsp.plugins.flake8.enabled = false
-      config.settings.pylsp.plugins.isort.enabled = false
-      config.settings.pylsp.plugins.mccabe.enabled = false
-      config.settings.pylsp.plugins.pycodestyle.enabled = false
-      config.settings.pylsp.plugins.pydocstyle.enabled = false
-      config.settings.pylsp.plugins.pyflakes.enabled = false
-      config.settings.pylsp.plugins.pylint.enabled = false
-      config.settings.pylsp.plugins.yapf.enabled = false
-    end,
+    settings = {
+      pylsp = {
+        plugins = {
+          autopep8 = { enabled = false },
+          black = { enabled = false },
+          flake8 = { enabled = false },
+          isort = { enabled = false },
+          mccabe = { enabled = false },
+          pycodestyle = { enabled = false },
+          pydocstyle = { enabled = false },
+          pyflakes = { enabled = false },
+          pylint = { enabled = false },
+          yapf = { enabled = false },
+          signature = {
+            formatter = "ruff",
+          },
+        },
+      },
+    },
   })
 else
   -- https://github.com/microsoft/pyright
@@ -247,6 +218,7 @@ end
 -- https://github.com/astral-sh/ruff
 enable("ruff", {
   settings = {
+    configurationPreference = "filesystemFirst",
     prioritizeFileConfiguration = true,
     fixAll = true,
     organizeImports = true,
