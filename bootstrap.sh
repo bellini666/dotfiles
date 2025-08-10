@@ -73,7 +73,7 @@ function _system {
   elif [ ${MACHINE_OS} = "Linux" ]; then
     (
       APT_PACKAGES=$(tr '\n' ' ' <"${BASE_DIR}/packages/apt-packages")
-      EXTRA_OPTS="-t unstable"
+      EXTRA_OPTS="-t testing"
       sudo apt update --list-cleanup
       sudo apt dist-upgrade --purge
       # shellcheck disable=2086
