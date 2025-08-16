@@ -2,9 +2,6 @@
 experimental = true
 idiomatic_version_file_enable_tools = ["python"]
 
-[settings.python]
-compile = true
-
 [settings.pipx]
 uvx = true
 
