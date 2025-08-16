@@ -60,3 +60,12 @@ vim.api.nvim_create_autocmd("LspAttach", {
     require("mappings").setup_lsp(ev)
   end,
 })
+
+-- Setup file type options
+vim.api.nvim_create_autocmd("BufRead", {
+  pattern = "Tiltfile",
+  group = augroup("tilt_ftype"),
+  callback = function()
+    vim.cmd("setf starlark")
+  end,
+})
