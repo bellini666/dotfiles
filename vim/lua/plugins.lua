@@ -93,6 +93,7 @@ return {
         image = { enabled = true },
         input = { enabled = true },
         notifier = { enabled = true },
+        rename = { enabled = true },
         picker = {
           enabled = true,
           actions = require("trouble.sources.snacks").actions,
