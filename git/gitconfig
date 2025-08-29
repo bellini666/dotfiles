@@ -34,18 +34,37 @@
     gpgsign = true
 
 [alias]
+    a = add
+    au = add -u
+    ap = add -p
+    aup = add -u -p
     co = checkout
-    br = branch
+    cob = checkout -B
+    br = "!f(){\
+      git for-each-ref --sort='-authordate' \
+      --format='%(authordate)%09%(objectname:short)%09%(refname)' refs/heads | \
+      sed -e 's-refs/heads/--'; \
+    }; f"
     ci = commit
+    cim = commit --amend
+    r = "!f() { \
+      if [ -n "$1" ]; then \
+        git rebase -i "$1"; \
+      elif git show-ref --verify --quiet refs/remotes/origin/main; then \
+        git rebase -i origin/main; \
+      elif git show-ref --verify --quiet refs/remotes/origin/master; then \
+        git rebase -i origin/master; \
+      else \
+        echo "Neither origin/main nor origin/master exists"; \
+      fi; \
+    }; f"
     st = status
     di = diff
-    sdi = diff --cached
-    ndi = diff --color=never
-    nsdi = diff --cached --color=never
+    dis = diff --cached
+    din = diff --color=never
+    dins = diff --cached --color=never
+    fuck = reset --soft HEAD@{1}
     fe = fetch --all
     rm-stale = "!f(){\
-        git branch --color=never | grep -v "master" | grep -v ^* | xargs git branch -d;\
-    }; f"
-    rm-stale-force = "!f(){\
         git branch --color=never | grep -v "master" | grep -v ^* | xargs git branch -D;\
     }; f"

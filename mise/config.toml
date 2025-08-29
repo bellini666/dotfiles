@@ -100,4 +100,5 @@ run = """
 docker stop $(docker ps -a -q) || true
 docker system prune -f
 docker volume prune -a -f
+docker image prune -a -f
 """
