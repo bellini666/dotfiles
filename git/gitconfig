@@ -58,6 +58,7 @@
         echo "Neither origin/main nor origin/master exists"; \
       fi; \
     }; f"
+    rc = rebase --continue
     st = status
     di = diff
     dis = diff --cached
