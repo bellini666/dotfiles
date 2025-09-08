@@ -59,6 +59,7 @@ alias s="bookmark"
 alias d="deletemark"
 alias p="showmarks"
 alias mr="mise run --"
+alias pre-commit="prek"
 alias "?"="gh copilot suggest -t shell"
 
 autoload -Uz promptinit && promptinit && prompt powerlevel10k
