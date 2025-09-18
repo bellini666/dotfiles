@@ -1,11 +1,12 @@
 font-family = "Hack Nerd Font"
-font-size = 13
-adjust-cell-height = 2
+font-size = 14
+adjust-cell-height = 1
 adjust-cell-width = "2%"
 
 theme = "Kanagawa Wave"
 
 font-thicken = true
+font-thicken-strength = 150
 
 working-directory = home
 window-inherit-working-directory = true
@@ -13,6 +14,7 @@ quit-after-last-window-closed = true
 
 macos-option-as-alt = left
 macos-titlebar-style = tabs
+window-colorspace = "display-p3"
 
 shell-integration = zsh
 
