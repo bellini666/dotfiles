@@ -176,6 +176,7 @@ if python_lsp == "ty" then
         diagnosticMode = "workspace",
         experimental = {
           rename = true,
+          autoImport = true,
         },
       },
     },
