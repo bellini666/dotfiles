@@ -66,16 +66,42 @@ function bootstrap() { (
 ); }
 
 function vi() {
+  local activate_path
+
+  # Check for existing virtual environment
   if [ -n "${VIRTUAL_ENV}" ] && [ -d "${VIRTUAL_ENV}" ] && [ -f "${VIRTUAL_ENV}/bin/activate" ]; then
-    source "${VIRTUAL_ENV}/bin/activate"
+    activate_path="${VIRTUAL_ENV}/bin/activate"
   fi
-  if command -v poetry &>/dev/null; then
-    local poetry_venv
-    poetry_venv=$(poetry env info --path -C "$(pwd)" 2>/dev/null)
-    if [ -n "${poetry_venv}" ]; then
-      source "${poetry_venv}/bin/activate"
+
+  # Check for general venv (e.g. uv) environment
+  if [ -z "${activate_path}" ]; then
+    local current_dir
+    current_dir="$(pwd)"
+    while [ "$current_dir" != "/" ]; do
+      if [ -f "$current_dir/.venv/bin/activate" ]; then
+        activate_path="$current_dir/.venv/bin/activate"
+        break
+      fi
+      current_dir=$(dirname "$current_dir")
+    done
+  fi
+
+  # Check for Poetry environment
+  if [ -z "${activate_path}" ]; then
+    if command -v poetry &>/dev/null; then
+      local poetry_venv
+      poetry_venv=$(poetry env info --path -C "$(pwd)" 2>/dev/null)
+      if [ -n "${poetry_venv}" ]; then
+        activate_path="${poetry_venv}/bin/activate"
+      fi
     fi
   fi
+
+  if [ -n "${activate_path}" ] && [ -f "${activate_path}" ]; then
+    # shellcheck disable=1090
+    source "${activate_path}"
+  fi
+
   nvim "${@}"
 }
 
