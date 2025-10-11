@@ -75,6 +75,7 @@ yamllint = 'latest'
 "pipx:basedpyright" = "latest"
 "pipx:codespell" = "latest"
 "pipx:copier" = "latest"
+"pipx:django-language-server" = "latest"
 "pipx:djlint" = "latest"
 "pipx:ipython" = "latest"
 "pipx:isort" = "latest"

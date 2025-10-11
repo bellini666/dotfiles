@@ -121,6 +121,8 @@ local plugins = {
   "autotools_ls",
   -- https://github.com/withastro/language-tools/tree/main/packages/language-server
   "astro",
+  -- https://github.com/joshuadavidthomas/django-language-server
+  "djls",
   -- https://github.com/theia-ide/typescript-language-server
   "ts_ls",
   -- https://github.com/biomejs/biome
