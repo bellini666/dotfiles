@@ -190,7 +190,7 @@ return {
       filetypes = {
         ["*"] = true,
       },
-      copilot_model = "claude-4-sonnet",
+      copilot_model = "claude-4.5-sonnet",
       logger = {
         log_to_file = true,
         file = vim.fn.stdpath("log") .. "/copilot-lua.log",
@@ -392,19 +392,19 @@ return {
       strategies = {
         chat = {
           adapter = "copilot",
-          model = "claude-3-7-sonnet",
+          model = "claude-4-5-sonnet",
         },
         inline = {
           adapter = "copilot",
-          model = "claude-3-7-sonnet",
+          model = "claude-4-5-sonnet",
         },
         agent = {
           adapter = "copilot",
-          model = "claude-3-7-sonnet",
+          model = "claude-4-5-sonnet",
         },
         cmd = {
           adapter = "copilot",
-          model = "claude-3-7-sonnet",
+          model = "claude-4-5-sonnet",
         },
       },
       extensions = {
