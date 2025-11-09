@@ -43,6 +43,7 @@ yamllint = 'latest'
 
 # npm tools
 "npm:@astrojs/language-server" = "latest"
+"npm:@github/copilot" = "latest"
 "npm:@github/copilot-language-server" = "latest"
 "npm:@mermaid-js/mermaid-cli" = "latest"
 "npm:bash-language-server" = "latest"
