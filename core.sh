@@ -105,4 +105,8 @@ function vi() {
   nvim "${@}"
 }
 
+function opencode() {
+  XDG_DATA_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}${XDG_DATA_EXTRA:-}" /opt/homebrew/bin/opencode "${@}"
+}
+
 export _DEFAULTS_SOURCED="1"
