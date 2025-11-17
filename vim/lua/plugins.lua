@@ -153,7 +153,9 @@ return {
         pattern = { "toml", "markdown" },
         group = vim.api.nvim_create_augroup("EmbedTomlMd", {}),
         callback = function()
-          require("otter").activate()
+          if vim.api.nvim_get_option_value("buftype", { buf = 0 }) ~= "nofile" then
+            require("otter").activate()
+          end
         end,
       })
     end,
@@ -228,6 +230,9 @@ return {
           enabled = false,
         },
         signature = {
+          enabled = false,
+        },
+        hover = {
           enabled = false,
         },
       },
