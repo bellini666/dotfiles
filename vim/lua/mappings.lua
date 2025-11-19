@@ -121,6 +121,14 @@ wk.add({
     desc = "Copy file path to system clipboard",
   },
   {
+    "<leader>pr",
+    function()
+      vim.fn.setreg("+", vim.fn.expand("%:~:."))
+      vim.notify("Relative file path copied to clipboard", "info")
+    end,
+    desc = "Copy relative file path to system clipboard",
+  },
+  {
     "[Q",
     function()
       ---@diagnostic disable-next-line: missing-parameter, missing-fields
