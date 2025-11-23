@@ -33,6 +33,19 @@
 [commit]
     gpgsign = true
 
+[init]
+    defaultBranch = main
+
+[rebase]
+    autoStash = true
+    autoSquash = true
+
+[merge]
+    conflictstyle = zdiff3
+
+[rerere]
+    enabled = true
+
 [alias]
     a = add
     au = add -u
@@ -67,5 +80,5 @@
     fuck = reset --soft HEAD@{1}
     fe = fetch --all
     rm-stale = "!f(){\
-        git branch --color=never | grep -v "master" | grep -v ^* | xargs git branch -D;\
+        git branch --color=never | grep -v "master" | grep -v "main" | grep -v ^* | xargs git branch -D;\
     }; f"
