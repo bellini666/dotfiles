@@ -20,3 +20,5 @@ shell-integration = zsh
 
 keybind = alt+right=unbind
 keybind = alt+left=unbind
+
+shell-integration-features = ssh-terminfo,ssh-env,cursor,sudo,title
