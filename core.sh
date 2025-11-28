@@ -106,7 +106,7 @@ function vi() {
 }
 
 function opencode() {
-  XDG_DATA_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}${XDG_DATA_EXTRA:-}" /opt/homebrew/bin/opencode "${@}"
+  XDG_DATA_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}${XDG_DATA_EXTRA:-}" npx opencode-ai@latest "${@}"
 }
 
 export _DEFAULTS_SOURCED="1"

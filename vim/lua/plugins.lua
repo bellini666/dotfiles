@@ -394,6 +394,7 @@ return {
       },
     },
     opts = {
+      ignore_warnings = true,
       strategies = {
         chat = {
           adapter = "copilot",
