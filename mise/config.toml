@@ -1,9 +1,15 @@
 [settings]
 experimental = true
-idiomatic_version_file_enable_tools = ["python"]
+idiomatic_version_file_enable_tools = ["python", "node"]
 
 [settings.pipx]
 uvx = true
+
+[settings.python]
+uv_venv_auto = true
+
+[settings.npm]
+bun = true
 
 [tools]
 # tools
@@ -91,14 +97,15 @@ yamllint = 'latest'
 "pipx:pytest-language-server" = "latest"
 
 # runtimes (needs to be last)
+bun = 'latest'
 deno = 'latest'
 go = 'latest'
 node = 'latest'
 python = ['3.14', '3.13', '3.12', '3.11', '3.10']
 rust = 'latest'
 
-[tasks."docker:prune"]
-description = 'Docker prune'
+[tasks."docker:stop-all"]
+description = 'Docker stop all containers'
 run = """
 if [ -z "$(docker ps -q)" ]; then
   echo "No running containers"
@@ -106,6 +113,12 @@ else
   echo "Stopping all running containers..."
   docker stop $(docker ps -a -q) || true
 fi
+"""
+
+[tasks."docker:prune"]
+description = 'Docker prune'
+depends = ["docker:stop-all"]
+run = """
 docker system prune -f
 docker image prune -a -f
 docker builder prune -a -f
@@ -113,7 +126,7 @@ docker buildx prune -a -f
 """
 
 [tasks."docker:prune-all"]
-depends = ["docker:prune"]
+depends = ["docker:stop-all", "docker:prune"]
 description = 'Docker prune all'
 run = """
 docker volume prune -a -f

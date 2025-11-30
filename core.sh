@@ -67,34 +67,44 @@ function bootstrap() { (
 
 function vi() {
   local activate_path
+  local current_dir
 
-  # Check for existing virtual environment
+  # Check for existing virtual environment that matches current directory
   if [ -n "${VIRTUAL_ENV}" ] && [ -d "${VIRTUAL_ENV}" ] && [ -f "${VIRTUAL_ENV}/bin/activate" ]; then
     activate_path="${VIRTUAL_ENV}/bin/activate"
   fi
 
-  # Check for general venv (e.g. uv) environment
+  # Search for venv in current and parent directories
   if [ -z "${activate_path}" ]; then
-    local current_dir
     current_dir="$(pwd)"
     while [ "$current_dir" != "/" ]; do
-      if [ -f "$current_dir/.venv/bin/activate" ]; then
-        activate_path="$current_dir/.venv/bin/activate"
-        break
-      fi
-      current_dir=$(dirname "$current_dir")
+      # Check common venv directory names
+      for venv_dir in ".venv" "venv"; do
+        if [ -f "$current_dir/$venv_dir/bin/activate" ]; then
+          activate_path="$current_dir/$venv_dir/bin/activate"
+          break 2
+        fi
+      done
+      current_dir="$(dirname "$current_dir")"
     done
   fi
 
-  # Check for Poetry environment
+  # Check for Poetry environment (only if pyproject.toml exists to avoid slow calls)
   if [ -z "${activate_path}" ]; then
-    if command -v poetry &>/dev/null; then
-      local poetry_venv
-      poetry_venv=$(poetry env info --path -C "$(pwd)" 2>/dev/null)
-      if [ -n "${poetry_venv}" ]; then
-        activate_path="${poetry_venv}/bin/activate"
+    current_dir="$(pwd)"
+    while [ "$current_dir" != "/" ]; do
+      if [ -f "$current_dir/pyproject.toml" ]; then
+        if command -v poetry &>/dev/null && grep -q '\[tool\.poetry\]' "$current_dir/pyproject.toml" 2>/dev/null; then
+          local poetry_venv
+          poetry_venv=$(poetry env info --path -C "$current_dir" 2>/dev/null)
+          if [ -n "${poetry_venv}" ] && [ -f "${poetry_venv}/bin/activate" ]; then
+            activate_path="${poetry_venv}/bin/activate"
+          fi
+        fi
+        break
       fi
-    fi
+      current_dir="$(dirname "$current_dir")"
+    done
   fi
 
   if [ -n "${activate_path}" ] && [ -f "${activate_path}" ]; then
