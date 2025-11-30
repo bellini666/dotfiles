@@ -468,10 +468,6 @@ return {
     },
   },
   {
-    "willothy/moveline.nvim",
-    build = "make",
-  },
-  {
     "tpope/vim-repeat",
     keys = { "." },
   },

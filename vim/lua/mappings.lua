@@ -14,30 +14,6 @@ wk.add({
   { "<A-Left>", "gT", desc = "Previous tab" },
   { "<A-Right>", "gt", desc = "Next tab" },
   {
-    "<A-Down>",
-    function()
-      if vim.api.nvim_get_mode().mode:lower() == "v" then
-        require("moveline").block_down()
-      else
-        require("moveline").down()
-      end
-    end,
-    desc = "Move line down",
-    mode = { "i", "n", "v" },
-  },
-  {
-    "<A-Up>",
-    function()
-      if vim.api.nvim_get_mode().mode:lower() == "v" then
-        require("moveline").block_up()
-      else
-        require("moveline").up()
-      end
-    end,
-    desc = "Move line up",
-    mode = { "i", "n", "v" },
-  },
-  {
     "<C-b>",
     function()
       Snacks.picker.buffers()
