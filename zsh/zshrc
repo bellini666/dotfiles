@@ -27,6 +27,19 @@ DISABLE_UNTRACKED_FILES_DIRTY="true"
 HIST_STAMPS="yyyy-mm-dd"
 DISABLE_VENV_CD=1
 
+# Completion optimization
+zstyle ':completion:*' use-cache on
+zstyle ':completion:*' cache-path "${XDG_CACHE_HOME:-$HOME/.cache}/zsh/zcompcache"
+
+# History improvements
+HISTSIZE=50000
+SAVEHIST=50000
+setopt HIST_IGNORE_ALL_DUPS
+setopt HIST_FIND_NO_DUPS
+setopt HIST_SAVE_NO_DUPS
+setopt SHARE_HISTORY
+setopt INC_APPEND_HISTORY
+
 if [ -f "/opt/homebrew/opt/antidote/share/antidote/antidote.zsh" ]; then
   antidote_dir=/opt/homebrew/opt/antidote/share/antidote
   source ${antidote_dir}/antidote.zsh
@@ -63,5 +76,10 @@ alias p="showmarks"
 alias mr="mise run --"
 alias pre-commit="prek"
 alias "?"="gh copilot suggest -t shell"
+
+# fzf-tab configuration
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza -1 --color=always $realpath'
+zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'eza -1 --color=always $realpath'
+zstyle ':fzf-tab:*' switch-group '<' '>'
 
 autoload -Uz promptinit && promptinit && prompt powerlevel10k
