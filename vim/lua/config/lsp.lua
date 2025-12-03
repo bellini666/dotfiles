@@ -63,10 +63,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
       client.server_capabilities.documentRangeFormattingProvider = false
     end
 
-    if client.server_capabilities.documentSymbolProvider then
-      require("nvim-navic").attach(client, bufnr)
-    end
-
     if client.server_capabilities.documentFormattingProvider then
       vim.api.nvim_clear_autocmds({ group = augroup_formatting, buffer = bufnr })
       vim.api.nvim_create_autocmd("BufWritePre", {
@@ -338,8 +334,8 @@ enable("lua_ls", {
 })
 
 -- TODO: Move this together with others above when it is available at lspconfig
-if not configs.pytest_language_server then
-  configs.pytest_language_server = {
+if not configs.pytest then
+  configs.pytest = {
     default_config = {
       cmd = { "pytest-language-server" },
       filetypes = { "python" },
@@ -348,4 +344,4 @@ if not configs.pytest_language_server then
     },
   }
 end
-nvim_lsp.pytest_language_server.setup({})
+nvim_lsp.pytest.setup({})

@@ -112,13 +112,7 @@ wk.add({
     end,
     desc = "First trouble result",
   },
-  {
-    "[b",
-    function()
-      require("goto-breakpoints").next()
-    end,
-    desc = "Go to previous breakpoint",
-  },
+
   {
     "[q",
     function()
@@ -135,13 +129,7 @@ wk.add({
     end,
     desc = "Last trouble result",
   },
-  {
-    "]b",
-    function()
-      require("goto-breakpoints").next()
-    end,
-    desc = "Go to next breakpoint",
-  },
+
   {
     "]q",
     function()

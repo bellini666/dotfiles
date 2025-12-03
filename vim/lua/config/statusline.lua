@@ -18,19 +18,13 @@ require("lualine").setup({
       },
       { require("components.lualine_cc") },
       {
-        "lsp_progress",
-        spinner_symbols = {
-          "⠋",
-          "⠙",
-          "⠹",
-          "⠸",
-          "⠼",
-          "⠴",
-          "⠦",
-          "⠧",
-          "⠇",
-          "⠏",
+        "lsp_status",
+        symbols = {
+          spinner = { "⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏" },
+          done = "✓",
+          separator = " | ",
         },
+        ignore_lsp = { "copilot" },
       },
     },
     lualine_y = {

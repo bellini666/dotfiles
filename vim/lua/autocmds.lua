@@ -52,15 +52,6 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
--- Setup LSP mappings
-vim.api.nvim_create_autocmd("LspAttach", {
-  group = augroup("lsp_attach"),
-  pattern = "*",
-  callback = function(ev)
-    require("mappings").setup_lsp(ev)
-  end,
-})
-
 -- Setup file type options
 vim.api.nvim_create_autocmd("BufRead", {
   pattern = "Tiltfile",

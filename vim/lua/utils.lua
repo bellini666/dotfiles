@@ -48,8 +48,9 @@ M.toggle_format = function()
 end
 
 M.toggle_diagnostics = function()
-  vim.diagnostic.enable(not vim.diagnostic.is_enabled())
-  print((format_enabled and "  " or "no") .. "format")
+  local enabled = not vim.diagnostic.is_enabled()
+  vim.diagnostic.enable(enabled)
+  print((enabled and "  " or "no") .. "diagnostics")
 end
 
 M.toggle_inlay_hints = function()

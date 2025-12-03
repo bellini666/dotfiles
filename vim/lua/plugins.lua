@@ -54,7 +54,6 @@ return {
     dependencies = {
       "saghen/blink.cmp",
       "b0o/schemastore.nvim",
-      "SmiteshP/nvim-navic",
     },
     config = function()
       require("config.lsp")
@@ -77,10 +76,7 @@ return {
       "neovim/nvim-lspconfig",
     },
   },
-  {
-    "Bilal2453/luvit-meta",
-    lazy = true,
-  },
+
   {
     "folke/snacks.nvim",
     priority = 1000,
@@ -263,8 +259,7 @@ return {
     "nvim-lualine/lualine.nvim",
     dependencies = {
       "nvim-tree/nvim-web-devicons",
-      "arkav/lualine-lsp-progress",
-      "SmiteshP/nvim-navic",
+      "neovim/nvim-lspconfig",
     },
     config = function()
       require("config.statusline")
@@ -327,19 +322,7 @@ return {
     },
     config = true,
   },
-  {
-    "SmiteshP/nvim-navic",
-    lazy = true,
-    dependencies = {
-      "neovim/nvim-lspconfig",
-    },
-    init = function()
-      vim.g.navic_silence = 1
-    end,
-    opts = {
-      separator = " ⇒ ",
-    },
-  },
+
 
   -- File browsing
   {
@@ -500,14 +483,7 @@ return {
       },
     },
   },
-  {
-    "andymass/vim-matchup",
-    opts = {
-      treesitter = {
-        stopline = 500,
-      },
-    },
-  },
+
   {
     "MagicDuck/grug-far.nvim",
     keys = { "<leader>rr" },
