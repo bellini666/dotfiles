@@ -82,6 +82,7 @@ yamllint = 'latest'
 "pipx:basedpyright" = "latest"
 "pipx:codespell" = "latest"
 "pipx:copier" = "latest"
+"pipx:datadog" = "latest"
 "pipx:django-language-server" = "latest"
 "pipx:djlint" = "latest"
 "pipx:ipython" = "latest"
@@ -91,10 +92,10 @@ yamllint = 'latest'
 "pipx:pdm" = "latest"
 "pipx:pipx" = "latest"
 "pipx:pytest" = "latest"
+"pipx:pytest-language-server" = "latest"
 "pipx:python-lsp-server" = { version = "latest", extras = "all" }
 "pipx:tox" = "latest"
 "pipx:ty" = "latest"
-"pipx:pytest-language-server" = "latest"
 
 # runtimes (needs to be last)
 bun = 'latest'

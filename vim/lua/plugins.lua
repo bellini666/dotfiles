@@ -380,51 +380,21 @@ return {
     dependencies = {
       "nvim-lua/plenary.nvim",
       "nvim-treesitter/nvim-treesitter",
-      {
-        "ravitemer/mcphub.nvim",
-        dependencies = {
-          "nvim-lua/plenary.nvim",
-        },
-        build = "bundled_build.lua",
-        config = function()
-          require("mcphub").setup({
-            use_bundled_binary = true,
-          })
-        end,
-      },
     },
     opts = {
       ignore_warnings = true,
       strategies = {
         chat = {
-          adapter = "copilot",
-          model = "claude-4-5-sonnet",
+          adapter = "opencode",
         },
         inline = {
-          adapter = "copilot",
-          model = "claude-4-5-sonnet",
+          adapter = "opencode",
         },
         agent = {
-          adapter = "copilot",
-          model = "claude-4-5-sonnet",
+          adapter = "opencode",
         },
         cmd = {
-          adapter = "copilot",
-          model = "claude-4-5-sonnet",
-        },
-      },
-      extensions = {
-        mcphub = {
-          callback = "mcphub.extensions.codecompanion",
-          opts = {
-            make_tools = true,
-            show_server_tools_in_chat = true,
-            add_mcp_prefix_to_tool_names = false,
-            show_result_in_chat = true,
-            format_tool = nil,
-            make_vars = true,
-            make_slash_commands = true,
-          },
+          adapter = "opencode",
         },
       },
     },
