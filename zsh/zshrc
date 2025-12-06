@@ -77,9 +77,4 @@ alias mr="mise run --"
 alias pre-commit="prek"
 alias "?"="gh copilot suggest -t shell"
 
-# fzf-tab configuration
-zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza -1 --color=always $realpath'
-zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'eza -1 --color=always $realpath'
-zstyle ':fzf-tab:*' switch-group '<' '>'
-
 autoload -Uz promptinit && promptinit && prompt powerlevel10k
