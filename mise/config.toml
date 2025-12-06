@@ -64,6 +64,7 @@ yamllint = 'latest'
 "npm:graphql-language-service-cli" = "latest"
 "npm:lua-3p-language-servers" = "latest"
 "npm:markdownlint-cli" = "latest"
+"npm:opencode-ai" = "latest"
 "npm:opencollective" = "latest"
 "npm:patch-package" = "latest"
 "npm:pnpm" = "latest"
