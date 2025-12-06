@@ -148,6 +148,8 @@ local plugins = {
   "stylua3p_ls",
   -- https://github.com/artempyanykh/marksman
   "marksman",
+  -- https://github.com/bellini666/pytest-language-server
+  "pytest",
 }
 for _, plugin in ipairs(plugins) do
   enable(plugin)
@@ -332,16 +334,3 @@ enable("lua_ls", {
     },
   },
 })
-
--- TODO: Move this together with others above when it is available at lspconfig
-if not configs.pytest then
-  configs.pytest = {
-    default_config = {
-      cmd = { "pytest-language-server" },
-      filetypes = { "python" },
-      root_dir = nvim_lsp.util.root_pattern(".git", "pyproject.toml", "setup.py"),
-      settings = {},
-    },
-  }
-end
-nvim_lsp.pytest.setup({})
