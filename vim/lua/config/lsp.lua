@@ -160,7 +160,7 @@ enable("tilt_ls", {
   filetypes = { "tiltfile", "starlark" },
 })
 
-local python_lsp = os.getenv("PYTHON_LSP") or "pyright"
+local python_lsp = os.getenv("PYTHON_LSP") or "pyrefly"
 if python_lsp == "ty" then
   -- https://github.com/astral-sh/ty
   enable("ty", {
@@ -180,6 +180,39 @@ if python_lsp == "ty" then
           autoImport = true,
         },
       },
+    },
+  })
+elseif python_lsp == "pyrefly" then
+  enable("pyrefly", {
+    before_init = function(initialize_params, config)
+      local python_path = utils.find_python()
+      utils.ensure_tables(config, "settings", "python", "pyrefly")
+      config.settings.python.pyrefly = python_path
+      utils.ensure_tables(
+        initialize_params,
+        "initializationOptions",
+        "settings",
+        "python",
+        "pyrefly"
+      )
+      initialize_params.initializationOptions.settings.python.pyrefly = python_path
+    end,
+    handlers = {
+      ["workspace/configuration"] = function(_, result, _)
+        local response = {}
+        for _, item in ipairs(result.items) do
+          if item.section == "python" then
+            table.insert(response, {
+              analysis = {
+                showHoverGoToLinks = false,
+              },
+            })
+          else
+            table.insert(response, vim.NIL)
+          end
+        end
+        return response
+      end,
     },
   })
 elseif python_lsp == "pylsp" then

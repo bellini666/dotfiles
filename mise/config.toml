@@ -92,6 +92,7 @@ yamllint = 'latest'
 "pipx:nox" = "latest"
 "pipx:pdm" = "latest"
 "pipx:pipx" = "latest"
+"pipx:pyrefly" = "latest"
 "pipx:pytest" = "latest"
 "pipx:pytest-language-server" = "latest"
 "pipx:python-lsp-server" = { version = "latest", extras = "all" }

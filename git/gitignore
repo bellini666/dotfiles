@@ -6,4 +6,5 @@
 .venv
 .serena
 pyrightconfig.json
+pyrefly.toml
 ty.toml
