@@ -1,5 +1,6 @@
 [settings]
 experimental = true
+cache_prune_age = "7d"
 idiomatic_version_file_enable_tools = ["python", "node"]
 
 [settings.pipx]
@@ -11,6 +12,14 @@ uv_venv_auto = true
 [settings.npm]
 bun = true
 
+[shell_alias]
+g = "jump"
+s = "bookmark"
+d = "deletemark"
+p = "showmarks"
+pre-commit = "prek"
+"?" = "gh copilot suggest -t shell"
+
 [tools]
 # tools
 1password-cli = 'latest'
@@ -20,6 +29,7 @@ ast-grep = 'latest'
 biome = 'latest'
 bottom = 'latest'
 cheat = 'latest'
+copier = 'latest'
 delta = 'latest'
 doctl = 'latest'
 duf = 'latest'
@@ -27,6 +37,7 @@ fd = 'latest'
 github-cli = 'latest'
 glab = 'latest'
 helm = 'latest'
+jq = 'latest'
 k9s = 'latest'
 kubectl = 'latest'
 kubectx = 'latest'
@@ -35,6 +46,10 @@ kustomize = 'latest'
 lazygit = 'latest'
 lua-language-server = 'latest'
 marksman = 'latest'
+opencode = 'latest'
+pdm = 'latest'
+pipx = 'latest'
+pnpm = 'latest'
 poetry = 'latest'
 pre-commit = 'latest'
 prek = 'latest'
@@ -43,9 +58,11 @@ ruff = 'latest'
 rust-analyzer = 'latest'
 shfmt = 'latest'
 stylua = 'latest'
+tree-sitter = 'latest'
 uv = 'latest'
 yamlfmt = 'latest'
 yamllint = 'latest'
+yq = 'latest'
 
 # npm tools
 "npm:@astrojs/language-server" = "latest"
@@ -64,14 +81,10 @@ yamllint = 'latest'
 "npm:graphql-language-service-cli" = "latest"
 "npm:lua-3p-language-servers" = "latest"
 "npm:markdownlint-cli" = "latest"
-"npm:opencode-ai" = "latest"
 "npm:opencollective" = "latest"
-"npm:patch-package" = "latest"
-"npm:pnpm" = "latest"
 "npm:prettier" = "latest"
 "npm:pyright" = "latest"
 "npm:stylelint" = "latest"
-"npm:tree-sitter-cli" = "latest"
 "npm:ts-server" = "latest"
 "npm:typescript" = "latest"
 "npm:typescript-language-server" = "latest"
@@ -82,7 +95,6 @@ yamllint = 'latest'
 "pipx:autotools-language-server" = "latest"
 "pipx:basedpyright" = "latest"
 "pipx:codespell" = "latest"
-"pipx:copier" = "latest"
 "pipx:datadog" = "latest"
 "pipx:django-language-server" = "latest"
 "pipx:djlint" = "latest"
@@ -90,8 +102,6 @@ yamllint = 'latest'
 "pipx:isort" = "latest"
 "pipx:mypy" = "latest"
 "pipx:nox" = "latest"
-"pipx:pdm" = "latest"
-"pipx:pipx" = "latest"
 "pipx:pyrefly" = "latest"
 "pipx:pytest" = "latest"
 "pipx:pytest-language-server" = "latest"
