@@ -1,3 +1,6 @@
+-- Enable byte-compiled Lua module caching for faster startup
+vim.loader.enable()
+
 -- Disable deprecation warnings for now
 ---@diagnostic disable-next-line: duplicate-set-field
 vim.deprecate = function() end

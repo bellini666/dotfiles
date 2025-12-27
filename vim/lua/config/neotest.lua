@@ -16,7 +16,6 @@ local args = split(vim.env.NEOTEST_PYTHON_ARGS or "-vvv --no-cov --disable-warni
 
 M.get_cwd = function()
   local cwd = vim.uv.cwd()
-  local cd_path = vim.env.NEOTEST_PYTHON_RUNNER
   if vim.env.NEOTEST_PYTHON_CD_DIR then
     cwd = vim.fs.joinpath(cwd, table.unpack(split(vim.env.NEOTEST_PYTHON_CD_DIR)))
   end

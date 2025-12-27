@@ -3,6 +3,17 @@ local M = {}
 local format_enabled = true
 local inside_git_dir = {}
 
+local python_path = nil
+local python_cmds = {}
+
+vim.api.nvim_create_autocmd("DirChanged", {
+  group = vim.api.nvim_create_augroup("_my_augroup_python_path", { clear = true }),
+  callback = function()
+    python_path = nil
+    python_cmds = {}
+  end,
+})
+
 M.get_root_path = function()
   local info = debug.getinfo(1, "S")
   local source = info.source:sub(2) -- Remove the '@' character from the beginning
@@ -67,9 +78,6 @@ M.lsp_format = function(opts)
   end
 end
 
-local python_path = nil
-local python_cmds = {}
-
 M.find_python = function()
   if python_path ~= nil then
     return python_path
@@ -85,7 +93,7 @@ M.find_python = function()
     if poetry_root then
       local poetry_output = vim.fn.system({ "poetry", "env", "info", "--path", "-C", poetry_root })
       for line in poetry_output:gmatch("[^\r\n]+") do
-        local stat = vim.loop.fs_stat(line)
+        local stat = vim.uv.fs_stat(line)
         if stat and stat.type == "directory" then
           env_info = line
           break

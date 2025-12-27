@@ -40,7 +40,6 @@ SYMLINKS=(
   "${BASE_DIR}/git/gitignore ${HOME}/.gitignore"
   "${BASE_DIR}/mise/config.toml ${HOME}/.config/mise/config.toml"
   "${BASE_DIR}/python/pdbrc.py ${HOME}/.pdbrc.py"
-  "${BASE_DIR}/tmux/tmux.conf ${HOME}/.tmux.conf"
   "${BASE_DIR}/vim ${HOME}/.config/nvim"
   "${BASE_DIR}/kitty ${HOME}/.config/kitty"
   "${BASE_DIR}/ghostty ${HOME}/.config/ghostty"
@@ -175,7 +174,7 @@ function _fonts {
     "${FONTS_DIR}/Hack Regular Nerd Font Complete.ttf" \
     https://github.com/ryanoasis/nerd-fonts/blob/master/patched-fonts/Hack/Regular/HackNerdFont-Regular.ttf?raw=true
   download_file \
-    "${FONTS_DIR}/Inconsolata Nerd Font Complete.otf" \
+    "${FONTS_DIR}/Inconsolata Nerd Font Complete.ttf" \
     https://github.com/ryanoasis/nerd-fonts/blob/master/patched-fonts/Inconsolata/InconsolataNerdFont-Regular.ttf?raw=true
   download_file \
     "${FONTS_DIR}/Fira Code Regular Nerd Font Complete.ttf" \

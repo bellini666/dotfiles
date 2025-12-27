@@ -1,35 +1,21 @@
 local M = {}
 
-local function extend(opt, list)
-  if opt._info.flaglist then
-    local flaglist = {}
-    for _, v in ipairs(list) do
-      flaglist[v] = true
-    end
-    list = flaglist
-  end
-  return opt + list
-end
-
 -- Set leader to ,
 vim.g.mapleader = ","
 vim.g.maplocalleader = ","
 
--- Use lua parser and highlight
-vim.g.ts_highlight_lua = true
-
 -- General
-vim.opt.mouse = "nv"
-vim.opt.linebreak = true
-vim.opt.swapfile = false
-vim.opt.updatetime = 500
+vim.o.mouse = "nv"
+vim.o.linebreak = true
+vim.o.swapfile = false
+vim.o.updatetime = 500
 
 -- Ui
-vim.opt.number = true
-vim.opt.cursorline = false
-vim.opt.signcolumn = "number"
-vim.opt.laststatus = 3
-vim.opt.list = true
+vim.o.number = true
+vim.o.cursorline = false
+vim.o.signcolumn = "number"
+vim.o.laststatus = 3
+vim.o.list = true
 vim.opt.listchars = {
   tab = "»·",
   trail = "·",
@@ -37,28 +23,28 @@ vim.opt.listchars = {
   precedes = "←",
   nbsp = "␣",
 }
-vim.opt.showbreak = [[↪ ]]
-vim.opt.showmode = false
-vim.opt.splitright = true
-vim.opt.splitbelow = true
-vim.opt.scrolloff = 5
-vim.opt.showtabline = 1
-vim.opt.smoothscroll = true
-vim.opt.title = true
+vim.o.showbreak = [[↪ ]]
+vim.o.showmode = false
+vim.o.splitright = true
+vim.o.splitbelow = true
+vim.o.scrolloff = 5
+vim.o.showtabline = 1
+vim.o.smoothscroll = true
+vim.o.title = true
 
 -- Theme
-vim.opt.termguicolors = true
-vim.opt.background = "dark"
+vim.o.termguicolors = true
+vim.o.background = "dark"
 
 -- Dev
-vim.opt.textwidth = vim.env.NEOVIM_TEXTWIDTH and (tonumber(vim.env.NEOVIM_TEXTWIDTH) - 1) or 99
-vim.opt.colorcolumn = "+1"
-vim.opt.showmatch = true
-vim.opt.matchpairs = extend(vim.opt.matchpairs, { "<:>" })
-vim.opt.formatoptions = extend(vim.opt.formatoptions, { "1", "o" })
-vim.opt.whichwrap = extend(vim.opt.whichwrap, { "<", ">", "[", "]", "~" })
-vim.opt.shortmess = extend(vim.opt.shortmess, { "a" })
-vim.opt.completeopt = { "menu", "menuone", "noselect" }
+vim.o.textwidth = vim.env.NEOVIM_TEXTWIDTH and (tonumber(vim.env.NEOVIM_TEXTWIDTH) - 1) or 99
+vim.o.colorcolumn = "+1"
+vim.o.showmatch = true
+vim.opt.matchpairs:append("<:>")
+vim.opt.formatoptions:append("1o")
+vim.opt.whichwrap:append("<,>,[,],~")
+vim.opt.shortmess:append("a")
+vim.o.completeopt = "menu,menuone,noselect"
 vim.opt.fillchars = {
   foldopen = "",
   foldclose = "",
@@ -69,14 +55,14 @@ vim.opt.fillchars = {
 }
 
 -- Folding
-vim.opt.foldenable = false
+vim.o.foldenable = false
 
 -- Tabs
-vim.opt.expandtab = true
-vim.opt.smarttab = true
-vim.opt.shiftwidth = 4
-vim.opt.softtabstop = 4
-vim.opt.tabstop = 4
+vim.o.expandtab = true
+vim.o.smarttab = true
+vim.o.shiftwidth = 4
+vim.o.softtabstop = 4
+vim.o.tabstop = 4
 
 -- Spell
 vim.opt.spelllang = { "en_us", "pt_br" }
@@ -86,18 +72,18 @@ for _, dic in ipairs({
   "/usr/share/dict/american-english",
 }) do
   if vim.fn.filereadable(dic) == 1 then
-    extend(vim.opt.dictionary, { dic })
+    vim.opt.dictionary:append(dic)
   end
 end
 
 -- Search
-vim.opt.ignorecase = true
-vim.opt.smartcase = true
-vim.opt.wildmode = { "list:longest", "full" }
+vim.o.ignorecase = true
+vim.o.smartcase = true
+vim.o.wildmode = "list:longest,full"
 
 -- Persistent undo
-vim.opt.undofile = true
-vim.opt.undolevels = 10000
+vim.o.undofile = true
+vim.o.undolevels = 10000
 
 -- Filetypes
 vim.filetype.add({

@@ -8,6 +8,12 @@ export LANG=en_US.UTF-8
 
 export DOTFILES_DIR="${HOME}/.dotfiles"
 
+# XDG Base Directory Specification
+export XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-${HOME}/.config}"
+export XDG_DATA_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}"
+export XDG_STATE_HOME="${XDG_STATE_HOME:-${HOME}/.local/state}"
+export XDG_CACHE_HOME="${XDG_CACHE_HOME:-${HOME}/.cache}"
+
 if [ -d "/opt/homebrew/bin" ]; then
   export PATH=/opt/homebrew/bin:${PATH}
 fi
@@ -42,8 +48,6 @@ export GIT_SSH=ssh
 
 # mise
 export MISE_USE_TOML=1
-export MISE_EXPERIMENTAL=1
-export MISE_PIPX_UVX=1
 
 # perl
 export PERL_LOCAL_LIB_ROOT="${HOME}/.local/perl"
@@ -51,8 +55,8 @@ export PERL_LOCAL_LIB_ROOT="${HOME}/.local/perl"
 # pip
 export PIP_REQUIRE_VIRTUALENV=true
 
-# riggrep
-export RIPGREP_CONFIG_PATH="${HOME}/.dotfiles/rg/ripgreprc"
+# ripgrep
+export RIPGREP_CONFIG_PATH="${DOTFILES_DIR}/rg/ripgreprc"
 
 # python
 export PYTHON_CFLAGS="-march=native -mtune=native"

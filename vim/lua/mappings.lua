@@ -20,7 +20,7 @@ wk.add({
     end,
     desc = "Find buffers",
   },
-  { "<C-d>", utils.run_tests, desc = "Run tests" },
+  { "<F5>", utils.run_tests, desc = "Run tests" },
   { "<C-p>", utils.find_files, desc = "Find files" },
   {
     "<C-s>",
@@ -62,6 +62,13 @@ wk.add({
     desc = "Toggle neotest summary",
   },
   { "<leader>e", vim.diagnostic.open_float, desc = "Open diagnostic float" },
+  {
+    "<leader>bd",
+    function()
+      Snacks.bufdelete()
+    end,
+    desc = "Delete buffer",
+  },
   {
     group = "toggle",
     { "<leader>td", utils.toggle_diagnostics, desc = "Toggle diagnostics" },
@@ -141,11 +148,12 @@ wk.add({
   {
     "ge",
     function()
-      ---@diagnostic disable-next-line: missing-fields, missing-fields, missing-fields
+      ---@diagnostic disable-next-line: missing-fields
       require("trouble").toggle({
         mode = "diagnostics",
         focus = false,
         filter = {
+          buf = 0,
           ["not"] = { severity = vim.diagnostic.severity.HINT },
         },
       })

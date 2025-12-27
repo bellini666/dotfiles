@@ -20,6 +20,10 @@ p = "showmarks"
 pre-commit = "prek"
 "?" = "gh copilot suggest -t shell"
 
+[env]
+OPENCODE_EXPERIMENTAL_ICON_DISCOVERY = "true"
+OPENCODE_EXPERIMENTAL_FILEWATCHER = "true"
+
 [tools]
 # tools
 1password-cli = 'latest'
