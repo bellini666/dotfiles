@@ -323,7 +323,6 @@ return {
     config = true,
   },
 
-
   -- File browsing
   {
     "nvim-neo-tree/neo-tree.nvim",

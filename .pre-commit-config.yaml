@@ -21,7 +21,7 @@ repos:
         language: system
         types:
           - shell
-        entry: shfmt -i 2
+        entry: shfmt -i 2 -w
         exclude: .*.zsh
   - repo: local
     hooks:

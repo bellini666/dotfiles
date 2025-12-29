@@ -25,48 +25,26 @@ OPENCODE_EXPERIMENTAL_ICON_DISCOVERY = "true"
 OPENCODE_EXPERIMENTAL_FILEWATCHER = "true"
 
 [tools]
-# tools
-1password-cli = 'latest'
+# tools (version-sensitive or not in brew/apt)
 actionlint = 'latest'
 argocd = 'latest'
-ast-grep = 'latest'
 biome = 'latest'
-bottom = 'latest'
-cheat = 'latest'
 copier = 'latest'
-delta = 'latest'
-doctl = 'latest'
-duf = 'latest'
-fd = 'latest'
-github-cli = 'latest'
-glab = 'latest'
 helm = 'latest'
-jq = 'latest'
-k9s = 'latest'
-kubectl = 'latest'
-kubectx = 'latest'
 kubeseal = 'latest'
 kustomize = 'latest'
-lazygit = 'latest'
 lua-language-server = 'latest'
 marksman = 'latest'
 opencode = 'latest'
 pdm = 'latest'
-pipx = 'latest'
 pnpm = 'latest'
 poetry = 'latest'
-pre-commit = 'latest'
-prek = 'latest'
-ripgrep = 'latest'
 ruff = 'latest'
 rust-analyzer = 'latest'
-shfmt = 'latest'
-stylua = 'latest'
 tree-sitter = 'latest'
-uv = 'latest'
 yamlfmt = 'latest'
 yamllint = 'latest'
-yq = 'latest'
+yazi = 'latest'
 
 # npm tools
 "npm:@astrojs/language-server" = "latest"
@@ -103,7 +81,6 @@ yq = 'latest'
 "pipx:django-language-server" = "latest"
 "pipx:djlint" = "latest"
 "pipx:ipython" = "latest"
-"pipx:isort" = "latest"
 "pipx:mypy" = "latest"
 "pipx:nox" = "latest"
 "pipx:pyrefly" = "latest"

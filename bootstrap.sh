@@ -45,6 +45,7 @@ SYMLINKS=(
   "${BASE_DIR}/ghostty ${HOME}/.config/ghostty"
   "${BASE_DIR}/zsh/zshrc ${HOME}/.zshrc"
   "${BASE_DIR}/zsh/zsh_plugins.txt ${HOME}/.zsh_plugins.txt"
+  "${BASE_DIR}/starship/starship.toml ${HOME}/.config/starship.toml"
 )
 
 [ -d "${BASE_DIR}" ] || exit 1
@@ -207,10 +208,10 @@ function _neovim {
     local file=${BUILD_DIR}/nvim.tar.gz
     local url=https://github.com/neovim/neovim/releases/download/nightly/nvim-macos-arm64.tar.gz
 
-    if [ "$(download_file ${file} ${url})" == "1" ]; then
-      rm -rf ${BUILD_DIR}/nvim-macos-arm64
-      tar xzf ${file} -C ${BUILD_DIR}
-      ln -sf ${BUILD_DIR}/nvim-macos-arm64/bin/nvim ${BIN_DIR}/nvim
+    if [ "$(download_file "${file}" "${url}")" == "1" ]; then
+      rm -rf "${BUILD_DIR}/nvim-macos-arm64"
+      tar xzf "${file}" -C "${BUILD_DIR}"
+      ln -sf "${BUILD_DIR}/nvim-macos-arm64/bin/nvim" "${BIN_DIR}/nvim"
     fi
     # brew install neovim
   elif [ ${MACHINE_OS} = "Linux" ]; then

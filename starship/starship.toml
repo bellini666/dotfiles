@@ -1,0 +1,34 @@
+# Timeout for commands (ms)
+command_timeout = 1000
+
+format = """$all"""
+right_format = """
+$cmd_duration\
+$jobs\
+$battery\
+$aws\
+$gcloud\
+$azure\
+$kubernetes\
+$terraform\
+$nix_shell\
+$direnv\
+$username\
+$hostname\
+$os\
+$time"""
+
+[docker_context]
+disabled = true
+
+[gcloud]
+disabled = true
+
+[status]
+disabled = false
+
+[time]
+disabled = false
+
+[os]
+disabled = false

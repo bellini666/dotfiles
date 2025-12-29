@@ -1,44 +1,16 @@
-# p10k instant prompt
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
-
 if [ -f "$HOME/.dotfiles/core.sh" ]; then
   source "$HOME/.dotfiles/core.sh"
 fi
 
-if [ -f "${DOTFILES_DIR}/zsh/p10k.zsh"  ]; then
-  source "${DOTFILES_DIR}/zsh/p10k.zsh"
-fi
-
-if [ -f "$HOME/.config/broot/launcher/bash/br" ]; then
-  source "$HOME/.config/broot/launcher/bash/br"
-fi
-
-if [ -f "$HOME/.config/op/plugins.sh" ]; then
-  source "$HOME/.config/op/plugins.sh"
-fi
-
-# oh-my-zsh config
-CASE_SENSITIVE="true"
-COMPLETION_WAITING_DOTS="true"
-DISABLE_AUTO_UPDATE="true"
-DISABLE_UNTRACKED_FILES_DIRTY="true"
+# History
 HIST_STAMPS="yyyy-mm-dd"
-DISABLE_VENV_CD=1
+SAVEHIST=50000
+setopt HIST_IGNORE_ALL_DUPS
+setopt HIST_FIND_NO_DUPS
 
 # Completion optimization
 zstyle ':completion:*' use-cache on
 zstyle ':completion:*' cache-path "${XDG_CACHE_HOME:-$HOME/.cache}/zsh/zcompcache"
-
-# History improvements
-HISTSIZE=50000
-SAVEHIST=50000
-setopt HIST_IGNORE_ALL_DUPS
-setopt HIST_FIND_NO_DUPS
-setopt HIST_SAVE_NO_DUPS
-setopt SHARE_HISTORY
-setopt INC_APPEND_HISTORY
 
 if [ -f "/opt/homebrew/opt/antidote/share/antidote/antidote.zsh" ]; then
   antidote_dir=/opt/homebrew/opt/antidote/share/antidote
@@ -69,4 +41,14 @@ if [[ "${antidote_dir}" != "" ]]; then
   source ${zsh_plugins}.zsh
 fi
 
-autoload -Uz promptinit && promptinit && prompt powerlevel10k
+if command -v mise &>/dev/null; then
+  eval "$(mise activate zsh)"
+fi
+
+if command -v fzf &>/dev/null; then
+  source <(fzf --zsh)
+fi
+
+if command -v starship &>/dev/null; then
+  eval "$(starship init zsh)"
+fi
