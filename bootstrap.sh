@@ -191,14 +191,9 @@ function _fonts {
   fi
 }
 
-function _gh {
-  gh extension install github/gh-copilot
-  gh extension upgrade --all
-}
-
 function _zsh {
   info "installing zsh plugins"
-  zsh -i -c "antidote update"
+  zsh -i -c "antidote update -b"
 }
 
 function _neovim {
@@ -259,7 +254,6 @@ function _ {
     _fonts
     _zsh
     _mise
-    _gh
     _mise-reshim
   )
 }

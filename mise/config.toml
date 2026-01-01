@@ -18,7 +18,6 @@ s = "bookmark"
 d = "deletemark"
 p = "showmarks"
 pre-commit = "prek"
-"?" = "gh copilot suggest -t shell"
 
 [env]
 OPENCODE_EXPERIMENTAL_ICON_DISCOVERY = "true"
