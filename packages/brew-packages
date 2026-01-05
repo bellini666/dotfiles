@@ -5,7 +5,6 @@ aws-sso-cli
 awscli
 bat
 bottom
-broot
 btop
 cheat
 cmake
@@ -38,6 +37,7 @@ haproxy
 hiddenbar
 htop
 imagemagick
+jj
 jq
 k9s
 karabiner-elements
