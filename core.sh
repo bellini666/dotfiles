@@ -45,6 +45,9 @@ export GIT_SSH=ssh
 # mise
 export MISE_USE_TOML=1
 
+# go
+export GOPATH="${HOME}/.go"
+
 # perl
 export PERL_LOCAL_LIB_ROOT="${HOME}/.local/perl"
 

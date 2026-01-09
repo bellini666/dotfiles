@@ -10,14 +10,14 @@ local excluded_paths = {
   "lib/python%d.%d+/site-packages/",
 }
 local lsp_disable_format = {
-  html = true,
-  jsonls = true,
-  pyright = true,
   basedpyright = true,
-  sumneko_lua = true,
+  html = true,
+  jsonls = os.getenv("DISABLE_JSONLS_FMT") == "1",
   lua_ls = true,
-  tsserver = true,
+  pyright = true,
+  sumneko_lua = true,
   taplo = os.getenv("DISABLE_TAPLO_FMT") == "1",
+  tsserver = true,
 }
 
 vim.diagnostic.config({
@@ -150,6 +150,8 @@ local plugins = {
   "marksman",
   -- https://github.com/bellini666/pytest-language-server
   "pytest",
+  -- https://github.com/golang/tools
+  "gopls",
 }
 for _, plugin in ipairs(plugins) do
   enable(plugin)

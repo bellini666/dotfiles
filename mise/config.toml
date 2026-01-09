@@ -89,6 +89,9 @@ yazi = 'latest'
 "pipx:tox" = "latest"
 "pipx:ty" = "latest"
 
+# go tools
+"go:golang.org/x/tools/gopls" = 'latest'
+
 # runtimes (needs to be last)
 bun = 'latest'
 deno = 'latest'
