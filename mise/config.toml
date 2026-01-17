@@ -22,6 +22,7 @@ pre-commit = "prek"
 [env]
 OPENCODE_EXPERIMENTAL_ICON_DISCOVERY = "true"
 OPENCODE_EXPERIMENTAL_FILEWATCHER = "true"
+OPENCODE_EXPERIMENTAL_LSP_TOOL = "true"
 
 [tools]
 # tools (version-sensitive or not in brew/apt)

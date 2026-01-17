@@ -1,0 +1,52 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "model": "github-copilot/claude-sonnet-4.5",
+  "small_model": "github-copilot/claude-haiku-4.5",
+  "permission": {
+    "lsp": "allow"
+  },
+  "command": {
+    "catchup": {
+      "template": "Read all files changed in this branch compared to main/master. Summarize what's been done and the current state.",
+      "description": "Catch up on branch changes"
+    },
+    "test": {
+      "template": "Run tests for $ARGUMENTS. Detect if the project uses poetry or uv and run pytest accordingly. Fix any failing tests.",
+      "description": "Run tests and fix failures"
+    },
+    "review": {
+      "template": "Review my staged changes. Be critical and concise. Focus on bugs, security issues, and code quality.",
+      "description": "Review staged git changes"
+    }
+  },
+  "provider": {
+    "anthropic": {
+      "options": {
+        "setCacheKey": true
+      }
+    }
+  },
+  "lsp": {
+    "taplo": {
+      "command": ["taplo", "lsp", "stdio"],
+      "extensions": [".toml"]
+    },
+    "marksman": {
+      "command": ["marksman", "server"],
+      "extensions": [".md"]
+    }
+  },
+  "mcp": {
+    "chrome-devtools": {
+      "type": "local",
+      "command": [
+        "npx",
+        "-y",
+        "chrome-devtools-mcp@latest",
+        "--headless=true",
+        "--isolated=true"
+      ],
+      "enabled": false
+    }
+  }
+}

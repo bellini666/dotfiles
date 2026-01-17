@@ -1,10 +1,9 @@
 .git
 .mise.local.toml
+.opencode
 .ropeproject
-.rtx.toml
-.tool-versions
 .venv
-.serena
-pyrightconfig.json
+AGENTS.md
 pyrefly.toml
+pyrightconfig.json
 ty.toml

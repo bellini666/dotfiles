@@ -188,7 +188,6 @@ return {
       filetypes = {
         ["*"] = true,
       },
-      copilot_model = "claude-4.5-sonnet",
       logger = {
         log_to_file = true,
         file = vim.fn.stdpath("log") .. "/copilot-lua.log",

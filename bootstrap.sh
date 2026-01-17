@@ -31,7 +31,6 @@ else
 fi
 
 NVIM_CONFIG_DIR="${HOME}/.config/nvim"
-
 MISE_CONFIG_DIR="${HOME}/.config/mise"
 
 SYMLINKS=(
@@ -46,6 +45,10 @@ SYMLINKS=(
   "${BASE_DIR}/zsh/zshrc ${HOME}/.zshrc"
   "${BASE_DIR}/zsh/zsh_plugins.txt ${HOME}/.zsh_plugins.txt"
   "${BASE_DIR}/starship/starship.toml ${HOME}/.config/starship.toml"
+  "${BASE_DIR}/agents/AGENTS.md ${HOME}/.config/opencode/AGENTS.md"
+  "${BASE_DIR}/agents/opencode.json ${HOME}/.config/opencode/opencode.json"
+  "${BASE_DIR}/agents/skill ${HOME}/.config/opencode/skill"
+  "${BASE_DIR}/agents/claude-plugin ${HOME}/.claude/plugins/personal-config"
 )
 
 [ -d "${BASE_DIR}" ] || exit 1
@@ -54,6 +57,8 @@ mkdir -p "${LOCAL_BIN_DIR}"
 mkdir -p "${FONTS_DIR}"
 mkdir -p "${MISE_CONFIG_DIR}"
 mkdir -p "${BUILD_DIR}"
+mkdir -p "{$HOME}/.config/opencode"
+mkdir -p "${HOME}/.claude/plugins"
 
 function _system {
   info "updating the system"
@@ -229,6 +234,11 @@ function _neovim {
   fi
 }
 
+function _python {
+  info "configuring python"
+  poetry config virtualenvs.in-project true
+}
+
 function _mise-reshim {
   info "reshimming mise"
 
@@ -254,6 +264,7 @@ function _ {
     _fonts
     _zsh
     _mise
+    _python
     _mise-reshim
   )
 }

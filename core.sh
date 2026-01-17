@@ -122,4 +122,9 @@ function opencode() {
   XDG_DATA_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}${XDG_DATA_EXTRA:-}" npx opencode-ai@latest "${@}"
 }
 
+function claude() {
+  local config_dir="${HOME}/.claude${XDG_DATA_EXTRA:-}"
+  CLAUDE_CONFIG_DIR="${config_dir}" /opt/homebrew/bin/claude --plugin-dir "${HOME}/.claude/plugins/personal-config" "${@}"
+}
+
 export _DEFAULTS_SOURCED="1"
