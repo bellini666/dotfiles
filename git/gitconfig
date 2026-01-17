@@ -9,6 +9,7 @@
     editor = nvim
     excludesfile = ~/.gitignore
     attributesfile = ~/.gitattributes
+    pager = delta
 
 [color]
     ui = always
@@ -45,6 +46,18 @@
 
 [rerere]
     enabled = true
+
+[maintenance]
+    auto = true
+    strategy = incremental
+
+[delta]
+    navigate = true
+    dark = true
+    line-numbers = true
+
+[interactive]
+    diffFilter = delta --color-only
 
 [alias]
     a = add
