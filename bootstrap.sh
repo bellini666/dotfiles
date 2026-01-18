@@ -2,7 +2,7 @@
 
 set -e
 
-BASE_DIR=$(dirname "${0}")
+BASE_DIR="$(cd "$(dirname "${0}")" && pwd)"
 source "${BASE_DIR}/utils.sh"
 
 UNAME_OUTPUT="$(uname -s)"
@@ -48,7 +48,9 @@ SYMLINKS=(
   "${BASE_DIR}/agents/AGENTS.md ${HOME}/.config/opencode/AGENTS.md"
   "${BASE_DIR}/agents/opencode.json ${HOME}/.config/opencode/opencode.json"
   "${BASE_DIR}/agents/skill ${HOME}/.config/opencode/skill"
+  "${BASE_DIR}/agents/commands ${HOME}/.config/opencode/commands"
   "${BASE_DIR}/agents/claude-plugin ${HOME}/.claude/plugins/personal-config"
+  "${BASE_DIR}/agents/claude-plugin/settings.json ${HOME}/.claude/settings.json"
 )
 
 [ -d "${BASE_DIR}" ] || exit 1
@@ -57,7 +59,7 @@ mkdir -p "${LOCAL_BIN_DIR}"
 mkdir -p "${FONTS_DIR}"
 mkdir -p "${MISE_CONFIG_DIR}"
 mkdir -p "${BUILD_DIR}"
-mkdir -p "{$HOME}/.config/opencode"
+mkdir -p "${HOME}/.config/opencode"
 mkdir -p "${HOME}/.claude/plugins"
 
 function _system {

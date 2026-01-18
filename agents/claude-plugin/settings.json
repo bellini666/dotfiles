@@ -1,0 +1,14 @@
+{
+  "model": "sonnet",
+  "statusLine": {
+    "type": "command",
+    "command": "ccstatusline"
+  },
+  "enabledPlugins": {
+    "rust-analyzer-lsp@claude-plugins-official": true,
+    "pyright-lsp@claude-plugins-official": true,
+    "lua-lsp@claude-plugins-official": true,
+    "gopls-lsp@claude-plugins-official": true,
+    "typescript-lsp@claude-plugins-official": true
+  }
+}

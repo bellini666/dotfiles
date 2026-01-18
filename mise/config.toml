@@ -52,6 +52,7 @@ yazi = 'latest'
 "npm:@github/copilot-language-server" = "latest"
 "npm:@mermaid-js/mermaid-cli" = "latest"
 "npm:bash-language-server" = "latest"
+"npm:ccstatusline" = "latest"
 "npm:cloc" = "latest"
 "npm:cspell" = "latest"
 "npm:dockerfile-language-server-nodejs" = "latest"
