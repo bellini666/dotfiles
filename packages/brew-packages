@@ -52,6 +52,7 @@ make
 md5sha1sum
 meetingbar
 mise
+mole
 ninja
 openssl
 pgcli
@@ -65,6 +66,7 @@ ripgrep
 sd
 shellcheck
 shfmt
+snitch
 sox
 sqlite
 starship
