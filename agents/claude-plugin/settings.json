@@ -1,5 +1,4 @@
 {
-  "model": "sonnet",
   "statusLine": {
     "type": "command",
     "command": "ccstatusline"

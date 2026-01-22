@@ -15,6 +15,7 @@
 
 - Use semver
 - Imperative mood, <72 chars
+- Do not add Co-Authored-By trailers
 
 ## Tool Preferences
 
