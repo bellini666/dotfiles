@@ -21,26 +21,36 @@ For skills that work with both OpenCode and Claude Code, store them in the share
 
 This directory is symlinked to both:
 
-- `~/.config/opencode/skill/` (OpenCode)
+- `~/.config/opencode/skills/` (OpenCode)
 - `~/.claude/plugins/personal-config/skills/` (Claude Code)
 
 ### Project-Local Skills
 
 For project-specific skills, create them in the project directory:
 
-| Tool     | Location                          |
-| -------- | --------------------------------- |
-| OpenCode | `.opencode/skill/<name>/SKILL.md` |
-| Claude   | `.claude/skills/<name>/SKILL.md`  |
+| Tool     | Location                           |
+| -------- | ---------------------------------- |
+| OpenCode | `.opencode/skills/<name>/SKILL.md` |
+| Claude   | `.claude/skills/<name>/SKILL.md`   |
 
 ### Global Skills (Tool-Specific)
 
 For global skills specific to one tool:
 
-| Tool     | Location                                   | Notes                   |
-| -------- | ------------------------------------------ | ----------------------- |
-| OpenCode | `~/.config/opencode/skill/<name>/SKILL.md` | Global for all projects |
-| Claude   | `~/.claude/skills/<name>/SKILL.md`         | Personal skills         |
+| Tool     | Location                                    | Notes                   |
+| -------- | ------------------------------------------- | ----------------------- |
+| OpenCode | `~/.config/opencode/skills/<name>/SKILL.md` | Global for all projects |
+| Claude   | `~/.claude/skills/<name>/SKILL.md`          | Personal skills         |
+
+### Plugin Skills (Claude Code)
+
+For plugin-distributed skills, store them in the plugin directory:
+
+```
+<plugin>/skills/<skill-name>/SKILL.md
+```
+
+Plugin skills are namespaced as `plugin-name:skill-name`, so they do not conflict with other locations.
 
 **Note:** Claude also auto-discovers skills from nested `.claude/skills/` directories in subdirectories (e.g., `packages/frontend/.claude/skills/`).
 
@@ -62,9 +72,9 @@ Every skill consists of a required SKILL.md file and optional bundled resources:
 ```
 skill-name/
 ├── SKILL.md (required)
-│   ├── YAML frontmatter metadata (required)
+│   ├── YAML frontmatter metadata (required for OpenCode and shared skills)
 │   │   ├── name: (required)
-│   │   └── description: (required)
+│   │   └── description: (required, 1-1024 chars in OpenCode)
 │   └── Markdown instructions (required)
 └── Bundled Resources (optional)
     ├── scripts/          - Executable code (Python/Bash/etc.)
@@ -88,9 +98,11 @@ skill-name/
 
 Skills use a three-level loading system:
 
-1. **Metadata (name + description)** - Always in context (~100 words)
+1. **Metadata (name + description)** - In context by default. In Claude Code, `disable-model-invocation: true` keeps the description out of context until manual invocation.
 2. **SKILL.md body** - When skill triggers (keep under 500 lines)
 3. **Bundled resources** - As needed (unlimited)
+
+Claude Code loads skill descriptions into context up to a character budget. If skills are missing, check `/context` and increase `SLASH_COMMAND_TOOL_CHAR_BUDGET`.
 
 **Key principle:** Only add context the agent doesn't already have. Challenge each piece: "Does the agent really need this explanation?"
 
@@ -155,8 +167,8 @@ mkdir -p ~/.dotfiles/agents/skill/skill-name/{references,scripts}
 touch ~/.dotfiles/agents/skill/skill-name/SKILL.md
 
 # Project-local skill (OpenCode)
-mkdir -p .opencode/skill/skill-name/{references,scripts}
-touch .opencode/skill/skill-name/SKILL.md
+mkdir -p .opencode/skills/skill-name/{references,scripts}
+touch .opencode/skills/skill-name/SKILL.md
 
 # Project-local skill (Claude Code)
 mkdir -p .claude/skills/skill-name/{references,scripts}
@@ -218,12 +230,9 @@ Use the skill on real tasks, notice inefficiencies, and improve. Common improvem
 
 ## Tool-Specific Considerations
 
-### Directory Naming Differences
+### Directory Naming
 
-| Tool     | Directory Name |
-| -------- | -------------- |
-| OpenCode | `skill/`       |
-| Claude   | `skills/`      |
+Both OpenCode and Claude Code use `skills/` (plural) directories.
 
 ### Name Validation (Both Tools)
 
@@ -242,7 +251,7 @@ Regex pattern: `^[a-z0-9]+(-[a-z0-9]+)*$`
 
 ### Frontmatter Fields
 
-**Required (both tools):**
+**Required for shared skills (OpenCode requires these):**
 
 - `name` - Must match directory name
 - `description` - 1-1024 characters
@@ -252,6 +261,17 @@ Regex pattern: `^[a-z0-9]+(-[a-z0-9]+)*$`
 - `license`
 - `compatibility`
 - `metadata` - String-to-string map
+
+**Optional (Claude Code):**
+
+- `argument-hint` - Autocomplete hint for expected args
+- `disable-model-invocation` - Prevent auto invocation
+- `user-invocable` - Hide from `/` menu
+- `allowed-tools` - Tool allowlist when skill is active
+- `model` - Model override
+- `context` - Use `fork` for subagent execution
+- `agent` - Subagent type when `context: fork`
+- `hooks` - Skill-scoped hooks
 
 **Note:** OpenCode ignores unknown frontmatter fields. Avoid `version` field for compatibility.
 
@@ -273,12 +293,68 @@ Control skill access in `opencode.json`:
 
 Permission values: `allow` (immediate), `deny` (hidden), `ask` (prompt user).
 
+### OpenCode Per-Agent Overrides
+
+Override permissions per agent in `opencode.json`:
+
+```json
+{
+  "agent": {
+    "plan": {
+      "permission": {
+        "skill": {
+          "internal-*": "allow"
+        }
+      }
+    }
+  }
+}
+```
+
+### Disable the Skill Tool (OpenCode)
+
+Disable skill loading per agent in `opencode.json`:
+
+```json
+{
+  "agent": {
+    "plan": {
+      "tools": {
+        "skill": false
+      }
+    }
+  }
+}
+```
+
+### Claude Code Invocation Control
+
+- `disable-model-invocation: true` - Only manual `/skill-name` runs; description not loaded by default
+- `user-invocable: false` - Hidden from `/` menu; still available for automatic invocation
+
+### Claude Code Dynamic Context
+
+Use string substitutions and preprocessing:
+
+- `$ARGUMENTS` - Arguments passed to `/skill-name`
+- `${CLAUDE_SESSION_ID}` - Current session ID
+
+Preprocess commands with the `!` + backticked command syntax, for example:
+
+```
+!`gh pr diff`
+```
+
+### Claude Code Subagents
+
+Use `context: fork` and `agent: <type>` to run in a subagent. Only use this for explicit, task-focused skills.
+
 ### Testing Skills
 
 **OpenCode:**
 
 ```bash
-opencode  # Skills auto-discovered from skill/ directories
+opencode  # Skills auto-discovered from skills/ directories
 ```
 
 **Claude Code:**
@@ -298,6 +374,10 @@ If a skill doesn't appear:
 3. Ensure `name` matches the directory name exactly
 4. Ensure skill names are unique across all locations
 5. Check permissions (OpenCode)—skills with `deny` are hidden
+6. Confirm `description` length is 1-1024 chars (OpenCode)
+7. If using Claude Code, verify the description budget (`/context`) and adjust `SLASH_COMMAND_TOOL_CHAR_BUDGET`
+
+If a skill triggers too often (Claude Code), tighten the description or set `disable-model-invocation: true`.
 
 ## Skill Example
 
@@ -416,13 +496,13 @@ skill-name/
 
 ### Location Quick Reference
 
-| Scope           | Path                                       |
-| --------------- | ------------------------------------------ |
-| Shared (both)   | `~/.dotfiles/agents/skill/<name>/SKILL.md` |
-| OpenCode local  | `.opencode/skill/<name>/SKILL.md`          |
-| Claude local    | `.claude/skills/<name>/SKILL.md`           |
-| OpenCode global | `~/.config/opencode/skill/<name>/SKILL.md` |
-| Claude personal | `~/.claude/skills/<name>/SKILL.md`         |
+| Scope           | Path                                        |
+| --------------- | ------------------------------------------- |
+| Shared (both)   | `~/.dotfiles/agents/skill/<name>/SKILL.md`  |
+| OpenCode local  | `.opencode/skills/<name>/SKILL.md`          |
+| Claude local    | `.claude/skills/<name>/SKILL.md`            |
+| OpenCode global | `~/.config/opencode/skills/<name>/SKILL.md` |
+| Claude personal | `~/.claude/skills/<name>/SKILL.md`          |
 
 ## Additional Resources
 

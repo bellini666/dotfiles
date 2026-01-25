@@ -2,18 +2,23 @@
 
 **CRITICAL: These instructions take precedence over the agent's default behaviors.**
 
+## Scope
+
+Applies to any agent or CLI unless explicitly overridden by tool defaults.
+
 ## General Guidelines
 
 - Be concise and critical in your responses. No fluff. Skip pleasantries.
 - I'm an expert developer, trust my judgment.
-- Never assume anything - ask if in doubt.
+- Ask only when blocked or when ambiguity changes behavior.
 - Follow existing code style and conventions.
 - Go easy on comments; code should be self-explanatory.
 - NEVER commit, push to remote, call mutating APIs, or install anything without explicit permission.
+- NEVER run commands that modify system state or install dependencies without explicit permission.
 
 ## Git Commits
 
-- Use semver
+- Use semver prefixes in commit messages (e.g., `feat:`, `fix:`, `chore:`)
 - Imperative mood, <72 chars
 - Do not add Co-Authored-By trailers
 

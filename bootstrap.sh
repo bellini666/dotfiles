@@ -40,7 +40,7 @@ SYMLINKS=(
   "${BASE_DIR}/agents/claude-plugin/settings.json ${HOME}/.claude/settings.json"
   "${BASE_DIR}/agents/commands ${HOME}/.config/opencode/commands"
   "${BASE_DIR}/agents/opencode.json ${HOME}/.config/opencode/opencode.json"
-  "${BASE_DIR}/agents/skill ${HOME}/.config/opencode/skill"
+  "${BASE_DIR}/agents/skill ${HOME}/.config/opencode/skills"
   "${BASE_DIR}/ghostty ${HOME}/.config/ghostty"
   "${BASE_DIR}/git/gitattributes ${HOME}/.gitattributes"
   "${BASE_DIR}/git/gitconfig ${HOME}/.gitconfig"
