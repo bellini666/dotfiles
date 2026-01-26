@@ -36,11 +36,8 @@ MISE_CONFIG_DIR="${HOME}/.config/mise"
 SYMLINKS=(
   "${BASE_DIR}/agents/AGENTS.md ${HOME}/.claude/CLAUDE.md"
   "${BASE_DIR}/agents/AGENTS.md ${HOME}/.config/opencode/AGENTS.md"
-  "${BASE_DIR}/agents/claude-plugin ${HOME}/.claude/plugins/personal-config"
-  "${BASE_DIR}/agents/claude-plugin/settings.json ${HOME}/.claude/settings.json"
-  "${BASE_DIR}/agents/commands ${HOME}/.config/opencode/commands"
+  "${BASE_DIR}/agents/claude.json ${HOME}/.claude/settings.json"
   "${BASE_DIR}/agents/opencode.json ${HOME}/.config/opencode/opencode.json"
-  "${BASE_DIR}/agents/skill ${HOME}/.config/opencode/skills"
   "${BASE_DIR}/ghostty ${HOME}/.config/ghostty"
   "${BASE_DIR}/git/gitattributes ${HOME}/.gitattributes"
   "${BASE_DIR}/git/gitconfig ${HOME}/.gitconfig"
@@ -61,7 +58,7 @@ mkdir -p "${FONTS_DIR}"
 mkdir -p "${MISE_CONFIG_DIR}"
 mkdir -p "${BUILD_DIR}"
 mkdir -p "${HOME}/.config/opencode"
-mkdir -p "${HOME}/.claude/plugins"
+mkdir -p "${HOME}/.claude"
 
 function _system {
   info "updating the system"
@@ -122,6 +119,31 @@ function _symlinks {
   for FILE in "${SYMLINKS[@]}"; do
     # shellcheck disable=2086
     create_symlink ${FILE}
+  done
+}
+
+function _agents {
+  info "updating agents"
+
+  local opencode_dir="${HOME}/.config/opencode"
+  local claude_dir="${HOME}/.claude"
+
+  for group in "skill:skills" "commands:commands"; do
+    src="${BASE_DIR}/agents/${group%%:*}"
+    dir_name="${group##*:}"
+
+    if [ -d "${src}" ]; then
+      for base in "${opencode_dir}" "${claude_dir}"; do
+        dest="${base}/${dir_name}"
+        mkdir -p "${dest}"
+
+        for path in "${src}"/*; do
+          [ -e "${path}" ] || continue
+          name=$(basename "${path}")
+          create_symlink "${path}" "${dest}/${name}"
+        done
+      done
+    fi
   done
 }
 
@@ -264,6 +286,7 @@ function _ {
     _patches
     _neovim
     _symlinks
+    _agents
     _fonts
     _zsh
     _mise
