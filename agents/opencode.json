@@ -28,6 +28,11 @@
       "url": "https://mcp.context7.com/mcp/oauth",
       "enabled": true
     },
+    "beeper": {
+      "type": "remote",
+      "url": "http://localhost:23373/v0/mcp",
+      "enabled": false
+    },
     "chrome-devtools": {
       "type": "local",
       "command": [
