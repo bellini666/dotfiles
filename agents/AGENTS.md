@@ -13,6 +13,7 @@ Applies to any agent or CLI unless explicitly overridden by tool defaults.
 - Ask only when blocked or when ambiguity changes behavior.
 - Follow existing code style and conventions.
 - Go easy on comments; code should be self-explanatory.
+- Always use Context7 MCP when in need of library/API documentation, code generation, setup or configuration steps
 - NEVER commit, push to remote, call mutating APIs, or install anything without explicit permission.
 - NEVER run commands that modify system state or install dependencies without explicit permission.
 
