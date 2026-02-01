@@ -17,6 +17,7 @@ g = "jump"
 s = "bookmark"
 d = "deletemark"
 p = "showmarks"
+review = "tuicr"
 pre-commit = "prek"
 
 [env]
@@ -94,6 +95,9 @@ yazi = 'latest'
 
 # go tools
 "go:golang.org/x/tools/gopls" = 'latest'
+
+# rust tools
+"cargo:tuicr" = 'latest'
 
 # runtimes (needs to be last)
 bun = 'latest'
