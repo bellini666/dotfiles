@@ -9,7 +9,7 @@ This skill provides guidance for creating effective skills for OpenCode and Clau
 
 ## Skill Locations
 
-Skills can be stored in different locations depending on scope and which tool will use them.
+Skills can be stored in different locations depending on scope and which tool will use them. Claude Code follows the [Agent Skills](https://agentskills.io) open standard, which works across multiple AI tools.
 
 ### Shared Skills (OpenCode + Claude Code)
 
@@ -22,37 +22,33 @@ For skills that work with both OpenCode and Claude Code, store them in the share
 This directory is symlinked to both:
 
 - `~/.config/opencode/skills/` (OpenCode)
-- `~/.claude/plugins/personal-config/skills/` (Claude Code)
+- `~/.claude/skills/` (Claude Code)
 
-### Project-Local Skills
+### Location Priority and Discovery
 
-For project-specific skills, create them in the project directory:
+Where you store a skill determines who can use it:
 
-| Tool     | Location                           |
-| -------- | ---------------------------------- |
-| OpenCode | `.opencode/skills/<name>/SKILL.md` |
-| Claude   | `.claude/skills/<name>/SKILL.md`   |
+| Location   | Path                                     | Applies to                     |
+| :--------- | :--------------------------------------- | :----------------------------- |
+| Enterprise | See managed settings                     | All users in your organization |
+| Personal   | `~/.claude/skills/<skill-name>/SKILL.md` | All your projects              |
+| Project    | `.claude/skills/<skill-name>/SKILL.md`   | This project only              |
+| Plugin     | `<plugin>/skills/<skill-name>/SKILL.md`  | Where plugin is enabled        |
 
-### Global Skills (Tool-Specific)
+When skills share the same name across levels, higher-priority locations win: **enterprise > personal > project**. Plugin skills use a `plugin-name:skill-name` namespace, so they cannot conflict with other levels.
 
-For global skills specific to one tool:
+**Legacy support:** Files in `.claude/commands/` still work with the same frontmatter, but if a skill and a command share the same name, the skill takes precedence.
 
-| Tool     | Location                                    | Notes                   |
-| -------- | ------------------------------------------- | ----------------------- |
-| OpenCode | `~/.config/opencode/skills/<name>/SKILL.md` | Global for all projects |
-| Claude   | `~/.claude/skills/<name>/SKILL.md`          | Personal skills         |
+### Automatic Nested Discovery (Claude Code)
 
-### Plugin Skills (Claude Code)
+Claude Code automatically discovers skills from nested `.claude/skills/` directories when you work with files in subdirectories. For example, if editing a file in `packages/frontend/`, Claude Code also looks for skills in `packages/frontend/.claude/skills/`. This supports monorepo setups where packages have their own skills.
 
-For plugin-distributed skills, store them in the plugin directory:
+### OpenCode Discovery
 
-```
-<plugin>/skills/<skill-name>/SKILL.md
-```
+OpenCode searches multiple locations and walks up from the current working directory to the git worktree root, loading all matching definitions along the way:
 
-Plugin skills are namespaced as `plugin-name:skill-name`, so they do not conflict with other locations.
-
-**Note:** Claude also auto-discovers skills from nested `.claude/skills/` directories in subdirectories (e.g., `packages/frontend/.claude/skills/`).
+- Project-local: `.opencode/skills/<name>/SKILL.md` and `.claude/skills/<name>/SKILL.md`
+- Global: `~/.config/opencode/skills/<name>/SKILL.md` and `~/.claude/skills/<name>/SKILL.md`
 
 ## About Skills
 
@@ -71,16 +67,19 @@ Every skill consists of a required SKILL.md file and optional bundled resources:
 
 ```
 skill-name/
-├── SKILL.md (required)
+├── SKILL.md           # Main instructions (required)
 │   ├── YAML frontmatter metadata (required for OpenCode and shared skills)
 │   │   ├── name: (required)
 │   │   └── description: (required, 1-1024 chars in OpenCode)
 │   └── Markdown instructions (required)
 └── Bundled Resources (optional)
-    ├── scripts/          - Executable code (Python/Bash/etc.)
-    ├── references/       - Documentation loaded into context as needed
-    └── assets/           - Files used in output (templates, icons, etc.)
+    ├── scripts/       - Executable utilities and automation
+    ├── references/    - Documentation loaded into context as needed
+    ├── examples/      - Working code examples and complete templates
+    └── assets/        - Files used in output (images, icons)
 ```
+
+The `SKILL.md` contains the main instructions and is required. Other files are optional and let you build more powerful skills. Reference these files from your `SKILL.md` so Claude knows what they contain and when to load them.
 
 ### SKILL.md (required)
 
@@ -88,11 +87,48 @@ skill-name/
 
 ### Bundled Resources (optional)
 
-**Scripts (`scripts/`):** Executable code for tasks requiring deterministic reliability or repeatedly rewritten code. Token efficient, may be executed without loading into context.
+**Scripts (`scripts/`):** Executable code for tasks requiring deterministic reliability or repeatedly rewritten code. Token efficient, may be executed without loading into context. Useful for validation tools, testing helpers, parsing utilities, and automation scripts. Should be executable and documented.
 
-**References (`references/`):** Documentation loaded as needed. Keeps SKILL.md lean. Use for schemas, API docs, domain knowledge, policies, detailed workflow guides.
+**References (`references/`):** Documentation loaded as needed. Keeps SKILL.md lean. Use for schemas, API docs, domain knowledge, policies, detailed workflow guides, comprehensive patterns, migration guides, edge cases, and troubleshooting. Each reference file can be large (2,000-5,000+ words).
+
+**Examples (`examples/`):** Working code examples that users can copy and adapt directly. Include complete runnable scripts, configuration files, template files, and real-world usage examples.
 
 **Assets (`assets/`):** Files used in output (templates, images, icons, boilerplate code). Separates output resources from documentation.
+
+### Types of Skill Content
+
+Skill files can contain any instructions, but thinking about how you want to invoke them helps guide what to include:
+
+**Reference content** adds knowledge Claude applies to your current work. Conventions, patterns, style guides, domain knowledge. This content runs inline so Claude can use it alongside your conversation context.
+
+```yaml
+---
+name: api-conventions
+description: API design patterns for this codebase
+---
+When writing API endpoints:
+  - Use RESTful naming conventions
+  - Return consistent error formats
+  - Include request validation
+```
+
+**Task content** gives Claude step-by-step instructions for a specific action, like deployments, commits, or code generation. These are often actions you want to invoke directly with `/skill-name` rather than letting Claude decide when to run them. Add `disable-model-invocation: true` to prevent Claude from triggering it automatically.
+
+```yaml
+---
+name: deploy
+description: Deploy the application to production
+context: fork
+disable-model-invocation: true
+---
+
+Deploy the application:
+1. Run the test suite
+2. Build the application
+3. Push to the deployment target
+```
+
+Your `SKILL.md` can contain anything, but thinking through how you want the skill invoked (by you, by Claude, or both) and where you want it to run (inline or in a subagent) helps guide what to include.
 
 ### Progressive Disclosure
 
@@ -163,19 +199,19 @@ Create the skill directory based on desired scope:
 
 ```bash
 # Shared skill (works with both OpenCode and Claude Code)
-mkdir -p ~/.dotfiles/agents/skill/skill-name/{references,scripts}
+mkdir -p ~/.dotfiles/agents/skill/skill-name/{references,examples,scripts}
 touch ~/.dotfiles/agents/skill/skill-name/SKILL.md
 
 # Project-local skill (OpenCode)
-mkdir -p .opencode/skills/skill-name/{references,scripts}
+mkdir -p .opencode/skills/skill-name/{references,examples,scripts}
 touch .opencode/skills/skill-name/SKILL.md
 
 # Project-local skill (Claude Code)
-mkdir -p .claude/skills/skill-name/{references,scripts}
+mkdir -p .claude/skills/skill-name/{references,examples,scripts}
 touch .claude/skills/skill-name/SKILL.md
 ```
 
-Create only the directories actually needed (references/, scripts/, assets/).
+Create only the directories actually needed (references/, examples/, scripts/, assets/).
 
 ### Step 4: Edit the Skill
 
@@ -264,14 +300,14 @@ Regex pattern: `^[a-z0-9]+(-[a-z0-9]+)*$`
 
 **Optional (Claude Code):**
 
-- `argument-hint` - Autocomplete hint for expected args
-- `disable-model-invocation` - Prevent auto invocation
-- `user-invocable` - Hide from `/` menu
-- `allowed-tools` - Tool allowlist when skill is active
-- `model` - Model override
-- `context` - Use `fork` for subagent execution
-- `agent` - Subagent type when `context: fork`
-- `hooks` - Skill-scoped hooks
+- `argument-hint` - Autocomplete hint for expected args (e.g., `[issue-number]` or `[filename] [format]`)
+- `disable-model-invocation` - Set to `true` to prevent Claude from automatically loading this skill
+- `user-invocable` - Set to `false` to hide from `/` menu (default: `true`)
+- `allowed-tools` - Tools Claude can use without asking permission when this skill is active
+- `model` - Model to use when this skill is active (e.g., `haiku`, `sonnet`, `opus`)
+- `context` - Set to `fork` to run in a forked subagent context
+- `agent` - Which subagent type to use when `context: fork` is set
+- `hooks` - Hooks scoped to this skill's lifecycle
 
 **Note:** OpenCode ignores unknown frontmatter fields. Avoid `version` field for compatibility.
 
@@ -329,25 +365,163 @@ Disable skill loading per agent in `opencode.json`:
 
 ### Claude Code Invocation Control
 
-- `disable-model-invocation: true` - Only manual `/skill-name` runs; description not loaded by default
-- `user-invocable: false` - Hidden from `/` menu; still available for automatic invocation
+By default, both you and Claude can invoke any skill. Two frontmatter fields let you restrict this:
+
+- `disable-model-invocation: true` - Only you can invoke the skill. Use this for workflows with side effects or that you want to control timing, like `/commit`, `/deploy`, or `/send-slack-message`. The description is not loaded into context until manual invocation.
+- `user-invocable: false` - Only Claude can invoke the skill. Use this for background knowledge that isn't actionable as a command. Hidden from `/` menu but still available for automatic invocation.
+
+How the fields affect invocation and context loading:
+
+| Frontmatter                      | You can invoke | Claude can invoke | When loaded into context                                     |
+| :------------------------------- | :------------- | :---------------- | :----------------------------------------------------------- |
+| (default)                        | Yes            | Yes               | Description always in context, full skill loads when invoked |
+| `disable-model-invocation: true` | Yes            | No                | Description not in context, full skill loads when you invoke |
+| `user-invocable: false`          | No             | Yes               | Description always in context, full skill loads when invoked |
+
+**Note:** In a regular session, skill descriptions are loaded into context so Claude knows what's available, but full skill content only loads when invoked. Subagents with preloaded skills work differently: the full skill content is injected at startup.
+
+### Claude Code Permission Restrictions
+
+By default, Claude can invoke any skill that doesn't have `disable-model-invocation: true` set. Three ways to control which skills Claude can invoke:
+
+**1. Disable all skills** by denying the Skill tool in `/permissions`:
+
+```
+# Add to deny rules:
+Skill
+```
+
+**2. Allow or deny specific skills** using permission rules:
+
+```
+# Allow only specific skills
+Skill(commit)
+Skill(review-pr *)
+
+# Deny specific skills
+Skill(deploy *)
+```
+
+Permission syntax: `Skill(name)` for exact match, `Skill(name *)` for prefix match with any arguments.
+
+**3. Hide individual skills** by adding `disable-model-invocation: true` to their frontmatter. This removes the skill from Claude's context entirely.
+
+**Note:** The `user-invocable` field only controls menu visibility, not Skill tool access. Use `disable-model-invocation: true` to block programmatic invocation.
+
+### Claude Code Tool Restrictions
+
+Use the `allowed-tools` field to limit which tools Claude can use when a skill is active. This creates a safe, restricted environment for specific workflows.
+
+**Example - Read-only mode:**
+
+```yaml
+---
+name: safe-reader
+description: Read files without making changes
+allowed-tools: Read, Grep, Glob
+---
+Explore the codebase and answer questions without modifying any files.
+```
+
+Skills that define `allowed-tools` grant Claude access to those tools without per-use approval when the skill is active. Your permission settings still govern baseline approval behavior for all other tools.
 
 ### Claude Code Dynamic Context
 
-Use string substitutions and preprocessing:
+#### String Substitutions
 
-- `$ARGUMENTS` - Arguments passed to `/skill-name`
-- `${CLAUDE_SESSION_ID}` - Current session ID
+Skills support string substitution for dynamic values in the skill content:
 
-Preprocess commands with the `!` + backticked command syntax, for example:
+- `$ARGUMENTS` - All arguments passed when invoking the skill. If `$ARGUMENTS` is not present in the content, arguments are appended as `ARGUMENTS: <value>`.
+- `$ARGUMENTS[N]` or `$N` - Access a specific argument by 0-based index. Example: `$0` for the first argument, `$1` for the second.
+- `${CLAUDE_SESSION_ID}` - The current session ID. Useful for logging, creating session-specific files, or correlating skill output with sessions.
 
+**Example:**
+
+```yaml
+---
+name: migrate-component
+description: Migrate a component from one framework to another
+---
+Migrate the $0 component from $1 to $2.
+Preserve all existing behavior and tests.
 ```
-!`gh pr diff`
+
+Running `/migrate-component SearchBar React Vue` replaces `$0` with `SearchBar`, `$1` with `React`, and `$2` with `Vue`.
+
+#### Dynamic Context Injection
+
+The `!`command`` syntax runs shell commands before the skill content is sent to Claude. The command output replaces the placeholder, so Claude receives actual data, not the command itself.
+
+**Example:**
+
+```yaml
+---
+name: pr-summary
+description: Summarize changes in a pull request
+context: fork
+agent: Explore
+allowed-tools: Bash(gh *)
+---
+
+## Pull request context
+- PR diff: !`gh pr diff`
+- PR comments: !`gh pr view --comments`
+- Changed files: !`gh pr diff --name-only`
+
+## Your task
+Summarize this pull request...
 ```
+
+When this skill runs:
+
+1. Each `!`command`` executes immediately (before Claude sees anything)
+2. The output replaces the placeholder in the skill content
+3. Claude receives the fully-rendered prompt with actual PR data
+
+This is preprocessing, not something Claude executes. Claude only sees the final result.
+
+#### Extended Thinking
+
+To enable extended thinking (thinking mode) in a skill, include the word "ultrathink" anywhere in your skill content.
 
 ### Claude Code Subagents
 
-Use `context: fork` and `agent: <type>` to run in a subagent. Only use this for explicit, task-focused skills.
+Add `context: fork` to your frontmatter when you want a skill to run in isolation. The skill content becomes the prompt that drives the subagent. It won't have access to your conversation history.
+
+**Warning:** `context: fork` only makes sense for skills with explicit instructions. If your skill contains guidelines like "use these API conventions" without a task, the subagent receives the guidelines but no actionable prompt, and returns without meaningful output.
+
+Skills and subagents work together in two directions:
+
+| Approach                     | System prompt                             | Task                        | Also loads                   |
+| :--------------------------- | :---------------------------------------- | :-------------------------- | :--------------------------- |
+| Skill with `context: fork`   | From agent type (`Explore`, `Plan`, etc.) | SKILL.md content            | CLAUDE.md                    |
+| Subagent with `skills` field | Subagent's markdown body                  | Claude's delegation message | Preloaded skills + CLAUDE.md |
+
+With `context: fork`, you write the task in your skill and pick an agent type to execute it. The `agent` field specifies which subagent configuration to use. Options include built-in agents (`Explore`, `Plan`, `general-purpose`) or any custom subagent from `.claude/agents/`. If omitted, uses `general-purpose`.
+
+**Example: Research skill using Explore agent**
+
+```yaml
+---
+name: deep-research
+description: Research a topic thoroughly
+context: fork
+agent: Explore
+---
+
+Research $ARGUMENTS thoroughly:
+
+1. Find relevant files using Glob and Grep
+2. Read and analyze the code
+3. Summarize findings with specific file references
+```
+
+When this skill runs:
+
+1. A new isolated context is created
+2. The subagent receives the skill content as its prompt
+3. The `agent` field determines the execution environment (model, tools, and permissions)
+4. Results are summarized and returned to your main conversation
 
 ### Testing Skills
 
@@ -367,7 +541,7 @@ claude
 
 ### Troubleshooting
 
-If a skill doesn't appear:
+**Skill not appearing:**
 
 1. Verify `SKILL.md` is spelled in all caps
 2. Check frontmatter includes both `name` and `description`
@@ -375,9 +549,38 @@ If a skill doesn't appear:
 4. Ensure skill names are unique across all locations
 5. Check permissions (OpenCode)—skills with `deny` are hidden
 6. Confirm `description` length is 1-1024 chars (OpenCode)
-7. If using Claude Code, verify the description budget (`/context`) and adjust `SLASH_COMMAND_TOOL_CHAR_BUDGET`
+7. If using Claude Code, verify the description budget and character limit
 
-If a skill triggers too often (Claude Code), tighten the description or set `disable-model-invocation: true`.
+**Claude Code doesn't see all skills:**
+
+Skill descriptions are loaded into context so Claude knows what's available. If you have many skills, they may exceed the character budget (default 15,000 characters). Run `/context` to check for a warning about excluded skills.
+
+To increase the limit, set the `SLASH_COMMAND_TOOL_CHAR_BUDGET` environment variable.
+
+**Skill not triggering:**
+
+If Claude doesn't use your skill when expected:
+
+1. Check the description includes keywords users would naturally say
+2. Verify the skill appears in "What skills are available?"
+3. Try rephrasing your request to match the description more closely
+4. Invoke it directly with `/skill-name` if the skill is user-invocable
+
+**Skill triggers too often:**
+
+If Claude uses your skill when you don't want it:
+
+1. Make the description more specific
+2. Add `disable-model-invocation: true` if you only want manual invocation
+
+## Sharing Skills
+
+Skills can be distributed at different scopes depending on your audience:
+
+- **Project skills**: Commit `.claude/skills/` or `.opencode/skills/` to version control
+- **Plugins**: Create a `skills/` directory in your plugin
+- **Managed**: Deploy organization-wide through managed settings (enterprise)
+- **Personal dotfiles**: Use the symlink pattern from `~/.dotfiles/agents/skill/` to both `~/.claude/skills/` and `~/.config/opencode/skills/`
 
 ## Skill Example
 
@@ -432,25 +635,29 @@ This skill works with both OpenCode and Claude Code via the shared dotfiles syml
 
 ### What Goes in examples/
 
-**Working code examples:**
+**Working code examples that users can copy and adapt directly:**
 
-- Complete, runnable scripts
-- Configuration files
-- Template files
+- Complete, runnable scripts showing expected usage
+- Configuration files demonstrating proper setup
+- Template files with boilerplate code
 - Real-world usage examples
+- Sample outputs showing expected format
 
-**Users can copy and adapt these directly**
+**Example:** A `codebase-visualizer` skill might include `examples/sample.html` showing the expected output format.
 
 ### What Goes in scripts/
 
-**Utility scripts:**
+**Executable utility scripts:**
 
-- Validation tools
-- Testing helpers
+- Validation tools (e.g., `validate-hook-schema.sh`)
+- Testing helpers (e.g., `test-hook.sh`)
 - Parsing utilities
 - Automation scripts
+- Visual output generators (e.g., Python scripts that generate HTML/SVG)
 
-**Should be executable and documented**
+**Should be executable and documented.** Scripts can be in any language (Python, Bash, etc.) and can generate visual output like interactive HTML files that open in your browser for exploring data, debugging, or creating reports.
+
+**Visual Output Pattern:** Skills can bundle and run scripts in any language, giving Claude capabilities beyond what's possible in a single prompt. One powerful pattern is generating visual output: interactive HTML files for exploring data, debugging, or creating reports. For example, a `codebase-visualizer` skill could bundle a Python script that generates an interactive tree view of your project structure with collapsible directories, file sizes, and type indicators. The script does the heavy lifting while Claude handles orchestration.
 
 ## Writing Style
 
@@ -483,14 +690,27 @@ skill-name/
     └── detailed-guide.md
 ```
 
-**Complete:**
+**With Examples:**
 
 ```
 skill-name/
 ├── SKILL.md
 ├── references/
 │   └── patterns.md
-└── scripts/
+└── examples/
+    └── sample.md
+```
+
+**Complete:**
+
+```
+skill-name/
+├── SKILL.md           # Main instructions
+├── references/        # Detailed reference material
+│   └── patterns.md
+├── examples/          # Working code examples
+│   └── sample.md
+└── scripts/           # Executable utilities
     └── validate.sh
 ```
 
@@ -518,7 +738,7 @@ skill-name/
    - Frontmatter with third-person description and trigger phrases
    - Lean body (<500 lines) in imperative form
    - Reference supporting files
-6. **Add resources**: Create references/, scripts/ as needed
+6. **Add resources**: Create references/, examples/, scripts/ as needed
 7. **Validate**: Check description, writing style, organization
 8. **Test**: Verify skill loads on expected triggers in both tools
 9. **Iterate**: Improve based on usage

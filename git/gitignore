@@ -5,6 +5,7 @@
 .ropeproject
 .venv
 AGENTS.md
+CLAUDE.local.md
 pyrefly.toml
 pyrightconfig.json
 ty.toml
