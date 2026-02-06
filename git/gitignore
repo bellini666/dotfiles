@@ -1,10 +1,10 @@
 .claude/settings.local.json
 .git
+.jj
 .mise.local.toml
 .opencode
 .ropeproject
 .venv
-AGENTS.md
 CLAUDE.local.md
 pyrefly.toml
 pyrightconfig.json
