@@ -25,7 +25,6 @@ libsox-fmt-mp3
 libsqlite3-dev
 libssl-dev
 libtool-bin
-libwebkit2gtk-4.0-dev
 libxml2-dev
 libxmlsec1-dev
 ncdu
@@ -44,7 +43,6 @@ starship
 tk-dev
 universal-ctags
 wamerican
-watchman
 wbrazilian
 xz-utils
 yq

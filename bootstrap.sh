@@ -30,7 +30,6 @@ else
   exit 1
 fi
 
-NVIM_CONFIG_DIR="${HOME}/.config/nvim"
 MISE_CONFIG_DIR="${HOME}/.config/mise"
 
 SYMLINKS=(
@@ -78,15 +77,12 @@ function _system {
   elif [ ${MACHINE_OS} = "Linux" ]; then
     (
       APT_PACKAGES=$(tr '\n' ' ' <"${BASE_DIR}/packages/apt-packages")
-      EXTRA_OPTS="-t testing"
       sudo apt update --list-cleanup
       sudo apt dist-upgrade --purge
       # shellcheck disable=2086
-      sudo apt dist-upgrade --purge ${EXTRA_OPTS}
+      sudo apt build-dep python3
       # shellcheck disable=2086
-      sudo apt build-dep python3 ${EXTRA_OPTS}
-      # shellcheck disable=2086
-      sudo apt install --purge ${EXTRA_OPTS} ${APT_PACKAGES}
+      sudo apt install --purge ${APT_PACKAGES}
       sudo flatpak update
       sudo flatpak uninstall --unused
       sudo apt autoremove --purge
@@ -103,7 +99,7 @@ function _patches {
   if [ ${MACHINE_OS} = "MacOS" ]; then
     :
   elif [ ${MACHINE_OS} = "Linux" ]; then
-    if ! grep "force-dark-mode" /usr/share/applications/google-chrome.desktop; then
+    if [ -f /usr/share/applications/google-chrome.desktop ] && ! grep -q "force-dark-mode" /usr/share/applications/google-chrome.desktop; then
       sudo sed -i \
         's;/usr/bin/google-chrome-stable;/usr/bin/google-chrome-stable --force-dark-mode;g' \
         /usr/share/applications/google-chrome.desktop
@@ -240,22 +236,19 @@ function _neovim {
     fi
     # brew install neovim
   elif [ ${MACHINE_OS} = "Linux" ]; then
+    local arch
+    arch="$(uname -m)"
+    if [ "${arch}" = "aarch64" ] || [ "${arch}" = "arm64" ]; then
+      arch="arm64"
+    else
+      arch="x86_64"
+    fi
     download_executable \
       "${BIN_DIR}/nvim" \
-      https://github.com/neovim/neovim/releases/download/nightly/nvim-linux-x86_64.appimage
+      "https://github.com/neovim/neovim/releases/download/nightly/nvim-linux-${arch}.appimage"
   else
     echo "Unknown OS: ${UNAME_OUTPUT}"
     exit 1
-  fi
-
-  info "installing vim-spell"
-  if [ ! -f "${NVIM_CONFIG_DIR}/spell/.done" ]; then
-    (
-      cd "${NVIM_CONFIG_DIR}/spell"
-      wget -N -nv ftp://ftp.vim.org/pub/vim/runtime/spell/en.* --timeout=5 || exit 1
-      wget -N -nv ftp://ftp.vim.org/pub/vim/runtime/spell/pt.* --timeout=5 || exit 1
-      touch .done
-    )
   fi
 }
 
