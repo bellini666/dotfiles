@@ -30,3 +30,4 @@ Critical review of staged changes before committing.
 2. **Security**: SQL injection, XSS, CSRF, auth issues
 3. **Quality**: Duplicated code, complexity, naming
 4. **Performance**: N+1 queries, inefficient algorithms
+5. **Conventions**: Verify new code matches existing patterns (function vs class tests, package manager, import style)

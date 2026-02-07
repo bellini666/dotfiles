@@ -1,6 +1,6 @@
 ---
 name: systematic-debugging
-description: Four-phase debugging methodology with root cause analysis. Use when investigating bugs, fixing test failures, or troubleshooting unexpected behavior. Emphasizes NO FIXES WITHOUT ROOT CAUSE FIRST.
+description: Four-phase debugging methodology with root cause analysis. Use when investigating bugs, fixing test failures, troubleshooting unexpected behavior, "fix CI", or "pipeline failure". Emphasizes NO FIXES WITHOUT ROOT CAUSE FIRST.
 ---
 
 # Systematic Debugging
@@ -22,6 +22,7 @@ Before touching any code:
 3. **Examine recent changes** - What changed before this started failing?
 4. **Gather diagnostic evidence** - Logs, stack traces, state dumps
 5. **Trace data flow** - Follow the call chain to find where bad values originate
+6. **Timebox** - Spend ~5 minutes max investigating, then form a hypothesis and proceed to Phase 3
 
 **Root Cause Tracing Technique:**
 
@@ -34,6 +35,12 @@ Before touching any code:
 ```
 
 **Key principle:** Never fix problems solely where errors appear—always trace to the original trigger.
+
+### Scope Guards
+
+- Investigate only the failing component — don't trace into unrelated services or modules
+- When a test fails, assume the test is correct until proven otherwise
+- Don't explore "the full architecture" — focus on the specific failure path
 
 ### Phase 2: Pattern Analysis
 
@@ -72,6 +79,9 @@ Stop immediately if you catch yourself thinking:
 - "This should work" (without understanding why)
 - "Let me just try..." (without hypothesis)
 - "It works on my machine" (without investigating difference)
+- "Let me adjust the test to match the new behavior"
+- "Let me check this other service/stage too"
+- "Let me understand the full architecture first"
 
 ## Warning Signs of Deeper Problems
 

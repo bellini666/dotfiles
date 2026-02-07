@@ -30,3 +30,4 @@ Execute project tests, analyze failures, and propose fixes.
 - Reports test failures with context
 - Analyzes root causes and proposes fixes
 - Applies fixes after confirmation and re-runs tests
+- When tests fail, fix the code under test, not the test expectations — tests are the spec
