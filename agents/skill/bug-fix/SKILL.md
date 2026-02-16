@@ -7,7 +7,7 @@ description: Fix bugs from error reports (Sentry, logs, user reports). Use when 
 
 ## Core Principle
 
-**Write a failing test that reproduces the real bug before writing any fix.**
+Follow the test philosophy from AGENTS.md. Write a failing test that reproduces the real bug before writing any fix.
 
 ## Workflow
 
@@ -41,11 +41,10 @@ A reproduction test must satisfy ALL of these:
 
 ## Anti-Patterns
 
-Stop immediately if you're about to:
+Stop immediately if you're about to violate rules from AGENTS.md (weakening assertions, adding Optional, bypassing type checks) or:
 
 - **Write a synthetic test** that doesn't match the real failure scenario
 - **Mock the buggy function** so the test "passes" — you're testing the mock
-- **Make a field Optional** to avoid a type error — find why it's None
 - **Skip the reproduction test** and go straight to fixing — you won't know if the fix works
 - **Broaden scope** — fix only the reported bug, nothing else
 

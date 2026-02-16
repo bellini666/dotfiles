@@ -7,7 +7,7 @@ description: Fix CI pipeline failures. Use when the user says "fix CI", "pipelin
 
 ## Core Principle
 
-**CI failures mean the code is wrong, not the tests or CI config.**
+Follow the test philosophy from AGENTS.md — CI failures mean the code is wrong, not the tests or CI config.
 
 ## Workflow
 

@@ -7,8 +7,8 @@ description: This skill should be used when the user asks to "write tests", "add
 
 ## Test Philosophy
 
-- **Tests are the spec** — if a test fails, the code under test is wrong. Never change assertions to make tests pass.
-- **Reproduce real bugs** — use actual input data and real code paths. Avoid synthetic mocks that just mirror the implementation.
+Follow the test philosophy from AGENTS.md. Additionally:
+
 - **Match test style** — detect whether the project uses function-based or class-based tests and follow that pattern exactly.
 
 ## Rules
@@ -48,9 +48,4 @@ Examples:
 
 ## Red Flags
 
-Stop immediately if you catch yourself doing any of these:
-
-- "Adjust the assertion to match the new behavior" — the test is the spec, fix the code
-- "Add `Optional` so the test passes" — find the real source of `None`
-- "Mock returns the expected value so the test passes" — you're testing the mock, not the code
-- "Change test data to avoid the error" — the error is what you should be fixing
+Stop immediately if you're violating the test philosophy or type integrity rules from AGENTS.md — e.g., weakening assertions, adding Optional to silence errors, or mocking away the code under test.
