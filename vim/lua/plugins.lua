@@ -490,13 +490,9 @@ return {
   {
     "kylechui/nvim-surround",
     event = "BufReadPost",
-    opts = {
-      keymaps = {
-        -- disable conflicting keymaps
-        normal_cur = false,
-        normal_line = false,
-        normal_cur_line = false,
-      },
-    },
+    init = function()
+      vim.g.nvim_surround_no_normal_mappings = true
+    end,
+    opts = {},
   },
 }

@@ -261,6 +261,13 @@ wk.add({
     { "<C-Up>", "15<C-y>", desc = "Up 1 page" },
     { "<esc>", "<cmd>noh<cr><esc>", desc = "Clear" },
   },
+  {
+    group = "Surround",
+    { "ys", "<Plug>(nvim-surround-normal)", desc = "Surround" },
+    { "ds", "<Plug>(nvim-surround-delete)", desc = "Delete surround" },
+    { "cs", "<Plug>(nvim-surround-change)", desc = "Change surround" },
+    { "cS", "<Plug>(nvim-surround-change-line)", desc = "Change surround (line)" },
+  },
 })
 
 M.setup_lsp = function(ev)
