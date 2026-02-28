@@ -18,6 +18,15 @@
             "command": "node ~/.dotfiles/agents/hooks/pre-tool-use/protect-secrets.js"
           }
         ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash ~/.dotfiles/agents/hooks/pre-tool-use/rtk-rewrite.sh"
+          }
+        ]
       }
     ]
   },
