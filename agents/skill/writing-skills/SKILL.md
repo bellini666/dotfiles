@@ -1,5 +1,5 @@
 ---
-name: skill-development
+name: writing-skills
 description: This skill should be used when the user wants to "create a skill", "add a skill", "write a new skill", "create a skill for opencode", "create a skill for claude", "improve skill description", "organize skill content", or needs guidance on skill structure, progressive disclosure, or skill development best practices for OpenCode or Claude Code.
 ---
 

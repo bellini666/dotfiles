@@ -1,5 +1,5 @@
 ---
-name: testing
+name: writing-tests
 description: This skill should be used when the user asks to "write tests", "add tests", "create test cases", "fix failing tests", or when implementing tests as part of a feature or bug fix task.
 ---
 

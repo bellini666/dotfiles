@@ -1,5 +1,5 @@
 ---
-name: systematic-debugging
+name: debugging
 description: Four-phase debugging methodology with root cause analysis. Use when investigating bugs, fixing test failures, troubleshooting unexpected behavior, "fix CI", or "pipeline failure". Emphasizes NO FIXES WITHOUT ROOT CAUSE FIRST.
 ---
 
@@ -157,6 +157,7 @@ Signs you're doing it right:
 - Similar bugs don't recur
 - Code is better after the fix, not just "working"
 
-## Integration with Other Skills
+## Integration
 
-- **testing-patterns**: Create test that reproduces the bug before fixing
+- Use **/fix** command for end-to-end bug fix workflow
+- Use **writing-tests** for test patterns and conventions
