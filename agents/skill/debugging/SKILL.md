@@ -1,6 +1,6 @@
 ---
 name: debugging
-description: Four-phase debugging methodology with root cause analysis. Use when investigating bugs, fixing test failures, troubleshooting unexpected behavior, "fix CI", or "pipeline failure". Emphasizes NO FIXES WITHOUT ROOT CAUSE FIRST.
+description: "This skill should be used when the user asks to 'debug this', 'fix this bug', 'why is this broken', 'fix CI', 'pipeline failure', 'fix failing tests', 'investigate this error', 'not working', or when troubleshooting unexpected behavior, exceptions, or runtime errors."
 ---
 
 # Systematic Debugging
@@ -18,7 +18,7 @@ Never apply symptom-focused patches that mask underlying problems. Understand WH
 Before touching any code:
 
 1. **Read error messages thoroughly** - Every word matters
-2. **Reproduce the issue consistently** - If you can't reproduce it, you can't verify a fix
+2. **Reproduce the issue consistently** - Without reproduction, verification is impossible
 3. **Examine recent changes** - What changed before this started failing?
 4. **Gather diagnostic evidence** - Logs, stack traces, state dumps
 5. **Trace data flow** - Follow the call chain to find where bad values originate
@@ -72,7 +72,7 @@ Apply the scientific method:
 
 ## Red Flags - Process Violations
 
-Stop immediately if you catch yourself thinking:
+Red flags to watch for:
 
 - "Quick fix for now, investigate later"
 - "One more fix attempt" (after multiple failures)
@@ -96,42 +96,31 @@ Stop immediately if you catch yourself thinking:
 
 ### Test Failures
 
-```
-1. Read the FULL error message and stack trace
-2. Identify which assertion failed and why
-3. Check test setup - is the test environment correct?
-4. Check test data - are mocks/fixtures correct?
-5. Trace to the source of unexpected value
-```
+Start by reading the FULL error message and stack trace — every word matters, especially the assertion diff and the specific line that failed. Identify which assertion failed and what the actual vs expected values were. Often the assertion message alone points to the root cause.
+
+Next, verify the test environment: check that fixtures are returning the expected data, mocks are configured correctly, and any database state or factory setup matches what the test assumes. A common pitfall is a fixture that was modified for another test, silently breaking downstream tests.
+
+Finally, trace the unexpected value backward through the code. If the test expected `200` but got `403`, don't just check the view — trace through middleware, authentication, and permissions to find where the request gets rejected.
 
 ### Runtime Errors
 
-```
-1. Capture the full stack trace
-2. Identify the line that throws
-3. Check what values are undefined/null
-4. Trace backward to find where bad value originated
-5. Add validation at the source
-```
+Capture the full stack trace and identify the exact line that throws. Check what values are `None`, undefined, or otherwise unexpected at the point of failure.
+
+Trace backward from the crash site: where was the bad value assigned? Where was it passed from? Follow the chain until you find the original source — this is where the fix belongs. Never add a `None` check at the crash site as a band-aid; fix the code that produced the `None` in the first place.
 
 ### "It worked before"
 
-```
-1. Use git bisect to find the breaking commit
-2. Compare the change with previous working version
-3. Identify what assumption changed
-4. Fix at the source of the assumption violation
-```
+Use `git bisect` (or `jj` equivalent) to find the breaking commit. This is faster than guessing — even a 1,000-commit range narrows to the culprit in ~10 steps.
+
+Compare the breaking change with the previous working version. The bug is in the difference between the two. Identify what assumption changed (API contract, data shape, configuration default) and fix at the source of the assumption violation, not at the symptom.
 
 ### Intermittent Failures
 
-```
-1. Look for race conditions
-2. Check for shared mutable state
-3. Examine async operation ordering
-4. Look for timing dependencies
-5. Add deterministic waits or proper synchronization
-```
+Intermittent failures almost always stem from one of four causes: race conditions, shared mutable state, async ordering assumptions, or timing dependencies. Investigate in that order.
+
+Look for shared state between tests (class variables, module-level caches, database rows not cleaned up). Check for async operations that assume execution order. Examine whether tests depend on wall-clock time or external service availability.
+
+Fix with deterministic synchronization (locks, barriers, proper `await`) rather than `sleep()` — sleep-based fixes are fragile and slow down the test suite.
 
 ## Debugging Checklist
 
@@ -150,10 +139,10 @@ Before claiming a bug is fixed:
 
 Systematic debugging achieves ~95% first-time fix rate vs ~40% with ad-hoc approaches.
 
-Signs you're doing it right:
+Signs of effective debugging:
 
 - Fixes don't create new bugs
-- You can explain WHY the bug occurred
+- The root cause can be clearly explained
 - Similar bugs don't recur
 - Code is better after the fix, not just "working"
 

@@ -1,6 +1,6 @@
 ---
 name: jujutsu
-description: This skill should be used when working in a repository that uses jujutsu (jj) for version control, when the user mentions "jj", "jujutsu", asks about "jj commands"
+description: "This skill should be used when working in a repository that uses jujutsu (jj) for version control, when the user mentions 'jj', 'jujutsu', asks about 'jj commands', 'jj bookmark', 'jj rebase', 'change ID', 'revset', 'jj push', or version control operations in a jj-managed repository."
 ---
 
 # Jujutsu (jj) for Agents

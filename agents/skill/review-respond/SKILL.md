@@ -1,6 +1,6 @@
 ---
 name: review-respond
-description: This skill should be used when the user asks to "address review comments", "respond to review", "reply to reviews", "fix review feedback", "mark as fixed", "resolve review comments", "reply to copilot", "reply to sourcery", or needs to apply changes, reply to, or resolve PR/MR review comments.
+description: "This skill should be used when the user asks to 'address review comments', 'respond to review', 'reply to reviews', 'fix review feedback', 'handle PR feedback', 'address code review', 'review suggestions', 'mark as fixed', 'resolve review comments', 'reply to copilot', 'reply to sourcery', or needs to apply changes, reply to, or resolve PR/MR review comments."
 ---
 
 # Review Response
@@ -79,9 +79,27 @@ gh api graphql -f query='
 '
 ```
 
-### GitLab equivalent
+### Handling Bot Reviews (Copilot, Sourcery, CodeRabbit)
 
-Use `glab` CLI for GitLab MRs — `glab mr view`, `glab mr note`, etc.
+Automated review tools tend to flag style, pattern, and convention suggestions rather than logic bugs. Batch-address their comments — apply the ones that align with the project's existing style, and dismiss the rest with a brief rationale (e.g., "Intentional — matches existing pattern in this module"). Do not blindly apply every bot suggestion; evaluate each against the codebase's actual conventions.
+
+### GitLab Equivalent
+
+Use `glab` CLI for GitLab MRs:
+
+```bash
+glab mr view <MR_NUMBER>                          # View MR details and comments
+glab mr note <MR_NUMBER> -m "Reply message"       # Add a comment/reply
+glab mr update <MR_NUMBER> --ready                 # Mark MR as ready
+glab api projects/:id/merge_requests/:iid/notes    # List all MR notes via API
+```
+
+For thread-level replies on GitLab, use the API to reply to a specific discussion:
+
+```bash
+glab api projects/:id/merge_requests/:iid/discussions/:discussion_id/notes \
+  -X POST -f body="Reply message"
+```
 
 ## Scope Rules
 
