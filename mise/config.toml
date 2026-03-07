@@ -29,6 +29,8 @@ CLAUDE_CONFIG_DIR = "{{env.HOME}}/.claude"
 [tools]
 # tools (version-sensitive or not in brew/apt)
 actionlint = 'latest'
+aws-cli = 'latest'
+aws-sso = 'latest'
 argocd = 'latest'
 biome = 'latest'
 copier = 'latest'
