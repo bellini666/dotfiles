@@ -23,6 +23,7 @@ Applies to any agent or CLI unless explicitly overridden by tool defaults.
 - Imperative mood, <72 chars
 - Do not add Co-Authored-By trailers
 - NEVER run `git clean` — repositories contain globally gitignored personal files that must be preserved
+- NEVER add "Generated with Claude Code", "Created by Claude Code", or similar AI attribution footers to PR/MR descriptions or comments
 
 ## Tool Preferences
 
@@ -35,6 +36,7 @@ Applies to any agent or CLI unless explicitly overridden by tool defaults.
 - Never change test expectations to make them pass; fix the code under test
 - Write reproduction tests using real inputs and actual code paths, not synthetic mocks that mirror implementation
 - Never dismiss a failing test as "pre-existing" or unrelated — the main branch is always green. If a test fails, your changes caused it, even if you didn't touch that test directly. Find the connection and fix it.
+- The main/master branch is always green unless the user explicitly tells you otherwise. Any test failure after your changes is caused by your changes — trace the connection and fix it.
 - When fixing failing tests, fix code or test setup/parameters — NEVER weaken assertions, bump expected query counts, or make required fields Optional to silence type errors
 - If test expects N queries, fix N+1 with select_related/prefetch_related — don't increment the count
 
