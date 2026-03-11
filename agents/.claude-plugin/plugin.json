@@ -1,0 +1,6 @@
+{
+  "name": "bellini-dotfiles",
+  "description": "Personal skills, commands, and hooks for development workflows",
+  "version": "1.0.0",
+  "author": { "name": "bellini" }
+}

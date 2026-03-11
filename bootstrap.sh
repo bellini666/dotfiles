@@ -122,27 +122,14 @@ function _symlinks {
 
 function _agents {
   info "updating agents"
-
   local opencode_dir="${HOME}/.config/opencode"
-  local claude_dir="${HOME}/.claude"
+  create_symlink "${BASE_DIR}/agents/skills" "${opencode_dir}/skills"
+  create_symlink "${BASE_DIR}/agents/commands" "${opencode_dir}/commands"
 
-  for group in "skill:skills" "commands:commands"; do
-    src="${BASE_DIR}/agents/${group%%:*}"
-    dir_name="${group##*:}"
-
-    if [ -d "${src}" ]; then
-      for base in "${opencode_dir}" "${claude_dir}"; do
-        dest="${base}/${dir_name}"
-        mkdir -p "${dest}"
-
-        for path in "${src}"/*; do
-          [ -e "${path}" ] || continue
-          name=$(basename "${path}")
-          create_symlink "${path}" "${dest}/${name}"
-        done
-      done
-    fi
-  done
+  download_file \
+    "${BASE_DIR}/agents/hooks/pre-tool-use/rtk-rewrite.sh" \
+    https://raw.githubusercontent.com/rtk-ai/rtk/refs/tags/latest/hooks/rtk-rewrite.sh
+  chmod +x "${BASE_DIR}/agents/hooks/pre-tool-use/rtk-rewrite.sh"
 }
 
 function _mise {

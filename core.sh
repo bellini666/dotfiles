@@ -118,6 +118,10 @@ function vi() {
   nvim "${@}"
 }
 
+function claude() {
+  command claude --plugin-dir "${DOTFILES_DIR}/agents" "${@}"
+}
+
 function opencode() {
   XDG_DATA_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}${XDG_DATA_EXTRA:-}" npx opencode-ai@latest "${@}"
 }

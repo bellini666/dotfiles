@@ -1,35 +1,4 @@
 {
-  "hooks": {
-    "PreToolUse": [
-      {
-        "matcher": "Bash",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "node ~/.dotfiles/agents/hooks/pre-tool-use/block-dangerous-commands.js"
-          }
-        ]
-      },
-      {
-        "matcher": "Read|Edit|Write|Bash",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "node ~/.dotfiles/agents/hooks/pre-tool-use/protect-secrets.js"
-          }
-        ]
-      },
-      {
-        "matcher": "Bash",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "bash ~/.dotfiles/agents/hooks/pre-tool-use/rtk-rewrite.sh"
-          }
-        ]
-      }
-    ]
-  },
   "statusLine": {
     "type": "command",
     "command": "ccstatusline"
@@ -48,7 +17,8 @@
       "source": {
         "source": "github",
         "repo": "anthropics/skills"
-      }
+      },
+      "autoUpdate": true
     }
   },
   "skipDangerousModePermissionPrompt": true
