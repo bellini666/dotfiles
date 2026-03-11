@@ -13,7 +13,7 @@ Applies to any agent or CLI unless explicitly overridden by tool defaults.
 - Ask only when blocked or when ambiguity changes behavior.
 - Follow existing code style and conventions.
 - Go easy on comments; code should be self-explanatory.
-- Always use Context7 MCP when in need of library/API documentation, code generation, setup or configuration steps. If Context7 returns no results, seems outdated, or is unavailable, fall back to up-to-date online documentation via web search.
+- Prefer Context7 MCP for unfamiliar or recently-updated library docs. Fall back to web search if Context7 returns nothing useful.
 - NEVER commit, push to remote, call mutating APIs, or install anything without explicit permission.
 - NEVER run commands that modify system state or install dependencies without explicit permission.
 
@@ -35,10 +35,8 @@ Applies to any agent or CLI unless explicitly overridden by tool defaults.
 - Tests are the spec — if a test fails, the code is wrong, not the test (unless actively refactoring the tested code)
 - Never change test expectations to make them pass; fix the code under test
 - Write reproduction tests using real inputs and actual code paths, not synthetic mocks that mirror implementation
-- Never dismiss a failing test as "pre-existing" or unrelated — the main branch is always green. If a test fails, your changes caused it, even if you didn't touch that test directly. Find the connection and fix it.
-- The main/master branch is always green unless the user explicitly tells you otherwise. Any test failure after your changes is caused by your changes — trace the connection and fix it.
+- The main/master branch is always green. If a test fails after your changes, your changes caused it — trace the connection and fix it, even if you didn't touch that test directly.
 - When fixing failing tests, fix code or test setup/parameters — NEVER weaken assertions, bump expected query counts, or make required fields Optional to silence type errors
-- If test expects N queries, fix N+1 with select_related/prefetch_related — don't increment the count
 
 ## Approach Methodology
 
@@ -60,12 +58,18 @@ Applies to any agent or CLI unless explicitly overridden by tool defaults.
 
 - Thread parameters correctly — never pass the same value for semantically distinct parameters
 - Never make fields Optional just to silence type errors; find the real source of the None
-- Never add `type: ignore`, `noqa`, or `# pragma: no cover` to bypass checks — fix the underlying issue
+- Never add linter/type-checker suppression comments to bypass checks — fix the underlying issue
 
 ## Environment Detection
 
-- Check pyproject.toml for package manager before running commands: look for [tool.poetry] (→ poetry), uv.lock (→ uv), or neither (→ pip/pytest directly)
 - For configuration: check existing config patterns in the repo (e.g., .env, settings files) before inventing new ones
+
+## Python Projects
+
+When the project uses Python:
+
+- Check pyproject.toml for package manager: [tool.poetry] (→ poetry), uv.lock (→ uv), or neither (→ pip/pytest)
+- Fix N+1 queries with select_related/prefetch_related — don't simply bump expected query counts
 
 ## Verification Loop
 
