@@ -118,12 +118,14 @@ function vi() {
   nvim "${@}"
 }
 
+SANDBOX_SCRIPT="${HOME}/.config/sandbox-exec/run-sandboxed.sh"
+
 function claude() {
-  command claude --plugin-dir "${DOTFILES_DIR}/agents" "${@}"
+  "${SANDBOX_SCRIPT}" command claude --plugin-dir "${DOTFILES_DIR}/agents" "${@}"
 }
 
 function opencode() {
-  XDG_DATA_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}${XDG_DATA_EXTRA:-}" npx opencode-ai@latest "${@}"
+  "${SANDBOX_SCRIPT}" env XDG_DATA_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}${XDG_DATA_EXTRA:-}" npx opencode-ai@latest "${@}"
 }
 
 export _DEFAULTS_SOURCED="1"

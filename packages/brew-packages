@@ -17,6 +17,7 @@ docker-credential-helper
 docker-credential-helper-ecr
 doctl
 duf
+eugene1g/safehouse/agent-safehouse
 eza
 fd
 ffmpegthumbnailer

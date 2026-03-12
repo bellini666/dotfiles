@@ -49,6 +49,8 @@ SYMLINKS=(
   "${BASE_DIR}/vim ${HOME}/.config/nvim"
   "${BASE_DIR}/zsh/zsh_plugins.txt ${HOME}/.zsh_plugins.txt"
   "${BASE_DIR}/zsh/zshrc ${HOME}/.zshrc"
+  "${BASE_DIR}/sandbox/agent.sb ${HOME}/.config/sandbox-exec/agent.sb"
+  "${BASE_DIR}/sandbox/run-sandboxed.sh ${HOME}/.config/sandbox-exec/run-sandboxed.sh"
 )
 
 [ -d "${BASE_DIR}" ] || exit 1
@@ -58,6 +60,7 @@ mkdir -p "${FONTS_DIR}"
 mkdir -p "${MISE_CONFIG_DIR}"
 mkdir -p "${BUILD_DIR}"
 mkdir -p "${HOME}/.config/opencode"
+mkdir -p "${HOME}/.config/sandbox-exec"
 mkdir -p "${HOME}/.config/ccstatusline"
 mkdir -p "${HOME}/.claude"
 
