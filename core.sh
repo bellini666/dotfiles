@@ -118,14 +118,22 @@ function vi() {
   nvim "${@}"
 }
 
-SANDBOX_SCRIPT="${HOME}/.config/sandbox-exec/run-sandboxed.sh"
+export SAFEHOUSE_ADD_DIRS="${HOME}/dev:${HOME}/Downloads"
+export SAFEHOUSE_ADD_DIRS_RO="${HOME}/Library/Caches/Homebrew"
+export SAFEHOUSE_TRUST_WORKDIR_CONFIG=1
+
+SAFEHOUSE_ENABLE="docker,chromium-full,browser-native-messaging,ssh,shell-init,all-agents"
+
+function safe() {
+  safehouse --enable="${SAFEHOUSE_ENABLE}" --env -- "${@}"
+}
 
 function claude() {
-  "${SANDBOX_SCRIPT}" command claude --plugin-dir "${DOTFILES_DIR}/agents" "${@}"
+  safe claude --dangerously-skip-permissions --plugin-dir "${DOTFILES_DIR}/agents" "${@}"
 }
 
 function opencode() {
-  "${SANDBOX_SCRIPT}" env XDG_DATA_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}${XDG_DATA_EXTRA:-}" npx opencode-ai@latest "${@}"
+  safe npx opencode-ai@latest "${@}"
 }
 
 export _DEFAULTS_SOURCED="1"
