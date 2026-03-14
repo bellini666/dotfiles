@@ -118,8 +118,8 @@ function vi() {
   nvim "${@}"
 }
 
-export SAFEHOUSE_ADD_DIRS="${HOME}/dev:${HOME}/Downloads"
-export SAFEHOUSE_ADD_DIRS_RO="${HOME}/Library/Caches/Homebrew"
+export SAFEHOUSE_ADD_DIRS="${HOME}/dev:${HOME}/Downloads:${HOME}/.cache"
+export SAFEHOUSE_ADD_DIRS_RO="${HOME}/Library/Caches/Homebrew:${HOME}/.gitconfig:${HOME}/.gitignore:${HOME}/.gitattributes:${HOME}/.npmrc:${HOME}/.dotfiles"
 export SAFEHOUSE_TRUST_WORKDIR_CONFIG=1
 
 SAFEHOUSE_ENABLE="docker,chromium-full,browser-native-messaging,ssh,shell-init,all-agents"
