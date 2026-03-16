@@ -9,7 +9,6 @@
     editor = nvim
     excludesfile = ~/.gitignore
     attributesfile = ~/.gitattributes
-    pager = delta
 
 [color]
     ui = always
