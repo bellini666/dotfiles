@@ -295,12 +295,6 @@ return {
             padding = 1,
           },
           {
-            filetype = "codecompanion",
-            text = "Code Companion",
-            separator = true,
-            padding = 1,
-          },
-          {
             filetype = "neotest-summary",
             text = "Tests",
             separator = true,
@@ -355,32 +349,6 @@ return {
     end,
   },
 
-  -- AI
-  {
-    "olimorris/codecompanion.nvim",
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-      "nvim-treesitter/nvim-treesitter",
-    },
-    opts = {
-      ignore_warnings = true,
-      strategies = {
-        chat = {
-          adapter = "opencode",
-        },
-        inline = {
-          adapter = "opencode",
-        },
-        agent = {
-          adapter = "opencode",
-        },
-        cmd = {
-          adapter = "opencode",
-        },
-      },
-    },
-  },
-
   -- Language specific
   {
     "mrcjkb/rustaceanvim",
@@ -399,7 +367,7 @@ return {
   },
   {
     "MeanderingProgrammer/render-markdown.nvim",
-    ft = { "markdown", "codecompanion" },
+    ft = { "markdown" },
   },
 
   -- Text editing
@@ -477,7 +445,6 @@ return {
         "gitrebase",
         "neo-tree",
         "neotest-summary",
-        "codecompanion",
       },
     },
   },

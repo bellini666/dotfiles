@@ -40,12 +40,11 @@ blink.setup({
     documentation = { auto_show = true },
     menu = {
       auto_show = function(ctx)
-        -- Autoshow for cmdline (except search) or codecompanion buffers
+        -- Autoshow for cmdline (except search)
         if ctx.mode == "cmdline" and not vim.tbl_contains({ "/", "?" }, vim.fn.getcmdtype()) then
           return true
         end
-        return vim.bo.filetype == "codecompanion"
-          or vim.api.nvim_buf_get_name(0):match("CodeCompanion")
+        return false
       end,
     },
   },

@@ -16,7 +16,6 @@ require("lualine").setup({
         cond = require("lazy.status").has_updates,
         color = { fg = "#ff9e64" },
       },
-      { require("components.lualine_cc") },
       {
         "lsp_status",
         symbols = {
