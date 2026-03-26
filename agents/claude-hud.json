@@ -1,0 +1,24 @@
+{
+  "lineLayout": "compact",
+  "showSeparators": false,
+  "display": {
+    "showModel": true,
+    "showContextBar": true,
+    "showTools": true,
+    "showAgents": true,
+    "showTodos": true,
+    "showProject": true,
+    "showConfigCounts": true,
+    "showTokenBreakdown": true,
+    "showSpeed": true,
+    "showUsage": true,
+    "showDuration": true,
+    "showSessionName": true
+  },
+  "gitStatus": {
+    "enabled": true,
+    "showDirty": true,
+    "showAheadBehind": false,
+    "showFileStats": false
+  }
+}

@@ -37,7 +37,6 @@ SYMLINKS=(
   "${BASE_DIR}/agents/AGENTS.md ${HOME}/.config/opencode/AGENTS.md"
   "${BASE_DIR}/agents/claude.json ${HOME}/.claude/settings.json"
   "${BASE_DIR}/agents/opencode.json ${HOME}/.config/opencode/opencode.json"
-  "${BASE_DIR}/agents/ccstatusline.json ${HOME}/.config/ccstatusline/settings.json"
   "${BASE_DIR}/ghostty ${HOME}/.config/ghostty"
   "${BASE_DIR}/git/gitattributes ${HOME}/.gitattributes"
   "${BASE_DIR}/git/gitconfig ${HOME}/.gitconfig"
@@ -58,7 +57,6 @@ mkdir -p "${FONTS_DIR}"
 mkdir -p "${MISE_CONFIG_DIR}"
 mkdir -p "${BUILD_DIR}"
 mkdir -p "${HOME}/.config/opencode"
-mkdir -p "${HOME}/.config/ccstatusline"
 mkdir -p "${HOME}/.claude"
 
 function _system {
