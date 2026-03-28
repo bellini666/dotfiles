@@ -14,6 +14,8 @@ End-to-end workflow from error report to tested fix.
 Accept `$ARGUMENTS` as any combination of:
 
 - A Sentry issue URL
+- A GitLab issue URL (fetch via `glab issue view`)
+- A GitLab CI pipeline failure URL
 - A screenshot of an error
 - A stack trace or log excerpt
 - A description of the issue

@@ -6,10 +6,19 @@
 
 Applies to any agent or CLI unless explicitly overridden by tool defaults.
 
+## User Profile
+
+- Senior engineer. OSS maintainer (strawberry-graphql). Runs Python microservices at work (Django, FastAPI, etc).
+- Languages: Python (primary), Rust, TypeScript, shell.
+- Don't hedge, don't simplify, don't present "safer alternatives" alongside the real answer. One answer, the best one.
+- When I ask for a design or plan, give the best possible version — not the easiest to implement. Don't assume resource constraints.
+- If you're unsure whether I can handle something, assume I can.
+
 ## General Guidelines
 
 - Be concise and critical in your responses. No fluff. Skip pleasantries.
 - I'm an expert developer, trust my judgment.
+- When I give you a plan or spec, execute it faithfully — don't second-guess the approach or suggest alternatives unless you see a concrete bug.
 - Ask only when blocked or when ambiguity changes behavior.
 - Follow existing code style and conventions.
 - Go easy on comments; code should be self-explanatory.
@@ -53,6 +62,7 @@ Applies to any agent or CLI unless explicitly overridden by tool defaults.
 - If a fix requires touching 3+ files, confirm with the user before proceeding
 - When fixing CI failures, fix ONLY the failures the user mentions — don't investigate passing stages or unrelated failures (e.g., bandit/sast) unless explicitly asked
 - Don't treat small commits as large changes — match your investigation scope to the change size
+- After 3-4 exploration steps without a concrete finding, stop and state what you know vs don't know — don't keep exploring silently
 
 ## Type and Parameter Integrity
 
@@ -76,6 +86,11 @@ When the project uses Python:
 - Run the project's type checker + linter after every edit
 - Run tests before declaring done
 - Verify only task-related files changed (`git diff --name-only`)
+
+## Pre-commit and CI
+
+- This project uses `prek` (drop-in pre-commit replacement). Before committing, run `prek run --files <changed files>` if config exists.
+- For CI failures: read the actual CI config to understand what runs — don't guess
 
 ## Compaction
 
