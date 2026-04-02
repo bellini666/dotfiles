@@ -126,7 +126,7 @@ function _agents {
 
   download_file \
     "${BASE_DIR}/agents/hooks/pre-tool-use/rtk-rewrite.sh" \
-    https://raw.githubusercontent.com/rtk-ai/rtk/refs/tags/latest/hooks/rtk-rewrite.sh
+    https://raw.githubusercontent.com/rtk-ai/rtk/refs/tags/latest/hooks/claude/rtk-rewrite.sh
   chmod +x "${BASE_DIR}/agents/hooks/pre-tool-use/rtk-rewrite.sh"
 }
 
@@ -183,19 +183,19 @@ function _fonts {
 
   download_file \
     "${FONTS_DIR}/codicon.ttf" \
-    https://github.com/microsoft/vscode-codicons/blob/main/dist/codicon.ttf?raw=true
+    https://unpkg.com/@vscode/codicons/dist/codicon.ttf
   download_file \
     "${FONTS_DIR}/Hack Regular Nerd Font Complete.ttf" \
-    https://github.com/ryanoasis/nerd-fonts/blob/master/patched-fonts/Hack/Regular/HackNerdFont-Regular.ttf?raw=true
+    https://raw.githubusercontent.com/ryanoasis/nerd-fonts/master/patched-fonts/Hack/Regular/HackNerdFont-Regular.ttf
   download_file \
     "${FONTS_DIR}/Inconsolata Nerd Font Complete.ttf" \
-    https://github.com/ryanoasis/nerd-fonts/blob/master/patched-fonts/Inconsolata/InconsolataNerdFont-Regular.ttf?raw=true
+    https://raw.githubusercontent.com/ryanoasis/nerd-fonts/master/patched-fonts/Inconsolata/InconsolataNerdFont-Regular.ttf
   download_file \
     "${FONTS_DIR}/Fira Code Regular Nerd Font Complete.ttf" \
-    https://github.com/ryanoasis/nerd-fonts/blob/master/patched-fonts/FiraCode/Regular/FiraCodeNerdFont-Regular.ttf?raw=true
+    https://raw.githubusercontent.com/ryanoasis/nerd-fonts/master/patched-fonts/FiraCode/Regular/FiraCodeNerdFont-Regular.ttf
   download_file \
     "${FONTS_DIR}/JetBrains Mono Nerd Font Complete.ttf" \
-    https://github.com/ryanoasis/nerd-fonts/blob/master/patched-fonts/JetBrainsMono/NoLigatures/Regular/JetBrainsMonoNLNerdFont-Regular.ttf?raw=true
+    https://raw.githubusercontent.com/ryanoasis/nerd-fonts/master/patched-fonts/JetBrainsMono/NoLigatures/Regular/JetBrainsMonoNLNerdFont-Regular.ttf
 
   if [ ${MACHINE_OS} = "Linux" ]; then
     if [ "$(gsettings get org.gnome.desktop.interface monospace-font-name)" != "'Hack Nerd Font 11'" ]; then

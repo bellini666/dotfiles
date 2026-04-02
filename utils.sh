@@ -46,7 +46,7 @@ function download_file {
   set -x
 
   TMP=$(mktemp)
-  curl -4 -sSL -o "${TMP}" "${URL}"
+  curl -4 -sSLf -o "${TMP}" "${URL}"
 
   if [ -f "${DEST}" ]; then
     OLD_MD5=$(md5sum "${DEST}" | cut -d ' ' -f 1)
@@ -72,7 +72,7 @@ function download_executable {
   set -x
 
   TMP=$(mktemp)
-  curl -4 -sSL -o "${TMP}" "${URL}"
+  curl -4 -sSLf -o "${TMP}" "${URL}"
   chmod +x "${TMP}"
 
   if [ -f "${DEST}" ]; then
