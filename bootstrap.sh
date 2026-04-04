@@ -124,10 +124,8 @@ function _agents {
   create_symlink "${BASE_DIR}/agents/skills" "${opencode_dir}/skills"
   create_symlink "${BASE_DIR}/agents/commands" "${opencode_dir}/commands"
 
-  download_file \
-    "${BASE_DIR}/agents/hooks/pre-tool-use/rtk-rewrite.sh" \
-    https://raw.githubusercontent.com/rtk-ai/rtk/refs/tags/latest/hooks/claude/rtk-rewrite.sh
-  chmod +x "${BASE_DIR}/agents/hooks/pre-tool-use/rtk-rewrite.sh"
+  rtk init -g --hook-only --auto-patch || true
+  rtk init -g --hook-only --auto-patch --opencode || true
 }
 
 function _mise {
