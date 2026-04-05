@@ -154,9 +154,31 @@ function checkBashCommand(cmd, safetyLevel = SAFETY_LEVEL) {
   return { blocked: false, pattern: null };
 }
 
+function checkGrepGlob(glob, safetyLevel = SAFETY_LEVEL) {
+  if (!glob) return { blocked: false, pattern: null };
+  const sensitiveGlobs = [
+    { level: 'critical', id: 'grep-glob-env',    regex: /^\*?\.env/i,              reason: 'Grep glob targets .env files' },
+    { level: 'critical', id: 'grep-glob-pem',    regex: /^\*?\.pem$/i,             reason: 'Grep glob targets PEM files' },
+    { level: 'critical', id: 'grep-glob-key',    regex: /^\*?\.key$/i,             reason: 'Grep glob targets key files' },
+    { level: 'high',     id: 'grep-glob-secrets', regex: /^\*?(credentials|secrets)/i, reason: 'Grep glob targets secrets files' },
+  ];
+  const threshold = LEVELS[safetyLevel] || 2;
+  for (const p of sensitiveGlobs) {
+    if (LEVELS[p.level] <= threshold && p.regex.test(glob)) {
+      return { blocked: true, pattern: p };
+    }
+  }
+  return { blocked: false, pattern: null };
+}
+
 function check(toolName, toolInput, safetyLevel = SAFETY_LEVEL) {
   if (['Read', 'Edit', 'Write'].includes(toolName)) {
     return checkFilePath(toolInput?.file_path, safetyLevel);
+  }
+  if (toolName === 'Grep') {
+    const pathResult = checkFilePath(toolInput?.path, safetyLevel);
+    if (pathResult.blocked) return pathResult;
+    return checkGrepGlob(toolInput?.glob, safetyLevel);
   }
   if (toolName === 'Bash') {
     return checkBashCommand(toolInput?.command, safetyLevel);
@@ -172,7 +194,7 @@ async function main() {
     const data = JSON.parse(input);
     const { tool_name, tool_input, session_id, cwd, permission_mode } = data;
 
-    if (!['Read', 'Edit', 'Write', 'Bash'].includes(tool_name)) {
+    if (!['Read', 'Edit', 'Write', 'Bash', 'Grep'].includes(tool_name)) {
       return console.log('{}');
     }
 
@@ -204,6 +226,6 @@ if (require.main === module) {
 } else {
   module.exports = {
     SENSITIVE_FILES, BASH_PATTERNS, ALLOWLIST, LEVELS, SAFETY_LEVEL,
-    check, checkFilePath, checkBashCommand, isAllowlisted,
+    check, checkFilePath, checkBashCommand, checkGrepGlob, isAllowlisted,
   };
 }
