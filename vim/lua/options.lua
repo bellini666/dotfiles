@@ -44,7 +44,7 @@ vim.opt.matchpairs:append("<:>")
 vim.opt.formatoptions:append("1o")
 vim.opt.whichwrap:append("<,>,[,],~")
 vim.opt.shortmess:append("a")
-vim.o.completeopt = "menu,menuone,noselect"
+vim.o.completeopt = "menu,menuone,noselect,popup"
 vim.opt.fillchars = {
   foldopen = "",
   foldclose = "",
