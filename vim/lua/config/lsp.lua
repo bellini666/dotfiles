@@ -1,6 +1,5 @@
 local augroup_lspattach = vim.api.nvim_create_augroup("_my_lsp_attach", { clear = true })
 local augroup_formatting = vim.api.nvim_create_augroup("my_lsp_formatting", {})
-local augroup_codelens = vim.api.nvim_create_augroup("_my_lsp_codelens", {})
 
 local excluded_paths = {
   "lib/python%d.%d+/site-packages/",
@@ -70,17 +69,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
       })
     end
 
-    if client.server_capabilities.codeLensProvider then
-      vim.api.nvim_clear_autocmds({ group = augroup_codelens, buffer = bufnr })
-      vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "InsertLeave" }, {
-        buffer = bufnr,
-        callback = function()
-          vim.lsp.codelens.refresh({ bufnr = bufnr })
-        end,
-        group = augroup_codelens,
-      })
-    end
-
     require("mappings").setup_lsp(args)
   end,
 })
@@ -97,6 +85,8 @@ vim.lsp.util.open_floating_preview = _my_open_floating_preview
 vim.lsp.config("*", {
   capabilities = require("blink.cmp").get_lsp_capabilities({}, true),
 })
+
+vim.lsp.codelens.enable(true)
 
 local servers = {
   "autotools_ls", -- https://github.com/Freed-Wu/autotools-language-server
