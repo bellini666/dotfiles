@@ -22,3 +22,6 @@ keybind = alt+right=unbind
 keybind = alt+left=unbind
 
 shell-integration-features = ssh-terminfo,ssh-env,cursor,sudo,title
+
+auto-update = check
+auto-update-channel = tip
