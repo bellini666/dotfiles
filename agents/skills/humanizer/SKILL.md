@@ -25,8 +25,18 @@ Apply before submitting, not only when explicitly asked to "humanize". Skip for:
 1. **Scan** the input for the patterns in the checklist below.
 2. **Rewrite** problematic sections, preserving the core message and the intended tone (formal, casual, technical).
 3. **Add soul.** Removing AI-isms is half the job; the other half is injecting actual personality. Sterile, voiceless writing is just as obvious as slop.
-4. **Audit.** Ask: "What makes the rewritten text still obviously AI-generated?" Answer briefly with remaining tells, then revise once more.
-5. **Output** a final version. Optionally include a short summary of changes if it helps the user.
+4. **Run Quick Checks.** Walk through the short pre-flight list below and fix anything that fires.
+5. **Audit with the rubric.** Score the draft 1-10 on each of the five dimensions below. If the total is under 35/50, revise.
+
+   | Dimension    | Question                            |
+   | ------------ | ----------------------------------- |
+   | Directness   | States things, or announces them?   |
+   | Rhythm       | Varied, or metronomic?              |
+   | Trust        | Respects the reader's intelligence? |
+   | Authenticity | Sounds like a person?               |
+   | Density      | Anything cuttable?                  |
+
+6. **Output** a final version. Optionally include a short summary of changes if it helps the user.
 
 ## Voice Calibration (Optional)
 
@@ -76,6 +86,23 @@ Avoiding AI patterns is only half the job. Sterile, voiceless writing is just as
 
 > I genuinely don't know how to feel about this one. 3 million lines of code, generated while the humans presumably slept. Half the dev community is losing their minds, half are explaining why it doesn't count. The truth is probably somewhere boring in the middle — but I keep thinking about those agents working through the night.
 
+## Quick Checks
+
+Run this short pre-flight before submitting any prose. It catches the most common tells without scanning the full pattern catalog.
+
+- Any em dash? Replace with comma, period, or parentheses.
+- Any sentence starts with What/When/Where/Which/Who/Why/How as a setup ("What makes this hard is…")? Restructure.
+- Any "Here's what / Here's the thing / The truth is" throat-clearing? Cut to the point.
+- Any "Not X, it's Y" or "It's not just X, it's Y" contrast? State Y directly.
+- Any inanimate noun doing a human verb ("the decision emerges", "the data tells us")? Name the actor.
+- Any passive voice or subjectless fragment ("results are preserved automatically")? Find the actor and use active voice.
+- Any vague declarative ("the implications are significant", "the stakes are high")? Name the specific implication or cut it.
+- Any narrator-from-a-distance line ("Nobody designed this", "People tend to…")? Put the reader in the scene.
+- Any adverb crutch (really, just, literally, genuinely, simply, deeply, truly, fundamentally)? Strip on first pass; add back only ones that change meaning.
+- Three consecutive sentences the same length? Break one.
+- Paragraph ends on a punchy one-liner? Vary it.
+- Any sentence that sounds like a pull-quote? Rewrite it.
+
 ## Pattern Checklist
 
 Each item names a pattern, gives a single watch-word or signal, and a one-line correction. For full before/after examples, consult `references/patterns.md`.
@@ -91,7 +118,7 @@ Each item names a pattern, gives a single watch-word or signal, and a one-line c
 
 ### Language and grammar patterns
 
-7. **AI vocabulary clusters** — _additionally, align with, bolstered, crucial, delve, emphasizing, enduring, enhance, fostering, garner, highlight (v.), interplay, intricate, key (adj.), landscape, meticulous, pivotal, robust, showcase, tapestry, testament, underscore, valuable, vibrant._ One is fine; clusters are tells.
+7. **AI vocabulary clusters** — _additionally, align with, bolstered, crucial, delve, emphasizing, enduring, enhance, fostering, garner, highlight (v.), interplay, intricate, key (adj.), landscape, meticulous, pivotal, robust, showcase, tapestry, testament, underscore, valuable, vibrant._ One is fine; clusters are tells. Same goes for adverb crutches: _really, just, literally, genuinely, honestly, simply, deeply, truly, fundamentally, inherently, inevitably._
 8. **Copula avoidance** — _"serves as", "stands as", "boasts", "features"_ → use "is" / "are" / "has".
 9. **Negative parallelisms** — three sub-cases:
    - "Not just X, but Y" / "It's not merely X, it's Y" → state Y directly.
@@ -119,14 +146,21 @@ Each item names a pattern, gives a single watch-word or signal, and a one-line c
 
 ### Filler and hedging
 
-23. **Filler phrases** — _"in order to" → "to"; "due to the fact that" → "because"; "at this point in time" → "now"; "has the ability to" → "can"; "it is important to note that" → drop._
+23. **Filler phrases and business jargon** — _"in order to" → "to"; "due to the fact that" → "because"; "has the ability to" → "can"; "navigate" → "handle"; "lean into" → "accept"; "circle back" → "return to"; "deep dive" → "analysis"; "moving forward" → "next"; "at the end of the day" → drop._
 24. **Excessive hedging** — _"could potentially possibly might"_ → pick one modal or state plainly.
 25. **Generic positive conclusions** — _"the future looks bright", "exciting times lie ahead"_ → end on a concrete fact or stop.
 26. **Hyphenated compound modifier overuse** — _cross-functional, data-driven, decision-making, well-known, real-time, end-to-end_ used uniformly → vary or drop the hyphen for common pairs.
 27. **Persuasive authority tropes** — _"the real question is", "at its core", "fundamentally"_ → state the point without ceremony.
-28. **Signposting** — _"Let's dive in", "Here's what you need to know"_ → just start.
+28. **Signposting and meta-commentary** — _"Let's dive in", "Here's what you need to know", "Plot twist:", "Spoiler:", "Let me walk you through…", "The rest of this essay…"_ → just start. Do not narrate the structure of the piece.
 29. **Fragmented headers** — heading + one-line restating paragraph → delete the warm-up sentence.
 30. **Verbose PR / MR / commit descriptions** — full templates ("Summary / Changes / Test Plan / Future Work") applied to small changes; commit bodies that re-narrate the diff → state only the _why_ and any non-obvious context. Trust the diff for the _what_.
+
+### Voice and agency patterns
+
+31. **False agency** — _"the decision emerges", "the data tells us", "the culture shifts", "the conversation moves toward"_ → name the actor. Decisions do not emerge; people decide.
+32. **Narrator-from-a-distance** — _"Nobody designed this", "People tend to…", "This happens because…"_ → put the reader in the scene; "you" beats "people".
+33. **Telling instead of showing** — _"This is genuinely hard", "The stakes are high", "This actually matters"_ → name the specific hard or important thing or cut the sentence.
+34. **Performative emphasis** — _"I promise", "trust me", "creeps in"_ → cut. Earnestness does not survive being announced.
 
 ## Output Format
 
@@ -144,3 +178,4 @@ When applying proactively (drafting a PR description, changelog, etc.), skip the
 - `references/patterns.md` — full before/after examples for every pattern, plus the new vocabulary clusters.
 - `references/full-example.md` — long worked example covering most patterns at once.
 - Source: [Wikipedia: Signs of AI writing](https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing). Wikipedia-platform-specific patterns (markup, citation, AFC drafts, wikilawyering) are intentionally omitted from this skill.
+- The Quick Checks section, the 5-dimension scoring rubric, and patterns 31–34 (false agency, narrator-from-a-distance, telling-instead-of-showing, performative emphasis) are adapted from [hardikpandya/stop-slop](https://github.com/hardikpandya/stop-slop) (MIT).

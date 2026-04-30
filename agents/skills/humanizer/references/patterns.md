@@ -100,6 +100,8 @@ This file contains the full pattern catalog with before/after examples. SKILL.md
 
 **High-frequency AI words:** actually, additionally, align with, bolstered, crucial, delve, emphasizing, enduring, enhance, fostering, garner, highlight (verb), interplay, intricate/intricacies, key (adjective), landscape (abstract noun), meticulous, pivotal, robust, showcase, tapestry (abstract noun), testament, underscore (verb), valuable, vibrant
 
+**Adverb crutches (a tighter sub-cluster):** really, just, literally, genuinely, honestly, simply, deeply, truly, fundamentally, inherently, inevitably, interestingly, importantly, crucially. Adverbs are not banned outright, but in AI text they almost always carry no information. Strip them on a first pass, then add back any that genuinely change meaning.
+
 **Problem:** These words appear far more frequently in post-2023 text. They often co-occur. One or two are coincidence; clusters indicate AI writing. Wikipedia tracks shifts in this vocabulary by model generation, so the list rotates over time.
 
 **Before:**
@@ -340,9 +342,9 @@ Two distinct sub-patterns Wikipedia documents separately.
 
 ## FILLER AND HEDGING
 
-### 23. Filler Phrases
+### 23. Filler Phrases and Business Jargon
 
-**Before → After:**
+**Before → After (filler phrases):**
 
 - "In order to achieve this goal" → "To achieve this"
 - "Due to the fact that it was raining" → "Because it was raining"
@@ -350,6 +352,26 @@ Two distinct sub-patterns Wikipedia documents separately.
 - "In the event that you need help" → "If you need help"
 - "The system has the ability to process" → "The system can process"
 - "It is important to note that the data shows" → "The data shows"
+
+**Business jargon → plain language:**
+
+| Avoid                 | Use instead            |
+| --------------------- | ---------------------- |
+| Navigate (challenges) | Handle, address        |
+| Unpack (analysis)     | Explain, examine       |
+| Lean into             | Accept, embrace        |
+| Landscape (context)   | Situation, field       |
+| Game-changer          | Significant, important |
+| Double down           | Commit, increase       |
+| Deep dive             | Analysis, examination  |
+| Take a step back      | Reconsider             |
+| Moving forward        | Next, from now         |
+| Circle back           | Return to, revisit     |
+| On the same page      | Aligned, agreed        |
+| At the end of the day | (delete)               |
+| When it comes to      | (delete)               |
+| In a world where      | (delete)               |
+| The reality is        | (delete)               |
 
 ### 24. Excessive Hedging
 
@@ -403,15 +425,17 @@ Two distinct sub-patterns Wikipedia documents separately.
 
 > The question is whether teams can adapt. That mostly depends on whether the organization is ready to change its habits.
 
-### 28. Signposting and Announcements
+### 28. Signposting, Announcements, and Meta-Commentary
 
-**Phrases to watch:** Let's dive in, let's explore, let's break this down, here's what you need to know, now let's look at, without further ado
+**Phrases to watch (signposting):** Let's dive in, let's explore, let's break this down, here's what you need to know, now let's look at, without further ado
 
-**Problem:** LLMs announce what they are about to do instead of doing it. This meta-commentary slows the writing down and gives it a tutorial-script feel.
+**Phrases to watch (meta-commentary):** Plot twist:, Spoiler:, Hint:, But that's another post, The rest of this essay…, Let me walk you through…, In this section, we'll…, As we'll see…, You already know this, but…, I want to explore…
+
+**Problem:** LLMs announce what they are about to do instead of doing it, or comment on the structure of the piece itself. This slows the writing down and gives it a tutorial-script feel. The piece should move under its own momentum, not narrate its own table of contents.
 
 **Before:**
 
-> Let's dive into how caching works in Next.js. Here's what you need to know.
+> Let's dive into how caching works in Next.js. Here's what you need to know. Spoiler: it's more complex than you think. Let me walk you through it.
 
 **After:**
 
@@ -469,3 +493,59 @@ Two distinct sub-patterns Wikipedia documents separately.
 **After:**
 
 > Reject expired tokens at login. Previously the session would refresh silently, which masked a bug in `refresh_token` we are fixing in #1284.
+
+### 31. False Agency
+
+**Watch words:** complaint becomes a fix, decision emerges, culture shifts, conversation moves toward, data tells us, market rewards, idea takes shape, problem reveals itself
+
+**Problem:** Inanimate nouns get human verbs, hiding the actor. Decisions do not emerge — someone decides. Cultures do not shift on their own — people change behavior. Data does not tell anyone anything — someone reads it and draws a conclusion. AI loves this construction because it lets the sentence sound profound without committing to who did what.
+
+**Before:**
+
+> Once the team adopted the new process, the decision emerged that ownership should sit with engineering. The culture shifted, and the data told us we were on the right track.
+
+**After:**
+
+> The team adopted the new process and gave ownership to engineering. Within a quarter, on-call escalations dropped 40% — that is what convinced us it was working.
+
+### 32. Narrator-from-a-Distance
+
+**Watch words:** Nobody designed this, People tend to, This happens because, This is why, In general, society…
+
+**Problem:** A disembodied lecturer voice that floats above the scene instead of putting the reader in it. Often paired with sweeping generalities about "people" or "society".
+
+**Before:**
+
+> Nobody designed this. People tend to optimize for the metric in front of them, and this is why teams drift toward the wrong outcomes.
+
+**After:**
+
+> You do not sit down on Monday and decide to optimize for the wrong thing. You pick up a dashboard, ship against the green number, and a quarter later notice the customers you were supposed to help are quieter.
+
+### 33. Telling Instead of Showing
+
+**Watch words:** This is genuinely hard, This is what X actually looks like, This actually matters, The stakes are high, The implications are profound
+
+**Problem:** Sentences that announce significance, difficulty, or authenticity instead of demonstrating it. Distinct from generic positive conclusions (#25) — those puff up endings; this puffs up the body. If a sentence claims something is hard or important without naming the specific hard or important thing, cut it or replace it with the specific thing.
+
+**Before:**
+
+> Migrating off the legacy auth service is genuinely hard. This is what real platform work actually looks like. The stakes are high.
+
+**After:**
+
+> Migrating off the legacy auth service touches every service that calls `verify_session`, and three of them have no test coverage. We will be reading prod traffic to figure out what they actually do.
+
+### 34. Performative Emphasis and Manufactured Sincerity
+
+**Watch words:** I promise, They exist, I promise, creeps in, trust me, you have to believe me, I'm not kidding
+
+**Problem:** Phrases that simulate intimacy or earnestness. They appear when the writing has nothing concrete to offer and tries to compensate with tone. The reader either trusts the writer or does not — repeating "I promise" does not move the needle and reads as AI hedging dressed up as voice.
+
+**Before:**
+
+> There are real benefits to this approach, I promise. The complexity creeps in slowly, but trust me, the payoff is worth it.
+
+**After:**
+
+> The approach pays off once the test suite is in place. Without tests, the same complexity will eat any team alive within six months — I have watched it happen twice.
