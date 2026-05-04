@@ -39,6 +39,11 @@ Applies to any agent or CLI unless explicitly overridden by tool defaults.
 - Use `gh` cli for GitHub operations
 - Use `glab` cli for GitLab operations
 
+## Writing User-Facing Prose
+
+- ALWAYS run the `humanizer` skill before submitting any user-facing prose: PR/MR descriptions, review replies, issue comments, commit message bodies, changelog entries, release notes, README sections, design docs, or documentation paragraphs.
+- Apply it to your own drafts before posting — not just when I explicitly ask to "humanize" something.
+
 ## Test Philosophy
 
 - Tests are the spec — if a test fails, the code is wrong, not the test (unless actively refactoring the tested code)

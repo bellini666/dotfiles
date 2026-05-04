@@ -124,7 +124,11 @@ function _agents {
   create_symlink "${BASE_DIR}/agents/skills" "${opencode_dir}/skills"
   create_symlink "${BASE_DIR}/agents/commands" "${opencode_dir}/commands"
 
-  claude update || true
+  (
+    claude update || true
+    claude plugin list --json | jq -r '.[] | select(.enabled) | .id' | xargs -I {} claude plugin update {}
+  ) || true
+
   rtk init -g --hook-only --auto-patch || true
   rtk init -g --hook-only --auto-patch --opencode || true
 }
