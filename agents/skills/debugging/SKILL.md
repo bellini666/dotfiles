@@ -122,6 +122,14 @@ Look for shared state between tests (class variables, module-level caches, datab
 
 Fix with deterministic synchronization (locks, barriers, proper `await`) rather than `sleep()` — sleep-based fixes are fragile and slow down the test suite.
 
+## Long Investigations: Checkpoint Discipline
+
+For investigations that may span more than 2-3 substantial tool batches:
+
+- After each phase (Gather / Hypothesize / Verify / Fix), produce a 5-bullet interim summary before continuing.
+- Save findings to a scratch file if the investigation will outlive a single response — never let work depend on an in-flight response surviving truncation.
+- If you're about to produce a long report, ask whether to write it to a file instead.
+
 ## Debugging Checklist
 
 Before claiming a bug is fixed:

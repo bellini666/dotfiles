@@ -26,6 +26,20 @@ Applies to any agent or CLI unless explicitly overridden by tool defaults.
 - NEVER commit, push to remote, call mutating APIs, or install anything without explicit permission.
 - NEVER run commands that modify system state or install dependencies without explicit permission.
 
+## Plan & Approval
+
+- When in plan mode, do NOT call ExitPlanMode until I explicitly approve the plan.
+- For any non-trivial change, propose the minimal plan first, then wait — do not stack multiple "while I'm here" edits.
+- Before any fix, state the root cause in one sentence with a code reference. Reject your own first patch if it masks symptoms (try/except, narrow checks, refactors that hide the bug).
+- If you've explored 3-4 steps without a concrete finding, stop and report what you know vs. don't know.
+
+## Code Style
+
+- Prefer inlining small helpers over extracting them unless reuse is concrete (≥2 call sites or a clear seam).
+- Don't introduce abstractions for hypothetical future flexibility.
+- Keep RELEASE notes / changelog / PR descriptions terse — one paragraph, list affected behavior, skip narrative.
+- Python docstrings: first line is a one-sentence summary, then a blank line, then extra context if needed. Keep it concise — no parameter tables or restating type hints.
+
 ## Git Commits
 
 - Use semver prefixes in commit messages (e.g., `feat:`, `fix:`, `chore:`)
@@ -33,11 +47,20 @@ Applies to any agent or CLI unless explicitly overridden by tool defaults.
 - Do not add Co-Authored-By trailers
 - NEVER run `git clean` — repositories contain globally gitignored personal files that must be preserved
 - NEVER add "Generated with Claude Code", "Created by Claude Code", or similar AI attribution footers to PR/MR descriptions or comments
+- MR/PR descriptions describe the diff, not the chronology of how the work was done. Strip reviewer-irrelevant narrative.
+- Match commit message framing to the actual code change, not the journey to it.
+- Before any force-push, check for rebase divergence (`git log @{u}..` and `git log ..@{u}`) and drop commits already squashed into the target branch.
 
 ## Tool Preferences
 
 - Use `gh` cli for GitHub operations
 - Use `glab` cli for GitLab operations
+
+## MCP Preference
+
+- When an MCP server is configured for a service, use it. Do not fall back to WebFetch for resources that an MCP can serve.
+- Common cases: Atlassian (Confluence/Jira), incident.io, Sentry, GitHub, Notion.
+- Check available MCP tools before reaching for WebFetch on internal/private URLs.
 
 ## Writing User-Facing Prose
 
@@ -57,7 +80,7 @@ Applies to any agent or CLI unless explicitly overridden by tool defaults.
 - Read existing code and match its patterns before inventing new ones (function vs class tests, import style, config approach)
 - Apply the minimal fix that addresses the issue — don't refactor, generalize, or "improve" surrounding code
 - Prefer idiomatic solutions over clever ones; when in doubt, check how the codebase already solves similar problems
-- Before implementing, spend 2 minutes checking how the codebase already solves the same problem — grep for similar patterns, read adjacent code
+- Before writing any code, spend 2 minutes checking how the codebase already solves the same problem — grep for similar patterns, read adjacent code
 - Never build a custom abstraction when the codebase already has a simpler pattern for the same thing
 
 ## Scope Discipline
@@ -96,6 +119,7 @@ When the project uses Python:
 
 - This project uses `prek` (drop-in pre-commit replacement). Before committing, run `prek run --files <changed files>` if config exists.
 - For CI failures: read the actual CI config to understand what runs — don't guess
+- Watch for ANSI color code differences between local and CI test output
 
 ## Compaction
 
