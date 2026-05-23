@@ -5,10 +5,7 @@
   "author": { "name": "Thiago Bellini Ribeiro", "email": "thiago@bellini.dev" },
   "license": "MIT",
   "homepage": "https://github.com/bellini666/dotfiles",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/bellini666/dotfiles.git"
-  },
+  "repository": "https://github.com/bellini666/dotfiles.git",
   "keywords": [
     "dotfiles",
     "python",
