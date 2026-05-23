@@ -135,7 +135,6 @@ function _agents {
 
   rtk init -g --hook-only --auto-patch || true
   rtk init -g --hook-only --auto-patch --opencode || true
-  rtk init -g --hook-only --auto-patch --codex || true
 }
 
 function _mise {
