@@ -140,4 +140,8 @@ function opencode() {
   safe npx opencode-ai@latest "${@}"
 }
 
+function codex() {
+  safe codex --ask-for-approval never --sandbox danger-full-access "${@}"
+}
+
 export _DEFAULTS_SOURCED="1"

@@ -35,8 +35,10 @@ MISE_CONFIG_DIR="${HOME}/.config/mise"
 SYMLINKS=(
   "${BASE_DIR}/agents/AGENTS.md ${HOME}/.claude/CLAUDE.md"
   "${BASE_DIR}/agents/AGENTS.md ${HOME}/.config/opencode/AGENTS.md"
+  "${BASE_DIR}/agents/AGENTS.md ${HOME}/.codex/AGENTS.md"
   "${BASE_DIR}/agents/claude.json ${HOME}/.claude/settings.json"
   "${BASE_DIR}/agents/opencode.json ${HOME}/.config/opencode/opencode.json"
+  "${BASE_DIR}/agents/codex.toml ${HOME}/.codex/config.toml"
   "${BASE_DIR}/ghostty ${HOME}/.config/ghostty"
   "${BASE_DIR}/git/gitattributes ${HOME}/.gitattributes"
   "${BASE_DIR}/git/gitconfig ${HOME}/.gitconfig"
@@ -58,6 +60,7 @@ mkdir -p "${MISE_CONFIG_DIR}"
 mkdir -p "${BUILD_DIR}"
 mkdir -p "${HOME}/.config/opencode"
 mkdir -p "${HOME}/.claude"
+mkdir -p "${HOME}/.codex"
 
 function _system {
   info "updating the system"
@@ -121,7 +124,9 @@ function _symlinks {
 function _agents {
   info "updating agents"
   local opencode_dir="${HOME}/.config/opencode"
+  local codex_dir="${HOME}/.codex"
   create_symlink "${BASE_DIR}/agents/skills" "${opencode_dir}/skills"
+  create_symlink "${BASE_DIR}/agents/skills" "${codex_dir}/skills"
 
   (
     claude update || true
@@ -130,6 +135,7 @@ function _agents {
 
   rtk init -g --hook-only --auto-patch || true
   rtk init -g --hook-only --auto-patch --opencode || true
+  rtk init -g --hook-only --auto-patch --codex || true
 }
 
 function _mise {
