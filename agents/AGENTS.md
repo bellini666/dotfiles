@@ -21,14 +21,13 @@ Applies to any agent or CLI unless explicitly overridden by tool defaults.
 - When I give you a plan or spec, execute it faithfully — don't second-guess the approach or suggest alternatives unless you see a concrete bug.
 - Ask only when blocked or when ambiguity changes behavior.
 - Follow existing code style and conventions.
-- Go easy on comments; code should be self-explanatory.
+- Comments explain WHY, never WHAT. Default to none. Only add one when the reason would surprise a future reader (hidden constraint, subtle invariant, workaround for a specific bug). Never reference the current task, caller, or fix (`used by X`, `added for Y`) — that rots and belongs in the PR description.
 - Prefer Context7 MCP for unfamiliar or recently-updated library docs. Fall back to web search if Context7 returns nothing useful.
 - NEVER commit, push to remote, call mutating APIs, or install anything without explicit permission.
 - NEVER run commands that modify system state or install dependencies without explicit permission.
 
 ## Plan & Approval
 
-- When in plan mode, do NOT call ExitPlanMode until I explicitly approve the plan.
 - For any non-trivial change, propose the minimal plan first, then wait — do not stack multiple "while I'm here" edits.
 - Before any fix, state the root cause in one sentence with a code reference. Reject your own first patch if it masks symptoms (try/except, narrow checks, refactors that hide the bug).
 - If you've explored 3-4 steps without a concrete finding, stop and report what you know vs. don't know.
@@ -38,7 +37,8 @@ Applies to any agent or CLI unless explicitly overridden by tool defaults.
 - Prefer inlining small helpers over extracting them unless reuse is concrete (≥2 call sites or a clear seam).
 - Don't introduce abstractions for hypothetical future flexibility.
 - Keep RELEASE notes / changelog / PR descriptions terse — one paragraph, list affected behavior, skip narrative.
-- Python docstrings: first line is a one-sentence summary, then a blank line, then extra context if needed. Keep it concise — no parameter tables or restating type hints.
+- Python docstrings follow PEP 257: first line is a one-sentence summary, then a blank line, then extra context if needed. Keep it concise — no parameter tables or restating type hints.
+- Separate logical sections inside functions with a blank line — setup vs. main logic vs. return prep, distinct steps in a pipeline, before/after a side-effect. Don't pack unrelated steps into one dense block.
 
 ## Git Commits
 
@@ -74,6 +74,7 @@ Applies to any agent or CLI unless explicitly overridden by tool defaults.
 - Write reproduction tests using real inputs and actual code paths, not synthetic mocks that mirror implementation
 - The main/master branch is always green. If a test fails after your changes, your changes caused it — trace the connection and fix it, even if you didn't touch that test directly.
 - When fixing failing tests, fix code or test setup/parameters — NEVER weaken assertions, bump expected query counts, or make required fields Optional to silence type errors
+- In test files, put imports at module level — not inside test functions or fixtures. Local imports only with a concrete reason: avoiding a circular import, optional/conditional dependency, or a side-effecting import that must be deferred.
 
 ## Approach Methodology
 
