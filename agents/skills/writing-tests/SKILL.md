@@ -12,7 +12,7 @@ These principles are non-negotiable:
 - **Tests are the spec** — if a test fails, the code is wrong, not the test (unless actively refactoring the tested code)
 - **Never weaken assertions** — do not change test expectations to make them pass; fix the code under test
 - **Real inputs over synthetic mocks** — write reproduction tests using real inputs and actual code paths, not synthetic mocks that mirror implementation
-- **Failing test = your code is wrong** — the main branch is always green. If a test fails, your changes caused it, even if you didn't touch that test directly. Find the connection and fix it.
+- **Failing test = the code is wrong** — the main branch is always green. If a test fails, the most recent changes caused it, even if those changes did not touch the failing test directly. Trace the connection and fix it.
 - **Never make fields Optional to silence type errors** — find the real source of the None
 - **Never bump expected query counts** — if a test expects N queries, fix the N+1 with `select_related`/`prefetch_related`
 
@@ -26,7 +26,7 @@ Before writing any test, spend 2 minutes understanding how the codebase already 
 2. **Read 2-3 existing test files** — note the style (function vs class, fixtures vs setup methods, assertion style)
 3. **Check for conftest.py / test helpers** — identify reusable fixtures, factories, and utilities
 4. **Check the test runner config** — look at `pyproject.toml`, `pytest.ini`, `setup.cfg`, or `jest.config` for custom markers, plugins, and conventions
-5. **Match what you find** — do not invent a new testing style when the project has an established one
+5. **Match existing patterns** — do not invent a new testing style when the project has an established one
 
 ```bash
 # Quick discovery commands
@@ -103,7 +103,7 @@ def test_rate_limiter_allows_request_after_window_expires():
     assert limiter.allow("user-1") is True
 ```
 
-Each test verifies one specific behavior. If you need two unrelated assertions, write two tests.
+Each test verifies one specific behavior. When two unrelated assertions are needed, write two tests.
 
 ## Parametrized Tests
 
@@ -166,7 +166,7 @@ def test_dashboard_returns_user_data(authenticated_client, active_user):
 
 Guidelines for fixtures:
 
-- Check `conftest.py` files before creating new fixtures — the fixture you need may already exist
+- Check `conftest.py` files before creating new fixtures — the needed fixture may already exist
 - Place fixtures used by multiple test files in `conftest.py`
 - Place fixtures used by one file in that file
 - Use `autouse=True` sparingly — only when every test in scope needs the setup
@@ -201,5 +201,5 @@ Stop immediately if about to:
 - **Mock away the code under test** — mocking should isolate dependencies, not replace the system under test
 - **Copy-paste a test with minor changes** — use parametrize instead
 - **Write a test that can never fail** — if the test passes regardless of implementation, it tests nothing
-- **Ignore a failing test as "pre-existing"** — main is green, so your changes caused it
-- **Bump expected query counts** — fix the N+1 query, don't adjust the assertion
+- **Ignore a failing test as "pre-existing"** — main is green, so recent changes caused it
+- **Bump expected query counts** — fix the N+1 query, do not adjust the assertion

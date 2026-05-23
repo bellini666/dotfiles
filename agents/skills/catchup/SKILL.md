@@ -1,20 +1,11 @@
 ---
 name: catchup
-description: Catch up on branch changes
-template: Read all files changed in this branch compared to main/master, review commit messages, and summarize what's been done and the current state.
+description: This skill should be used when the user asks to "catch me up", "what's on this branch", "summarize this branch", "what changed since main", or wants a structured summary of commits, changed files, and current state of the working branch compared to main/master.
 ---
 
-# Catchup Command
-
-## Purpose
+# Catchup: Branch Summary
 
 Quickly understand what has changed in the current working branch compared to main/master.
-
-## Usage
-
-```
-/catchup
-```
 
 ## Behavior
 

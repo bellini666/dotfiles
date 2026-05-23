@@ -122,7 +122,6 @@ function _agents {
   info "updating agents"
   local opencode_dir="${HOME}/.config/opencode"
   create_symlink "${BASE_DIR}/agents/skills" "${opencode_dir}/skills"
-  create_symlink "${BASE_DIR}/agents/commands" "${opencode_dir}/commands"
 
   (
     claude update || true

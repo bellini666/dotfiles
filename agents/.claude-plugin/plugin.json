@@ -1,6 +1,20 @@
 {
   "name": "bellini-dotfiles",
-  "description": "Personal skills, commands, and hooks for development workflows",
-  "version": "1.0.0",
-  "author": { "name": "bellini" }
+  "description": "Personal skills and hooks for development workflows",
+  "version": "1.1.0",
+  "author": { "name": "Thiago Bellini Ribeiro", "email": "thiago@bellini.dev" },
+  "license": "MIT",
+  "homepage": "https://github.com/bellini666/dotfiles",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bellini666/dotfiles.git"
+  },
+  "keywords": [
+    "dotfiles",
+    "python",
+    "django",
+    "pytest",
+    "humanizer",
+    "debugging"
+  ]
 }

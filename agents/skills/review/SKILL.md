@@ -1,27 +1,18 @@
 ---
 name: review
-description: Review staged git changes
-template: Review my staged changes. Be critical and concise. Focus on bugs, security issues, code quality, and anti-patterns from AGENTS.md.
+description: This skill should be used when the user asks to "review my staged changes", "review before commit", "check this diff", or wants a critical pre-commit review of `git diff --cached` against bug, security, test-integrity, and code-quality checks. Reports issues only, no praise.
 ---
 
-# Review Command
-
-## Purpose
+# Review: Staged Changes
 
 Critical review of staged changes before committing.
-
-## Usage
-
-```
-/review
-```
 
 ## Behavior
 
 1. Run `git diff --cached` to get staged changes
 2. Review against the checklist below
 3. Run linter and type checker on staged files
-4. Provide concise, critical feedback — no praise, only issues
+4. Provide concise, critical feedback, no praise, only issues
 
 ## Checklist
 
@@ -42,7 +33,7 @@ Critical review of staged changes before committing.
 
 - No hardcoded credentials, API keys, or secrets
 - No SQL injection, XSS, CSRF vulnerabilities
-- Staged files don't include `.env`, credentials, or generated files
+- Staged files do not include `.env`, credentials, or generated files
 
 ### Quality
 

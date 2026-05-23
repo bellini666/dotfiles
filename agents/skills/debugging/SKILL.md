@@ -96,21 +96,21 @@ Red flags to watch for:
 
 ### Test Failures
 
-Start by reading the FULL error message and stack trace — every word matters, especially the assertion diff and the specific line that failed. Identify which assertion failed and what the actual vs expected values were. Often the assertion message alone points to the root cause.
+Start by reading the FULL error message and stack trace. Every word matters, especially the assertion diff and the specific line that failed. Identify which assertion failed and what the actual vs expected values were. Often the assertion message alone points to the root cause.
 
 Next, verify the test environment: check that fixtures are returning the expected data, mocks are configured correctly, and any database state or factory setup matches what the test assumes. A common pitfall is a fixture that was modified for another test, silently breaking downstream tests.
 
-Finally, trace the unexpected value backward through the code. If the test expected `200` but got `403`, don't just check the view — trace through middleware, authentication, and permissions to find where the request gets rejected.
+Finally, trace the unexpected value backward through the code. If the test expected `200` but got `403`, do not just check the view. Trace through middleware, authentication, and permissions to find where the request gets rejected.
 
 ### Runtime Errors
 
 Capture the full stack trace and identify the exact line that throws. Check what values are `None`, undefined, or otherwise unexpected at the point of failure.
 
-Trace backward from the crash site: where was the bad value assigned? Where was it passed from? Follow the chain until you find the original source — this is where the fix belongs. Never add a `None` check at the crash site as a band-aid; fix the code that produced the `None` in the first place.
+Trace backward from the crash site: where was the bad value assigned? Where was it passed from? Follow the chain until the original source is found. That is where the fix belongs. Never add a `None` check at the crash site as a band-aid; fix the code that produced the `None` in the first place.
 
 ### "It worked before"
 
-Use `git bisect` (or `jj` equivalent) to find the breaking commit. This is faster than guessing — even a 1,000-commit range narrows to the culprit in ~10 steps.
+Use `git bisect` to find the breaking commit. This is faster than guessing. Even a 1,000-commit range narrows to the culprit in ~10 steps.
 
 Compare the breaking change with the previous working version. The bug is in the difference between the two. Identify what assumption changed (API contract, data shape, configuration default) and fix at the source of the assumption violation, not at the symptom.
 
@@ -120,15 +120,15 @@ Intermittent failures almost always stem from one of four causes: race condition
 
 Look for shared state between tests (class variables, module-level caches, database rows not cleaned up). Check for async operations that assume execution order. Examine whether tests depend on wall-clock time or external service availability.
 
-Fix with deterministic synchronization (locks, barriers, proper `await`) rather than `sleep()` — sleep-based fixes are fragile and slow down the test suite.
+Fix with deterministic synchronization (locks, barriers, proper `await`) rather than `sleep()`. Sleep-based fixes are fragile and slow down the test suite.
 
 ## Long Investigations: Checkpoint Discipline
 
 For investigations that may span more than 2-3 substantial tool batches:
 
 - After each phase (Gather / Hypothesize / Verify / Fix), produce a 5-bullet interim summary before continuing.
-- Save findings to a scratch file if the investigation will outlive a single response — never let work depend on an in-flight response surviving truncation.
-- If you're about to produce a long report, ask whether to write it to a file instead.
+- Save findings to a scratch file if the investigation will outlive a single response. Never let work depend on an in-flight response surviving truncation.
+- Before producing a long report, ask whether to write it to a file instead.
 
 ## Debugging Checklist
 
@@ -156,5 +156,5 @@ Signs of effective debugging:
 
 ## Integration
 
-- Use **/fix** command for end-to-end bug fix workflow
+- Use the **fix** skill for end-to-end bug fix workflow
 - Use **writing-tests** for test patterns and conventions
