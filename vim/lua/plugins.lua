@@ -270,17 +270,6 @@ return {
       menu = {
         preview = false,
       },
-      bar = {
-        -- nvim master removed BufModifiedSet (#35610); override dropbar's
-        -- default buf list, which still references it.
-        update_events = {
-          buf = {
-            "FileChangedShellPost",
-            "TextChanged",
-            "ModeChanged",
-          },
-        },
-      },
     },
   },
   {
