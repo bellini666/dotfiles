@@ -23,8 +23,7 @@ Applies to any agent or CLI unless explicitly overridden by tool defaults.
 - Follow existing code style and conventions.
 - Comments explain WHY, never WHAT. Default to none. Only add one when the reason would surprise a future reader (hidden constraint, subtle invariant, workaround for a specific bug). Never reference the current task, caller, or fix (`used by X`, `added for Y`) — that rots and belongs in the PR description.
 - Prefer Context7 MCP for unfamiliar or recently-updated library docs. Fall back to web search if Context7 returns nothing useful.
-- NEVER commit, push to remote, call mutating APIs, or install anything without explicit permission.
-- NEVER run commands that modify system state or install dependencies without explicit permission.
+- NEVER commit, push, call mutating APIs, install anything, or otherwise modify system state without explicit permission.
 
 ## Plan & Approval
 

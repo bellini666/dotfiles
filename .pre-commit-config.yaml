@@ -22,7 +22,7 @@ repos:
         types:
           - shell
         entry: shfmt -i 2 -w
-        exclude: (.*.zsh|agents/hooks/pre-tool-use/rtk-rewrite\.sh)
+        exclude: .*\.zsh
   - repo: local
     hooks:
       - id: shellcheck

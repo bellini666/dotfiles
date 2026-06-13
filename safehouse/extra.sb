@@ -1,0 +1,5 @@
+;; Python multiprocessing (djlint, pytest-xdist, ruff, etc.) creates POSIX named
+;; semaphores via sem_open; safehouse's deny-default policy has no ipc-posix-sem
+;; allow, so SemLock.__init__ fails with EPERM. SysV semaphores are already
+;; allowed for LMDB but multiprocessing on macOS uses the POSIX variant.
+(allow ipc-posix-sem)
