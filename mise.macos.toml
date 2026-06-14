@@ -1,6 +1,3 @@
-[bootstrap.user]
-login_shell = "/opt/homebrew/bin/zsh"
-
 # Homebrew packages, loaded only when MISE_ENV=macos (set by bootstrap.sh).
 # Kept out of the shared mise.toml because mise treats `brew:` as cross-platform
 # and would otherwise try to resolve/install these on Linux too.
