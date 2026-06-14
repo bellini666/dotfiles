@@ -34,8 +34,10 @@ MISE_CONFIG_DIR="${HOME}/.config/mise"
 
 if [ ${MACHINE_OS} = "MacOS" ]; then
   MISE_BINARY="/opt/homebrew/bin/mise"
+  export MISE_ENV="macos"
 else
   MISE_BINARY="${HOME}/.local/bin/mise"
+  export MISE_ENV="linux"
 fi
 
 [ -d "${BASE_DIR}" ] || exit 1
@@ -124,10 +126,8 @@ function _mise-bootstrap {
 
 function _agents {
   info "updating agents"
-  (
-    claude update || true
-    claude plugin list --json | jq -r '.[] | select(.enabled) | .id' | xargs -I {} claude plugin update {}
-  ) || true
+
+  claude update || true
 
   rtk init -g --hook-only --auto-patch || true
   rtk init -g --hook-only --auto-patch --opencode || true
