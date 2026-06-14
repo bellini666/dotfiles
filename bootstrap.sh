@@ -61,6 +61,16 @@ function _system {
     BREW_CASKS=$(tr '\n' ' ' <"${BASE_DIR}/packages/brew-casks")
     # shellcheck disable=2086
     brew install --cask ${BREW_CASKS}
+
+    # Drop casks no longer declared in packages/brew-casks (mirrors `mise prune` for formulae).
+    UNDECLARED_CASKS=$(comm -23 \
+      <(brew list --cask 2>/dev/null | sort) \
+      <(sort "${BASE_DIR}/packages/brew-casks"))
+    if [ -n "${UNDECLARED_CASKS}" ]; then
+      # shellcheck disable=2086
+      brew uninstall --cask ${UNDECLARED_CASKS}
+    fi
+
     brew update
     brew upgrade
     brew autoremove
