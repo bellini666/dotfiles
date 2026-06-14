@@ -32,25 +32,11 @@ fi
 
 MISE_CONFIG_DIR="${HOME}/.config/mise"
 
-SYMLINKS=(
-  "${BASE_DIR}/agents/AGENTS.md ${HOME}/.claude/CLAUDE.md"
-  "${BASE_DIR}/agents/AGENTS.md ${HOME}/.config/opencode/AGENTS.md"
-  "${BASE_DIR}/agents/AGENTS.md ${HOME}/.codex/AGENTS.md"
-  "${BASE_DIR}/agents/claude.json ${HOME}/.claude/settings.json"
-  "${BASE_DIR}/agents/opencode.json ${HOME}/.config/opencode/opencode.json"
-  "${BASE_DIR}/agents/codex.toml ${HOME}/.codex/config.toml"
-  "${BASE_DIR}/ghostty ${HOME}/.config/ghostty"
-  "${BASE_DIR}/git/gitattributes ${HOME}/.gitattributes"
-  "${BASE_DIR}/git/gitconfig ${HOME}/.gitconfig"
-  "${BASE_DIR}/git/gitignore ${HOME}/.gitignore"
-  "${BASE_DIR}/kitty ${HOME}/.config/kitty"
-  "${BASE_DIR}/mise/config.toml ${HOME}/.config/mise/config.toml"
-  "${BASE_DIR}/python/pdbrc.py ${HOME}/.pdbrc.py"
-  "${BASE_DIR}/starship/starship.toml ${HOME}/.config/starship.toml"
-  "${BASE_DIR}/vim ${HOME}/.config/nvim"
-  "${BASE_DIR}/zsh/zsh_plugins.txt ${HOME}/.zsh_plugins.txt"
-  "${BASE_DIR}/zsh/zshrc ${HOME}/.zshrc"
-)
+if [ ${MACHINE_OS} = "MacOS" ]; then
+  MISE_BINARY="/opt/homebrew/bin/mise"
+else
+  MISE_BINARY="${HOME}/.local/bin/mise"
+fi
 
 [ -d "${BASE_DIR}" ] || exit 1
 mkdir -p "${BIN_DIR}"
@@ -70,22 +56,18 @@ function _system {
       exit 1
     fi
 
-    BREW_PACKAGES=$(tr '\n' ' ' <"${BASE_DIR}/packages/brew-packages")
+    BREW_CASKS=$(tr '\n' ' ' <"${BASE_DIR}/packages/brew-casks")
     # shellcheck disable=2086
-    brew install ${BREW_PACKAGES}
+    brew install --cask ${BREW_CASKS}
     brew update
     brew upgrade
     brew autoremove
     brew cleanup
   elif [ ${MACHINE_OS} = "Linux" ]; then
     (
-      APT_PACKAGES=$(tr '\n' ' ' <"${BASE_DIR}/packages/apt-packages")
       sudo apt update --list-cleanup
       sudo apt dist-upgrade --purge
-      # shellcheck disable=2086
       sudo apt build-dep python3
-      # shellcheck disable=2086
-      sudo apt install --purge ${APT_PACKAGES}
       sudo flatpak update
       sudo flatpak uninstall --unused
       sudo apt autoremove --purge
@@ -113,21 +95,35 @@ function _patches {
   fi
 }
 
-function _symlinks {
-  info "updating symlinks"
-  for FILE in "${SYMLINKS[@]}"; do
-    # shellcheck disable=2086
-    create_symlink ${FILE}
-  done
+function _pre {
+  info "preparing mise"
+
+  if [ ${MACHINE_OS} = "MacOS" ] && [ ! -x "${MISE_BINARY}" ]; then
+    if ! command -v brew >/dev/null 2>&1; then
+      echo "brew not found; install Homebrew first" >&2
+      exit 1
+    fi
+    brew install mise
+  elif [ ${MACHINE_OS} = "Linux" ] && [ ! -f "${MISE_BINARY}" ]; then
+    curl https://mise.run | sh
+  fi
+
+  # The global config must exist before mise can read [tools]; everything else
+  # is symlinked declaratively from mise.toml's [dotfiles] during bootstrap.
+  create_symlink "${BASE_DIR}/mise/config.toml" "${MISE_CONFIG_DIR}/config.toml"
+  "${MISE_BINARY}" trust "${BASE_DIR}/mise.toml"
+}
+
+function _mise-bootstrap {
+  info "running mise bootstrap"
+  (
+    cd "${BASE_DIR}"
+    "${MISE_BINARY}" bootstrap --yes
+  )
 }
 
 function _agents {
   info "updating agents"
-  local opencode_dir="${HOME}/.config/opencode"
-  local codex_dir="${HOME}/.codex"
-  create_symlink "${BASE_DIR}/agents/skills" "${opencode_dir}/skills"
-  create_symlink "${BASE_DIR}/agents/skills" "${codex_dir}/skills"
-
   (
     claude update || true
     claude plugin list --json | jq -r '.[] | select(.enabled) | .id' | xargs -I {} claude plugin update {}
@@ -138,19 +134,7 @@ function _agents {
 }
 
 function _mise {
-  info "installing mise"
-
-  if [ ${MACHINE_OS} = "MacOS" ]; then
-    MISE_BINARY="/opt/homebrew/bin/mise"
-  elif [ ${MACHINE_OS} = "Linux" ]; then
-    MISE_BINARY="${HOME}/.local/bin/mise"
-    if [ ! -f "${MISE_BINARY}" ]; then
-      curl https://mise.run | sh
-    fi
-  else
-    echo "Unknown OS: ${UNAME_OUTPUT}"
-    exit 1
-  fi
+  info "updating mise"
 
   eval "$("${MISE_BINARY}" activate bash)"
 
@@ -179,7 +163,6 @@ function _mise {
       source "${HOME}/.mise_secret_env.sh"
     fi
     "${MISE_BINARY}" plugins update -y || true
-    "${MISE_BINARY}" install -y || true
     "${MISE_BINARY}" upgrade -y || true
     "${MISE_BINARY}" prune -y
   )
@@ -245,38 +228,23 @@ function _neovim {
   fi
 }
 
-function _python {
-  info "configuring python"
-  poetry config virtualenvs.in-project true
-}
-
 function _mise-reshim {
   info "reshimming mise"
-
-  if [ ${MACHINE_OS} = "MacOS" ]; then
-    MISE_BINARY="/opt/homebrew/bin/mise"
-  elif [ ${MACHINE_OS} = "Linux" ]; then
-    MISE_BINARY="${HOME}/.local/bin/mise"
-  else
-    echo "Unknown OS: ${UNAME_OUTPUT}"
-    exit 1
-  fi
-
   "${MISE_BINARY}" reshim
 }
 
 function _ {
   (
     cd "${HOME}"
+    _pre
+    _mise-bootstrap
     _system
     _patches
     _neovim
-    _symlinks
     _agents
     _fonts
     _zsh
     _mise
-    _python
     _mise-reshim
   )
 }
