@@ -57,8 +57,6 @@
 "brew:pgcli" = "latest"
 "brew:pipx" = "latest"
 "brew:poppler" = "latest"
-"brew:pre-commit" = "latest"
-"brew:prek" = "latest"
 "brew:readline" = "latest"
 "brew:redis" = "latest"
 "brew:ripgrep" = "latest"
