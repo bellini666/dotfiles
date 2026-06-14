@@ -30,6 +30,7 @@
 "apt:libtool-bin" = "latest"
 "apt:libxml2-dev" = "latest"
 "apt:libxmlsec1-dev" = "latest"
+"apt:locales" = "latest"
 "apt:ncdu" = "latest"
 "apt:ninja-build" = "latest"
 "apt:pgcli" = "latest"

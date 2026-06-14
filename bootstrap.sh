@@ -67,6 +67,11 @@ function _system {
     brew cleanup
   elif [ ${MACHINE_OS} = "Linux" ]; then
     (
+      if ! locale -a 2>/dev/null | grep -qiE '^en_US\.utf-?8$'; then
+        sudo sed -i 's/^# *en_US.UTF-8/en_US.UTF-8/' /etc/locale.gen
+        sudo locale-gen
+        sudo update-locale LANG=en_US.UTF-8
+      fi
       sudo apt update --list-cleanup
       sudo apt dist-upgrade --purge
       sudo apt build-dep python3
