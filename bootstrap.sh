@@ -125,7 +125,7 @@ function _mise-bootstrap {
   info "running mise bootstrap"
   (
     cd "${BASE_DIR}"
-    "${MISE_BINARY}" bootstrap --yes
+    "${MISE_BINARY}" bootstrap --yes --force-dotfiles --update
   )
 }
 

@@ -1,3 +1,6 @@
+[bootstrap.user]
+login_shell = "/usr/bin/zsh"
+
 # apt packages, loaded only when MISE_ENV=linux (set by bootstrap.sh).
 
 [bootstrap.packages]
