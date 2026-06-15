@@ -42,6 +42,10 @@ fi
 export EDITOR=nvim
 export GIT_SSH=ssh
 
+# less: skip the pager when output fits one screen (F), keep colors (R),
+# and leave output in scrollback instead of the alternate screen (X)
+export LESS=-FRX
+
 # mise
 export MISE_USE_TOML=1
 # gh keeps its token in the keyring, which mise's gh_cli_tokens path can't read;

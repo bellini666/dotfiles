@@ -50,14 +50,6 @@
     auto = true
     strategy = incremental
 
-[delta]
-    navigate = true
-    dark = true
-    line-numbers = true
-
-[interactive]
-    diffFilter = delta --color-only
-
 [alias]
     a = add
     au = add -u
