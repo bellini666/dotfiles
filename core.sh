@@ -44,7 +44,7 @@ export GIT_SSH=ssh
 
 # less: skip the pager when output fits one screen (F), keep colors (R),
 # and leave output in scrollback instead of the alternate screen (X)
-export LESS=-FRX
+export LESS=-RX
 
 # mise
 export MISE_USE_TOML=1
