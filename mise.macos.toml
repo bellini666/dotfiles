@@ -69,7 +69,6 @@
 "brew:tectonic" = "latest"
 "brew:unar" = "latest"
 "brew:universal-ctags" = "latest"
-"brew:uv" = "latest"
 "brew:watchman" = "latest"
 "brew:wget" = "latest"
 "brew:xmlsectool" = "latest"
