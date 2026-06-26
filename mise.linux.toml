@@ -1,5 +1,16 @@
 # apt packages, loaded only when MISE_ENV=linux (set by bootstrap.sh).
 
+[bootstrap.hooks.final]
+run = '''
+CHROME_DESKTOP=/usr/share/applications/google-chrome.desktop
+if [ -f "$CHROME_DESKTOP" ] && ! grep -q "force-dark-mode" "$CHROME_DESKTOP"; then
+  sudo sed -i 's;/usr/bin/google-chrome-stable;/usr/bin/google-chrome-stable --force-dark-mode;g' "$CHROME_DESKTOP"
+fi
+if [ "$(gsettings get org.gnome.desktop.interface monospace-font-name)" != "'Hack Nerd Font 11'" ]; then
+  gsettings set org.gnome.desktop.interface monospace-font-name 'Hack Nerd Font 11'
+fi
+'''
+
 [bootstrap.packages]
 "apt:bat" = "latest"
 "apt:btop" = "latest"

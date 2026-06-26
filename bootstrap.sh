@@ -19,8 +19,6 @@ BIN_DIR="${HOME}/bin"
 LOCAL_DIR="${HOME}/.local"
 LOCAL_BIN_DIR="${LOCAL_DIR}/bin"
 
-BUILD_DIR="${HOME}/.build"
-
 if [ ${MACHINE_OS} = "MacOS" ]; then
   FONTS_DIR="${HOME}/Library/Fonts"
 elif [ ${MACHINE_OS} = "Linux" ]; then
@@ -45,7 +43,6 @@ mkdir -p "${BIN_DIR}"
 mkdir -p "${LOCAL_BIN_DIR}"
 mkdir -p "${FONTS_DIR}"
 mkdir -p "${MISE_CONFIG_DIR}"
-mkdir -p "${BUILD_DIR}"
 mkdir -p "${HOME}/.config/opencode"
 mkdir -p "${HOME}/.claude"
 mkdir -p "${HOME}/.codex"
@@ -96,22 +93,6 @@ function _system {
   fi
 }
 
-function _patches {
-  info "patching files"
-  if [ ${MACHINE_OS} = "MacOS" ]; then
-    :
-  elif [ ${MACHINE_OS} = "Linux" ]; then
-    if [ -f /usr/share/applications/google-chrome.desktop ] && ! grep -q "force-dark-mode" /usr/share/applications/google-chrome.desktop; then
-      sudo sed -i \
-        's;/usr/bin/google-chrome-stable;/usr/bin/google-chrome-stable --force-dark-mode;g' \
-        /usr/share/applications/google-chrome.desktop
-    fi
-  else
-    echo "Unknown OS: ${UNAME_OUTPUT}"
-    exit 1
-  fi
-}
-
 function _pre {
   info "preparing mise"
 
@@ -137,15 +118,6 @@ function _mise-bootstrap {
     cd "${BASE_DIR}"
     "${MISE_BINARY}" bootstrap --yes --force-dotfiles --update
   )
-}
-
-function _agents {
-  info "updating agents"
-
-  claude update || true
-
-  rtk init -g --hook-only --auto-patch || true
-  rtk init -g --hook-only --auto-patch --opencode || true
 }
 
 function _mise {
@@ -209,58 +181,14 @@ function _fonts {
   fi
 }
 
-function _zsh {
-  info "installing zsh plugins"
-  zsh -i -c "antidote update -b"
-}
-
-function _neovim {
-  info "installing neovim"
-
-  if [ ${MACHINE_OS} = "MacOS" ]; then
-    local file=${BUILD_DIR}/nvim.tar.gz
-    local url=https://github.com/neovim/neovim/releases/download/nightly/nvim-macos-arm64.tar.gz
-
-    if [ "$(download_file "${file}" "${url}")" == "1" ]; then
-      rm -rf "${BUILD_DIR}/nvim-macos-arm64"
-      tar xzf "${file}" -C "${BUILD_DIR}"
-      ln -sf "${BUILD_DIR}/nvim-macos-arm64/bin/nvim" "${BIN_DIR}/nvim"
-    fi
-  elif [ ${MACHINE_OS} = "Linux" ]; then
-    local arch
-    arch="$(uname -m)"
-    if [ "${arch}" = "aarch64" ] || [ "${arch}" = "arm64" ]; then
-      arch="arm64"
-    else
-      arch="x86_64"
-    fi
-    download_executable \
-      "${BIN_DIR}/nvim" \
-      "https://github.com/neovim/neovim/releases/download/nightly/nvim-linux-${arch}.appimage"
-  else
-    echo "Unknown OS: ${UNAME_OUTPUT}"
-    exit 1
-  fi
-}
-
-function _mise-reshim {
-  info "reshimming mise"
-  "${MISE_BINARY}" reshim
-}
-
 function _ {
   (
     cd "${HOME}"
     _pre
     _mise-bootstrap
     _system
-    _patches
-    _neovim
-    _agents
     _fonts
-    _zsh
     _mise
-    _mise-reshim
   )
 }
 

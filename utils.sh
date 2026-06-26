@@ -65,33 +65,6 @@ function download_file {
   echo 1
 }
 
-function download_executable {
-  set +x
-  DEST=${1}
-  URL=${2}
-  set -x
-
-  TMP=$(mktemp)
-  curl -4 -sSLf -o "${TMP}" "${URL}"
-  chmod +x "${TMP}"
-
-  if [ -f "${DEST}" ]; then
-    OLD_MD5=$(md5sum "${DEST}" | cut -d ' ' -f 1)
-    NEW_MD5=$(md5sum "${TMP}" | cut -d ' ' -f 1)
-
-    if [ "${OLD_MD5}" == "${NEW_MD5}" ]; then
-      echo 0
-      return
-    fi
-
-    TMP2=$(mktemp)
-    mv "${DEST}" "${TMP2}"
-  fi
-
-  mv "${TMP}" "${DEST}"
-  echo 1
-}
-
 function create_symlink {
   set +x
   SOURCE_FILE=${1}

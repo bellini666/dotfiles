@@ -28,3 +28,11 @@
 [tasks.bootstrap]
 description = "Project-specific setup that doesn't fit the declarative sections"
 run = "poetry config virtualenvs.in-project true"
+
+[bootstrap.hooks.final]
+run = """
+claude update || true
+rtk init -g --hook-only --auto-patch || true
+rtk init -g --hook-only --auto-patch --opencode || true
+zsh -i -c "antidote update -b"
+"""
