@@ -27,7 +27,8 @@
     "typescript-lsp@claude-plugins-official": true,
     "claude-hud@claude-hud": true,
     "claude-code-wakatime@wakatime": true,
-    "ponytail@ponytail": true
+    "ponytail@ponytail": true,
+    "agent-skills@addy-agent-skills": true
   },
   "extraKnownMarketplaces": {
     "anthropic-agent-skills": {
@@ -53,6 +54,13 @@
         "source": "github",
         "repo": "DietrichGebert/ponytail"
       }
+    },
+    "addy-agent-skills": {
+      "source": {
+        "source": "github",
+        "repo": "addyosmani/agent-skills"
+      },
+      "autoUpdate": true
     }
   },
   "skipDangerousModePermissionPrompt": true
