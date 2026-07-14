@@ -1,16 +1,3 @@
-# apt packages, loaded only when MISE_ENV=linux (set by bootstrap.sh).
-
-[bootstrap.hooks.final]
-run = '''
-CHROME_DESKTOP=/usr/share/applications/google-chrome.desktop
-if [ -f "$CHROME_DESKTOP" ] && ! grep -q "force-dark-mode" "$CHROME_DESKTOP"; then
-  sudo sed -i 's;/usr/bin/google-chrome-stable;/usr/bin/google-chrome-stable --force-dark-mode;g' "$CHROME_DESKTOP"
-fi
-if [ "$(gsettings get org.gnome.desktop.interface monospace-font-name)" != "'Hack Nerd Font 11'" ]; then
-  gsettings set org.gnome.desktop.interface monospace-font-name 'Hack Nerd Font 11'
-fi
-'''
-
 [bootstrap.packages]
 "apt:bat" = "latest"
 "apt:btop" = "latest"
@@ -63,3 +50,28 @@ fi
 "apt:zlib1g-dev" = "latest"
 "apt:zsh" = "latest"
 "apt:zsh-antidote" = "latest"
+
+[bootstrap.hooks.final]
+run = '''
+CHROME_DESKTOP=/usr/share/applications/google-chrome.desktop
+if [ -f "$CHROME_DESKTOP" ] && ! grep -q "force-dark-mode" "$CHROME_DESKTOP"; then
+  sudo sed -i 's;/usr/bin/google-chrome-stable;/usr/bin/google-chrome-stable --force-dark-mode;g' "$CHROME_DESKTOP"
+fi
+if [ "$(gsettings get org.gnome.desktop.interface monospace-font-name)" != "'Hack Nerd Font 11'" ]; then
+  gsettings set org.gnome.desktop.interface monospace-font-name 'Hack Nerd Font 11'
+fi
+
+# brew-cask (and thus the font-* casks) is macOS-only, so fonts are fetched
+# directly here. Target names match what the old bootstrap.sh downloaded so
+# existing installs are detected.
+FONTS_DIR="$HOME/.local/share/fonts"
+mkdir -p "$FONTS_DIR"
+fetch_font() {
+  [ -f "$FONTS_DIR/$1" ] || curl -fsSLo "$FONTS_DIR/$1" "$2"
+}
+fetch_font "codicon.ttf" https://unpkg.com/@vscode/codicons/dist/codicon.ttf
+fetch_font "Hack Regular Nerd Font Complete.ttf" https://raw.githubusercontent.com/ryanoasis/nerd-fonts/master/patched-fonts/Hack/Regular/HackNerdFont-Regular.ttf
+fetch_font "Inconsolata Nerd Font Complete.ttf" https://raw.githubusercontent.com/ryanoasis/nerd-fonts/master/patched-fonts/Inconsolata/InconsolataNerdFont-Regular.ttf
+fetch_font "Fira Code Regular Nerd Font Complete.ttf" https://raw.githubusercontent.com/ryanoasis/nerd-fonts/master/patched-fonts/FiraCode/Regular/FiraCodeNerdFont-Regular.ttf
+fetch_font "JetBrains Mono Nerd Font Complete.ttf" https://raw.githubusercontent.com/ryanoasis/nerd-fonts/master/patched-fonts/JetBrainsMono/NoLigatures/Regular/JetBrainsMonoNLNerdFont-Regular.ttf
+'''

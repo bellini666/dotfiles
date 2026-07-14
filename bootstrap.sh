@@ -3,7 +3,6 @@
 set -e
 
 BASE_DIR="$(cd "$(dirname "${0}")" && pwd)"
-source "${BASE_DIR}/utils.sh"
 
 UNAME_OUTPUT="$(uname -s)"
 case "${UNAME_OUTPUT}" in
@@ -15,18 +14,8 @@ Darwin*) MACHINE_OS=MacOS ;;
   ;;
 esac
 
-BIN_DIR="${HOME}/bin"
 LOCAL_DIR="${HOME}/.local"
 LOCAL_BIN_DIR="${LOCAL_DIR}/bin"
-
-if [ ${MACHINE_OS} = "MacOS" ]; then
-  FONTS_DIR="${HOME}/Library/Fonts"
-elif [ ${MACHINE_OS} = "Linux" ]; then
-  FONTS_DIR="${HOME}/.local/share/fonts"
-else
-  echo "Unknown OS: ${UNAME_OUTPUT}"
-  exit 1
-fi
 
 MISE_CONFIG_DIR="${HOME}/.config/mise"
 
@@ -38,14 +27,18 @@ else
   export MISE_ENV="linux"
 fi
 
-[ -d "${BASE_DIR}" ] || exit 1
-mkdir -p "${BIN_DIR}"
+# Everything else mise creates itself: `[dotfiles]` targets get their parent
+# dirs, and the mise config dir must exist before mise can read it.
 mkdir -p "${LOCAL_BIN_DIR}"
-mkdir -p "${FONTS_DIR}"
 mkdir -p "${MISE_CONFIG_DIR}"
-mkdir -p "${HOME}/.config/opencode"
-mkdir -p "${HOME}/.claude"
-mkdir -p "${HOME}/.codex"
+
+function info {
+  set +x
+  echo
+  echo "=== ${1} ==="
+  echo
+  set -x
+}
 
 function _system {
   info "updating the system"
@@ -55,23 +48,63 @@ function _system {
       exit 1
     fi
 
-    BREW_CASKS=$(tr '\n' ' ' <"${BASE_DIR}/packages/brew-casks")
-    # shellcheck disable=2086
-    brew install --cask ${BREW_CASKS}
+    (
+      # The repo config must be loaded for [bootstrap.packages].
+      cd "${BASE_DIR}"
 
-    # Drop casks no longer declared in packages/brew-casks (mirrors `mise prune` for formulae).
-    UNDECLARED_CASKS=$(comm -23 \
-      <(brew list --cask 2>/dev/null | sort) \
-      <(sort "${BASE_DIR}/packages/brew-casks"))
-    if [ -n "${UNDECLARED_CASKS}" ]; then
-      # shellcheck disable=2086
-      brew uninstall --cask ${UNDECLARED_CASKS}
-    fi
+      # mise owns which formulae are needed (its closure plus `packages prune`).
+      # Stop brew's autoremove — run by the `brew cleanup`/`brew uninstall` calls
+      # below — from deleting closure deps mise still wants, e.g. a mid-transition
+      # dep like openssl@4 that no installed formula records yet. Otherwise mise
+      # repours it every run and cleanup deletes it again, an endless loop.
+      export HOMEBREW_NO_AUTOREMOVE=1
 
-    brew update
-    brew upgrade
-    brew autoremove
-    brew cleanup
+      "${MISE_BINARY}" bootstrap packages apply --yes
+
+      # mise's brew backend only overwrites links it created, so any formula not
+      # installed by mise (a brew-installed dependency, or a half-linked leftover
+      # from an earlier aborted run) fails `cannot link ...: files not created by
+      # mise or brew` when mise upgrades it. Unlink everything this upgrade is
+      # about to pour so mise relinks each fresh. Unconditional on purpose: a
+      # record-less orphan conflicts just the same, and `brew unlink` clears it
+      # regardless. Safe because the same run repours each formula (keg is kept).
+      "${MISE_BINARY}" bootstrap packages upgrade --manager brew --dry-run --yes 2>/dev/null |
+        sed -n 's#^pour \([^/]*\)/.*#\1#p' |
+        while IFS= read -r formula; do
+          brew unlink "${formula}" || true
+        done
+
+      "${MISE_BINARY}" bootstrap packages upgrade --yes
+      "${MISE_BINARY}" bootstrap packages prune --manager brew --yes
+
+      # mise prune only handles formulae; casks still need manual pruning
+      # against the brew-cask entries declared in mise.macos.toml.
+      DECLARED_CASKS=$("${MISE_BINARY}" bootstrap packages status --json |
+        jq -r '.["brew-cask"].packages[].package' | sort)
+      # A failure inside the process substitution below would go unnoticed
+      # (`set -e` can't see it, and jq exits 0 on empty input), leaving `comm`
+      # to report every installed cask as undeclared and uninstall the lot.
+      # mise.macos.toml always declares some, so empty means something broke.
+      if [ -z "${DECLARED_CASKS}" ]; then
+        echo "no brew-cask entries reported; refusing to prune casks" >&2
+        exit 1
+      fi
+
+      UNDECLARED_CASKS=$(comm -23 \
+        <(brew list --cask 2>/dev/null | sort) \
+        <(printf '%s\n' "${DECLARED_CASKS}"))
+      if [ -n "${UNDECLARED_CASKS}" ]; then
+        # --force also removes phantom Caskroom dirs (e.g. tmp leftovers from
+        # a failed mise cask install), which plain uninstall errors on.
+        # shellcheck disable=2086
+        brew uninstall --cask --force ${UNDECLARED_CASKS}
+      fi
+
+      # mise prune removes undeclared formulae but leaves old keg versions and
+      # the download cache behind (it pours new versions alongside old ones);
+      # brew cleanup reclaims those, keeping only the currently-linked keg.
+      brew cleanup
+    )
   elif [ ${MACHINE_OS} = "Linux" ]; then
     (
       if ! locale -a 2>/dev/null | grep -qiE '^en_US\.utf-?8$'; then
@@ -82,11 +115,11 @@ function _system {
       sudo apt update --list-cleanup
       sudo apt dist-upgrade --purge
       sudo apt build-dep python3
-      sudo flatpak update
-      sudo flatpak uninstall --unused
+      sudo flatpak update || true
+      sudo flatpak uninstall --unused || true
       sudo apt autoremove --purge
       sudo apt clean
-    ) || true
+    )
   else
     echo "Unknown OS: ${UNAME_OUTPUT}"
     exit 1
@@ -108,7 +141,7 @@ function _pre {
 
   # The global config must exist before mise can read [tools]; everything else
   # is symlinked declaratively from mise.toml's [dotfiles] during bootstrap.
-  create_symlink "${BASE_DIR}/mise/config.toml" "${MISE_CONFIG_DIR}/config.toml"
+  ln -sfn "${BASE_DIR}/mise/config.toml" "${MISE_CONFIG_DIR}/config.toml"
   "${MISE_BINARY}" trust "${BASE_DIR}/mise.toml"
 }
 
@@ -123,22 +156,9 @@ function _mise-bootstrap {
 function _mise {
   info "updating mise"
 
+  set +x
   eval "$("${MISE_BINARY}" activate bash)"
-
-  today=$(date +%Y-%m-%d)
-  marker_file="${HOME}/.cache/mise-last-cache-clear"
-  if [ -f "$marker_file" ]; then
-    last_run_date=$(cat "$marker_file")
-    if [ "$last_run_date" == "$today" ]; then
-      echo "Mise cache already cleared today. Skipping..."
-    else
-      "${MISE_BINARY}" cache clear
-      echo "$today" >"$marker_file"
-    fi
-  else
-    "${MISE_BINARY}" cache clear
-    echo "$today" >"$marker_file"
-  fi
+  set -x
 
   if [ ${MACHINE_OS} = "Linux" ]; then
     "${MISE_BINARY}" self-update || true
@@ -146,8 +166,10 @@ function _mise {
 
   (
     if [ -f "${HOME}/.mise_secret_env.sh" ]; then
+      set +x
       # shellcheck disable=1091
       source "${HOME}/.mise_secret_env.sh"
+      set -x
     fi
     "${MISE_BINARY}" plugins update -y || true
     "${MISE_BINARY}" upgrade -y || true
@@ -155,39 +177,12 @@ function _mise {
   )
 }
 
-function _fonts {
-  info "installing fonts"
-
-  download_file \
-    "${FONTS_DIR}/codicon.ttf" \
-    https://unpkg.com/@vscode/codicons/dist/codicon.ttf
-  download_file \
-    "${FONTS_DIR}/Hack Regular Nerd Font Complete.ttf" \
-    https://raw.githubusercontent.com/ryanoasis/nerd-fonts/master/patched-fonts/Hack/Regular/HackNerdFont-Regular.ttf
-  download_file \
-    "${FONTS_DIR}/Inconsolata Nerd Font Complete.ttf" \
-    https://raw.githubusercontent.com/ryanoasis/nerd-fonts/master/patched-fonts/Inconsolata/InconsolataNerdFont-Regular.ttf
-  download_file \
-    "${FONTS_DIR}/Fira Code Regular Nerd Font Complete.ttf" \
-    https://raw.githubusercontent.com/ryanoasis/nerd-fonts/master/patched-fonts/FiraCode/Regular/FiraCodeNerdFont-Regular.ttf
-  download_file \
-    "${FONTS_DIR}/JetBrains Mono Nerd Font Complete.ttf" \
-    https://raw.githubusercontent.com/ryanoasis/nerd-fonts/master/patched-fonts/JetBrainsMono/NoLigatures/Regular/JetBrainsMonoNLNerdFont-Regular.ttf
-
-  if [ ${MACHINE_OS} = "Linux" ]; then
-    if [ "$(gsettings get org.gnome.desktop.interface monospace-font-name)" != "'Hack Nerd Font 11'" ]; then
-      gsettings set org.gnome.desktop.interface monospace-font-name 'Hack Nerd Font 11'
-    fi
-  fi
-}
-
 function _ {
   (
     cd "${HOME}"
     _pre
-    _mise-bootstrap
     _system
-    _fonts
+    _mise-bootstrap
     _mise
   )
 }

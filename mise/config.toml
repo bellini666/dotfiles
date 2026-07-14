@@ -21,9 +21,6 @@ review = "tuicr"
 pre-commit = "prek"
 
 [env]
-OPENCODE_EXPERIMENTAL_ICON_DISCOVERY = "true"
-OPENCODE_EXPERIMENTAL_FILEWATCHER = "true"
-OPENCODE_EXPERIMENTAL_LSP_TOOL = "true"
 CLAUDE_CONFIG_DIR = "{{env.HOME}}/.claude"
 CLAUDE_CODE_NO_FLICKER = "1"
 
@@ -109,6 +106,9 @@ yazi = 'latest'
 # rust tools
 "cargo:tuicr" = 'latest'
 
+# github-release tools
+"github:eugene1g/agent-safehouse" = { version = "latest", asset_pattern = "safehouse.sh", bin = "safehouse" }
+
 # runtimes (needs to be last)
 bun = 'latest'
 deno = 'latest'
@@ -139,7 +139,7 @@ docker buildx prune -a -f
 """
 
 [tasks."docker:prune-all"]
-depends = ["docker:stop-all", "docker:prune"]
+depends = ["docker:prune"]
 description = 'Docker prune all'
 run = """
 docker volume prune -a -f

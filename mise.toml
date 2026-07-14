@@ -1,9 +1,3 @@
-# Machine-setup config, applied by `mise bootstrap` (run from bootstrap.sh).
-# Loaded because the `bootstrap` shell function cd's into this repo first, so it
-# merges with the global ~/.config/mise/config.toml (tools/settings/env) and the
-# per-OS package files mise.macos.toml / mise.linux.toml (via MISE_ENV).
-# Must be trusted: `mise trust`.
-
 [dotfiles]
 # Sources are relative to this file (~/.dotfiles). Default mode is symlink.
 "~/.claude/CLAUDE.md" = "agents/AGENTS.md"
@@ -24,10 +18,6 @@
 "~/.config/nvim" = "vim"
 "~/.zsh_plugins.txt" = "zsh/zsh_plugins.txt"
 "~/.zshrc" = "zsh/zshrc"
-
-[tasks.bootstrap]
-description = "Project-specific setup that doesn't fit the declarative sections"
-run = "poetry config virtualenvs.in-project true"
 
 [bootstrap.hooks.final]
 run = """

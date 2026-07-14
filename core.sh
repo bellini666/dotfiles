@@ -42,14 +42,7 @@ fi
 export EDITOR=nvim
 export GIT_SSH=ssh
 
-# less: skip the pager when output fits one screen (F), keep colors (R),
-# and leave output in scrollback instead of the alternate screen (X)
-export LESS=-RX
-
 # mise
-export MISE_USE_TOML=1
-# gh keeps its token in the keyring, which mise's gh_cli_tokens path can't read;
-# have mise pull it via gh to avoid the anonymous GitHub API rate limit.
 if command -v gh >/dev/null 2>&1; then
   export MISE_GITHUB_CREDENTIAL_COMMAND="gh auth token"
 fi
