@@ -106,7 +106,7 @@ local servers = {
   "taplo", -- https://taplo.tamasfe.dev/cli/usage/language-server.html
   "stylua3p_ls", -- https://github.com/antonk52/lua-3p-language-servers
   "marksman", -- https://github.com/artempyanykh/marksman
-  "pytest", -- https://github.com/bellini666/pytest-language-server
+  "pytest_language_server", -- https://github.com/bellini666/pytest-language-server
   "gopls", -- https://github.com/golang/tools
   "tilt_ls", -- https://github.com/tilt-dev/tilt
   "ruff", -- https://github.com/astral-sh/ruff
