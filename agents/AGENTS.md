@@ -73,7 +73,11 @@ Applies to any agent or CLI unless explicitly overridden by tool defaults.
 - Write reproduction tests using real inputs and actual code paths, not synthetic mocks that mirror implementation
 - The main/master branch is always green. If a test fails after your changes, your changes caused it — trace the connection and fix it, even if you didn't touch that test directly.
 - When fixing failing tests, fix code or test setup/parameters — NEVER weaken assertions, bump expected query counts, or make required fields Optional to silence type errors
-- In test files, put imports at module level — not inside test functions or fixtures. Local imports only with a concrete reason: avoiding a circular import, optional/conditional dependency, or a side-effecting import that must be deferred.
+
+## Test Imports
+
+- Test imports go at module level. Always. Not inside test functions or fixtures.
+- The only exceptions: circular import, optional/conditional dependency, or a side-effecting import that must be deferred. If none apply, it goes at the top.
 
 ## Approach Methodology
 
