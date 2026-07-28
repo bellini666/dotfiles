@@ -42,11 +42,11 @@ function _pre {
   # about to repour, and a brew-owned mise would delete its own binary
   # mid-run whenever a new mise is released.
   [ -x "${MISE_BINARY}" ] || curl https://mise.run | sh
+  "${MISE_BINARY}" self-update -y || true
 
   # The global config must exist before mise can read [tools]; everything else
   # is symlinked declaratively from mise.toml's [dotfiles] during bootstrap.
   ln -sfn "${BASE_DIR}/mise/config.toml" "${MISE_CONFIG_DIR}/config.toml"
-  "${MISE_BINARY}" trust "${BASE_DIR}/mise.toml"
 }
 
 function _mise-bootstrap {
@@ -59,12 +59,6 @@ function _mise-bootstrap {
 
 function _mise {
   info "updating mise"
-
-  set +x
-  eval "$("${MISE_BINARY}" activate bash)"
-  set -x
-
-  "${MISE_BINARY}" self-update -y || true
 
   (
     if [ -f "${HOME}/.mise_secret_env.sh" ]; then
