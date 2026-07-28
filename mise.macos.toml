@@ -117,19 +117,6 @@ command -v brew >/dev/null 2>&1 || { echo "brew not found" >&2; exit 1; }
 # repours it every run and cleanup deletes it again, an endless loop.
 export HOMEBREW_NO_AUTOREMOVE=1
 
-# mise's brew backend only overwrites links it created, so any formula not
-# installed by mise (a brew-installed dependency, or a half-linked leftover
-# from an earlier aborted run) fails `cannot link ...: files not created by
-# mise or brew` when mise upgrades it. Unlink everything this upgrade is
-# about to pour so mise relinks each fresh. Unconditional on purpose: a
-# record-less orphan conflicts just the same, and `brew unlink` clears it
-# regardless. Safe because the same run repours each formula (keg is kept).
-mise bootstrap packages upgrade --manager brew --dry-run --yes 2>/dev/null |
-  sed -n 's#^pour \([^/]*\)/.*#\1#p' |
-  while IFS= read -r formula; do
-    brew unlink "${formula}" || true
-  done
-
 mise bootstrap packages upgrade --yes
 mise bootstrap packages prune --manager brew --yes
 
