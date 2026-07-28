@@ -4,6 +4,10 @@
 ;; allowed for LMDB but multiprocessing on macOS uses the POSIX variant.
 (allow ipc-posix-sem)
 
+;; libfaketime's ft_shm_create() calls shm_open("/faketime_shm_<pid>"); same
+;; deny-default gap as the semaphores above, so time-faking tests die at startup.
+(allow ipc-posix-shm)
+
 ;; This machine's ssh-agent SSH_AUTH_SOCK lives under /var/run (→ /private/var/run),
 ;; but safehouse's ssh integration only whitelists the /tmp and /private/tmp launchd
 ;; Listeners variants. Since it also denies reading ~/.ssh private keys, the agent
