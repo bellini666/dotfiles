@@ -4,6 +4,9 @@ trusted_config_paths = ["~/.dotfiles"]
 cache_prune_age = "7d"
 idiomatic_version_file_enable_tools = ["python", "node", "ruff"]
 
+[settings.cargo]
+binstall_native = true
+
 [settings.pipx]
 uvx = true
 
