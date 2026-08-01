@@ -50,7 +50,6 @@
 "brew:inetutils" = "latest"
 "brew:jj" = "latest"
 "brew:jq" = "latest"
-"brew:k9s" = "latest"
 "brew:kotlin" = "latest"
 "brew:kubectx" = "latest"
 "brew:kubernetes-cli" = "latest"
