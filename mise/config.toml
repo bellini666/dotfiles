@@ -113,7 +113,7 @@ yazi = 'latest'
 "cargo:tuicr" = 'latest'
 
 # github-release tools
-"github:eugene1g/agent-safehouse" = { version = "latest", asset_pattern = "safehouse.sh", bin = "safehouse" }
+"github:eugene1g/agent-safehouse" = { version = "latest", asset_pattern = "safehouse.sh", bin = "safehouse", os = ["macos"] }
 
 # runtimes (needs to be last)
 bun = 'latest'

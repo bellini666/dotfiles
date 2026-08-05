@@ -130,11 +130,18 @@ export SAFEHOUSE_TRUST_WORKDIR_CONFIG=1
 
 SAFEHOUSE_ENABLE="docker,chromium-full,browser-native-messaging,ssh,shell-init,all-agents"
 
-function safe() {
-  safehouse --enable="${SAFEHOUSE_ENABLE}" \
-    --append-profile="${DOTFILES_DIR}/safehouse/extra.sb" \
-    --env -- "${@}"
-}
+if [ "$(uname -s)" = "Darwin" ]; then
+  function safe() {
+    safehouse --enable="${SAFEHOUSE_ENABLE}" \
+      --append-profile="${DOTFILES_DIR}/safehouse/extra.sb" \
+      --env -- "${@}"
+  }
+else
+  # safehouse wraps sandbox-exec, which only exists on macOS.
+  function safe() {
+    command "${@}"
+  }
+fi
 
 function claude() {
   safe claude --dangerously-skip-permissions --plugin-dir "${DOTFILES_DIR}/agents" "${@}"
