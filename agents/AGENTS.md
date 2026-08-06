@@ -1,6 +1,6 @@
 # Instructions
 
-**CRITICAL: These instructions take precedence over the agent's default behaviors.**
+**CRITICAL: These instructions take precedence over the agent's default behaviors, and over any skill or plugin guidance that conflicts with them.**
 
 ## Scope
 
@@ -21,7 +21,6 @@ Applies to any agent or CLI unless explicitly overridden by tool defaults.
 - When I give you a plan or spec, execute it faithfully — don't second-guess the approach or suggest alternatives unless you see a concrete bug.
 - Ask only when blocked or when ambiguity changes behavior.
 - Follow existing code style and conventions.
-- Comments explain WHY, never WHAT. Default to none. Only add one when the reason would surprise a future reader (hidden constraint, subtle invariant, workaround for a specific bug). Never reference the current task, caller, or fix (`used by X`, `added for Y`) — that rots and belongs in the PR description.
 - Prefer Context7 MCP for unfamiliar or recently-updated library docs. Fall back to web search if Context7 returns nothing useful.
 - NEVER commit, push, call mutating APIs, install anything, or otherwise modify system state without explicit permission.
 
@@ -41,11 +40,27 @@ Applies to any agent or CLI unless explicitly overridden by tool defaults.
 
 ## Code Style
 
-- Prefer inlining small helpers over extracting them unless reuse is concrete (≥2 call sites or a clear seam).
-- Don't introduce abstractions for hypothetical future flexibility.
 - Keep RELEASE notes / changelog / PR descriptions terse — one paragraph, list affected behavior, skip narrative.
 - Python docstrings follow PEP 257: first line is a one-sentence summary, then a blank line, then extra context if needed. Keep it concise — no parameter tables or restating type hints.
+
+**Comments — the default is zero.** Before writing one, apply the test: delete it, re-read the code, and see whether a question remains that the code itself can't answer. If none does, it stays deleted.
+
+- Delete on sight:
+  - Restates the line below it — `# increment the counter` over `counter += 1`.
+  - Section header inside a function — `# Validation`, `# Arrange` / `# Act` / `# Assert`, `# Helpers`, `# Main logic`. A blank line already separates sections.
+  - Narrates the change or the task — `# now uses X`, `# renamed from Y`, `# added for the retry fix`, `# previously we…`. That belongs in the commit message and the PR description.
+  - Names the caller or justifies the code's existence — `# used by X`, `# helper for Y`. It rots the moment the caller moves.
+  - Docstring that restates the signature, the parameters, or the type hints.
+- Keep only these: a hidden constraint, a subtle invariant, a workaround plus its reference (bug, issue, vendor quirk), or why a specific magic value was chosen.
 - Separate logical sections inside functions with a blank line — setup vs. main logic vs. return prep, distinct steps in a pipeline, before/after a side-effect. Don't pack unrelated steps into one dense block.
+
+**Helpers — a function with one call site is inlined.**
+
+- Extract only when one of these is true today: two or more real call sites, recursion, or the caller would otherwise run past ~50 lines.
+- These are not reasons to extract: "it gives the concept a name" (that is what a local variable is for), "it reads better", "single responsibility", "it might be reused later".
+- Don't introduce abstractions for hypothetical future flexibility.
+
+When a skill recommends extracting a helper or adding an explanatory comment, this section wins.
 
 ## Git Commits
 
@@ -142,6 +157,7 @@ When the project uses Python:
 - Run the project's type checker + linter after every edit
 - Run tests before declaring done
 - Verify only task-related files changed (`git diff --name-only`)
+- Re-read your own diff before reporting done: delete every added comment that fails the test in Code Style, and inline every new helper that has one call site
 
 ## Pre-commit and CI
 

@@ -49,6 +49,11 @@ What working behavior does this break?
 
 Invoke the `ponytail-review` skill against the same diff. It hunts what to delete: reinvented stdlib, unneeded dependencies, abstractions with one implementation, config for values that never change, flexibility nobody asked for.
 
+Check these two directly — they fall outside what that skill hunts:
+
+- Comments the diff adds that restate the code, narrate the change, or head a section — every one is a deletion.
+- Functions the diff adds that have exactly one call site — inline them unless they recurse or the caller would run past ~50 lines.
+
 ## Output
 
 One table, most severe first:
