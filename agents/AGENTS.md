@@ -43,9 +43,16 @@ Applies to any agent or CLI unless explicitly overridden by tool defaults.
 
 - Use semver prefixes in commit messages (e.g., `feat:`, `fix:`, `chore:`)
 - Imperative mood, <72 chars
-- Do not add Co-Authored-By trailers
 - NEVER run `git clean` — repositories contain globally gitignored personal files that must be preserved
-- NEVER add "Generated with Claude Code", "Created by Claude Code", or similar AI attribution footers to PR/MR descriptions or comments
+- Commit messages end with the trailer `Co-Authored-By: <model name> <noreply@anthropic.com>` (e.g. `Claude Opus 5`), blank line before it
+- ALWAYS end PR/MR descriptions with this footer, blank line before it, model name substituted, no other AI-attribution boilerplate:
+
+  ```
+  🤖 Written with [Claude Code](https://claude.com/claude-code), reviewed by the author before opening.
+
+  Co-Authored-By: <model name> <noreply@anthropic.com>
+  ```
+
 - MR/PR descriptions describe the diff, not the chronology of how the work was done. Strip reviewer-irrelevant narrative.
 - Match commit message framing to the actual code change, not the journey to it.
 - Before any force-push, check for rebase divergence (`git log @{u}..` and `git log ..@{u}`) and drop commits already squashed into the target branch.
