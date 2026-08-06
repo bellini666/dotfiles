@@ -42,6 +42,10 @@ fi
 export EDITOR=nvim
 export GIT_SSH=ssh
 
+# less: keep colors (R) and leave output in scrollback instead of the
+# alternate screen (X). No F: it skips paging on some long outputs.
+export LESS=-RX
+
 # mise
 if command -v gh >/dev/null 2>&1; then
   export MISE_GITHUB_CREDENTIAL_COMMAND="gh auth token"

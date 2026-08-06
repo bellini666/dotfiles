@@ -10,9 +10,6 @@
     excludesfile = ~/.gitignore
     attributesfile = ~/.gitattributes
 
-[color]
-    ui = always
-
 [diff]
     noprefix = true
     colorMoved = default
@@ -79,10 +76,8 @@
     st = status
     di = diff
     dis = diff --cached
-    din = diff --color=never
-    dins = diff --cached --color=never
     fuck = reset --soft HEAD@{1}
     fe = fetch --all
     rm-stale = "!f(){\
-        git branch --color=never | grep -v "master" | grep -v "main" | grep -v ^* | xargs git branch -D;\
+        git branch | grep -v "master" | grep -v "main" | grep -v ^* | xargs git branch -D;\
     }; f"
