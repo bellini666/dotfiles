@@ -30,6 +30,14 @@ Applies to any agent or CLI unless explicitly overridden by tool defaults.
 - For any non-trivial change, propose the minimal plan first, then wait — do not stack multiple "while I'm here" edits.
 - Before any fix, state the root cause in one sentence with a code reference. Reject your own first patch if it masks symptoms (try/except, narrow checks, refactors that hide the bug).
 - If you've explored 3-4 steps without a concrete finding, stop and report what you know vs. don't know.
+- A question ("why…", "is this correct?", "should I…") gets an answer, not an edit. Answer, then stop.
+
+## Evidence Before Claims
+
+- Don't state a root cause as fact without logs, a query result, an API response, or a failing reproduction behind it. Unproven means it's labelled "hypothesis, unverified".
+- Don't claim an environment limitation ("tests can't run here", "that file is read-only") without running the command and pasting the actual error.
+- While investigating, don't run anything that destroys the evidence — reinstalls, cache wipes, `--force` anything. Capture the current state first.
+- If an earlier claim turns out wrong, say so before continuing.
 
 ## Code Style
 
@@ -78,6 +86,7 @@ Applies to any agent or CLI unless explicitly overridden by tool defaults.
 - Write reproduction tests using real inputs and actual code paths, not synthetic mocks that mirror implementation
 - The main/master branch is always green. If a test fails after your changes, your changes caused it — trace the connection and fix it, even if you didn't touch that test directly.
 - When fixing failing tests, fix code or test setup/parameters — NEVER weaken assertions, bump expected query counts, or make required fields Optional to silence type errors
+- A regression test must be seen failing before the fix exists — write it first, or revert the fix and re-run. Feature tests don't need this.
 
 ## Test Imports
 
@@ -110,6 +119,16 @@ Applies to any agent or CLI unless explicitly overridden by tool defaults.
 ## Environment Detection
 
 - For configuration: check existing config patterns in the repo (e.g., .env, settings files) before inventing new ones
+
+## Sandbox
+
+Sessions run inside `agent-safehouse`, a deny-by-default macOS seatbelt profile. Grants come from `core.sh`:
+
+- Read/write: the working directory, `~/Downloads`, `~/.cache`
+- Read-only: `~/.dotfiles`, `~/Library/Caches/Homebrew`, `~/.gitconfig`, `~/.gitignore`, `~/.gitattributes`, `~/.npmrc`
+- Everything else is denied, including sibling project directories under `~/dev` and `/opt/homebrew/Cellar`
+
+When a task needs a path outside that set, say so up front and hand over the exact command instead of retrying — retries won't help, the denial is static for the session. Never widen the sandbox yourself; ask.
 
 ## Python Projects
 

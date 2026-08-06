@@ -45,6 +45,7 @@ grep -r "@pytest.fixture" tests/ | head  # Find existing fixtures
 6. **Reuse fixtures** — use existing fixtures; create new ones only when needed
 7. **Detect project test style** — examine existing tests to determine function vs class style; match it
 8. **Place helpers correctly** — put shared helpers in existing `conftest.py` or test helper locations
+9. **Watch a regression test fail first** — when the test closes a specific defect, run it against the unfixed code and paste the failure. Write it before the fix, or revert the fix and re-run. A regression test only ever seen passing proves nothing. Feature tests are exempt.
 
 ## Test Naming
 
