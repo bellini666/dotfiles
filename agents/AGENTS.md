@@ -48,9 +48,7 @@ Applies to any agent or CLI unless explicitly overridden by tool defaults.
 - ALWAYS end PR/MR descriptions with this footer, blank line before it, model name substituted, no other AI-attribution boilerplate:
 
   ```
-  🤖 Written with [Claude Code](https://claude.com/claude-code), reviewed by the author before opening.
-
-  Co-Authored-By: <model name> <noreply@anthropic.com>
+  Co-Authored-By: 🤖 Claude [Claude Code](https://claude.com/claude-code), reviewed by the author
   ```
 
 - MR/PR descriptions describe the diff, not the chronology of how the work was done. Strip reviewer-irrelevant narrative.
