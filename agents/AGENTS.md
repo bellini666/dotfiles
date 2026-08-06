@@ -45,7 +45,7 @@ Applies to any agent or CLI unless explicitly overridden by tool defaults.
 - Imperative mood, <72 chars
 - NEVER run `git clean` — repositories contain globally gitignored personal files that must be preserved
 - Commit messages end with the trailer `Co-Authored-By: <model name> <noreply@anthropic.com>` (e.g. `Claude Opus 5`), blank line before it
-- ALWAYS end PR/MR descriptions with this footer, blank line before it, model name substituted, no other AI-attribution boilerplate:
+- ALWAYS end PR/MR descriptions with this footer, blank line before it, model name substituted, no other AI-attribution boilerplate (this is different from the commit message trailer)
 
   ```
   Co-Authored-By: 🤖 Claude [Claude Code](https://claude.com/claude-code), reviewed by the author
