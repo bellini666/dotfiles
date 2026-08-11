@@ -140,8 +140,8 @@ When a skill recommends extracting a helper or adding an explanatory comment, th
 Sessions run inside `agent-safehouse`, a deny-by-default macOS seatbelt profile. Grants come from `core.sh`:
 
 - Read/write: the working directory, `~/Downloads`, `~/.cache`
-- Read-only: `~/.dotfiles`, `~/Library/Caches/Homebrew`, `~/.gitconfig`, `~/.gitignore`, `~/.gitattributes`, `~/.npmrc`
-- Everything else is denied, including sibling project directories under `~/dev` and `/opt/homebrew/Cellar`
+- Read-only: `~/.dotfiles`, `/opt/homebrew`, `~/Library/Caches/Homebrew`, `~/.gitconfig`, `~/.gitignore`, `~/.gitattributes`, `~/.npmrc`
+- Everything else is denied, including sibling project directories under `~/dev`
 
 When a task needs a path outside that set, say so up front and hand over the exact command instead of retrying — retries won't help, the denial is static for the session. Never widen the sandbox yourself; ask.
 
