@@ -111,36 +111,21 @@ run = '''
 command -v brew >/dev/null 2>&1 || { echo "brew not found" >&2; exit 1; }
 
 # mise owns which formulae are needed (its closure plus `packages prune`).
-# Stop brew's autoremove — run by the `brew cleanup`/`brew uninstall` calls
-# below — from deleting closure deps mise still wants, e.g. a mid-transition
-# dep like openssl@4 that no installed formula records yet. Otherwise mise
-# repours it every run and cleanup deletes it again, an endless loop.
+# Stop brew's autoremove — run by the `brew cleanup` below — from deleting
+# closure deps mise still wants, e.g. a mid-transition dep like openssl@4
+# that no installed formula records yet. Otherwise mise repours it every
+# run and cleanup deletes it again, an endless loop.
 export HOMEBREW_NO_AUTOREMOVE=1
 
 mise bootstrap packages upgrade --yes
 mise bootstrap packages prune --manager brew --yes
+mise bootstrap packages prune --manager brew-cask --yes
 
-# mise prune only handles formulae; casks still need manual pruning
-# against the brew-cask entries declared above.
-DECLARED_CASKS=$(mise bootstrap packages status --json |
-  jq -r '.["brew-cask"].packages[].package')
-# jq exits 0 on empty input, so an upstream failure would leave every
-# installed cask looking undeclared and uninstall the lot. This file always
-# declares some, so empty means something broke.
-if [ -z "${DECLARED_CASKS}" ]; then
-  echo "no brew-cask entries reported; refusing to prune casks" >&2
-  exit 1
-fi
-
-UNDECLARED_CASKS=$(brew list --cask 2>/dev/null | grep -vxF "${DECLARED_CASKS}" || true)
-if [ -n "${UNDECLARED_CASKS}" ]; then
-  # --force also removes phantom Caskroom dirs (e.g. tmp leftovers from
-  # a failed mise cask install), which plain uninstall errors on.
-  brew uninstall --cask --force ${UNDECLARED_CASKS}
-fi
-
-# mise prune removes undeclared formulae but leaves old keg versions and
-# the download cache behind (it pours new versions alongside old ones);
-# brew cleanup reclaims those, keeping only the currently-linked keg.
+# mise prune leaves old keg versions and the download cache behind (it pours
+# new versions alongside old ones); brew cleanup reclaims those. It needs the
+# `update` first: cleanup only drops a keg older than what brew's own API
+# snapshot calls current, and mise pours without ever refreshing that snapshot,
+# so brew otherwise still believes the superseded keg is the latest.
+brew update --quiet
 brew cleanup
 '''
