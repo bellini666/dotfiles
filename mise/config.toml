@@ -50,7 +50,7 @@ pdm = 'latest'
 pnpm = 'latest'
 poetry = 'latest'
 prek = 'latest'
-rtk = 'latest'
+rtk = { version = "latest", postinstall = "rtk init -g --hook-only --auto-patch && rtk init -g --hook-only --auto-patch --opencode" }
 ruff = 'latest'
 rust-analyzer = 'latest'
 terraform = 'latest'

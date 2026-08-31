@@ -22,7 +22,5 @@
 [bootstrap.hooks.final]
 run = """
 claude update || true
-rtk init -g --hook-only --auto-patch || true
-rtk init -g --hook-only --auto-patch --opencode || true
 zsh -i -c "antidote update -b"
 """
