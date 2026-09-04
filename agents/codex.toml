@@ -21,3 +21,9 @@ matcher = "^(Bash|apply_patch)$"
 [[hooks.PreToolUse.hooks]]
 type = "command"
 command = "node $HOME/.dotfiles/agents/hooks/pre-tool-use/protect-secrets.js"
+
+[[hooks.PreToolUse]]
+matcher = "^(Bash|apply_patch)$"
+[[hooks.PreToolUse.hooks]]
+type = "command"
+command = "node $HOME/.dotfiles/agents/hooks/pre-tool-use/lint-prose.js"

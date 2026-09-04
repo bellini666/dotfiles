@@ -1,182 +1,179 @@
 ---
 name: humanizer
-description: "This skill should be used when the user asks to 'humanize text', 'remove AI writing patterns', 'make this sound more human', 'fix AI writing', 'edit for natural voice', or when about to draft user-facing prose: a pull request description, merge request description, changelog entry, commit message body, README section, blog post, design doc, release note, or any documentation paragraph. Trigger proactively before submitting written text, not only on explicit 'humanize' requests. Detects and removes inflated language, promotional tone, em dashes, rule of three, AI vocabulary, passive voice, negative parallelisms, and filler phrases per Wikipedia's 'Signs of AI writing' guide."
+description: "Rewrites and drafts prose so it reads like a terse engineer wrote it: PR/MR descriptions, review replies, commit bodies, changelog entries, code comments, READMEs, docs. Use before posting any of those, and when the user asks to humanize text, remove AI writing patterns, make text sound human, or check whether text sounds AI-generated. Strips em dashes, old-behavior narration, fancy vocabulary, negative parallelisms, filler, and chatbot artifacts. Never invents facts."
 ---
 
-# Humanizer: Remove AI Writing Patterns
+# Humanizer
 
-Identify and remove signs of AI-generated text to make writing sound natural and human. Patterns are sourced from Wikipedia's "Signs of AI writing" guide, maintained by WikiProject AI Cleanup.
+Text that a reader who did not do the work can understand in one read. The diff carries the what; prose carries only the why and what the diff cannot show.
 
-## Hard Rules (run before anything else)
+## Hard rules
 
-These are non-negotiable. Apply them before considering anything else in this document. They catch the most common AI tells without scanning the full pattern catalog.
+Apply these before anything else. They catch most tells without the full catalog.
 
-- Any em dash (`—`)? Replace with comma, period, or parentheses. The only exception is inside a quoted example of bad writing you are showing the reader.
-- Any sentence starts with What/When/Where/Which/Who/Why/How as a setup ("What makes this hard is…")? Restructure.
-- Any "Here's what / Here's the thing / The truth is" throat-clearing? Cut to the point.
-- Any "Not X, it's Y" or "It's not just X, it's Y" contrast? State Y directly.
-- Any inanimate noun doing a human verb ("the decision emerges", "the data tells us")? Name the actor.
-- Any passive voice or subjectless fragment ("results are preserved automatically")? Find the actor and use active voice.
-- Any vague declarative ("the implications are significant", "the stakes are high")? Name the specific implication or cut it.
-- Any narrator-from-a-distance line ("Nobody designed this", "People tend to…")? Put the reader in the scene.
-- Any adverb crutch (really, just, literally, genuinely, simply, deeply, truly, fundamentally)? Strip on first pass; add back only ones that change meaning.
-- Three consecutive sentences the same length? Break one.
-- Paragraph ends on a punchy one-liner? Vary it.
-- Any sentence that sounds like a pull-quote? Rewrite it.
+1. Describe the current state. Never the old behavior, what was avoided, what was preserved, or what the change does not do. "Previously X, now Y" becomes "Y". "Y instead of X" becomes "Y". "Retry logic is the same" says nothing about the retry logic; cut it.
+2. State the problem once. Do not restate it in the title, the first sentence, and the summary.
+3. Bullets over paragraphs for PR/MR text, changelogs, and replies. One line per behavior change.
+4. If a shorter, more common word exists, use it. Suspect any word you would not say out loud to a colleague: quietly, load-bearing, delve, leverage, robust, seamless, comprehensive, streamline, crucial, pivotal, notably, importantly, "it's worth noting".
+5. No em dashes (`—`) or en dashes used as em dashes. Comma, period, colon, or parentheses. The one exception is inside a quoted "Before" example.
+6. No "Not X, it's Y" or "not just X but Y". State Y.
+7. No "Here's what / the thing is / the truth is" throat-clearing. Start with the point.
+8. No sentence that opens with What/When/Where/Why/How as a setup ("What makes this hard is..."). Restructure.
+9. Name the actor. Not "the decision emerged" or "results are preserved automatically"; who did what.
+10. Cut adverb crutches on the first pass: really, just, literally, genuinely, simply, deeply, truly, fundamentally, actually. Add back only ones that change meaning.
+11. No vague significance claims ("the implications are significant", "this matters"). Name the specific thing or cut.
+12. No chatbot residue: "Great question", "Great catch", "I hope this helps", "Let me know if", "You're absolutely right", thanks, apologies.
+13. Vary rhythm: three consecutive sentences of the same length, or a paragraph that ends on a punchy one-liner, gets rewritten.
+14. Preserve every fact. Add none. If a sentence needs a detail you do not have, ask or cut the sentence.
 
-## When to Apply
+## Workflow
 
-Run the patterns below over any prose that will be read by humans, including:
+1. Draft against the template for the artifact (below).
+2. Run the lint over the draft and fix every finding:
 
-- Pull request and merge request descriptions
-- Changelog entries and release notes
-- Commit message bodies (not subject lines)
-- README sections, design docs, ADRs
-- Inline code comments longer than one line
-- Blog posts, technical writing, social posts
+   ```bash
+   node ~/.dotfiles/agents/skills/humanizer/scripts/prose-lint.js --mode prose < draft.md
+   ```
 
-Apply before submitting, not only when explicitly asked to "humanize". Skip for: code itself, machine-readable config, terse log lines, commit subject lines.
+   Use `--mode comment` for code (only comment lines and docstrings are scanned) and `--mode commit` for commit messages (old-behavior rules are off there, because a bug description sometimes needs "raised on None"). Exit 1 means findings; empty output means clean. The same rules run as a PreToolUse hook that denies edits and `git commit` / `gh` / `glab` commands carrying tells, so a draft that fails here will not land.
 
-## Core Workflow
+3. Re-read the result against the hard rules once. The lint is mechanical and only catches the high-precision tells; rules 1 to 3 and 13 need judgment.
+4. Output per the mode below.
 
-1. **Scan** the input for the patterns in the checklist below.
-2. **Rewrite** problematic sections, preserving the core message and the intended tone (formal, casual, technical).
-3. **Add soul.** Removing AI-isms is half the job; the other half is injecting actual personality. Sterile, voiceless writing is just as obvious as slop.
-4. **Re-check Hard Rules.** Walk back through the rules at the top of this file and fix anything that slipped.
-5. **Audit with the rubric.** Score the draft 1-10 on each of the five dimensions below. If the total is under 35/50, revise.
+## Output modes
 
-   | Dimension    | Question                            |
-   | ------------ | ----------------------------------- |
-   | Directness   | States things, or announces them?   |
-   | Rhythm       | Varied, or metronomic?              |
-   | Trust        | Respects the reader's intelligence? |
-   | Authenticity | Sounds like a person?               |
-   | Density      | Anything cuttable?                  |
+- **Proactive** (drafting a PR description, reply, commit body, comment, doc paragraph): output the final text only. No draft, no audit, no summary of what was removed.
+- **"Humanize this"**: return the final rewrite, then at most five bullets naming the tells that were removed, only if the user would learn something from them.
+- **"Does this sound AI?"**: return the findings (quoted phrase plus pattern name) and no rewrite.
 
-6. **Mechanical scan.** Before returning the output, search it character-by-character for: `—` (em dash), `"` and `"` (curly quotes), `…` (Unicode ellipsis), and any cluster of AI-vocabulary words from Pattern 7. If any appear in your own prose (not inside a quoted "Before" example you are showing the user), rewrite that sentence. This step is mechanical, not interpretive: do not skip it because the prose "feels fine".
-7. **Output** a final version. Optionally include a short summary of changes if it helps the user.
+## Templates by artifact
 
-## Voice Calibration (Optional)
+Each pair shows the shape to produce. Substance comes from the actual diff, review comment, or source; never from the example.
 
-When a writing sample is provided (the user's own prior writing), analyze it before rewriting:
+### PR / MR description
 
-1. **Read the sample first.** Note:
-   - Sentence length patterns (short and punchy? long and flowing? mixed?)
-   - Word choice level (casual, academic, in between)
-   - How paragraphs start (jump in, or set context first)
-   - Punctuation habits (dashes, parenthetical asides, semicolons)
-   - Recurring phrases or verbal tics
-   - Transition style (explicit connectors, or just start the next point)
+Before:
 
-2. **Match the sample in the rewrite.** Do not just remove AI patterns. Replace them with patterns from the sample. If the writer uses short sentences, do not produce long ones. If they use "stuff" and "things", do not upgrade to "elements" and "components".
+> Performed a scheduled dependency refresh as part of ongoing maintenance practices. Minor and patch-level version bumps were applied across the dependency graph, including transitive dependencies where applicable. No behavioral changes are expected; existing functionality has been preserved.
 
-3. **When no sample is provided,** fall back to a natural, varied, opinionated voice (see "Personality and Soul" below).
+After:
 
-To provide a sample inline: "Humanize this. Sample of my writing: [...]". To provide a sample by reference: "Humanize this. Use my writing style from [path]."
+```
+Bump dependencies
 
-## Personality and Soul
+- django 5.2.3 -> 5.2.4, celery 5.5.1 -> 5.5.2
+- celery 5.5.2 drops the `task_remote_tracebacks` setting, so it is gone from settings.py
 
-Avoiding AI patterns is only half the job. Sterile, voiceless writing is just as obvious as slop.
+Tests: full suite green locally.
 
-### Signs of soulless writing (even if technically "clean")
+Co-Authored-By: 🤖 Claude [Claude Code](https://claude.com/claude-code), reviewed by the author
+```
 
-- Every sentence the same length and structure
-- No opinions, just neutral reporting
-- No acknowledgement of uncertainty or mixed feelings
-- No first-person perspective when appropriate
-- No humor, no edge, no personality
-- Reads like a Wikipedia article or a press release
+Rules: title line, one bullet per behavior change a reviewer cannot infer from the diff, one line of test evidence, the footer. No Summary / Changes / Test Plan headers for changes under ~200 lines. No "This PR".
 
-### How to add voice
+### Commit body
 
-- **Have opinions.** Do not just report facts. React to them. "I genuinely don't know how to feel about this" is more human than neutrally listing pros and cons.
-- **Vary rhythm.** Short punchy sentences. Then longer ones that take their time getting where they're going. Mix it up.
-- **Acknowledge complexity.** Real humans have mixed feelings. "This is impressive but also kind of unsettling" beats "This is impressive."
-- **Use "I" when it fits.** First person is not unprofessional, it is honest. "I keep coming back to..." or "Here's what gets me..." signals a real person thinking.
-- **Let some mess in.** Perfect structure feels algorithmic. Tangents, asides, and half-formed thoughts are human.
-- **Be specific about feelings.** Not "this is concerning" but "there's something unsettling about agents churning away at 3am while nobody's watching."
+Before:
 
-### Before (clean but soulless)
+> This commit updates parse_date to handle None inputs. Previously, passing None would raise a TypeError. Now the function returns None early. Also updated the tests accordingly.
 
-> The experiment produced interesting results. The agents generated 3 million lines of code. Some developers were impressed while others were skeptical. The implications remain unclear.
+After:
 
-### After (has a pulse)
+```
+fix: return None from parse_date on None input
 
-> I genuinely don't know how to feel about this one. 3 million lines of code, generated while the humans presumably slept. Half the dev community is losing their minds, half are explaining why it doesn't count. The truth is probably somewhere boring in the middle. But I keep thinking about those agents working through the night.
+Callers pass the raw form value straight through, and empty date fields arrive as None (#412).
+```
 
-## Pattern Checklist
+Rules: subject in imperative mood under 72 chars; body only when the why is not obvious from the diff; the trailer from AGENTS.md.
 
-Each item names a pattern, gives a single watch-word or signal, and a one-line correction. For full before/after examples, consult `references/patterns.md`.
+### Review reply
 
-### Content patterns
+Before:
 
-1. **Significance inflation:** _"pivotal moment", "stands as a testament", "evolving landscape"_ → cut the puffery, state the fact.
-2. **Notability boasting:** _"featured in NYT, BBC, FT", "active social media presence"_ → quote one specific source with context.
-3. **Superficial -ing analyses:** _"highlighting…", "underscoring…", "reflecting…"_ tacked on the end → drop the participle phrase or split into a real sentence.
-4. **Promotional language:** _"vibrant", "nestled", "in the heart of", "groundbreaking"_ → use neutral nouns and verbs.
-5. **Vague attributions:** _"Industry reports", "Experts argue"_ → name the source or remove the claim.
-6. **"Challenges and Future Prospects" sections:** _"Despite its X, faces several challenges…"_ → describe one concrete challenge with a date or number.
+> Great catch! You're absolutely right that this could be simplified. I've gone ahead and inlined the helper as suggested, and I've made sure the existing behavior is preserved. Let me know if there's anything else!
 
-### Language and grammar patterns
+After, fixed:
 
-7. **AI vocabulary clusters:** _additionally, align with, bolstered, crucial, delve, emphasizing, enduring, enhance, fostering, garner, highlight (v.), interplay, intricate, key (adj.), landscape, meticulous, pivotal, robust, showcase, tapestry, testament, underscore, valuable, vibrant._ One is fine; clusters are tells. Same goes for adverb crutches: _really, just, literally, genuinely, honestly, simply, deeply, truly, fundamentally, inherently, inevitably._
-8. **Copula avoidance:** _"serves as", "stands as", "boasts", "features"_ → use "is" / "are" / "has".
-9. **Negative parallelisms:** three sub-cases:
-   - "Not just X, but Y" / "It's not merely X, it's Y" → state Y directly.
-   - "Not X, but Y" / "no X, no Y, just Z" → drop the denial.
-   - Tailing-negation fragments ("…, no guessing") → write a full clause.
-10. **Rule of three:** three-item lists for the sake of pattern → use one or two real items.
-11. **Elegant variation:** synonym cycling (protagonist → main character → central figure → hero) → reuse the word.
-12. **False ranges:** _"from X to Y, from A to B"_ where X..Y aren't on a meaningful scale → list the items plainly.
-13. **Passive voice / subjectless fragments:** _"No configuration file needed", "results are preserved automatically"_ → name the actor and use active voice when it clarifies.
+```
+Inlined in 3f2a1c9.
+```
 
-### Style patterns
+After, declined:
 
-14. **Em dashes:** replace every `—` in prose with comma, period, or parenthesis. The only exception is inside a quoted example of bad writing. Do not soften this rule. Even one em dash in your output is a tell.
-15. **Boldface overuse:** strip mechanical bold; reserve for true emphasis.
-16. **Inline-header bullet lists:** _"- **Performance:** …"_ → flatten into prose or remove the bold header.
-17. **Title Case In Headings** → use sentence case.
-18. **Decorative emojis:** strip from headings and bullets.
-19. **Curly quotes "…"** → straight quotes "...".
+```
+Kept the helper: it has a second call site in tasks.py:88.
+```
 
-### Communication patterns
+Rules: one or two sentences. What changed (with the commit), or why not. No thanks, no apology, no "as suggested".
 
-20. **Chatbot artifacts:** _"Great question!", "I hope this helps", "Let me know if…"_ → delete entirely.
-21. **Knowledge-cutoff disclaimers:** _"While specific details are limited…", "as of my last training update…"_ → delete entirely.
-22. **Sycophantic openings:** _"You're absolutely right!", "Excellent point!"_ → delete entirely.
+### Changelog entry
 
-### Filler and hedging
+Before:
 
-23. **Filler phrases and business jargon:** _"in order to" → "to"; "due to the fact that" → "because"; "has the ability to" → "can"; "navigate" → "handle"; "lean into" → "accept"; "circle back" → "return to"; "deep dive" → "analysis"; "moving forward" → "next"; "at the end of the day" → drop._
-24. **Excessive hedging:** _"could potentially possibly might"_ → pick one modal or state plainly.
-25. **Generic positive conclusions:** _"the future looks bright", "exciting times lie ahead"_ → end on a concrete fact or stop.
-26. **Hyphenated compound modifier overuse:** _cross-functional, data-driven, decision-making, well-known, real-time, end-to-end_ used uniformly → vary or drop the hyphen for common pairs.
-27. **Persuasive authority tropes:** _"the real question is", "at its core", "fundamentally"_ → state the point without ceremony.
-28. **Signposting and meta-commentary:** _"Let's dive in", "Here's what you need to know", "Plot twist:", "Spoiler:", "Let me walk you through…", "The rest of this essay…"_ → just start. Do not narrate the structure of the piece.
-29. **Fragmented headers:** heading + one-line restating paragraph → delete the warm-up sentence.
-30. **Verbose PR / MR / commit descriptions:** full templates ("Summary / Changes / Test Plan / Future Work") applied to small changes; commit bodies that re-narrate the diff → state only the _why_ and any non-obvious context. Trust the diff for the _what_.
+> We're excited to announce that we've significantly enhanced the performance of the query engine, delivering a seamless experience for all users.
 
-### Voice and agency patterns
+After:
 
-31. **False agency:** _"the decision emerges", "the data tells us", "the culture shifts", "the conversation moves toward"_ → name the actor. Decisions do not emerge; people decide.
-32. **Narrator-from-a-distance:** _"Nobody designed this", "People tend to…", "This happens because…"_ → put the reader in the scene; "you" beats "people".
-33. **Telling instead of showing:** _"This is genuinely hard", "The stakes are high", "This actually matters"_ → name the specific hard or important thing or cut the sentence.
-34. **Performative emphasis:** _"I promise", "trust me", "creeps in"_ → cut. Earnestness does not survive being announced.
+```
+- `Query.execute` runs about 2x faster on filters over 10k rows.
+```
 
-## Output Format
+Rules: one line, user-visible behavior, a number when there is one, no "we".
 
-When humanizing in response to a request, return:
+### Code comment
 
-1. The draft rewrite.
-2. A short bulleted answer to "What makes the draft still obviously AI-generated?" (skip if nothing remains).
-3. The final rewrite (revised after the audit).
-4. Optionally, a brief summary of changes if it helps the user calibrate.
+Before:
 
-When applying proactively (drafting a PR description, changelog, etc.), skip the audit framing and just produce text that already passes the checklist.
+```python
+# Previously we used requests here; now uses httpx for async support
+client = httpx.AsyncClient()
+```
 
-## Additional Resources
+After:
 
-- `references/patterns.md`: full before/after examples for every pattern, plus the new vocabulary clusters.
-- `references/full-example.md`: long worked example covering most patterns at once.
-- Source: [Wikipedia: Signs of AI writing](https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing). Wikipedia-platform-specific patterns (markup, citation, AFC drafts, wikilawyering) are intentionally omitted from this skill.
-- The Hard Rules section, the 5-dimension scoring rubric, and patterns 31–34 (false agency, narrator-from-a-distance, telling-instead-of-showing, performative emphasis) are adapted from [hardikpandya/stop-slop](https://github.com/hardikpandya/stop-slop) (MIT).
+```python
+client = httpx.AsyncClient()
+```
+
+Keep a comment only for a hidden constraint, a subtle invariant, a workaround with its reference, or why a magic value was chosen:
+
+```python
+# Retry once: the upstream returns 502 for ~1s after a cold start (INFRA-231).
+```
+
+### Chat reply after a change
+
+Before:
+
+> I've now updated the function to use the new client. Previously it was using requests, but I've switched it to httpx as we discussed. I also made sure not to touch the other call sites. Let me know if you'd like me to update those as well!
+
+After:
+
+```
+Done. 14 tests in tests/test_client.py pass. sync.py still uses requests.
+```
+
+Rules: verification result, then anything the diff cannot show, stated as current state ("still uses requests"), not as what was avoided ("I didn't touch").
+
+## Voice
+
+Neutral, terse, active. If the user supplies a sample of their own writing, match its sentence length and word choice; otherwise use the default.
+
+## False positives
+
+Do not flag or rewrite:
+
+- One em dash inside a quoted example of bad writing.
+- A single transition word ("additionally", "however") used once.
+- A formal or technical word used correctly in its domain ("robust" in a statistics sense, "landscape" for screen orientation).
+- A scope statement the reader needs ("this covers GitHub only; GitLab is in #88").
+- Real alternatives weighed in a design doc.
+- Text inside quotes, titles, proper names, or code.
+- Compound modifiers with hyphens ("cross-functional", "real-time"). Never drop the hyphen; rephrase if the sentence has too many.
+
+## References
+
+- [references/patterns.md](references/patterns.md): the full catalog, 36 patterns with before/after examples and a table of contents.
+- [references/full-example.md](references/full-example.md): one long essay-style rewrite that exercises most of the catalog at once.
+- Sources: [Wikipedia: Signs of AI writing](https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing); the hard rules on agency, distance, and emphasis are adapted from [hardikpandya/stop-slop](https://github.com/hardikpandya/stop-slop) (MIT); the false-positive framing follows [blader/humanizer](https://github.com/blader/humanizer) (MIT).

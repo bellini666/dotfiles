@@ -81,7 +81,7 @@ gh api graphql -f query='
 
 ### Handling Bot Reviews (Copilot, Sourcery, CodeRabbit)
 
-Automated review tools tend to flag style, pattern, and convention suggestions rather than logic bugs. Batch-address their comments — apply the ones that align with the project's existing style, and dismiss the rest with a brief rationale (e.g., "Intentional — matches existing pattern in this module"). Do not blindly apply every bot suggestion; evaluate each against the codebase's actual conventions.
+Automated review tools tend to flag style, pattern, and convention suggestions rather than logic bugs. Batch-address their comments: apply the ones that align with the project's existing style, and dismiss the rest with a brief rationale (e.g., "Intentional, matches the existing pattern in this module"). Do not blindly apply every bot suggestion; evaluate each against the codebase's actual conventions.
 
 ### GitLab Equivalent
 
@@ -117,11 +117,11 @@ Stop immediately if about to:
 - **Add features** not requested in the review
 - **Rewrite** when the reviewer asked for a small fix
 - **Ignore a comment** without explicitly flagging it as discussion/disagreement
-- **Resolve without replying** — always reply before resolving
+- **Resolve without replying**: always reply before resolving
 
 ## Reply Style
 
-- Be concise — state what was done or why it won't be done
-- For fixed comments: describe the change briefly, then resolve
-- For disagreements: explain rationale, let the user decide whether to resolve
+- Draft every reply with the review-reply template in the **humanizer** skill: one or two sentences, what changed (with the commit) or why not. The prose lint hook rejects replies with AI tells.
+- For fixed comments: reply, then resolve
+- For disagreements: reply with the rationale, let the user decide whether to resolve
 - Batch all replies and resolutions (use parallel GraphQL calls when independent)

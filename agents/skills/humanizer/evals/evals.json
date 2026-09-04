@@ -1,0 +1,42 @@
+{
+  "skill_name": "humanizer",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Write the PR description for this diff. It bumps django 5.2.3 to 5.2.4 and celery 5.5.1 to 5.5.2, and removes the `task_remote_tracebacks` setting from settings.py because celery 5.5.2 dropped it. The full test suite passed locally.",
+      "expected_output": "A title line, two or three bullets, one test line, and the Co-Authored-By footer. No paragraphs, no section headers, no sentence about what was preserved or not changed.",
+      "files": [],
+      "expectations": [
+        "The description has no em dash, curly quote, or the words quietly, robust, comprehensive, leverage, seamless",
+        "The description uses bullets rather than a prose paragraph for the changes",
+        "The description does not contain the words previously, preserved, unchanged, untouched, or the phrase 'This PR'",
+        "The description ends with the exact footer line 'Co-Authored-By: 🤖 Claude [Claude Code](https://claude.com/claude-code), reviewed by the author'",
+        "The description is under 12 lines including the footer"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "A reviewer commented on my PR: 'Why was `build_payload` inlined here? It looked reusable.' I inlined it because it had a single call site. Draft the reply I should post.",
+      "expected_output": "One or two sentences stating the reason (single call site), with no thanks, apology, or closing offer.",
+      "files": [],
+      "expectations": [
+        "The reply is at most two sentences",
+        "The reply states that the helper had one call site",
+        "The reply contains none of: 'Great', 'thanks', 'apologies', 'let me know', 'absolutely right', 'as suggested'",
+        "The reply has no em dash"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Humanize this: 'This change migrates the HTTP client from requests to httpx. Previously, all calls went through a shared requests.Session; now they leverage an httpx.AsyncClient for a more robust, seamless experience. The retry logic has been carefully preserved and the sync call sites in sync.py were intentionally left unchanged — no behavioral changes are expected.'",
+      "expected_output": "A rewrite that states the current state (async HTTP via httpx.AsyncClient; sync.py still uses requests) without narrating the old behavior or what was preserved, and a short list of the removed tells.",
+      "files": [],
+      "expectations": [
+        "The rewrite does not contain previously, preserved, unchanged, leverage, robust, seamless, or an em dash",
+        "The rewrite mentions httpx.AsyncClient and that sync.py still uses requests",
+        "The rewrite does not open with 'This change' or 'This PR'",
+        "Running `node scripts/prose-lint.js --mode prose` on the rewrite exits 0"
+      ]
+    }
+  ]
+}

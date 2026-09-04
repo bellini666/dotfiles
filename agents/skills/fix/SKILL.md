@@ -54,8 +54,8 @@ If no input is provided, ask for context about the bug.
 ### Phase 5: Report
 
 1. Suggest commit message:
-   - Format: `fix: <description> (SENTRY-XXXX)` if Sentry issue ID available
-   - Format: `fix: <description>` otherwise
+   - Subject: `fix: <description> (SENTRY-XXXX)` if Sentry issue ID available, `fix: <description>` otherwise
+   - Body, only when the why is not obvious from the diff, per the commit template in the **humanizer** skill
 2. Summarize: root cause, fix applied, test added
 
 ## Type Safety
@@ -82,3 +82,4 @@ If diagnosis exceeds 5 minutes or root cause is unclear, switch to the **debuggi
 
 - Use **debugging** for complex root cause analysis
 - Use **writing-tests** for test patterns and conventions
+- Use **humanizer** for the commit body and any PR text

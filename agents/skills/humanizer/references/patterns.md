@@ -1,6 +1,16 @@
 # AI Writing Patterns: Detailed Reference
 
-This file contains the full pattern catalog with before/after examples. SKILL.md keeps a condensed checklist; consult this file when more context, more examples, or more watch-words are needed.
+The full pattern catalog with before/after examples. SKILL.md keeps the hard rules and artifact templates; consult this file when more context, more examples, or more watch-words are needed.
+
+## Contents
+
+- Content patterns (1-6): significance inflation, notability boasting, superficial -ing analyses, promotional language, vague attributions, "challenges and future prospects"
+- Language and grammar (7-13): AI vocabulary, copula avoidance, negative parallelisms, rule of three, elegant variation, false ranges, passive voice
+- Style (14-19): em dashes, boldface, inline-header lists, title case, emojis, curly quotes
+- Communication (20-22): chatbot artifacts, knowledge-cutoff disclaimers, sycophancy
+- Filler and hedging (23-30): filler and jargon, hedging, generic conclusions, hyphenated pairs, authority tropes, signposting, fragmented headers, verbose PR/commit text
+- Voice and agency (31-34): false agency, narrator-from-a-distance, telling instead of showing, performative emphasis
+- Engineering prose (35-36): writing about the previous version, fancy register
 
 **Scope note:** Wikipedia's "Signs of AI writing" page also documents Wikipedia-platform-specific patterns (markup, citations, AFC drafts, wikilawyering, talk-page artifacts). Those are intentionally omitted here because they do not apply to general prose, PRs, MRs, changelogs, or technical documentation. Do not try to "complete" the list with those.
 
@@ -284,15 +294,15 @@ Two distinct sub-patterns Wikipedia documents separately.
 
 ### 19. Curly Quotation Marks
 
-**Problem:** ChatGPT uses curly quotes ("...") instead of straight quotes ("...").
+**Problem:** ChatGPT and word processors emit curly quotes (“...”, ‘...’) where the writer types straight ones ("...", '...'). A mix inside one document is the tell; consistently curly text from Word or Docs is not.
 
 **Before:**
 
-> He said "the project is on track" but others disagreed.
+> He said “the project is on track” but others disagreed. It wasn’t.
 
 **After:**
 
-> He said "the project is on track" but others disagreed.
+> He said "the project is on track" but others disagreed. It wasn't.
 
 ---
 
@@ -401,7 +411,7 @@ Two distinct sub-patterns Wikipedia documents separately.
 
 **Watch words:** third-party, cross-functional, client-facing, data-driven, decision-making, well-known, high-quality, real-time, long-term, end-to-end
 
-**Problem:** AI hyphenates common word pairs with perfect consistency. Humans rarely hyphenate these uniformly, and when they do, it's inconsistent. Less common or technical compound modifiers are fine to hyphenate.
+**Problem:** AI stacks hyphenated compound modifiers, several per sentence, until the prose reads like a job posting. The hyphens themselves are correct English; never drop them. Fix the density by rephrasing or cutting the modifiers.
 
 **Before:**
 
@@ -409,7 +419,7 @@ Two distinct sub-patterns Wikipedia documents separately.
 
 **After:**
 
-> The cross functional team delivered a high quality, data driven report on our client facing tools. Their decision making process was known for being thorough and detail oriented.
+> The team delivered a thorough report on the tools customers use. They checked every number twice.
 
 ### 27. Persuasive Authority Tropes
 
@@ -492,13 +502,13 @@ Two distinct sub-patterns Wikipedia documents separately.
 
 **After:**
 
-> Reject expired tokens at login. Previously the session would refresh silently, which masked a bug in `refresh_token` we are fixing in #1284.
+> Reject expired tokens at login. A silent refresh here masked the `refresh_token` bug tracked in #1284.
 
 ### 31. False Agency
 
 **Watch words:** complaint becomes a fix, decision emerges, culture shifts, conversation moves toward, data tells us, market rewards, idea takes shape, problem reveals itself
 
-**Problem:** Inanimate nouns get human verbs, hiding the actor. Decisions do not emerge — someone decides. Cultures do not shift on their own — people change behavior. Data does not tell anyone anything — someone reads it and draws a conclusion. AI loves this construction because it lets the sentence sound profound without committing to who did what.
+**Problem:** Inanimate nouns get human verbs, hiding the actor. Decisions do not emerge; someone decides. Cultures do not shift on their own; people change behavior. Data does not tell anyone anything; someone reads it and draws a conclusion. AI loves this construction because it lets the sentence sound profound without committing to who did what.
 
 **Before:**
 
@@ -506,7 +516,7 @@ Two distinct sub-patterns Wikipedia documents separately.
 
 **After:**
 
-> The team adopted the new process and gave ownership to engineering. Within a quarter, on-call escalations dropped 40% — that is what convinced us it was working.
+> The team adopted the new process and gave ownership to engineering. Within a quarter, on-call escalations dropped 40%, which is what convinced us it was working.
 
 ### 32. Narrator-from-a-Distance
 
@@ -526,7 +536,7 @@ Two distinct sub-patterns Wikipedia documents separately.
 
 **Watch words:** This is genuinely hard, This is what X actually looks like, This actually matters, The stakes are high, The implications are profound
 
-**Problem:** Sentences that announce significance, difficulty, or authenticity instead of demonstrating it. Distinct from generic positive conclusions (#25) — those puff up endings; this puffs up the body. If a sentence claims something is hard or important without naming the specific hard or important thing, cut it or replace it with the specific thing.
+**Problem:** Sentences that announce significance, difficulty, or authenticity instead of demonstrating it. Distinct from generic positive conclusions (#25): those puff up endings; this puffs up the body. If a sentence claims something is hard or important without naming the specific hard or important thing, cut it or replace it with the specific thing.
 
 **Before:**
 
@@ -540,7 +550,7 @@ Two distinct sub-patterns Wikipedia documents separately.
 
 **Watch words:** I promise, They exist, I promise, creeps in, trust me, you have to believe me, I'm not kidding
 
-**Problem:** Phrases that simulate intimacy or earnestness. They appear when the writing has nothing concrete to offer and tries to compensate with tone. The reader either trusts the writer or does not — repeating "I promise" does not move the needle and reads as AI hedging dressed up as voice.
+**Problem:** Phrases that simulate intimacy or earnestness. They appear when the writing has nothing concrete to offer and tries to compensate with tone. The reader either trusts the writer or does not. Repeating "I promise" does not move the needle and reads as AI hedging dressed up as voice.
 
 **Before:**
 
@@ -548,4 +558,38 @@ Two distinct sub-patterns Wikipedia documents separately.
 
 **After:**
 
-> The approach pays off once the test suite is in place. Without tests, the same complexity will eat any team alive within six months — I have watched it happen twice.
+> The approach pays off once the test suite is in place. Without tests, the same complexity will eat any team alive within six months. I have watched it happen twice.
+
+---
+
+## ENGINEERING PROSE
+
+### 35. Writing About the Previous Version
+
+**Watch words:** previously, used to, no longer, now uses, instead of the old, this change/PR/commit, unchanged, untouched, preserved, retained, we did not, left as-is, out of scope, no behavior changes
+
+**Problem:** The model narrates the diff as a story: what the code did before, what it does now, and what was carefully not touched. The reviewer has the diff and `git blame`; the before-state and the list of things not done are noise 99% of the time. The same habit produces comments that describe the change rather than the code, and chat replies that list what was avoided. Describe the current state. If the old behavior matters, it belongs in the bug reference, not the prose.
+
+**Before:**
+
+> This PR migrates the HTTP client from requests to httpx. Previously, all calls went through a shared `requests.Session`; now they use an `httpx.AsyncClient`. The retry logic has been preserved and the sync call sites in `sync.py` were intentionally left unchanged. No behavioral changes are expected.
+
+**After:**
+
+> Async HTTP via `httpx.AsyncClient`.
+>
+> - `sync.py` still uses `requests`; migrating it needs the worker to go async first (#301).
+
+### 36. Fancy Register
+
+**Watch words:** quietly, load-bearing, surfaces (verb), under the hood, footgun, sharp edge, does the heavy lifting, single source of truth, first-class, battle-tested, elegant, gracefully, in essence, effectively, essentially
+
+**Problem:** Words chosen for how they sound rather than what they say. "Quietly" adds drama to a plain statement, "load-bearing" dresses up "used by", "surfaces" replaces "shows". Each is defensible once; a cluster means the writer was performing rather than explaining. Swap for the word a colleague would say across a desk, and be suspicious of any phrase that would not survive being read aloud in a standup.
+
+**Before:**
+
+> This helper is load-bearing: it quietly does the heavy lifting for every request path and surfaces errors gracefully under the hood.
+
+**After:**
+
+> Every request path calls this helper. It catches upstream errors and returns a 502 with the original status in the body.
