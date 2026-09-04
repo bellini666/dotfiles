@@ -1,3 +1,6 @@
+[dotfiles]
+"~/.config/mise/conf.d/macos.toml" = "mise/macos.toml"
+
 [bootstrap.packages]
 "brew-cask:1password-cli" = "latest"
 "brew-cask:font-codicon" = "latest"
