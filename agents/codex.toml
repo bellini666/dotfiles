@@ -1,3 +1,25 @@
+[tui]
+status_line = [
+    "model-with-reasoning",
+    "current-dir",
+    "model",
+    "project-name",
+    "git-branch",
+    "pull-request-number",
+    "run-state",
+    "permissions",
+    "approval-mode",
+    "context-used",
+    "five-hour-limit",
+    "weekly-limit",
+    "codex-version",
+    "task-progress",
+]
+status_line_use_colors = true
+
+[tui.model_availability_nux]
+gpt-6-astra = 1
+
 [mcp_servers.context7]
 url = "https://mcp.context7.com/mcp/oauth"
 
@@ -7,23 +29,10 @@ enabled = false
 
 [mcp_servers.chrome-devtools]
 command = "npx"
-args = ["-y", "chrome-devtools-mcp@latest", "--headless=true", "--isolated=true"]
+args = [
+    "-y",
+    "chrome-devtools-mcp@latest",
+    "--headless=true",
+    "--isolated=true",
+]
 enabled = false
-
-[[hooks.PreToolUse]]
-matcher = "^Bash$"
-[[hooks.PreToolUse.hooks]]
-type = "command"
-command = "node $HOME/.dotfiles/agents/hooks/pre-tool-use/block-dangerous-commands.js"
-
-[[hooks.PreToolUse]]
-matcher = "^(Bash|apply_patch)$"
-[[hooks.PreToolUse.hooks]]
-type = "command"
-command = "node $HOME/.dotfiles/agents/hooks/pre-tool-use/protect-secrets.js"
-
-[[hooks.PreToolUse]]
-matcher = "^(Bash|apply_patch)$"
-[[hooks.PreToolUse.hooks]]
-type = "command"
-command = "node $HOME/.dotfiles/agents/hooks/pre-tool-use/lint-prose.js"

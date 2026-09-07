@@ -4,10 +4,11 @@
 "~/.config/opencode/AGENTS.md" = "agents/AGENTS.md"
 "~/.codex/AGENTS.md" = "agents/AGENTS.md"
 "~/.claude/settings.json" = "agents/claude.json"
+"~/.claude/plugins/claude-hud/config.json" = "agents/claude-hud.json"
 "~/.config/opencode/opencode.json" = "agents/opencode.json"
-"~/.codex/config.toml" = "agents/codex.toml"
+"~/.codex/config.toml" = { source = "agents/codex.toml", mode = "copy" }
 "~/.config/opencode/skills" = "agents/skills"
-"~/.codex/skills" = "agents/skills"
+"~/.agents/plugins/marketplace.json" = "agents/marketplace.json"
 "~/.config/ghostty" = "ghostty"
 "~/.gitattributes" = "git/gitattributes"
 "~/.gitconfig" = "git/gitconfig"
@@ -21,6 +22,31 @@
 
 [bootstrap.hooks.final]
 run = """
-claude update || true
 zsh -i -c "antidote update -b"
 """
+
+[bootstrap.hooks.post-tools]
+run = "mise run agents:plugins"
+
+[tasks."agents:plugins"]
+description = "Refresh the shared Codex plugin and its hook trust"
+depends = ["agents:install"]
+run = "node agents/sync-codex-plugin.js"
+
+[tasks."agents:install"]
+description = "Install or update Claude Code and Codex"
+run = '''
+set -eu
+agent_install_dir=$(mktemp -d)
+trap 'rm -rf "$agent_install_dir"' EXIT
+
+if command -v claude >/dev/null 2>&1; then
+  claude update
+else
+  curl -fsSL https://claude.ai/install.sh -o "$agent_install_dir/claude.sh"
+  bash "$agent_install_dir/claude.sh"
+fi
+
+curl -fsSL https://chatgpt.com/codex/install.sh -o "$agent_install_dir/codex.sh"
+CODEX_NON_INTERACTIVE=1 sh "$agent_install_dir/codex.sh"
+'''

@@ -47,7 +47,7 @@ What working behavior does this break?
 
 ## Reviewer 4: Over-engineering
 
-Invoke the `ponytail-review` skill against the same diff. It hunts what to delete: reinvented stdlib, unneeded dependencies, abstractions with one implementation, config for values that never change, flexibility nobody asked for.
+Check the diff for reimplemented standard-library functions, unneeded dependencies, abstractions with one implementation, config for values that never change, and flexibility nobody asked for. Invoke `ponytail-review` when that skill is available; otherwise perform these checks directly.
 
 Check these two directly; they fall outside what that skill hunts:
 

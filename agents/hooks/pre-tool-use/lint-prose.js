@@ -13,7 +13,7 @@ const PROSE_FILES = /\.(md|mdx|rst|txt|adoc)$/i;
 const SKIP_PATHS = /\/(AGENTS|CLAUDE)\.md$|\/humanizer\/|lint-prose\.js$/;
 const MESSAGE_COMMANDS = /\b(git\s+commit|gh\s+(?:pr|issue)\s+(?:create|edit|comment|review)|glab\s+(?:mr|issue)\s+(?:create|update|note|comment))\b/;
 const PR_CREATE = /\b(gh\s+pr\s+create|glab\s+mr\s+create)\b/;
-const FOOTER = 'Co-Authored-By: 🤖 Claude [Claude Code](https://claude.com/claude-code), reviewed by the author';
+const FOOTER = /Co-Authored-By: 🤖 [^\n]+ \[(?:Claude Code|Codex)\]\(https:\/\/(?:claude\.com\/claude-code|openai\.com\/codex\/?)\), reviewed by the author/;
 
 function log(data) {
   try {
@@ -39,16 +39,29 @@ function check({ tool_name, tool_input, cwd }) {
     if (!MESSAGE_COMMANDS.test(cmd)) return [];
     const text = messageText(cmd, cwd);
     const findings = lint(text, /\bgit\s+commit\b/.test(cmd) ? 'commit' : 'prose');
-    if (PR_CREATE.test(cmd) && text && !text.includes(FOOTER)) findings.push({ line: 0, rule: 'pr-footer', match: `body must end with: ${FOOTER}` });
+    if (PR_CREATE.test(cmd) && text && !FOOTER.test(text)) findings.push({ line: 0, rule: 'pr-footer', match: 'body must end with the model and client attribution from AGENTS.md' });
     const seen = new Set();
     return findings.filter((f) => !seen.has(f.rule + f.match) && seen.add(f.rule + f.match));
   }
 
-  const file = tool_input?.file_path || '';
-  if (SKIP_PATHS.test(file)) return [];
-  const texts = [tool_input?.new_string, tool_input?.content, ...(tool_input?.edits || []).map((e) => e.new_string)].filter(Boolean);
-  if (!texts.length) return [];
-  return lint(texts.join('\n'), PROSE_FILES.test(file) ? 'prose' : 'comment');
+  let edits = [{
+    file: tool_input?.file_path || '',
+    texts: [tool_input?.new_string, tool_input?.content, ...(tool_input?.edits || []).map((e) => e.new_string)].filter(Boolean),
+  }];
+  if (tool_name === 'apply_patch') {
+    edits = [];
+    for (const line of (tool_input?.command || '').split('\n')) {
+      const header = line.match(/^\*\*\* (?:Add|Update|Delete) File: (.+)$/);
+      if (header) edits.push({ file: header[1].trim(), texts: [] });
+      else if (line.startsWith('*** Move to: ') && edits.length) edits[edits.length - 1].file = line.slice('*** Move to: '.length).trim();
+      else if (line.startsWith('+') && edits.length) edits[edits.length - 1].texts.push(line.slice(1));
+    }
+  }
+
+  return edits.flatMap(({ file, texts }) => {
+    if (SKIP_PATHS.test(path.resolve(cwd || '.', file))) return [];
+    return lint(texts.join('\n'), PROSE_FILES.test(file) ? 'prose' : 'comment');
+  });
 }
 
 async function main() {

@@ -172,6 +172,13 @@ function checkGrepGlob(glob, safetyLevel = SAFETY_LEVEL) {
 }
 
 function check(toolName, toolInput, safetyLevel = SAFETY_LEVEL) {
+  if (toolName === 'apply_patch') {
+    for (const match of (toolInput?.command || '').matchAll(/^\*\*\* (?:(?:Add|Update|Delete) File|Move to): (.+)$/gm)) {
+      const result = checkFilePath(match[1].trim(), safetyLevel);
+      if (result.blocked) return result;
+    }
+    return { blocked: false, pattern: null };
+  }
   if (['Read', 'Edit', 'Write'].includes(toolName)) {
     return checkFilePath(toolInput?.file_path, safetyLevel);
   }
@@ -194,7 +201,7 @@ async function main() {
     const data = JSON.parse(input);
     const { tool_name, tool_input, session_id, cwd, permission_mode } = data;
 
-    if (!['Read', 'Edit', 'Write', 'Bash', 'Grep'].includes(tool_name)) {
+    if (!['Read', 'Edit', 'Write', 'Bash', 'Grep', 'apply_patch'].includes(tool_name)) {
       return console.log('{}');
     }
 
@@ -205,7 +212,7 @@ async function main() {
       const target = tool_input?.file_path || tool_input?.command?.slice(0, 100);
       log({ level: 'BLOCKED', id: p.id, priority: p.level, tool: tool_name, target, session_id, cwd, permission_mode });
 
-      const action = { Read: 'read', Edit: 'modify', Write: 'write to', Bash: 'execute' }[tool_name];
+      const action = { Read: 'read', Edit: 'modify', Write: 'write to', Bash: 'execute', Grep: 'search', apply_patch: 'patch' }[tool_name];
       return console.log(JSON.stringify({
         hookSpecificOutput: {
           hookEventName: 'PreToolUse',

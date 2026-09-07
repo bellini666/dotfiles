@@ -77,12 +77,14 @@ Applies to comments, docstrings, commit bodies, PR/MR descriptions, review repli
 - Use semver prefixes in commit messages (e.g., `feat:`, `fix:`, `chore:`)
 - Imperative mood, <72 chars
 - NEVER run `git clean`: repositories contain globally gitignored personal files that must be preserved
-- Commit messages end with the trailer `Co-Authored-By: <model name> <noreply@anthropic.com>` (e.g. `Claude Opus 5`), blank line before it
-- ALWAYS end PR/MR descriptions with this footer, blank line before it, model name substituted, no other AI-attribution boilerplate (this is different from the commit message trailer)
+- Commit messages end with `Co-Authored-By: <model name> <provider noreply email>`, with a blank line before it. Use `noreply@anthropic.com` for Claude and `noreply@openai.com` for OpenAI models.
+- ALWAYS end PR/MR descriptions with this footer, with a blank line before it and the actual model and client substituted:
 
   ```
-  Co-Authored-By: 🤖 Claude [Claude Code](https://claude.com/claude-code), reviewed by the author
+  Co-Authored-By: 🤖 <model name> [<client>](<client URL>), reviewed by the author
   ```
+
+  Use `Claude Code` with `https://claude.com/claude-code` or `Codex` with `https://openai.com/codex/`.
 
 - Before any force-push, check for rebase divergence (`git log @{u}..` and `git log ..@{u}`) and drop commits already squashed into the target branch.
 
