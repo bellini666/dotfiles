@@ -126,6 +126,26 @@ Applies to comments, docstrings, commit bodies, PR/MR descriptions, review repli
 - Don't treat small commits as large changes. Match your investigation scope to the change size.
 - After 3-4 exploration steps without a concrete finding, stop and state what you know vs don't know. Don't keep exploring silently.
 
+## Context Budget
+
+Cache reads are billed on every turn, so whatever sits in context is paid for again each time you
+speak. Keep it small.
+
+**Delegate bulk reading to a cheap subagent.**
+
+- Any question answered by sweeping many files, a directory tree, or a long log goes to a subagent
+  with `model: "haiku"`. It reads; it returns conclusions and `file:line` references.
+- Read directly when the work is already scoped to a known file and symbol.
+- One delegation per question. Never re-run the search yourself after delegating.
+
+**Bound Bash output at the source.**
+
+- Never run a command whose full output you will not read. Pipe through `head`, `tail`, or `rg`.
+- Tests: `pytest -q --tb=line`. Full tracebacks are the largest single Bash payload.
+- `git log` and `git diff`: `--stat` or a path filter first, full diff only for the file you land on.
+- Use `rtk err` or `rtk test` to run a build or suite for its failures.
+- Say so when the session has drifted off its task. A fresh session costs less than compaction.
+
 ## Type and Parameter Integrity
 
 - Thread parameters correctly. Never pass the same value for semantically distinct parameters.
