@@ -23,9 +23,11 @@ MISE_BINARY="${LOCAL_BIN_DIR}/mise"
 mkdir -p "${LOCAL_BIN_DIR}"
 mkdir -p "${MISE_CONFIG_DIR}"
 
-# `[bootstrap.hooks]` run in this process's environment, so they need mise on
-# PATH even on a machine whose shell predates the install below.
-export PATH="${LOCAL_BIN_DIR}:${PATH}"
+# `[bootstrap.hooks]` run in this process's environment, so they need the same
+# PATH, brew shellenv and python build flags an interactive shell gets. Sourced
+# after the mkdir above: core.sh only adds ~/.local/bin when the dir exists.
+# shellcheck disable=1091
+source "${BASE_DIR}/core.sh"
 
 function info {
   set +x
@@ -60,6 +62,8 @@ function _mise-bootstrap {
 function _mise {
   info "updating mise"
 
+  # Subshell so the token stays scoped to mise and never reaches the hooks,
+  # the bootstrap task or anything else this script runs.
   (
     if [ -f "${HOME}/.mise_secret_env.sh" ]; then
       set +x
