@@ -47,13 +47,15 @@
       "source": {
         "source": "git",
         "url": "https://github.com/wakatime/claude-code-wakatime.git"
-      }
+      },
+      "autoUpdate": true
     },
     "ponytail": {
       "source": {
         "source": "github",
         "repo": "DietrichGebert/ponytail"
-      }
+      },
+      "autoUpdate": true
     },
     "addy-agent-skills": {
       "source": {
