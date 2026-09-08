@@ -43,6 +43,7 @@ kubeseal = 'latest'
 kustomize = 'latest'
 lua-language-server = 'latest'
 marksman = 'latest'
+mr-boxington = 'latest'
 neovim = 'nightly'
 octosql = 'latest'
 opencode = 'latest'
@@ -121,7 +122,7 @@ deno = 'latest'
 go = 'latest'
 node = 'latest'
 python = ['3.14', '3.13', '3.12', '3.11', '3.10']
-rust = 'latest'
+rust = { version = "latest", mr_boxington = true }
 
 [tasks."docker:stop-all"]
 description = 'Docker stop all containers'
