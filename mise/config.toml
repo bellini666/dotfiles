@@ -124,7 +124,7 @@ bun = 'latest'
 deno = 'latest'
 go = 'latest'
 node = 'latest'
-python = ['3.14', '3.13', '3.12', '3.11', '3.10']
+python = 'latest'
 rust = { version = "latest", mr_boxington = true }
 
 [tasks."docker:stop-all"]
