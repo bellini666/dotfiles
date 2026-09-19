@@ -3,6 +3,9 @@ local M = {}
 local utils = require("utils")
 local wk = require("which-key")
 
+local mc_ns = vim.api.nvim_create_namespace("nvim.multicursor")
+local mc_pattern, mc_armed
+
 wk.add({
   {
     "<C-c>",
@@ -22,6 +25,25 @@ wk.add({
   },
   { "<F5>", utils.run_tests, desc = "Run tests" },
   { "<C-p>", utils.find_files, desc = "Find files" },
+  {
+    "<C-n>",
+    function()
+      local pattern = [[\<]] .. vim.fn.expand("<cword>") .. [[\>]]
+      local live = #vim.api.nvim_buf_get_extmarks(0, mc_ns, 0, -1, {}) > 0
+
+      if mc_pattern == pattern and (live or mc_armed) then
+        mc_armed = false
+        vim.api.nvim_mcursor(0, vim.api.nvim_win_get_cursor(0))
+        vim.fn.search(pattern)
+      else
+        mc_pattern, mc_armed = pattern, true
+        vim.fn.setreg("/", pattern)
+        vim.fn.search(pattern, "bc")
+        vim.v.hlsearch = 1
+      end
+    end,
+    desc = "Add cursor at next match",
+  },
   {
     "<C-s>",
     function()
@@ -252,7 +274,11 @@ wk.add({
     mode = { "i", "n" },
     { "<C-Down>", "15<C-e>", desc = "Down 1 page" },
     { "<C-Up>", "15<C-y>", desc = "Up 1 page" },
-    { "<esc>", "<cmd>noh<cr><esc>", desc = "Clear" },
+    {
+      "<esc>",
+      "<esc><cmd>noh<cr><cmd>lua vim.api.nvim_buf_clear_namespace(0, vim.api.nvim_create_namespace('nvim.multicursor'), 0, -1)<cr>",
+      desc = "Clear",
+    },
   },
   {
     group = "Surround",
