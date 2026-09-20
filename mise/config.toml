@@ -21,6 +21,7 @@ g = "jump"
 s = "bookmark"
 d = "deletemark"
 p = "showmarks"
+code = "herdr"
 review = "tuicr"
 pre-commit = "prek"
 

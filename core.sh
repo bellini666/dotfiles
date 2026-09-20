@@ -1,72 +1,5 @@
 #!/bin/bash
 
-if [ "${_DEFAULTS_SOURCED}" = "1" ]; then
-  return
-fi
-
-export LANG=en_US.UTF-8
-
-export DOTFILES_DIR="${HOME}/.dotfiles"
-
-# XDG Base Directory Specification
-export XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-${HOME}/.config}"
-export XDG_DATA_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}"
-export XDG_STATE_HOME="${XDG_STATE_HOME:-${HOME}/.local/state}"
-export XDG_CACHE_HOME="${XDG_CACHE_HOME:-${HOME}/.cache}"
-
-if [ -x "/opt/homebrew/bin/brew" ]; then
-  eval "$(/opt/homebrew/bin/brew shellenv)"
-fi
-
-if [ -d "${HOME}/.local/bin" ]; then
-  export PATH=${HOME}/.local/bin:${PATH}
-fi
-
-if [ -d "${HOME}/.bin" ]; then
-  export PATH=${HOME}/.bin:${PATH}
-fi
-
-if [ -d "${HOME}/bin" ]; then
-  export PATH=${HOME}/bin:${PATH}
-fi
-
-if [ -d "${HOME}/.rd/bin/" ]; then
-  export PATH=${HOME}/.rd/bin/:${PATH}
-fi
-
-if [ -f "${HOME}/.secret_env.sh" ]; then
-  # shellcheck disable=1091
-  source "${HOME}/.secret_env.sh"
-fi
-
-export EDITOR=nvim
-export GIT_SSH=ssh
-
-# less: keep colors (R) and leave output in scrollback instead of the
-# alternate screen (X). No F: it skips paging on some long outputs.
-export LESS=-RX
-
-# mise
-if command -v gh >/dev/null 2>&1; then
-  export MISE_GITHUB_CREDENTIAL_COMMAND="gh auth token"
-fi
-
-# go
-export GOPATH="${HOME}/.go"
-
-# perl
-export PERL_LOCAL_LIB_ROOT="${HOME}/.local/perl"
-
-# pip
-export PIP_REQUIRE_VIRTUALENV=true
-
-# ripgrep
-export RIPGREP_CONFIG_PATH="${DOTFILES_DIR}/rg/ripgreprc"
-
-# python
-export PYTHON_CFLAGS="-march=native -mtune=native"
-export PYTHON_CONFIGURE_OPTS="--enable-shared --enable-optimizations --with-lto"
-
 function bootstrap() { (
   set -e
   cd "${DOTFILES_DIR}"
@@ -158,5 +91,72 @@ function opencode() {
 function codex() {
   safe codex --ask-for-approval never --sandbox danger-full-access "${@}"
 }
+
+if [ "${_DEFAULTS_SOURCED}" = "1" ]; then
+  return
+fi
+
+export LANG=en_US.UTF-8
+
+export DOTFILES_DIR="${HOME}/.dotfiles"
+
+# XDG Base Directory Specification
+export XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-${HOME}/.config}"
+export XDG_DATA_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}"
+export XDG_STATE_HOME="${XDG_STATE_HOME:-${HOME}/.local/state}"
+export XDG_CACHE_HOME="${XDG_CACHE_HOME:-${HOME}/.cache}"
+
+if [ -x "/opt/homebrew/bin/brew" ]; then
+  eval "$(/opt/homebrew/bin/brew shellenv)"
+fi
+
+if [ -d "${HOME}/.local/bin" ]; then
+  export PATH=${HOME}/.local/bin:${PATH}
+fi
+
+if [ -d "${HOME}/.bin" ]; then
+  export PATH=${HOME}/.bin:${PATH}
+fi
+
+if [ -d "${HOME}/bin" ]; then
+  export PATH=${HOME}/bin:${PATH}
+fi
+
+if [ -d "${HOME}/.rd/bin/" ]; then
+  export PATH=${HOME}/.rd/bin/:${PATH}
+fi
+
+if [ -f "${HOME}/.secret_env.sh" ]; then
+  # shellcheck disable=1091
+  source "${HOME}/.secret_env.sh"
+fi
+
+export EDITOR=nvim
+export GIT_SSH=ssh
+
+# less: keep colors (R) and leave output in scrollback instead of the
+# alternate screen (X). No F: it skips paging on some long outputs.
+export LESS=-RX
+
+# mise
+if command -v gh >/dev/null 2>&1; then
+  export MISE_GITHUB_CREDENTIAL_COMMAND="gh auth token"
+fi
+
+# go
+export GOPATH="${HOME}/.go"
+
+# perl
+export PERL_LOCAL_LIB_ROOT="${HOME}/.local/perl"
+
+# pip
+export PIP_REQUIRE_VIRTUALENV=true
+
+# ripgrep
+export RIPGREP_CONFIG_PATH="${DOTFILES_DIR}/rg/ripgreprc"
+
+# python
+export PYTHON_CFLAGS="-march=native -mtune=native"
+export PYTHON_CONFIGURE_OPTS="--enable-shared --enable-optimizations --with-lto"
 
 export _DEFAULTS_SOURCED="1"

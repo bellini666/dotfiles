@@ -10,6 +10,7 @@
 "~/.config/opencode/skills" = "agents/skills"
 "~/.agents/plugins/marketplace.json" = "agents/marketplace.json"
 "~/.config/ghostty" = "ghostty"
+"~/.config/herdr/config.toml" = "herdr/config.toml"
 "~/.gitattributes" = "git/gitattributes"
 "~/.gitconfig" = "git/gitconfig"
 "~/.gitignore" = "git/gitignore"
@@ -26,7 +27,10 @@ zsh -i -c "antidote update -b"
 """
 
 [bootstrap.hooks.post-tools]
-run = "mise run agents:plugins"
+run = """
+mise run agents:plugins
+herdr integration install claude
+"""
 
 [tasks."agents:plugins"]
 description = "Refresh the shared Codex plugin and its hook trust"

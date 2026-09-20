@@ -1,0 +1,23 @@
+onboarding = false
+
+[theme]
+name = "kanagawa"
+
+[update]
+# mise owns the herdr version (mise/config.toml: herdr = 'latest').
+version_check = false
+
+[ui]
+show_agent_labels_on_pane_borders = true
+agent_panel_sort = "priority"
+status_indicators = "symbols"
+
+[ui.sound]
+enabled = false
+
+[ui.toast]
+delivery = "system"
+
+[experimental]
+pane_history = true
+switch_ascii_input_source_in_prefix = true
