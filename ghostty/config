@@ -25,3 +25,8 @@ shell-integration-features = ssh-terminfo,ssh-env,cursor,sudo,title
 
 auto-update = check
 auto-update-channel = tip
+
+# >>> herdr-radar font block
+font-codepoint-map = U+E1A0-U+E1B7=Herdr Agent Icons Max
+font-codepoint-map = U+E1C0-U+E1C5=Herdr Agent Icons Max
+# <<< herdr-radar font block
