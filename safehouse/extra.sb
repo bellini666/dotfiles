@@ -20,3 +20,12 @@
     (remote unix-socket (path-regex #"^/private/var/run/com\.apple\.launchd\.[^/]+/Listeners$"))
     (remote unix-socket (path-regex #"^/var/run/com\.apple\.launchd\.[^/]+/Listeners$"))
 )
+
+;; Metal shader compilation (MLX, torch.mps, any runtime makeLibrary) hands
+;; MTLCompilerService a sandbox extension for the per-user module cache under
+;; DARWIN_USER_CACHE_DIR. With no file-issue-extension allow, sandbox_extension_issue_file
+;; fails and the compiler daemon dies writing monolithic_metal.pcm with EPERM.
+(allow file-issue-extension
+    (subpath "/private/var/folders")
+    (subpath "/var/folders")
+)
