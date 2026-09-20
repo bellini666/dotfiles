@@ -30,8 +30,8 @@ zsh -i -c "antidote update -b"
 run = """
 mise run agents:plugins
 herdr integration install claude
-herdr plugin install -y kryptamine/herdr-auto-title
-herdr plugin install -y hhdebb/herdr-radar
+herdr plugin install kryptamine/herdr-auto-title -y
+herdr plugin install hhdebb/herdr-radar -y
 """
 
 [tasks."agents:plugins"]
