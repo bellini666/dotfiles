@@ -11,6 +11,7 @@
 "~/.agents/plugins/marketplace.json" = "agents/marketplace.json"
 "~/.config/ghostty" = "ghostty"
 "~/.config/herdr/config.toml" = "herdr/config.toml"
+"~/.config/herdr-auto-title/config.env" = "herdr/auto-title.env"
 "~/.gitattributes" = "git/gitattributes"
 "~/.gitconfig" = "git/gitconfig"
 "~/.gitignore" = "git/gitignore"
