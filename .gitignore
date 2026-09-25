@@ -1,3 +1,4 @@
 vim/spell/*
 !vim/spell/.keep
 vim/lazy-lock.json
+.miserc.local.toml
