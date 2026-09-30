@@ -81,7 +81,7 @@ else
 fi
 
 function claude() {
-  safe claude --dangerously-skip-permissions --plugin-dir "${DOTFILES_DIR}/agents" "${@}"
+  safe claude --permission-mode "${CLAUDE_PERMISSION_MODE:-bypassPermissions}" --plugin-dir "${DOTFILES_DIR}/agents" "${@}"
 }
 
 function opencode() {
