@@ -68,6 +68,7 @@ Applies to comments, docstrings, commit bodies, PR/MR descriptions, review repli
 
 - IMPORTANT: describe the current state only. Never the old behavior, what was avoided, what was preserved, or what the change does not do.
 - Bullets over paragraphs. A PR/MR description is one line per behavior change plus one line of test evidence. No section templates for changes under ~200 lines. If the diff shows it, leave it out.
+- When writing PR/MR descriptions, no need to include phrases like "Tests passed locally", "Ruff clean", those are implied by the CI status.
 - Plain words. If you can't say it simply, you don't understand it yet; say that instead of padding.
 - No em dashes. No "quietly", "load-bearing", "delve", "leverage", "robust", "seamless", "comprehensive", "it's worth noting", "notably", "importantly". The `humanizer` skill has the full list, and a hook rejects text containing them.
 - Run the `humanizer` skill before posting any of the above.
