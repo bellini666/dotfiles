@@ -18,7 +18,7 @@ Never apply symptom-focused patches that mask underlying problems. Understand WH
 Before touching any code:
 
 1. **Read error messages thoroughly** - Every word matters
-2. **Reproduce the issue consistently** - Without reproduction, verification is impossible
+2. **Read before reproducing** - Code reading and git history answer most questions, including "did X cause Y". Reproduce only when the code path can't be settled by reading
 3. **Examine recent changes** - What changed before this started failing?
 4. **Gather diagnostic evidence** - Logs, stack traces, state dumps
 5. **Trace data flow** - Follow the call chain to find where bad values originate
@@ -65,7 +65,7 @@ Apply the scientific method:
 1. **Create failing test case** - Captures the bug behavior
 2. **Implement single fix** - Address root cause, not symptoms
 3. **Verify test passes** - Confirms fix works
-4. **Run full test suite** - Ensure no regressions
+4. **Run the touched modules' tests** - CI runs the full suite
 5. **If fix fails, STOP** - Re-evaluate hypothesis
 
 **Critical rule:** If THREE or more fixes fail consecutively, STOP. This signals architectural problems requiring discussion, not more patches.
@@ -122,6 +122,15 @@ Look for shared state between tests (class variables, module-level caches, datab
 
 Fix with deterministic synchronization (locks, barriers, proper `await`) rather than `sleep()`. Sleep-based fixes are fragile and slow down the test suite.
 
+### Production Incidents
+
+No mitigation (extra logging, flags, defensive guards, rejecting requests) and no MR for one until the root cause is confirmed.
+
+1. Build a timeline from Sentry, Datadog, and the deploys and merged MRs within ±6h of onset. Every entry cites a link or SHA.
+2. List 2 to 5 competing hypotheses. Spawn one subagent per hypothesis, in parallel, tasked with disproving it from code, git history and telemetry. Read only: no reproduction against production.
+3. Only a surviving hypothesis with a `file:line` mechanism counts as the root cause. If none survives, report what was ruled out and what evidence is missing.
+4. Check the blast radius: which other services share the same dependency or config.
+
 ## Long Investigations: Checkpoint Discipline
 
 For investigations that may span more than 2-3 substantial tool batches:
@@ -139,7 +148,7 @@ Before claiming a bug is fixed:
 - [ ] Fix addresses root cause, not symptoms
 - [ ] Failing test created that reproduces bug
 - [ ] Test now passes with fix
-- [ ] Full test suite passes
+- [ ] Tests for the touched modules pass
 - [ ] No "quick fix" rationalization used
 - [ ] Fix is minimal and focused
 

@@ -39,6 +39,8 @@ Same reasoning for `bulk_create` and `bulk_update` — both skip signals.
 
 When iterating is genuinely too slow, say so and bound the batch explicitly rather than switching silently to a bulk write.
 
+Backfills are Python, run in the Django shell or as a data migration, never raw SQL. Same reason: raw SQL skips all of the above.
+
 ## Transactions
 
 - Side effects that must not fire on rollback — emails, task dispatch, webhooks, external API calls — go in `transaction.on_commit()`.
@@ -52,10 +54,12 @@ When iterating is genuinely too slow, say so and bound the batch explicitly rath
 - Never raise a test's expected query count to make it pass — the count going up is the bug report.
 - Bound every unbounded read. `.iterator()` for large scans, explicit slicing elsewhere.
 - `.exists()` over `len(qs)`, `.count()` over `len(qs)` when the rows aren't needed.
+- Read the model definitions before writing any shell or ORM query. Across a reverse relation, the lookup name comes from `related_query_name`, then `related_name`, then the model name: check the field, don't guess.
 
 ## Tests
 
 - Use the project's existing factories and fixtures; check `conftest.py` before writing new ones.
+- `override_settings` over custom settings fixtures.
 - `assertNumQueries` / `django_assert_num_queries` around code paths where N+1 regressions matter.
 - Migrations are code — when a data migration has non-trivial logic, test it.
 

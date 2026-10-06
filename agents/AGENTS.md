@@ -18,6 +18,8 @@
 - Follow existing code style and conventions.
 - Prefer Context7 MCP for unfamiliar or recently-updated library docs. Fall back to web search if Context7 returns nothing useful.
 - NEVER commit, push, call mutating APIs, install anything, or otherwise modify system state without explicit permission.
+- When working from a Slack, GitLab or GitHub thread, answer me in the session. Post replies only when I ask.
+- Never execute code or mutate state in a live production session (browser, shell, DB) without a yes for that specific action.
 
 ## Replies
 
@@ -67,7 +69,7 @@ When a skill recommends extracting a helper or adding an explanatory comment, th
 Applies to comments, docstrings, commit bodies, PR/MR descriptions, review replies, changelogs, READMEs, and docs.
 
 - IMPORTANT: describe the current state only. Never the old behavior, what was avoided, what was preserved, or what the change does not do.
-- Bullets over paragraphs. A PR/MR description is one line per behavior change plus one line of test evidence. No section templates for changes under ~200 lines. If the diff shows it, leave it out.
+- Bullets over paragraphs. A PR/MR description is one line per behavior change. No test evidence: CI status shows it. No section templates for changes under ~200 lines. If the diff shows it, leave it out.
 - When writing PR/MR descriptions, no need to include phrases like "Tests passed locally", "Ruff clean", those are implied by the CI status.
 - Plain words. If you can't say it simply, you don't understand it yet; say that instead of padding.
 - No em dashes. No "quietly", "load-bearing", "delve", "leverage", "robust", "seamless", "comprehensive", "it's worth noting", "notably", "importantly". The `humanizer` skill has the full list, and a hook rejects text containing them.
@@ -126,6 +128,9 @@ Applies to comments, docstrings, commit bodies, PR/MR descriptions, review repli
 - When fixing CI failures, fix ONLY the failures the user mentions. Don't investigate passing stages or unrelated failures (e.g., bandit/sast) unless explicitly asked.
 - Don't treat small commits as large changes. Match your investigation scope to the change size.
 - After 3-4 exploration steps without a concrete finding, stop and state what you know vs don't know. Don't keep exploring silently.
+- Change only the repos and files the task names. Another repo, a shared lib, a README or docs section, extra tests, health checks, alerts, logged fields or release notes are proposals: list them and wait.
+- Audits and reviews with tiered findings: present a numbered table (severity, evidence, fix size) and implement only what I pick.
+- One PR/MR per repo per request unless I ask for a split.
 
 ## Context Budget
 
@@ -155,11 +160,12 @@ speak. Keep it small.
 
 ## Sandbox
 
-Sessions run inside `agent-safehouse`, a deny-by-default macOS seatbelt profile. Grants come from `core.sh`:
+Sessions run inside `agent-safehouse`, a deny-by-default macOS seatbelt profile. Grants come from `core.sh` and `safehouse/extra.sb`:
 
-- Read/write: the working directory, `~/Downloads`, `~/.cache`
-- Read-only: `~/.dotfiles`, `/opt/homebrew`, `~/Library/Caches/Homebrew`, `~/.gitconfig`, `~/.gitignore`, `~/.gitattributes`, `~/.npmrc`
-- Everything else is denied, including sibling project directories under `~/dev`
+- Read/write: the working directory and all of `$HOME`
+- Read-only: `~/.dotfiles`, `/opt/homebrew`, `~/Library/Caches/Homebrew`, `~/.gitconfig`, `~/.gitignore`, `~/.gitattributes`, `~/.npmrc`, `/Applications/Ghostty.app`
+- Enabled: ssh through the agent socket (private keys under `~/.ssh` stay unreadable), docker, playwright-chrome, process-control, lldb, browser native messaging, shell init, POSIX semaphores and shared memory
+- Everything else is denied
 
 When a task needs a path outside that set, say so up front and hand over the exact command instead of retrying. Retries won't help, the denial is static for the session. Never widen the sandbox yourself; ask.
 
@@ -173,7 +179,8 @@ When the project uses Python:
 ## Verification Loop
 
 - Run the project's type checker + linter after every edit
-- Run tests before declaring done
+- Run the tests covering the changed code. CI runs the full suite: never run full suites or E2E locally unless the repo requires it before pushing or I ask.
+- After a rebase or a small follow-up fix, push and watch CI instead of re-running tests locally.
 - Verify only task-related files changed (`git diff --name-only`)
 - Re-read your own diff before reporting done. Inline every new helper that has one call site; the prose lint hook already checked the comments.
 

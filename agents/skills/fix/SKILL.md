@@ -49,7 +49,7 @@ If no input is provided, ask for context about the bug.
 
 1. Run the reproduction test, confirm it passes
 2. Run linter + type checker
-3. Run the full test suite, no regressions
+3. Run the tests for the touched modules. CI runs the full suite
 
 ### Phase 5: Report
 
@@ -57,6 +57,21 @@ If no input is provided, ask for context about the bug.
    - Subject: `fix: <description> (SENTRY-XXXX)` if Sentry issue ID available, `fix: <description>` otherwise
    - Body, only when the why is not obvious from the diff, per the commit template in the **humanizer** skill
 2. Summarize: root cause, fix applied, test added
+
+## Batch of Issues
+
+When given several issues (a Sentry list, a batch of errors):
+
+1. Pull every issue first, then report one table before touching code:
+
+   | Issue | Class | Evidence |
+   | ----- | ----- | -------- |
+
+   Class is REAL BUG, NOISE, or NEEDS DECISION. Evidence is a code reference or telemetry, never speculation.
+
+2. Stop and wait for the user to pick which ones to fix.
+3. Run Phases 2 to 4 for each picked bug, then **selfreview** over the whole diff.
+4. One commit per issue, staging files explicitly.
 
 ## Type Safety
 

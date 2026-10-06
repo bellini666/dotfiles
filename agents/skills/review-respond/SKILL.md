@@ -14,7 +14,7 @@ description: "This skill should be used when the user asks to 'address review co
    - **Discussion**: needs a reply only, no code change — reply with rationale
    - **Won't fix**: intentional behavior or out of scope — reply with explanation
 4. **Apply minimum changes** — address exactly what each comment asks
-5. **Run tests + type checker** — ensure changes don't break anything
+5. **Run the touched modules' tests + type checker**. CI runs the full suite
 6. **Reply to each thread** and **resolve** after addressing
 
 ## GitHub API Reference

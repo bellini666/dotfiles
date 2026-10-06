@@ -64,12 +64,10 @@ Bump dependencies
 - django 5.2.3 -> 5.2.4, celery 5.5.1 -> 5.5.2
 - celery 5.5.2 drops the `task_remote_tracebacks` setting, so it is gone from settings.py
 
-Tests: full suite green locally.
-
 Co-Authored-By: 🤖 Claude [Claude Code](https://claude.com/claude-code), reviewed by the author
 ```
 
-Rules: title line, one bullet per behavior change a reviewer cannot infer from the diff, one line of test evidence, the footer. No Summary / Changes / Test Plan headers for changes under ~200 lines. No "This PR".
+Rules: title line, one bullet per behavior change a reviewer cannot infer from the diff, the footer. No test evidence lines. No Summary / Changes / Test Plan headers for changes under ~200 lines. No "This PR".
 
 ### Commit body
 
