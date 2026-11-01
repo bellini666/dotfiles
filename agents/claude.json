@@ -74,5 +74,6 @@
     }
   },
   "skipDangerousModePermissionPrompt": true,
-  "agentPushNotifEnabled": true
+  "agentPushNotifEnabled": true,
+  "idleCompaction": false
 }

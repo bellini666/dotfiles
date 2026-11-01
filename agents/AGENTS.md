@@ -111,6 +111,8 @@ Applies to comments, docstrings, commit bodies, PR/MR descriptions, review repli
 - When fixing failing tests, fix code or test setup/parameters. NEVER weaken assertions, bump expected query counts, or make required fields Optional to silence type errors.
 - A regression test must be seen failing before the fix exists: write it first, or revert the fix and re-run. Feature tests don't need this.
 - Test imports go at module level. Always. Not inside test functions or fixtures. The only exceptions: circular import, optional/conditional dependency, or a side-effecting import that must be deferred.
+- We don't need tests for trivial stuff, a small and reviewable amount of tests is better than the opposite. Test high-level behavior, not implementation details. Don't test private methods or helpers unless they have complex logic that warrants it.
+- Use parameterized tests for multiple inputs as much as possible.
 
 ## Approach Methodology
 
