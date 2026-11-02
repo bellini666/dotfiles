@@ -47,7 +47,7 @@ function _pre {
   "${MISE_BINARY}" self-update -y || true
 
   # The global config must exist before mise can read [tools]; everything else
-  # is symlinked declaratively from mise.toml's [dotfiles] during bootstrap.
+  # is applied declaratively from mise.toml's [dotfiles] during bootstrap.
   ln -sfn "${BASE_DIR}/mise/config.toml" "${MISE_CONFIG_DIR}/config.toml"
 
   # Manual `mise dot`/`mise bootstrap` runs in the repo need the OS config too.

@@ -3,14 +3,14 @@
 "~/.claude/CLAUDE.md" = "agents/AGENTS.md"
 "~/.config/opencode/AGENTS.md" = "agents/AGENTS.md"
 "~/.codex/AGENTS.md" = "agents/AGENTS.md"
-"~/.claude/settings.json" = "agents/claude.json"
-"~/.claude/plugins/claude-hud/config.json" = "agents/claude-hud.json"
+"~/.claude/settings.json/shared" = { source = "agents/claude.json", merge = true }
+"~/.claude/plugins/claude-hud/config.json" = { source = "agents/claude-hud.json", mode = "copy" }
 "~/.config/opencode/opencode.json" = "agents/opencode.json"
-"~/.codex/config.toml" = { source = "agents/codex.toml", mode = "copy" }
+"~/.codex/config.toml/shared" = { source = "agents/codex.toml", merge = true }
 "~/.config/opencode/skills" = "agents/skills"
 "~/.agents/plugins/marketplace.json" = "agents/marketplace.json"
 "~/.config/ghostty" = "ghostty"
-"~/.config/herdr/config.toml" = "herdr/config.toml"
+"~/.config/herdr/config.toml/shared" = { source = "herdr/config.toml", merge = true }
 "~/.config/herdr-auto-title/config.env" = "herdr/auto-title.env"
 "~/.gitattributes" = "git/gitattributes"
 "~/.gitconfig" = "git/gitconfig"
@@ -33,6 +33,7 @@ zsh -i -c "antidote update -b"
 [bootstrap.hooks.post-tools]
 run = """
 mise run agents:plugins
+rtk init -g --hook-only --auto-patch
 herdr integration install claude
 herdr plugin install kryptamine/herdr-auto-title -y
 herdr plugin install hhdebb/herdr-radar -y

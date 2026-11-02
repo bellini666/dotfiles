@@ -2,6 +2,8 @@ onboarding = false
 
 [theme]
 name = "kanagawa"
+dark_name = "kanagawa"
+light_name = "kanagawa"
 
 [update]
 # mise owns the herdr version (mise/config.toml: herdr = 'latest').
