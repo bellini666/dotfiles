@@ -16,6 +16,8 @@ These principles are non-negotiable:
 - **Never make fields Optional to silence type errors** — find the real source of the None
 - **Never bump expected query counts** — if a test expects N queries, fix the N+1 with `select_related`/`prefetch_related`
 
+- **Small and reviewable**: no tests for trivial code. Test high-level behavior, not implementation details, and skip private methods and helpers unless their logic warrants it
+
 These rules apply regardless of language or framework. The examples below use pytest, but the principles are universal.
 
 ## Discovery: Before Writing a Single Test

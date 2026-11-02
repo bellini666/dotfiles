@@ -21,6 +21,7 @@
 "~/.config/nvim" = "vim"
 "~/.zsh_plugins.txt" = "zsh/zsh_plugins.txt"
 "~/.zshrc" = "zsh/zshrc"
+"~/.zshenv" = "zsh/zshenv"
 "~/.secret_env.sh" = { permissions = "0600" }
 "~/.mise_secret_env.sh" = { permissions = "0600" }
 

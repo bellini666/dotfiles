@@ -28,10 +28,10 @@ pre-commit = "prek"
 [env]
 CLAUDE_CONFIG_DIR = "{{env.HOME}}/.claude"
 CLAUDE_CODE_NO_FLICKER = "1"
+CLAUDE_CODE_SUBAGENT_MODEL = "sonnet"
 
 [tools]
 # tools (version-sensitive or not in brew/apt)
-actionlint = 'latest'
 argocd = 'latest'
 aws-cli = 'latest'
 aws-sso = 'latest'
@@ -40,6 +40,7 @@ copier = 'latest'
 doctl = 'latest'
 helm = 'latest'
 herdr = 'latest'
+jactionlint = 'latest'
 k9s = 'latest'
 kubeseal = 'latest'
 kustomize = 'latest'

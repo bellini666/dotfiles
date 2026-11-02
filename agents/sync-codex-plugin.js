@@ -54,7 +54,7 @@ async function main() {
     const entry = response.data[0];
     if (entry.errors.length) throw new Error(JSON.stringify(entry.errors));
     const pluginHooks = entry.hooks.filter((hook) => hook.pluginId === pluginId);
-    const expectedCount = hooks.PreToolUse.reduce((count, group) => count + group.hooks.length, 0);
+    const expectedCount = Object.values(hooks).flat().reduce((count, group) => count + group.hooks.length, 0);
     if (pluginHooks.length !== expectedCount) throw new Error(`Expected ${expectedCount} hooks for ${pluginId}, found ${pluginHooks.length}`);
     for (const hook of pluginHooks) {
       if (hook.sourcePath !== path.join(plugin.installedPath, 'hooks/hooks.json')) {

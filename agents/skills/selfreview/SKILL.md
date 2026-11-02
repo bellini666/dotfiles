@@ -11,11 +11,11 @@ Adversarial pass over your own diff before the user sees it.
 
 1. Detect base branch (main or master) and take `git merge-base <base> HEAD`. Write `git diff <merge-base>` (commits plus staged and unstaged changes) and the contents of untracked files from `git ls-files --others --exclude-standard` into one file in the scratchpad. Reviewers read that file.
 2. State the intended change in one sentence. Reviewers A and C get it. Reviewer B does not, so it judges the code without the author's framing.
-3. Spawn reviewers A, B and C **in parallel**, one agent each, every one with the shared brief below. C runs on `model: "sonnet"`. Under ~50 changed lines, spawn one agent that runs all three checklists instead.
-4. If any finding is BLOCKER or WARN, spawn the verifier with those findings. Drop everything it refutes.
-5. Fix every confirmed BLOCKER, then report.
+3. Spawn reviewers A, B and C **in parallel**, one agent each, every one with the shared brief below. A and B run on `model: "opus"`, C on `model: "sonnet"`. Under ~50 changed lines, spawn one agent that runs all three checklists instead.
+4. If any finding is BLOCKER or WARN, spawn the verifier on `model: "opus"` with those findings. Drop everything it refutes.
+5. Fix every confirmed BLOCKER with the smallest change, then report. A fix that adds a class or new state comes to me first.
 
-Skip this for docs-only, config-only, or single-line diffs.
+Skip this for docs-only, config-only, or single-line diffs. When I ask for a whole-repo review, the reviewers cover the repo instead of the diff.
 
 ## Shared Brief
 
@@ -73,7 +73,7 @@ Given the stated intent, what in the diff should not exist?
 
 ## Verifier
 
-Receives the BLOCKER and WARN findings, not the intent. For each one, read the cited code and try to disprove it: does the failure scenario reach that line, is it guarded elsewhere, is it pre-existing? Return CONFIRMED or REFUTED with one line of evidence. A scenario that can't be traced through the code is REFUTED.
+Receives the BLOCKER and WARN findings, not the intent. For each one, read the cited code and try to disprove it: does the failure scenario reach that line, is it guarded elsewhere, is it pre-existing? Return CONFIRMED or REFUTED with one line of evidence. A scenario that can't be traced through the code is REFUTED. A change being deliberate does not refute a finding.
 
 ## Output
 

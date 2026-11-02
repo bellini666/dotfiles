@@ -21,6 +21,15 @@
             "timeout": 10
           }
         ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/bin/sh -c 'rex __internal session-start --agent claude 2>/dev/null || true'",
+            "timeout": 5
+          }
+        ]
       }
     ]
   },
@@ -73,6 +82,11 @@
       "autoUpdate": true
     }
   },
+  "attribution": {
+    "pr": ""
+  },
+  "includeGitInstructions": false,
+  "outputStyle": "Concise",
   "skipDangerousModePermissionPrompt": true,
   "agentPushNotifEnabled": true,
   "idleCompaction": false

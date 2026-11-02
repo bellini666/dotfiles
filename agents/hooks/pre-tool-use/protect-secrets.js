@@ -31,6 +31,11 @@ const ALLOWLIST = [
   /\.env\.schema$/i, /\.env\.defaults$/i, /env\.example$/i, /example\.env$/i,
 ];
 
+// Committed dev defaults and k8s manifests holding ARNs or SOPS values, never plaintext.
+const NON_SECRET_PATH = /(?<![\w./{},*~-])[~.]?\/?(?:[\w-][\w.-]*\/)*config\/(?:k8s\/(?:[\w-][\w.-]*\/)*secrets\.ya?ml|local\/local\.env)(?=$|[\s"'|;&)])/g;
+// Only reading these paths is safe. Sending them elsewhere stays blocked.
+const READ_PATTERNS = new Set(['cat-env', 'cat-secrets-file', 'source-env']);
+
 // Sensitive file patterns for Read, Edit, Write tools
 const SENSITIVE_FILES = [
   // CRITICAL
@@ -73,7 +78,7 @@ const SENSITIVE_FILES = [
 // Bash patterns that expose or exfiltrate secrets
 const BASH_PATTERNS = [
   // CRITICAL
-  { level: 'critical', id: 'cat-env',            regex: /\b(cat|less|head|tail|more|bat|view)\s+[^|;]*\.env\b/i,           reason: 'Reading .env file exposes secrets' },
+  { level: 'critical', id: 'cat-env',            regex: /\b(cat|less|head|tail|more|bat|view)\s+[^|;&\n]*\.env\b/i,      reason: 'Reading .env file exposes secrets' },
   { level: 'critical', id: 'cat-ssh-key',        regex: /\b(cat|less|head|tail|more|bat)\s+[^|;]*(id_rsa|id_ed25519|id_ecdsa|id_dsa|\.pem|\.key)\b/i, reason: 'Reading private key' },
   { level: 'critical', id: 'cat-aws-creds',      regex: /\b(cat|less|head|tail|more)\s+[^|;]*\.aws\/credentials/i,         reason: 'Reading AWS credentials' },
 
@@ -81,16 +86,16 @@ const BASH_PATTERNS = [
   { level: 'high', id: 'env-dump',               regex: /\bprintenv\b|(?:^|[;&|]\s*)env\s*(?:$|[;&|])/,                    reason: 'Environment dump may expose secrets' },
   { level: 'high', id: 'echo-secret-var',        regex: /\becho\b[^;|&]*\$\{?[A-Za-z_]*(?:SECRET|KEY|TOKEN|PASSWORD|PASSW|CREDENTIAL|API_KEY|AUTH|PRIVATE)[A-Za-z_]*\}?/i, reason: 'Echoing secret variable' },
   { level: 'high', id: 'printf-secret-var',      regex: /\bprintf\b[^;|&]*\$\{?[A-Za-z_]*(?:SECRET|KEY|TOKEN|PASSWORD|CREDENTIAL|API_KEY|AUTH|PRIVATE)[A-Za-z_]*\}?/i, reason: 'Printing secret variable' },
-  { level: 'high', id: 'cat-secrets-file',       regex: /\b(cat|less|head|tail|more)\s+[^|;]*(credentials?|secrets?)\.(json|ya?ml|toml)/i, reason: 'Reading secrets file' },
+  { level: 'high', id: 'cat-secrets-file',       regex: /\b(cat|less|head|tail|more)\s+[^|;&\n]*(credentials?|secrets?)\.(json|ya?ml|toml)/i, reason: 'Reading secrets file' },
   { level: 'high', id: 'cat-netrc',              regex: /\b(cat|less|head|tail|more)\s+[^|;]*\.netrc/i,                    reason: 'Reading .netrc credentials' },
-  { level: 'high', id: 'source-env',             regex: /\bsource\s+[^|;]*\.env\b|(?:^|[;&|]\s*)\.\s+[^|;]*\.env\b|^\.\s+[^|;]*\.env\b/i, reason: 'Sourcing .env loads secrets' },
+  { level: 'high', id: 'source-env',             regex: /\bsource\s+[^|;&\n]*\.env\b|(?:^|[;&|(\n]\s*)\.\s+[^|;&\n]*\.env\b/i, reason: 'Sourcing .env loads secrets' },
   { level: 'high', id: 'export-cat-env',         regex: /export\s+.*\$\(cat\s+[^)]*\.env/i,                                reason: 'Exporting secrets from .env' },
 
   // HIGH - Exfiltration
   { level: 'high', id: 'curl-upload-env',        regex: /\bcurl\b[^;|&]*(-d\s*@|-F\s*[^=]+=@|--data[^=]*=@)[^;|&]*(\.env|credentials|secrets|id_rsa|\.pem|\.key)/i, reason: 'Uploading secrets via curl' },
   { level: 'high', id: 'curl-post-secrets',      regex: /\bcurl\b[^;|&]*-X\s*POST[^;|&]*[^;|&]*(\.env|credentials|secrets)/i, reason: 'POSTing secrets via curl' },
   { level: 'high', id: 'wget-post-secrets',      regex: /\bwget\b[^;|&]*--post-file[^;|&]*(\.env|credentials|secrets)/i,  reason: 'POSTing secrets via wget' },
-  { level: 'high', id: 'scp-secrets',            regex: /\bscp\b[^;|&]*(\.env|credentials|secrets|id_rsa|\.pem|\.key)[^;|&]+:/i, reason: 'Copying secrets via scp' },
+  { level: 'high', id: 'scp-secrets',            regex: /(?:^|[;&|(\n])\s*(?:(?:sudo|time|env|command|exec|nohup|if|then|do|while|else)\s+|\w+=\S*\s+)*(?:\S*\/)?scp\s[^;|&]*(\.env|credentials|secrets|id_rsa|\.pem|\.key)[^;|&]+:/i, reason: 'Copying secrets via scp' },
   { level: 'high', id: 'rsync-secrets',          regex: /\brsync\b[^;|&]*(\.env|credentials|secrets|id_rsa)[^;|&]+:/i,    reason: 'Syncing secrets via rsync' },
   { level: 'high', id: 'nc-secrets',             regex: /\bnc\b[^;|&]*<[^;|&]*(\.env|credentials|secrets|id_rsa)/i,       reason: 'Exfiltrating secrets via netcat' },
 
@@ -105,8 +110,8 @@ const BASH_PATTERNS = [
 
   // HIGH - Process environ
   { level: 'high', id: 'proc-environ',           regex: /\/proc\/[^/]*\/environ/,                                          reason: 'Reading process environment' },
-  { level: 'high', id: 'xargs-cat-env',          regex: /xargs.*cat|\.env.*xargs/i,                                         reason: 'Reading .env via xargs' },
-  { level: 'high', id: 'find-exec-cat-env',      regex: /find\b.*\.env.*-exec|find\b.*-exec.*(cat|less)/i,                 reason: 'Finding and reading .env files' },
+  { level: 'high', id: 'xargs-cat-env',          regex: /xargs[^|;&\n]*\b(cat|less|head|tail|more)\b|\.env[^;\n]*\|\s*xargs/i, reason: 'Reading .env via xargs' },
+  { level: 'high', id: 'find-exec-cat-env',      regex: /find\b[^|;&\n]*\.env[^|;&\n]*-exec|find\b[^|;&\n]*-exec[^|;&\n]*\b(cat|less)\b/i, reason: 'Finding and reading .env files' },
 
   // STRICT
   { level: 'strict', id: 'grep-password',        regex: /\bgrep\b[^|;]*(-r|--recursive)[^|;]*(password|secret|api.?key|token|credential)/i, reason: 'Grep for secrets may expose them' },
@@ -130,7 +135,7 @@ function isAllowlisted(filePath) {
 }
 
 function checkFilePath(filePath, safetyLevel = SAFETY_LEVEL) {
-  if (!filePath || isAllowlisted(filePath)) return { blocked: false, pattern: null };
+  if (!filePath || isAllowlisted(filePath) || !filePath.replace(NON_SECRET_PATH, '')) return { blocked: false, pattern: null };
   const threshold = LEVELS[safetyLevel] || 2;
   for (const p of SENSITIVE_FILES) {
     if (LEVELS[p.level] <= threshold && p.regex.test(filePath)) {
@@ -145,9 +150,11 @@ function checkBashCommand(cmd, safetyLevel = SAFETY_LEVEL) {
   for (const allow of ALLOWLIST) {
     if (allow.test(cmd)) return { blocked: false, pattern: null };
   }
+  const normalized = cmd.replace(/\\\r?\n\s*/g, ' ').replace(/\d*>&\d+/g, ' ');
+  const stripped = normalized.replace(NON_SECRET_PATH, '');
   const threshold = LEVELS[safetyLevel] || 2;
   for (const p of BASH_PATTERNS) {
-    if (LEVELS[p.level] <= threshold && p.regex.test(cmd)) {
+    if (LEVELS[p.level] <= threshold && p.regex.test(READ_PATTERNS.has(p.id) ? stripped : normalized)) {
       return { blocked: true, pattern: p };
     }
   }

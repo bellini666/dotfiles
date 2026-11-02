@@ -1,0 +1,2 @@
+# Claude Code's Bash tool runs zsh, while agents write POSIX-style shell.
+[[ -n $CLAUDECODE ]] && setopt SH_WORD_SPLIT NO_NOMATCH
