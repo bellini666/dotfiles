@@ -1,5 +1,6 @@
 [dotfiles]
 # Sources are relative to this file (~/.dotfiles). Default mode is symlink.
+"~/.config/mise/config.toml" = "mise/config.toml"
 "~/.claude/CLAUDE.md" = "agents/AGENTS.md"
 "~/.config/opencode/AGENTS.md" = "agents/AGENTS.md"
 "~/.codex/AGENTS.md" = "agents/AGENTS.md"
@@ -23,16 +24,17 @@
 "~/.zshrc" = "zsh/zshrc"
 "~/.zshenv" = "zsh/zshenv"
 "~/.secret_env.sh" = { permissions = "0600" }
-"~/.mise_secret_env.sh" = { permissions = "0600" }
 
 [bootstrap.hooks.final]
 run = """
+mise prune -y
 zsh -i -c "antidote update -b"
 """
 
-[bootstrap.hooks.post-tools]
+[tasks.bootstrap]
+description = "Configure agents and the tools that integrate with them"
+depends = ["agents:plugins"]
 run = """
-mise run agents:plugins
 rtk init -g --hook-only --auto-patch
 herdr integration install claude
 herdr plugin install kryptamine/herdr-auto-title -y

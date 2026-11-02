@@ -110,8 +110,6 @@
 
 [bootstrap.hooks.post-packages]
 run = '''
-command -v brew >/dev/null 2>&1 || { echo "brew not found" >&2; exit 1; }
-
 # mise owns which formulae are needed (its closure plus `packages prune`).
 # Stop brew's autoremove — run by the `brew cleanup` below — from deleting
 # closure deps mise still wants, e.g. a mid-transition dep like openssl@4
@@ -119,7 +117,6 @@ command -v brew >/dev/null 2>&1 || { echo "brew not found" >&2; exit 1; }
 # run and cleanup deletes it again, an endless loop.
 export HOMEBREW_NO_AUTOREMOVE=1
 
-mise bootstrap packages upgrade --yes
 mise bootstrap packages prune --manager brew --yes
 mise bootstrap packages prune --manager brew-cask --yes
 
@@ -128,6 +125,7 @@ mise bootstrap packages prune --manager brew-cask --yes
 # `update` first: cleanup only drops a keg older than what brew's own API
 # snapshot calls current, and mise pours without ever refreshing that snapshot,
 # so brew otherwise still believes the superseded keg is the latest.
+command -v brew >/dev/null 2>&1 || exit 0
 brew update --quiet
 brew cleanup
 '''

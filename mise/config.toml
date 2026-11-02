@@ -7,6 +7,9 @@ idiomatic_version_file_enable_tools = ["python", "node", "ruff"]
 [settings.cargo]
 binstall_native = true
 
+[settings.github]
+credential_command = "gh auth token"
+
 [settings.pipx]
 uvx = true
 

@@ -1,10 +1,11 @@
 #!/bin/bash
 
 function bootstrap() { (
-  set -e
-  cd "${DOTFILES_DIR}"
+  # mise reads .miserc.toml before it applies -C, so this has to cd.
+  cd "${DOTFILES_DIR}" || exit 1
   git pull origin master || true
-  bash "${DOTFILES_DIR}/bootstrap.sh" "${@}" || return 1
+  mise self-update -y || true
+  mise bootstrap --yes --force-dotfiles --update --upgrade "${@}"
 ); }
 
 function vi() {
@@ -108,6 +109,9 @@ export XDG_CACHE_HOME="${XDG_CACHE_HOME:-${HOME}/.cache}"
 
 if [ -x "/opt/homebrew/bin/brew" ]; then
   eval "$(/opt/homebrew/bin/brew shellenv)"
+elif [ -d "/opt/homebrew/bin" ]; then
+  # mise pours formulae into this prefix without installing Homebrew itself.
+  export PATH=/opt/homebrew/bin:/opt/homebrew/sbin:${PATH}
 fi
 
 if [ -d "${HOME}/.local/bin" ]; then
@@ -137,11 +141,6 @@ export GIT_SSH=ssh
 # less: keep colors (R) and leave output in scrollback instead of the
 # alternate screen (X). No F: it skips paging on some long outputs.
 export LESS=-RX
-
-# mise
-if command -v gh >/dev/null 2>&1; then
-  export MISE_GITHUB_CREDENTIAL_COMMAND="gh auth token"
-fi
 
 # go
 export GOPATH="${HOME}/.go"
