@@ -1,0 +1,56 @@
+;; Final deny layer. Appended after every grant because later rules win, so it
+;; holds even when a workdir or add-dir overlaps these paths. `safe` skips it for
+;; sessions opened on $HOME, which get full access on purpose.
+;;
+;; file-read-metadata is named explicitly: safehouse's comments say a general rule
+;; loses to one naming that operation, regardless of order.
+
+;; Cloud and secret stores.
+(deny file-read* file-read-metadata file-write*
+    (home-subpath "/.aws")
+    (home-subpath "/.config/aws-sso")
+    (home-subpath "/.kube")
+    (home-subpath "/.config/gcloud")
+    (home-subpath "/.azure")
+    (home-subpath "/.config/op")
+    (home-subpath "/.gnupg")
+    (home-subpath "/.terraform.d")
+    (home-subpath "/.config/k9s")
+    (home-literal "/.secret_env.sh")
+)
+
+;; Claude's profile requires Keychain, which can't be scoped per item, and the
+;; aws-sso-cli item can be read silently by aws-sso itself.
+(deny process-exec (home-subpath "/.local/share/mise/installs/aws-sso"))
+(deny file-read* (home-subpath "/.local/share/mise/installs/aws-sso"))
+
+;; Everything here later runs outside the sandbox: PATH binaries (including
+;; safehouse itself), mise config and trust, toolchain binaries and wrappers,
+;; docker CLI plugins, and browser native messaging manifests, which name
+;; executables Chrome launches.
+;;
+;; The regex and home prefixes cover mise config because ~ and ~/dev/sc are trust
+;; roots: host mise loads new config under them on `cd`, and its [env] templates
+;; can exec.
+(deny file-write*
+    (home-subpath "/.local/share/mise/installs")
+    (home-subpath "/.local/share/mise/shims")
+    (home-subpath "/.local/share/mise/command-wrappers")
+    (home-subpath "/.local/share/mise/plugins")
+    (home-subpath "/.config/mise")
+    (home-subpath "/.local/state/mise/trusted-configs")
+    (home-prefix "/.mise")
+    (home-prefix "/mise")
+    (regex (string-append "^" HOME_DIR "/dev/(.*/)?(\\.?mise(\\.[^/]+)?\\.toml|\\.?mise(-tasks)?/.*|\\.config/mise/.*)$"))
+    (home-subpath "/.cargo/bin")
+    (home-prefix "/.cargo/config")
+    (home-subpath "/.rustup/toolchains")
+    (home-literal "/.rustup/settings.toml")
+    (home-literal "/.docker/config.json")
+    (home-subpath "/.docker/cli-plugins")
+    (home-subpath "/.docker/contexts")
+    (home-subpath "/Library/Application Support/Google/Chrome/NativeMessagingHosts")
+)
+
+;; Claude's profile injects the microphone integration and safehouse has no --disable.
+(deny device-microphone)

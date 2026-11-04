@@ -123,11 +123,15 @@ Whatever sits in context is paid for again on every turn.
 
 ## Sandbox
 
-Sessions run inside `agent-safehouse`, a deny-by-default macOS seatbelt profile. Grants come from `core.sh` and `safehouse/extra.sb`:
+Sessions run inside `agent-safehouse`, a deny-by-default macOS seatbelt profile. Grants come from `core.sh`, `safehouse/extra.sb` and `safehouse/deny.sb`, plus project mise config (`SAFEHOUSE_ADD_DIRS`, `SAFEHOUSE_ENV_PASS`, `SAFE_PROFILES`):
 
-- Read/write: the working directory and all of `$HOME`
-- Read-only: `~/.dotfiles`, `/opt/homebrew`, `~/Library/Caches/Homebrew`, `~/.gitconfig`, `~/.gitignore`, `~/.gitattributes`, `~/.npmrc`, `/Applications/Ghostty.app`
-- Enabled: ssh through the agent socket (private keys under `~/.ssh` stay unreadable), docker, playwright-chrome, process-control, lldb, browser native messaging, shell init, POSIX semaphores and shared memory
+- Read/write: the working directory, tool caches and state covered by safehouse profiles, and `~/dev/_tmp`
+- Read-only: `~/dev`, `~/Downloads`, `~/.dotfiles`, `/opt/homebrew`, git config, `~/.npmrc`
+- Denied: `~/.aws`, `~/.kube`, `~/.config/aws-sso`, other cloud and secret stores, `aws-sso`, and writes to anything that later runs on the host (mise tools and config, `~/.cargo/bin`, docker CLI config)
+- Enabled: ssh through the agent socket (private keys under `~/.ssh` stay unreadable), docker, playwright-chrome, shell init, herdr, POSIX semaphores and shared memory
+- Environment: only safehouse's sanitized list plus `SAFEHOUSE_ENV_PASS`
+- A session opened on `~` has read/write on all of `$HOME` and skips `deny.sb`
+- Debugging is opt-in per session: `SAFE_ENABLE=lldb claude` or `SAFE_ENABLE=process-control claude`
 
 When a task needs a path outside that set, say so up front and hand over the exact command instead of retrying. Never widen the sandbox yourself; ask.
 

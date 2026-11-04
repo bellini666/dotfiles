@@ -29,3 +29,9 @@
     (subpath "/private/var/folders")
     (subpath "/var/folders")
 )
+
+;; herdr.sb only allows ~/.config/herdr/herdr.sock, but named sessions listen under
+;; sessions/<name>/, so hooks and the CLI can't connect to them without this.
+(allow network-outbound
+    (remote unix-socket (path-regex (string-append "^" HOME_DIR "/\\.config/herdr/sessions/[^/]+/herdr\\.sock$")))
+)
