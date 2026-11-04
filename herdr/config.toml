@@ -39,7 +39,7 @@ focus_pane_up = "prefix+up"
 focus_pane_right = "prefix+right"
 
 [[keys.command]]
-key = "prefix+k"
+key = "ctrl+alt+k"
 type = "plugin_action"
 command = "herdr-bar.open"
 description = "command bar"

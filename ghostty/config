@@ -20,6 +20,8 @@ shell-integration = zsh
 
 keybind = alt+right=unbind
 keybind = alt+left=unbind
+# CSI-u for ctrl+alt+k: macOS terminals never forward cmd, so herdr binds this chord instead
+keybind = cmd+k=text:\x1b[107;7u
 
 shell-integration-features = ssh-terminfo,ssh-env,cursor,sudo,title
 
