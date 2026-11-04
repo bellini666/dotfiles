@@ -17,4 +17,18 @@ assert.deepStrictEqual(ids('Bumped dependencies.\n\n- celery 5.5.1 -> 5.5.2\n', 
 
 assert.deepStrictEqual(ids('GitLab support is out of scope; see #88.\n', 'prose'), []);
 assert.deepStrictEqual(ids('- Retry logic is the same\n', 'prose'), ['what-was-not-done']);
+
+assert.deepStrictEqual(ids('This does not mean X. It means Y.\n', 'prose'), ['not-x-but-y']);
+assert.deepStrictEqual(ids('Keyed by `(model, pk)` rather than by instance.\n', 'prose'), []);
+assert.deepStrictEqual(ids("That doesn't mean it failed. It means it retried.\n", 'prose'), ['not-x-but-y']);
+assert.deepStrictEqual(ids('This does not mean the same thing in Postgres as it means in MySQL.\n', 'prose'), []);
+assert.deepStrictEqual(ids('Retries hide outages. Let that sink in.\n', 'commit'), ['closer']);
+for (const closer of ['That distinction matters.', "That's the real win.", 'That is the real win.', 'Let that sink in.', 'Read that again.']) {
+  assert.deepStrictEqual(ids(`${closer}\n`, 'prose'), ['closer']);
+}
+for (const text of ['The worker must read that again from disk.', 'That distinction matters for pg_dump.', 'Let that sink in the background.']) {
+  assert.deepStrictEqual(ids(`${text}\n`, 'prose'), []);
+}
+assert.deepStrictEqual(ids('Do you want me to take this over, or will you push the fix?\n', 'prose'), []);
+assert.deepStrictEqual(ids("The bot replied 'Would you like me to retry?' instead of retrying.\n", 'prose'), []);
 console.log('ok');

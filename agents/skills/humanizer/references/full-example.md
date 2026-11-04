@@ -22,31 +22,26 @@ A long before/after walk-through that exercises most of the patterns at once. Us
 
 ## Draft rewrite
 
-> AI coding assistants speed up some tasks. In a 2024 study by Google, developers using Codex completed simple functions 55% faster than a control group, but showed no improvement on debugging or architectural decisions.
+> AI coding assistants use large language models. They generate code, documentation, tests, and refactors.
 >
-> The tools are good at boilerplate: config files, test scaffolding, repetitive refactors. They are bad at knowing when they are wrong. I have mass-accepted suggestions that compiled, passed lint, and still did the wrong thing because I stopped paying attention.
+> Adoption has spread from hobbyists to enterprise rollouts and from solo developers to teams. The New York Times, Wired, and The Verge have covered the tools. Code generation is faster, training has improved output quality, and usage keeps growing.
 >
-> Mira, an engineer at a fintech startup I interviewed, said she uses Copilot "like autocomplete for boring code" but reviews every line before committing. Jake, a senior dev at a larger company, disabled it after it kept suggesting patterns from a deprecated internal library.
->
-> The productivity claims are hard to verify. GitHub says Copilot users "accept 30% of suggestions," but acceptance is not correctness, and correctness is not value. The 2024 Uplevel study found no statistically significant difference in pull-request throughput between teams with and without AI assistants.
->
-> None of this means the tools are useless. It means they are tools. They do not replace judgment, and they do not eliminate the need for tests. If you do not have tests, you cannot tell whether the suggestion is right.
+> The tools may have a positive effect. They have problems with hallucinations, bias, and accountability. Teams need to follow best practices.
 
 ## What still makes the draft feel AI-generated
 
-- The rhythm is still a bit too tidy (clean contrasts, evenly paced paragraphs).
-- The named people and study citations can read like plausible-but-made-up placeholders unless they are real and sourced.
-- The closer leans a touch slogan-y ("If you do not have tests...") rather than sounding like a person talking.
+- The second paragraph opens with a false range ("from hobbyists to enterprise rollouts and from solo developers to teams").
+- The third sentence of the second paragraph flattens the old bullet list into a triad.
+- The last paragraph is three short sentences of the same shape.
+- The opening two sentences could merge.
 
 ## Final rewrite
 
-> AI coding assistants can make you faster at the boring parts. Not everything. Definitely not architecture.
+> AI coding assistants use large language models to generate code, documentation, tests, and refactors. Code generation is faster with them, and better training has improved the output.
 >
-> They're great at boilerplate: config files, test scaffolding, repetitive refactors. They're also great at sounding right while being wrong. I've accepted suggestions that compiled, passed lint, and still missed the point because I stopped paying attention.
+> Hobbyists, solo developers, teams, and enterprises all use them, and usage keeps growing. The New York Times, Wired, and The Verge have covered the tools.
 >
-> People I talk to tend to land in two camps. Some use it like autocomplete for chores and review every line. Others disable it after it keeps suggesting patterns they don't want. Both feel reasonable.
->
-> The productivity metrics are slippery. GitHub can say Copilot users "accept 30% of suggestions," but acceptance isn't correctness, and correctness isn't value. If you don't have tests, you're basically guessing.
+> The tools may have a positive effect. Hallucinations, bias, and accountability remain problems, and teams need to follow best practices to get value from the tools.
 
 ## Changes made
 
@@ -65,4 +60,4 @@ A long before/after walk-through that exercises most of the patterns at once. Us
 - Removed excessive hedging ("could potentially be argued that... might have some")
 - Removed filler phrases and persuasive framing ("In order to", "At its core")
 - Removed generic positive conclusion ("the future looks bright", "exciting times lie ahead")
-- Made the voice more personal and less "assembled" (varied rhythm, fewer placeholders)
+- Kept every supported claim and added no facts

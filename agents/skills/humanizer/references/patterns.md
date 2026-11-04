@@ -1,16 +1,17 @@
 # AI Writing Patterns: Detailed Reference
 
-The full pattern catalog with before/after examples. SKILL.md keeps the hard rules and artifact templates; consult this file when more context, more examples, or more watch-words are needed.
+The full pattern catalog with before/after examples. SKILL.md keeps the hard rules and artifact templates; consult this file when more context, more examples, or more watch-words are needed. Each "After" uses only facts from its "Before"; where the rewrite needs a detail the source lacks, it cuts the claim.
 
 ## Contents
 
 - Content patterns (1-6): significance inflation, notability boasting, superficial -ing analyses, promotional language, vague attributions, "challenges and future prospects"
 - Language and grammar (7-13): AI vocabulary, copula avoidance, negative parallelisms, rule of three, elegant variation, false ranges, passive voice
-- Style (14-19): em dashes, boldface, inline-header lists, title case, emojis, curly quotes
+- Style (14-19): em dashes, boldface, inline-header lists, title case and effect headings, emojis, curly quotes
 - Communication (20-22): chatbot artifacts, knowledge-cutoff disclaimers, sycophancy
 - Filler and hedging (23-30): filler and jargon, hedging, generic conclusions, hyphenated pairs, authority tropes, signposting, fragmented headers, verbose PR/commit text
 - Voice and agency (31-34): false agency, narrator-from-a-distance, telling instead of showing, performative emphasis
 - Engineering prose (35-36): writing about the previous version, fancy register
+- Staging and reader (37-40): one-line closers, re-explaining what the reader knows, arguing with no one, vague association
 
 **Scope note:** Wikipedia's "Signs of AI writing" page also documents Wikipedia-platform-specific patterns (markup, citations, AFC drafts, wikilawyering, talk-page artifacts). Those are intentionally omitted here because they do not apply to general prose, PRs, MRs, changelogs, or technical documentation. Do not try to "complete" the list with those.
 
@@ -30,7 +31,7 @@ The full pattern catalog with before/after examples. SKILL.md keeps the hard rul
 
 **After:**
 
-> The Statistical Institute of Catalonia was established in 1989 to collect and publish regional statistics independently from Spain's national statistics office.
+> The Statistical Institute of Catalonia was established in 1989, part of a wider decentralization of administrative functions in Spain to strengthen regional governance.
 
 ### 2. Undue Emphasis on Notability and Media Coverage
 
@@ -44,7 +45,7 @@ The full pattern catalog with before/after examples. SKILL.md keeps the hard rul
 
 **After:**
 
-> In a 2024 New York Times interview, she argued that AI regulation should focus on outcomes rather than methods.
+> The New York Times, BBC, Financial Times, and The Hindu have cited her views. She has over 500,000 followers.
 
 ### 3. Superficial Analyses with -ing Endings
 
@@ -58,7 +59,7 @@ The full pattern catalog with before/after examples. SKILL.md keeps the hard rul
 
 **After:**
 
-> The temple uses blue, green, and gold colors. The architect said these were chosen to reference local bluebonnets and the Gulf coast.
+> The temple's colors are blue, green, and gold. They symbolize Texas bluebonnets, the Gulf of Mexico, and Texan landscapes.
 
 ### 4. Promotional and Advertisement-like Language
 
@@ -72,7 +73,7 @@ The full pattern catalog with before/after examples. SKILL.md keeps the hard rul
 
 **After:**
 
-> Alamata Raya Kobo is a town in the Gonder region of Ethiopia, known for its weekly market and 18th-century church.
+> Alamata Raya Kobo is a town in the Gonder region of Ethiopia.
 
 ### 5. Vague Attributions and Weasel Words
 
@@ -86,7 +87,7 @@ The full pattern catalog with before/after examples. SKILL.md keeps the hard rul
 
 **After:**
 
-> The Haolai River supports several endemic fish species, according to a 2019 survey by the Chinese Academy of Sciences.
+> The Haolai River interests researchers and conservationists because of its characteristics.
 
 ### 6. Outline-like "Challenges and Future Prospects" Sections
 
@@ -100,7 +101,7 @@ The full pattern catalog with before/after examples. SKILL.md keeps the hard rul
 
 **After:**
 
-> Traffic congestion increased after 2015 when three new IT parks opened. The municipal corporation began a stormwater drainage project in 2022 to address recurring floods.
+> Korattur is industrially prosperous but has traffic congestion and water scarcity.
 
 ---
 
@@ -120,7 +121,7 @@ The full pattern catalog with before/after examples. SKILL.md keeps the hard rul
 
 **After:**
 
-> Somali cuisine also includes camel meat, which is considered a delicacy. Pasta dishes, introduced during Italian colonization, remain common, especially in the south.
+> Somali cuisine includes camel meat. Pasta, an Italian colonial influence, is widely eaten and part of the traditional diet.
 
 ### 8. Avoidance of "is"/"are" (Copula Avoidance)
 
@@ -134,7 +135,7 @@ The full pattern catalog with before/after examples. SKILL.md keeps the hard rul
 
 **After:**
 
-> Gallery 825 is LAAA's exhibition space for contemporary art. The gallery has four rooms totaling 3,000 square feet.
+> Gallery 825 is LAAA's exhibition space for contemporary art. It has four separate spaces and over 3,000 square feet.
 
 ### 9. Negative Parallelisms and Tailing Negations
 
@@ -150,7 +151,7 @@ Two distinct sub-patterns Wikipedia documents separately.
 
 **After:**
 
-> The heavy beat adds to the aggressive tone.
+> The beat adds to the aggression and atmosphere.
 
 #### 9b. "Not X, but Y" / "no X, no Y, just Z"
 
@@ -162,7 +163,7 @@ Two distinct sub-patterns Wikipedia documents separately.
 
 **After:**
 
-> The tool is fast and produces useful output without extra ceremony.
+> The tool is an engine that produces results.
 
 #### 9c. Tailing-negation fragments
 
@@ -176,6 +177,30 @@ Two distinct sub-patterns Wikipedia documents separately.
 
 > The options come from the selected item without forcing the user to guess.
 
+#### 9d. Contrast split across sentences
+
+**Problem:** The same move stretched over two sentences. The first denies something nobody claimed.
+
+**Before:**
+
+> This does not mean every migration needs a rollback. It means each one needs a recovery path.
+
+**After:**
+
+> Each migration needs a recovery path.
+
+#### 9e. "X rather than Y"
+
+**Problem:** The reversed form adds weight when nobody proposed Y. Keep it when both halves carry information ("keyed by `(model, pk)` rather than by instance" tells the reader what to expect).
+
+**Before:**
+
+> The worker delivers real results rather than empty promises.
+
+**After:**
+
+> The worker delivers results.
+
 ### 10. Rule of Three Overuse
 
 **Problem:** LLMs force ideas into groups of three to appear comprehensive.
@@ -186,7 +211,7 @@ Two distinct sub-patterns Wikipedia documents separately.
 
 **After:**
 
-> The event includes talks and panels. There's also time for informal networking between sessions.
+> The event includes keynotes and panels, with time for networking.
 
 ### 11. Elegant Variation (Synonym Cycling)
 
@@ -210,7 +235,7 @@ Two distinct sub-patterns Wikipedia documents separately.
 
 **After:**
 
-> The book covers the Big Bang, star formation, and current theories about dark matter.
+> It covers the Big Bang, the cosmic web, the life cycle of stars, and dark matter.
 
 ### 13. Passive Voice and Subjectless Fragments
 
@@ -218,7 +243,7 @@ Two distinct sub-patterns Wikipedia documents separately.
 
 **Before:**
 
-> No configuration file needed. The results are preserved automatically.
+> No configuration file needed. The results are preserved automatically by the system.
 
 **After:**
 
@@ -264,9 +289,9 @@ Two distinct sub-patterns Wikipedia documents separately.
 
 **After:**
 
-> The update improves the interface, speeds up load times through optimized algorithms, and adds end-to-end encryption.
+> A new interface improves the user experience, optimized algorithms improve performance, and end-to-end encryption strengthens security.
 
-### 17. Title Case in Headings
+### 17. Title Case and Effect Headings
 
 **Problem:** AI chatbots capitalize all main words in headings.
 
@@ -277,6 +302,20 @@ Two distinct sub-patterns Wikipedia documents separately.
 **After:**
 
 > ## Strategic negotiations and global partnerships
+
+A heading written for effect names nothing, so rename it for what the section holds. Also remove horizontal rules placed between every section, and a top heading that repeats the document title.
+
+**Before:**
+
+> ## The decision, on one screen
+>
+> This table compares the options.
+
+**After:**
+
+> ## How the options compare
+>
+> This table compares the options.
 
 ### 18. Emojis
 
@@ -290,7 +329,7 @@ Two distinct sub-patterns Wikipedia documents separately.
 
 **After:**
 
-> The product launches in Q3. User research showed a preference for simplicity. Next step: schedule a follow-up meeting.
+> The product launches in Q3. Users prefer simplicity. Next step: schedule a follow-up meeting.
 
 ### 19. Curly Quotation Marks
 
@@ -316,7 +355,7 @@ Two distinct sub-patterns Wikipedia documents separately.
 
 **Before:**
 
-> Here is an overview of the French Revolution. I hope this helps! Let me know if you'd like me to expand on any section.
+> Here is an overview of the French Revolution. It began in 1789 when financial crisis and food shortages led to widespread unrest. I hope this helps! Let me know if you'd like me to expand on any section.
 
 **After:**
 
@@ -324,9 +363,9 @@ Two distinct sub-patterns Wikipedia documents separately.
 
 ### 21. Knowledge-Cutoff Disclaimers
 
-**Watch words:** as of [date], Up to my last training update, While specific details are limited/scarce..., based on available information...
+**Watch words:** as of [date], Up to my last training update, While specific details are limited/scarce..., based on available information..., not publicly available, maintains a low profile, likely [grew up, studied, began], it is believed that
 
-**Problem:** AI disclaimers about incomplete information get left in text.
+**Problem:** AI disclaimers about incomplete information get left in text, or the model admits it found no source and fills the gap with a plausible guess. State what the source does not show, or cut the sentence.
 
 **Before:**
 
@@ -334,7 +373,15 @@ Two distinct sub-patterns Wikipedia documents separately.
 
 **After:**
 
-> The company was founded in 1994, according to its registration documents.
+> The company's founding is not well documented. It may date from the 1990s.
+
+**Before (guess):**
+
+> Information about her early life is not publicly available, suggesting she maintains a low profile. She likely grew up in a middle-class household.
+
+**After:**
+
+> Her early life is not documented in the available sources.
 
 ### 22. Sycophantic/Servile Tone
 
@@ -401,11 +448,11 @@ Two distinct sub-patterns Wikipedia documents separately.
 
 **Before:**
 
-> The future looks bright for the company. Exciting times lie ahead as they continue their journey toward excellence. This represents a major step in the right direction.
+> The company opened its second location in March. The future looks bright for the company. Exciting times lie ahead as they continue their journey toward excellence. This represents a major step in the right direction.
 
 **After:**
 
-> The company plans to open two more locations next year.
+> The company opened its second location in March.
 
 ### 26. Hyphenated Word Pair Overuse
 
@@ -419,7 +466,7 @@ Two distinct sub-patterns Wikipedia documents separately.
 
 **After:**
 
-> The team delivered a thorough report on the tools customers use. They checked every number twice.
+> The team delivered a good report, based on data, on the tools clients use. They were known for making decisions thoroughly.
 
 ### 27. Persuasive Authority Tropes
 
@@ -433,7 +480,7 @@ Two distinct sub-patterns Wikipedia documents separately.
 
 **After:**
 
-> The question is whether teams can adapt. That mostly depends on whether the organization is ready to change its habits.
+> The question is whether teams can adapt. That depends on whether the organization is ready.
 
 ### 28. Signposting, Announcements, and Meta-Commentary
 
@@ -449,7 +496,7 @@ Two distinct sub-patterns Wikipedia documents separately.
 
 **After:**
 
-> Next.js caches data at multiple layers, including request memoization, the data cache, and the router cache.
+> Caching in Next.js is more complex than you might expect.
 
 ### 29. Fragmented Headers
 
@@ -502,7 +549,7 @@ Two distinct sub-patterns Wikipedia documents separately.
 
 **After:**
 
-> Reject expired tokens at login. A silent refresh here masked the `refresh_token` bug tracked in #1284.
+> Call `validate_token` in `login`.
 
 ### 31. False Agency
 
@@ -516,7 +563,7 @@ Two distinct sub-patterns Wikipedia documents separately.
 
 **After:**
 
-> The team adopted the new process and gave ownership to engineering. Within a quarter, on-call escalations dropped 40%, which is what convinced us it was working.
+> The team adopted the new process and decided that ownership should sit with engineering. People changed how they worked, and we read the data as a sign we were on the right track.
 
 ### 32. Narrator-from-a-Distance
 
@@ -530,7 +577,7 @@ Two distinct sub-patterns Wikipedia documents separately.
 
 **After:**
 
-> You do not sit down on Monday and decide to optimize for the wrong thing. You pick up a dashboard, ship against the green number, and a quarter later notice the customers you were supposed to help are quieter.
+> You optimize for the metric in front of you, and your team drifts toward the wrong outcome.
 
 ### 33. Telling Instead of Showing
 
@@ -540,11 +587,11 @@ Two distinct sub-patterns Wikipedia documents separately.
 
 **Before:**
 
-> Migrating off the legacy auth service is genuinely hard. This is what real platform work actually looks like. The stakes are high.
+> Migrating off the legacy auth service is genuinely hard. It touches every service that calls `verify_session`. This is what real platform work actually looks like. The stakes are high.
 
 **After:**
 
-> Migrating off the legacy auth service touches every service that calls `verify_session`, and three of them have no test coverage. We will be reading prod traffic to figure out what they actually do.
+> Migrating off the legacy auth service touches every service that calls `verify_session`.
 
 ### 34. Performative Emphasis and Manufactured Sincerity
 
@@ -558,7 +605,7 @@ Two distinct sub-patterns Wikipedia documents separately.
 
 **After:**
 
-> The approach pays off once the test suite is in place. Without tests, the same complexity will eat any team alive within six months. I have watched it happen twice.
+> The approach has real benefits. The complexity grows slowly, but the payoff is worth it.
 
 ---
 
@@ -578,7 +625,7 @@ Two distinct sub-patterns Wikipedia documents separately.
 
 > Async HTTP via `httpx.AsyncClient`.
 >
-> - `sync.py` still uses `requests`; migrating it needs the worker to go async first (#301).
+> - `sync.py` still uses `requests`.
 
 ### 36. Fancy Register
 
@@ -592,4 +639,74 @@ Two distinct sub-patterns Wikipedia documents separately.
 
 **After:**
 
-> Every request path calls this helper. It catches upstream errors and returns a 502 with the original status in the body.
+> Every request path calls this helper. It does most of the work and reports errors.
+
+---
+
+## STAGING AND READER
+
+### 37. One-Line Closers and Dramatic Fragments
+
+**Watch words:** That is the real win, That distinction matters, Read that again, Let that sink in, The message was clear, This shows the importance of
+
+**Problem:** A short line asks the reader to pause on a claim without adding to it. The same move covers a sentence that names what an example just showed, a row of fragments, and one word in capitals. Keep a short sentence when it carries a new fact.
+
+**Before:**
+
+> Retries hide brief outages.
+>
+> That is the real win.
+
+**After:**
+
+> Retries hide brief outages.
+
+**Before (fragments):**
+
+> The new scheduler ignores priority. Every job. Every time. No exceptions.
+
+**After:**
+
+> The new scheduler ignores priority for every job.
+
+### 38. Re-explaining What the Reader Knows
+
+**Signs to watch:** A short reply that restates the problem, walks through the diagnosis, and reaches the decision in its last line; a query or set of numbers included to prove a plan will work; background the other person wrote.
+
+**Problem:** A reply has a reader who already has the context. Each sentence can read fine alone, so this survives sentence-level cleanup. Lead with the decision and keep what would change whether the reader agrees. Act on this only when the text is a reply; a standalone document needs its background.
+
+**Before:**
+
+> You asked why the deploy failed. The migration ran before the new image rolled out, so the old pods read a dropped column. I checked the logs, and all 12 failures show the same error. I'd run migrations after rollout.
+
+**After:**
+
+> I'd run migrations after rollout. Running them first makes the old pods read a dropped column.
+
+### 39. Arguing with No One
+
+**Watch words:** To be clear, Don't get me wrong, I'm not saying, This is not to say, A tempting approach would be, One might be tempted to, You might think... but
+
+**Problem:** The text answers an objection or rejects an option that appears nowhere else, usually left over from an earlier draft. Keep an objection the text attributes or answers in full, and an option the reader would weigh, as in a design doc.
+
+**Before:**
+
+> Session tokens rotate every 24 hours. A tempting approach would be to restart the auth service on a cron job, but that would drop every active session. Rotation happens in place.
+
+**After:**
+
+> Session tokens rotate in place every 24 hours.
+
+### 40. Vague Connection or Association
+
+**Watch words:** associated with, in association with, in connection with, linked to, tied to
+
+**Problem:** The text says two things are connected without saying how. Name the relationship the source gives. If the source does not say, keep the vague wording; do not invent a role.
+
+**Before:**
+
+> He is associated with the orchestra, which he founded and conducts.
+
+**After:**
+
+> He founded and conducts the orchestra.

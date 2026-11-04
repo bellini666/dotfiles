@@ -4,11 +4,12 @@
     {
       "id": 1,
       "prompt": "Write the PR description for this diff. It bumps django 5.2.3 to 5.2.4 and celery 5.5.1 to 5.5.2, and removes the `task_remote_tracebacks` setting from settings.py because celery 5.5.2 dropped it. The full test suite passed locally.",
-      "expected_output": "A title line, two or three bullets, one test line, and the Co-Authored-By footer. No paragraphs, no section headers, no sentence about what was preserved or not changed.",
+      "expected_output": "A title line, two or three bullets, and the Co-Authored-By footer. No paragraphs, no section headers, no test evidence, no sentence about what was preserved or not changed.",
       "files": [],
       "expectations": [
         "The description has no em dash, curly quote, or the words quietly, robust, comprehensive, leverage, seamless",
         "The description uses bullets rather than a prose paragraph for the changes",
+        "The description does not mention the test suite or test results",
         "The description does not contain the words previously, preserved, unchanged, untouched, or the phrase 'This PR'",
         "The description ends with the exact footer line 'Co-Authored-By: 🤖 Claude [Claude Code](https://claude.com/claude-code), reviewed by the author'",
         "The description is under 12 lines including the footer"

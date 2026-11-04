@@ -26,7 +26,13 @@ const RULES = [
   {
     id: 'not-x-but-y',
     modes: ['prose', 'commit'],
-    regex: /\bnot (?:just|only|merely) \w+[^.\n]{0,60}\bbut\b|\bit'?s not \w+[^.\n]{0,40}, it'?s\b/gi,
+    regex: /\bnot (?:just|only|merely) \w+[^.\n]{0,60}\bbut\b|\bit'?s not \w+[^.\n]{0,40}, it'?s\b|\b(?:this|that|it) (?:does not|doesn't) mean\b[^.\n]{0,80}[.;]\s+(?:it|this|that) means\b/gi,
+  },
+  {
+    id: 'closer',
+    modes: ['prose', 'commit'],
+    // Whole sentences only: "must read that again from disk" is ordinary technical text.
+    regex: /(?<=^\s*|[.!?]\s+)(that distinction matters|that(?:'s| is) the real win|let that sink in|read that again)(?=[.!]?\s*$|[.!]\s)/gi,
   },
   {
     id: 'chatbot',
