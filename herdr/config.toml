@@ -13,6 +13,7 @@ version_check = false
 show_agent_labels_on_pane_borders = true
 agent_panel_sort = "priority"
 status_indicators = "symbols"
+window_title = "🐐 {hostname} | {workspace}"
 
 [ui.sound]
 enabled = false
@@ -36,3 +37,9 @@ focus_pane_left = "prefix+left"
 focus_pane_down = "prefix+down"
 focus_pane_up = "prefix+up"
 focus_pane_right = "prefix+right"
+
+[[keys.command]]
+key = "prefix+k"
+type = "plugin_action"
+command = "herdr-bar.open"
+description = "command bar"

@@ -37,8 +37,9 @@ depends = ["agents:plugins"]
 run = """
 rtk init -g --hook-only --auto-patch
 herdr integration install claude
-herdr plugin install kryptamine/herdr-auto-title -y
 herdr plugin install hhdebb/herdr-radar -y
+herdr plugin install jeffarese/herdr-bar -y
+herdr plugin install kryptamine/herdr-auto-title -y
 """
 
 [tasks."agents:plugins"]
