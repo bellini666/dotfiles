@@ -43,3 +43,11 @@ key = "ctrl+alt+k"
 type = "plugin_action"
 command = "herdr-bar.open"
 description = "command bar"
+
+[[keys.command]]
+key = "prefix+d"
+type = "popup"
+command = "cd \"${HERDR_ACTIVE_PANE_CWD:-$PWD}\" && exec tuicr"
+description = "review with tuicr"
+width = "95%"
+height = "95%"
