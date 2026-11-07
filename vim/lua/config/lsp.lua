@@ -21,7 +21,9 @@ vim.diagnostic.config({
     severity = {
       min = vim.diagnostic.severity.WARN,
     },
-    float = true,
+    on_jump = function(_, bufnr)
+      vim.diagnostic.open_float({ bufnr = bufnr, scope = "cursor", focus = false })
+    end,
   },
   signs = {
     severity = {
@@ -59,9 +61,9 @@ vim.api.nvim_create_autocmd("LspAttach", {
     end
 
     if client.server_capabilities.documentFormattingProvider then
-      vim.api.nvim_clear_autocmds({ group = augroup_formatting, buffer = bufnr })
+      vim.api.nvim_clear_autocmds({ group = augroup_formatting, buf = bufnr })
       vim.api.nvim_create_autocmd("BufWritePre", {
-        buffer = bufnr,
+        buf = bufnr,
         callback = function()
           require("utils").lsp_format({ bufnr = bufnr })
         end,

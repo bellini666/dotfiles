@@ -33,7 +33,8 @@ wk.add({
 
       if mc_pattern == pattern and (live or mc_armed) then
         mc_armed = false
-        vim.api.nvim_mcursor(0, vim.api.nvim_win_get_cursor(0))
+        local row, col = vim.pos.cursor(0):to_extmark()
+        vim.api.nvim_buf_set_extmark(0, mc_ns, row, col, {})
         vim.fn.search(pattern)
       else
         mc_pattern, mc_armed = pattern, true
