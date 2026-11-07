@@ -26,7 +26,7 @@ keybind = cmd+k=text:\x1b[107;7u
 shell-integration-features = ssh-terminfo,ssh-env,cursor,sudo,title
 
 auto-update = check
-auto-update-channel = tip
+auto-update-channel = stable
 
 # >>> herdr-radar font block
 font-codepoint-map = U+E1A0-U+E1BA=Herdr Agent Icons Max
