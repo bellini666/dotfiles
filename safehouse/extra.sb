@@ -35,3 +35,9 @@
 (allow network-outbound
     (remote unix-socket (path-regex (string-append "^" HOME_DIR "/\\.config/herdr/sessions/[^/]+/herdr\\.sock$")))
 )
+
+;; ponytail's band hook writes its per-project task ledger CSVs and board.html here
+;; after every turn; deny-default blocks it and the status line shows a warning.
+(allow file-read* file-write*
+    (home-subpath "/.config/ponytail/band")
+)
