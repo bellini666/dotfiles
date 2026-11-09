@@ -77,7 +77,7 @@ SAFEHOUSE_ADD_DIRS_RO="$(_existing_paths \
   "${HOME}/Library/Caches/Homebrew" \
   "${HOME}/.gitconfig" "${HOME}/.gitignore" "${HOME}/.gitattributes" \
   "${HOME}/.npmrc" "${HOME}/.dotfiles" "/Applications/Ghostty.app" \
-  "${HOME}/dev" "${HOME}/Downloads" "${HOME}/.config/ponytail" "${HOME}/.local/bin/mise")"
+  "${HOME}/dev" "${HOME}/Downloads" "${HOME}/.config/ponytail")"
 export SAFEHOUSE_ADD_DIRS_RO
 
 SAFEHOUSE_ENV_PASS="CLAUDE_CONFIG_DIR,CLAUDE_CODE_NO_FLICKER,CLAUDE_CODE_SUBAGENT_MODEL"

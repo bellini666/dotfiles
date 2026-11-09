@@ -22,7 +22,9 @@
 ;; Claude's profile requires Keychain, which can't be scoped per item, and the
 ;; aws-sso-cli item can be read silently by aws-sso itself.
 (deny process-exec (home-subpath "/.local/share/mise/installs/aws-sso"))
-(deny file-read* (home-subpath "/.local/share/mise/installs/aws-sso"))
+;; Data only: a denied stat on this PATH entry makes Node abort every bare-name
+;; spawn with EPERM (safehouse #205).
+(deny file-read-data (home-subpath "/.local/share/mise/installs/aws-sso"))
 
 ;; Everything here later runs outside the sandbox: PATH binaries (including
 ;; safehouse itself), mise config and trust, toolchain binaries and wrappers,
