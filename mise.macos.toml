@@ -17,6 +17,7 @@
 "brew:bottom" = "latest"
 "brew:btop" = "latest"
 "brew:cheat" = "latest"
+"brew:cloudflared" = "latest"
 "brew:cmake" = "latest"
 "brew:cosign" = "latest"
 "brew:cpanminus" = "latest"
