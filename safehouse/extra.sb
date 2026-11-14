@@ -41,3 +41,10 @@
 (allow file-read* file-write*
     (home-subpath "/.config/ponytail/band")
 )
+
+;; mbx (the mise cargo command wrapper) keeps its state and every project's cargo
+;; target/ here (target/ is a symlink into it); without this cargo, clippy and
+;; prek's cargo hooks fail with EPERM, and clippy via the wrapper reports a false pass.
+(allow file-read* file-write*
+    (home-subpath "/Library/Caches/mbx")
+)

@@ -25,6 +25,38 @@
 "~/.zshenv" = "zsh/zshenv"
 "~/.secret_env.sh" = { permissions = "0600" }
 
+[bootstrap.packages]
+antidote = { names = { apt = "zsh-antidote" } }
+bat = "latest"
+btop = "latest"
+cpanminus = "latest"
+curl = "latest"
+docker-compose = "latest"
+eza = "latest"
+fzf = "latest"
+gh = "latest"
+git = "latest"
+htop = "latest"
+jq = "latest"
+lazygit = "latest"
+libffi = { names = { apt = "libffi-dev" } }
+libtool = { names = { apt = "libtool-bin" } }
+ninja = { names = { apt = "ninja-build" } }
+"openssl@3" = { names = { apt = "libssl-dev" } }
+pgcli = "latest"
+pipx = "latest"
+readline = { names = { apt = "libreadline-dev" } }
+ripgrep = "latest"
+sd = "latest"
+shellcheck = "latest"
+shfmt = "latest"
+starship = "latest"
+universal-ctags = "latest"
+xz = { names = { apt = "xz-utils" } }
+yq = "latest"
+zlib = { names = { apt = "zlib1g-dev" } }
+zsh = "latest"
+
 [bootstrap.hooks.final]
 run = """
 mise prune -y

@@ -41,6 +41,7 @@ must_pass "gh pr list -R bellini666/dotfiles"
 must_pass "docker ps"
 must_pass "docker compose version"
 must_pass "curl -sfI https://pypi.org"
+must_pass "p='${HOME}/Library/Caches/mbx/.safehouse-probe.$$'; touch \"\$p\" && rm \"\$p\""
 # Node aborts a bare-name spawn on the first denied PATH entry (safehouse #205).
 must_pass "PATH='${HOME}/.local/share/mise/installs/aws-sso/latest':\"\$PATH\" node -e \"process.exit(require('child_process').spawnSync('git',['--version']).error ? 1 : 0)\""
 
