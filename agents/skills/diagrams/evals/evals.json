@@ -1,0 +1,54 @@
+{
+  "skill_name": "diagrams",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Draw a diagram like turbopuffer's docs: a client calls the API of turbopuffer, which has a memory/SSD cache in front of object storage (S3).",
+      "expected_output": "A double-bordered, shadowed client box with a labelled API arrow into a double-bordered turbopuffer container (label in its top border) holding two light boxes joined by an arrow.",
+      "files": [],
+      "expectations": [
+        "The diagram is inside a fenced code block",
+        "check_diagram.py prints OK for the reply",
+        "The turbopuffer container label is set into its top border, as in '╔═ turbopuffer ═'",
+        "Both the client box and the turbopuffer container have a ░ drop shadow",
+        "The arrow into the container carries the label API",
+        "No line is wider than 100 columns"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Flowchart of an HTTP retry with exponential backoff: send, check for 2xx, retry up to max attempts, otherwise raise.",
+      "expected_output": "A top-down flowchart with two decision boxes, labelled yes/no branches, and a loop arrow back to the send step.",
+      "files": [],
+      "expectations": [
+        "The diagram is inside a fenced code block",
+        "check_diagram.py prints OK for the reply",
+        "Every branch leaving a decision box is labelled",
+        "A line loops back into an arrowhead on the send step",
+        "No line is wider than 100 columns"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Explain visually how a request goes through Django middleware to the view and back.",
+      "expected_output": "A short explanation with a box-drawing diagram showing the request going down through the middleware stack to the view and the response coming back up in reverse order.",
+      "files": [],
+      "expectations": [
+        "The reply contains a Unicode box-drawing diagram in a fenced code block, not a Mermaid block or an image",
+        "check_diagram.py prints OK for the reply",
+        "The diagram shows the response passing middleware in reverse order",
+        "No line is wider than 100 columns"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Give me a Mermaid sequence diagram of the OAuth authorization code flow for the PR description.",
+      "expected_output": "A ```mermaid block with a sequenceDiagram, because the user named Mermaid.",
+      "files": [],
+      "expectations": [
+        "The reply contains a ```mermaid fenced block starting with sequenceDiagram",
+        "The reply contains no Unicode box-drawing diagram"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,82 @@
+[
+  {
+    "query": "can you explain visually how a request goes from nginx to gunicorn to the django app and down to postgres + the redis cache? I keep mixing up where the cache sits",
+    "should_trigger": true
+  },
+  {
+    "query": "draw me the architecture of this repo: there's api/ (fastapi), worker/ (celery), a rabbitmq broker and an s3 bucket for uploads",
+    "should_trigger": true
+  },
+  {
+    "query": "flowchart for the refund logic in payments/refunds.py please, there are like 4 nested ifs and I can't follow it",
+    "should_trigger": true
+  },
+  {
+    "query": "how does a mutation flow through strawberry from the ASGI app to the resolver and back? show me the pieces and how they connect",
+    "should_trigger": true
+  },
+  {
+    "query": "I need a diagram for the README showing how the ingest service, the kafka topic and the two consumers fit together. something like the turbopuffer docs style",
+    "should_trigger": true
+  },
+  {
+    "query": "sketch the state machine for an order: created, paid, shipped, delivered, plus cancelled and refunded and which transitions are allowed",
+    "should_trigger": true
+  },
+  {
+    "query": "this ascii diagram in docs/arch.md is misaligned since I added the auth box, can you fix it",
+    "should_trigger": true
+  },
+  {
+    "query": "walk me through how the OIDC login works between our SPA, the BFF and keycloak, I'm a visual person",
+    "should_trigger": true
+  },
+  {
+    "query": "what happens step by step when a celery task with retry=True fails 3 times and then succeeds? would help to see it as a sequence",
+    "should_trigger": true
+  },
+  {
+    "query": "give me a quick box-and-arrow picture of how our github actions pipeline goes lint -> test -> build image -> deploy to staging -> manual gate -> prod",
+    "should_trigger": true
+  },
+  {
+    "query": "write a mermaid sequenceDiagram for the checkout flow, it's going in the PR description on github so it has to render there",
+    "should_trigger": false
+  },
+  {
+    "query": "plot p50/p95 latency for the last 7 days from this csv (columns: ts, route, p50_ms, p95_ms) as a line chart",
+    "should_trigger": false
+  },
+  {
+    "query": "make a plantuml component diagram of the billing service, our confluence has the plantuml macro",
+    "should_trigger": false
+  },
+  {
+    "query": "what's the difference between select_related and prefetch_related in django? short answer",
+    "should_trigger": false
+  },
+  {
+    "query": "the cards in my react dashboard are misaligned on mobile, the flex boxes overflow the container. fix the css in Dashboard.tsx",
+    "should_trigger": false
+  },
+  {
+    "query": "turn the architecture notes in docs/arch.md into a slide deck I can present at the team sync friday",
+    "should_trigger": false
+  },
+  {
+    "query": "generate a graphviz dot file for the dependency graph of our python packages so I can render it to svg",
+    "should_trigger": false
+  },
+  {
+    "query": "explain this regex: ^(?P<user>[\\w.]+)@(?P<domain>[\\w-]+\\.)+[a-z]{2,}$",
+    "should_trigger": false
+  },
+  {
+    "query": "publish a page with our system architecture that I can share with the new hires",
+    "should_trigger": false
+  },
+  {
+    "query": "add type hints to the functions in utils/flow.py, pyright is complaining about the draw_box helper",
+    "should_trigger": false
+  }
+]
